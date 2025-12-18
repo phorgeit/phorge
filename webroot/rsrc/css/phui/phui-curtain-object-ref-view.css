@@ -88,11 +88,11 @@
 }
 
 .phui-curtain-object-ref-view-exiled  {
-  background: {$lightred};
+  background: {$lightredbackground};
   opacity: 0.75;
 }
 
 .phui-curtain-object-ref-view-exiled-cell,
 .phui-curtain-object-ref-view-exiled-cell a {
-  color: {$red};
+  color: {$redtext};
 }

@@ -94,6 +94,12 @@ abstract class PhabricatorTestDataGenerator extends Phobject {
     return $xaction;
   }
 
+  /**
+   * Get one random object by its PHP class name.
+   *
+   * @param class-string $classname PHP class name.
+   * @return PhabricatorLiskDAO Object of that class.
+   */
   public function loadOneRandom($classname) {
     try {
       return newv($classname, array())
@@ -108,12 +114,22 @@ abstract class PhabricatorTestDataGenerator extends Phobject {
     }
   }
 
-  public function loadPhabricatorUserPHID() {
-    return $this->loadOneRandom('PhabricatorUser')->getPHID();
+  /**
+   * Get the PHID of a random Phabricator user.
+   *
+   * @return string
+   */
+  final public function loadPhabricatorUserPHID() {
+    return $this->loadPhabricatorUser()->getPHID();
   }
 
-  public function loadPhabricatorUser() {
-    return $this->loadOneRandom('PhabricatorUser');
+  /**
+   * Get a random PhabricatorUser object.
+   *
+   * @return PhabricatorUser
+   */
+  final public function loadPhabricatorUser() {
+    return $this->loadOneRandom(PhabricatorUser::class);
   }
 
 }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Configuration source which reads from the database.
+ */
 final class PhabricatorConfigDatabaseSource
   extends PhabricatorConfigProxySource {
 

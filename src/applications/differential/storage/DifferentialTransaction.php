@@ -17,7 +17,7 @@ final class DifferentialTransaction
   const MAILTAG_OTHER          = 'differential-other';
 
   public function getBaseTransactionClass() {
-    return 'DifferentialRevisionTransactionType';
+    return DifferentialRevisionTransactionType::class;
   }
 
   protected function newFallbackModularTransactionType() {
@@ -168,7 +168,7 @@ final class DifferentialTransaction
     $tags = array();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS;
+      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         $tags[] = self::MAILTAG_CC;
         break;
       case self::TYPE_ACTION:
@@ -418,10 +418,11 @@ final class DifferentialTransaction
           case DifferentialAction::ACTION_RECLAIM:
           case DifferentialAction::ACTION_REOPEN:
             return 'fa-bullhorn';
+          case DifferentialAction::ACTION_CLAIM:
           case DifferentialAction::ACTION_RESIGN:
             return 'fa-flag';
-          case DifferentialAction::ACTION_CLAIM:
-            return 'fa-flag';
+          default:
+            break;
         }
       case PhabricatorTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
@@ -466,19 +467,15 @@ final class DifferentialTransaction
       case self::TYPE_ACTION:
         switch ($this->getNewValue()) {
           case DifferentialAction::ACTION_CLOSE:
+          case DifferentialAction::ACTION_ABANDON:
             return PhabricatorTransactions::COLOR_INDIGO;
           case DifferentialAction::ACTION_ACCEPT:
             return PhabricatorTransactions::COLOR_GREEN;
           case DifferentialAction::ACTION_REJECT:
-            return PhabricatorTransactions::COLOR_RED;
-          case DifferentialAction::ACTION_ABANDON:
-            return PhabricatorTransactions::COLOR_INDIGO;
           case DifferentialAction::ACTION_RETHINK:
             return PhabricatorTransactions::COLOR_RED;
           case DifferentialAction::ACTION_REQUEST:
-            return PhabricatorTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_RECLAIM:
-            return PhabricatorTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_REOPEN:
             return PhabricatorTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_RESIGN:

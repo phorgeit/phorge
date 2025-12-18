@@ -14,7 +14,7 @@ final class ConduitPointsParameterType
     }
 
     if ($value !== null) {
-      $value = (double)$value;
+      $value = (float)$value;
       if ($value < 0) {
         $this->raiseValidationException(
           $request,
@@ -27,7 +27,7 @@ final class ConduitPointsParameterType
   }
 
   protected function getParameterTypeName() {
-    return 'points';
+    return 'int|float';
   }
 
   protected function getParameterFormatDescriptions() {

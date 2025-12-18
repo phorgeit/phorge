@@ -45,6 +45,10 @@ an `objectType`. For example, the correct identifier for tasks is `TASK`. (You
 can quickly find an unknown type constant by looking at the PHID of an object
 of that type.)
 
+All supported values for `objectType`:
+
+%s
+
 Constraints
 ===========
 
@@ -73,7 +77,11 @@ New transactions are exposed (with correctly spelled, comprehensible types and
 useful, reasonable fields) as we become aware of use cases for them.
 
 EOREMARKUP
-      );
+    ,
+    // Showing the supported 'objectType'(s) and their label is ideal in this
+    // API documentation, and it's probably really cheaper than having users
+    // randomly flooding our API to figure out these supported values.
+    $this->getSupportedObjectTypeRemarkupDocumentation());
 
     $markup = $this->newRemarkupDocumentationView($markup);
 
@@ -262,7 +270,7 @@ EOREMARKUP
       }
 
       $group_id = $xaction->getTransactionGroupID();
-      if (!strlen($group_id)) {
+      if (!phutil_nonempty_string($group_id)) {
         $group_id = null;
       } else {
         $group_id = (string)$group_id;
@@ -366,7 +374,7 @@ EOREMARKUP
       throw new Exception(
         pht(
           'Calls to "transaction.search" must specify either an "objectType" '.
-          'or an "objectIdentifier"'));
+          'or an "objectIdentifier".'));
     } else if ($has_type && $has_identifier) {
       throw new Exception(
         pht(
@@ -378,16 +386,27 @@ EOREMARKUP
       $all_types = PhabricatorPHIDType::getAllTypes();
 
       if (!isset($all_types[$object_type])) {
-        ksort($all_types);
         throw new Exception(
           pht(
             'In call to "transaction.search", specified "objectType" ("%s") '.
             'is unknown. Valid object types are: %s.',
             $object_type,
-            implode(', ', array_keys($all_types))));
+            $this->getSupportedObjectTypeKeysImploded()));
       }
 
       $object = $all_types[$object_type]->newObject();
+      if (!$object) {
+        throw new Exception(
+          pht(
+            'In call to "%s", specified "%s" ("%s") '.
+            'is not supported because it does not implement "%s". '.
+            'Valid object types are: %s.',
+            'transaction.search',
+            'objectType',
+            $object_type,
+            'newObject()',
+            $this->getSupportedObjectTypeKeysImploded()));
+      }
     } else {
       $object = id(new PhabricatorObjectQuery())
         ->setViewer($viewer)
@@ -412,6 +431,65 @@ EOREMARKUP
     }
 
     return $object;
+  }
+
+  /**
+   * Get a cute Remarkup table to document the supported 'objectType'(s).
+   */
+  private function getSupportedObjectTypeRemarkupDocumentation(): string {
+    $lines = array();
+    $type = pht('Object Type');
+    $name = pht('Name');
+    $lines[] = "| {$type} | {$name} |";
+    $lines[] = '|---------|--------|';
+    foreach ($this->getSupportedObjectTypesAndName() as $type => $name) {
+      $lines[] = "| `{$type}` | {$name} |";
+    }
+    return implode("\n", $lines);
+  }
+
+  /**
+   * Get all the supported values, ordered, for the 'objectType' API parameter.
+   * This is intended to be shown to the end-user, and not parsed.
+   * @return string All values for 'objectType' API parameters, comma separated.
+   */
+  private function getSupportedObjectTypeKeysImploded(): string {
+    return implode(', ', $this->getSupportedObjectTypeKeys());
+  }
+
+  /**
+   * Get all the supported values, ordered, for the 'objectType' API parameter.
+   * @return array<string> All values for 'objectType' API parameters.
+   */
+  private function getSupportedObjectTypeKeys(): array {
+    return array_keys($this->getSupportedObjectTypesAndName());
+  }
+
+  /**
+   * Get all the supported 'objectType' API parameters, ordered and with name.
+   * @return array <string, string> Array of object type names, indexed by type.
+   */
+  private function getSupportedObjectTypesAndName(): array {
+    $all_types = PhabricatorPHIDType::getAllTypes();
+    ksort($all_types);
+
+    $supporteds = [];
+    foreach ($all_types as $key => $type) {
+      if ($this->isObjectTypeSupported($type)) {
+        $supporteds[$key] = $type->getTypeName();
+      }
+    }
+    return $supporteds;
+  }
+
+  /**
+   * Check whether an object type is supported.
+   * @param PhabricatorPHIDType $type
+   * @return bool True if the type is supported.
+   */
+  private function isObjectTypeSupported($type) {
+    $obj = $type->newObject();
+    return $obj && $obj instanceof PhabricatorApplicationTransactionInterface;
   }
 
 }

@@ -4,7 +4,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
     return PhabricatorApplication::getByClass(
-      'PhabricatorManiphestApplication');
+      PhabricatorManiphestApplication::class);
   }
 
   protected function defineErrorTypes() {
@@ -157,7 +157,8 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     foreach ($changes as $type => $value) {
       $transaction = clone $template;
       $transaction->setTransactionType($type);
-      if ($type == PhabricatorTransactions::TYPE_COMMENT) {
+      if ($type == PhabricatorTransactions::TYPE_COMMENT &&
+          isset($comments)) {
         $transaction->attachComment(
           id(new ManiphestTransactionComment())
             ->setContent($comments));
@@ -216,8 +217,11 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
       ->executeOne();
   }
 
+  /**
+   * @param array<ManiphestTask> $tasks
+   */
   protected function buildTaskInfoDictionaries(array $tasks) {
-    assert_instances_of($tasks, 'ManiphestTask');
+    assert_instances_of($tasks, ManiphestTask::class);
     if (!$tasks) {
       return array();
     }

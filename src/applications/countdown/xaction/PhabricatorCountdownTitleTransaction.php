@@ -43,7 +43,7 @@ final class PhabricatorCountdownTitleTransaction
       if ($new_length > $max_length) {
         $errors[] = $this->newInvalidError(
           pht(
-            'Countdown titles must not be longer than %s character(s).',
+            'Countdown titles must not be longer than %s characters.',
             new PhutilNumber($max_length)));
       }
     }

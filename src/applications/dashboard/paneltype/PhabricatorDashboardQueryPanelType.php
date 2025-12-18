@@ -179,13 +179,10 @@ final class PhabricatorDashboardQueryPanelType
     $key = $panel->getProperty('key');
     $href = $search_engine->getQueryResultsPageURI($key);
 
-    $icon = id(new PHUIIconView())
-      ->setIcon('fa-search');
-
     $button = id(new PHUIButtonView())
       ->setTag('a')
       ->setText(pht('View All'))
-      ->setIcon($icon)
+      ->setIcon('fa-search')
       ->setHref($href)
       ->setColor(PHUIButtonView::GREY);
 
@@ -215,6 +212,9 @@ final class PhabricatorDashboardQueryPanelType
     return $engine;
   }
 
+  /**
+   * @return array<PhabricatorActionView>
+   */
   public function newHeaderEditActions(
     PhabricatorDashboardPanel $panel,
     PhabricatorUser $viewer,

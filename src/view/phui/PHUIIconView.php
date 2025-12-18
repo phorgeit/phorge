@@ -7,6 +7,7 @@ final class PHUIIconView extends AphrontTagView {
 
   const HEAD_SMALL = 'phuihead-small';
   const HEAD_MEDIUM = 'phuihead-medium';
+  const HEAD_FLAG = 'phuihead-flag';
 
   private $href = null;
   private $image;
@@ -26,6 +27,9 @@ final class PHUIIconView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param string $image URI of the icon file
+   */
   public function setImage($image) {
     $this->image = $image;
     return $this;
@@ -36,6 +40,9 @@ final class PHUIIconView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param string $size One of the `PHUIIconView::HEAD_*` variables
+   */
   public function setHeadSize($size) {
     $this->headSize = $size;
     return $this;
@@ -279,7 +286,7 @@ final class PHUIIconView extends AphrontTagView {
       'fa-folder-open',
       'fa-arrows-v',
       'fa-arrows-h',
-      'fa-bar-chart-o',
+      'fa-bar-chart',
       'fa-twitter-square',
       'fa-facebook-square',
       'fa-camera-retro',
@@ -533,8 +540,6 @@ final class PHUIIconView extends AphrontTagView {
       'fa-envelope-square',
       'fa-wordpress',
       'fa-openid',
-      'fa-institution',
-      'fa-bank',
       'fa-university',
       'fa-mortar-board',
       'fa-graduation-cap',
@@ -580,9 +585,8 @@ final class PHUIIconView extends AphrontTagView {
       'fa-file-photo-o',
       'fa-file-picture-o',
       'fa-file-image-o',
-      'fa-file-zip-o',
       'fa-file-archive-o',
-      'fa-file-sound-o',
+      'fa-file-audio-o',
       'fa-file-movie-o',
       'fa-file-code-o',
       'fa-vine',
@@ -596,13 +600,11 @@ final class PHUIIconView extends AphrontTagView {
       'fa-empire',
       'fa-git-square',
       'fa-git',
-      'fa-hacker-news',
       'fa-tencent-weibo',
       'fa-qq',
       'fa-wechat',
       'fa-send',
       'fa-paper-plane',
-      'fa-send-o',
       'fa-paper-plane-o',
       'fa-history',
       'fa-circle-thin',
@@ -696,7 +698,6 @@ final class PHUIIconView extends AphrontTagView {
       'fa-train',
       'fa-subway',
       'fa-medium',
-      'fa-git',
       'fa-y-combinator-square',
       'fa-yc-square',
       'fa-hacker-news',

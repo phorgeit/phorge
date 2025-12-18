@@ -7,7 +7,7 @@ final class ManiphestHovercardEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorManiphestApplication');
+      PhabricatorManiphestApplication::class);
   }
 
   public function getExtensionName() {

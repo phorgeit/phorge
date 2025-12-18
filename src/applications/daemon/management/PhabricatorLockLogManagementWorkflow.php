@@ -38,7 +38,7 @@ final class PhabricatorLockLogManagementWorkflow
     $with_name = $args->getArg('name');
 
     if ($is_enable || $is_disable) {
-      if (strlen($with_name)) {
+      if (phutil_nonempty_string($with_name)) {
         throw new PhutilArgumentUsageException(
           pht(
             'You can not both "--enable" or "--disable" with search '.
@@ -99,7 +99,7 @@ final class PhabricatorLockLogManagementWorkflow
     $conn = $table->establishConnection('r');
 
     $parts = array();
-    if (strlen($with_name)) {
+    if (phutil_nonempty_string($with_name)) {
       $parts[] = qsprintf(
         $conn,
         'lockName = %s',

@@ -5,7 +5,7 @@ final class PhabricatorCountdownMailReceiver
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorCountdownApplication');
+      PhabricatorCountdownApplication::class);
   }
 
   protected function getObjectPattern() {

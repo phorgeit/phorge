@@ -5,8 +5,11 @@ final class HeraldRuleListView
 
   private $rules;
 
+  /**
+   * @param array<HeraldRule> $rules
+   */
   public function setRules(array $rules) {
-    assert_instances_of($rules, 'HeraldRule');
+    assert_instances_of($rules, HeraldRule::class);
     $this->rules = $rules;
     return $this;
   }

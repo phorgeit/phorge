@@ -73,7 +73,7 @@ if a form has a "Projects" field, you can generally prefill it by adding a
 `projects` parameter to the URI like this:
 
 ```
-https://your.install.com/application/edit/?projects=skunkworks
+https://phorge.example.com/application/edit/?projects=skunkworks
 ```
 
 The parameters available in each application vary, and depend on which fields
@@ -332,7 +332,7 @@ parameter prefilling to set a project. You might end up with a link like this
 one:
 
 ```
-https://your.install.com/maniphest/task/edit/?projects=android
+https://phorge.example.com/maniphest/task/edit/?projects=android
 ```
 
 A slightly more advanced method is to create a template task, then use it to
@@ -341,7 +341,7 @@ custom field values on the template task. Then have the application link to
 the a URI that prefills using the template:
 
 ```
-https://your.install.com/maniphest/task/edit/?template=123
+https://phorge.example.com/maniphest/task/edit/?template=123
 ```
 
 This is a little easier to use, and lets you update the template later if you
@@ -358,7 +358,7 @@ After customizing your form configuration, you'd link to the {nav Use Form}
 URI, like this:
 
 ```
-https://your.install.com/maniphest/task/edit/form/123/
+https://phorge.example.com/maniphest/task/edit/form/123/
 ```
 
 You can also combine this with templating or prefilling to further specialize

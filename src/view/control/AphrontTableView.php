@@ -106,7 +106,7 @@ final class AphrontTableView extends AphrontView {
    *   list($sort, $reverse) = AphrontTableView::parseSortParam($sort_param);
    *
    * @param string  $sort Sort request parameter.
-   * @return pair   Sort value, sort direction.
+   * @return array  Sort value, sort direction.
    */
   public static function parseSort($sort) {
     return array(ltrim($sort, '-'), preg_match('/^-/', $sort));

@@ -9,8 +9,7 @@ Arcanist runs on Windows, either in `cmd.exe` or the Git Bash environments.
 However, it will take a little effort to get working. This document explains
 what you need to do in order to get it running.
 
-NOTE: Windows support is relatively new and incomplete, file bugs when you run
-into issues.
+NOTE: Windows support is incomplete, file bugs when you run into issues.
 
 = Required Components =
 
@@ -19,7 +18,7 @@ You need to install:
   - Arcanist itself, see @{article:Arcanist User Guide}.
   or @{article:Arcanist Quick Start}.
   - PHP (see "Detailed PHP Install Instructions" below).
-  - SVN, Git, or Mercurial.
+  - Git, SVN, or Mercurial.
 
 Then, configure:
 
@@ -48,8 +47,7 @@ editor you prefer. Some editors that will work are:
 
   - [[ http://notepad-plus-plus.org/ | Notepad++ ]], a good all-around editor.
   - **vim**, which comes with Git Bash.
-  - [[ https://github.com/github/gitpad | GitPad ]], which allows you to use
-    Notepad as your editor.
+  - [[ https://www.sublimetext.com/ | Sublime Text ]].
 
 Other editors may also work, but they must have a blocking edit mode.
 
@@ -71,17 +69,12 @@ your machine):
 And this command for Vim (you may need to adjust the path):
 
   name=vim
-  $ arc set-config editor "\"C:\Program Files (x86)\Git\share\vim\vim73\vim.exe\""
-
-And this for GitPad (you may need to adjust the path):
-
-  name=GitPad
-  $ arc set-config editor "\"C:\Users\yourusername\AppData\Roaming\GitPad\GitPad.exe\""
+  $ arc set-config editor "\"C:\Program Files (x86)\Git\share\vim\vim91\vim.exe\""
 
 And this for Sublime Text (you may need to adjust the path):
 
   name=Sublime Text
-  $ arc set-config editor "\"C:\Program Files\Sublime Text 2\sublime_text.exe\" -w -n"
+  $ arc set-config editor "\"C:\Program Files\Sublime Text 4\sublime_text.exe\" -w -n"
 
 = Detailed PHP Install Instructions =
 
@@ -89,11 +82,7 @@ While multiple versions of PHP should work, you can follow these specific
 instructions if you're having trouble.
 
   - Download the latest stable PHP binary release from:
-    <http://windows.php.net/download/>. When this document was last
-    updated, this was PHP 5.4.6, but newer versions should also work. The
-    "VC9 x86 Non Thread Safe" build should work correctly. (Other versions newer
-    than PHP 5.3 should work, and thread-safe versions should also work.)
-  - Unzip the PHP directory.
+    <https://windows.php.net/download/>.
   - Copy `php.ini-development` to `php.ini` in that same directory.
   - Open `php.ini` and locate the line `;extension=php_curl.dll`. Remove the
     `;` to activate this extension. Locate the line `; extension_dir = "ext"`

@@ -242,10 +242,11 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
 
 
   /**
+   * @param array<PhabricatorRepositorySymbol> $symbols
    * @task internal
    */
   private function loadPaths(array $symbols) {
-    assert_instances_of($symbols, 'PhabricatorRepositorySymbol');
+    assert_instances_of($symbols, PhabricatorRepositorySymbol::class);
     $path_map = queryfx_all(
       id(new PhabricatorRepository())->establishConnection('r'),
       'SELECT * FROM %T WHERE id IN (%Ld)',
@@ -257,12 +258,12 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
     }
   }
 
-
   /**
+   * @param array<PhabricatorRepositorySymbol> $symbols
    * @task internal
    */
   private function loadRepositories(array $symbols) {
-    assert_instances_of($symbols, 'PhabricatorRepositorySymbol');
+    assert_instances_of($symbols, PhabricatorRepositorySymbol::class);
 
     $repos = id(new PhabricatorRepositoryQuery())
       ->setViewer($this->viewer)

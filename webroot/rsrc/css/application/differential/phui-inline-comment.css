@@ -26,7 +26,6 @@
 .differential-inline-comment,
 .differential-inline-comment-edit {
   font: {$basefont};
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   overflow: hidden;
   white-space: normal;

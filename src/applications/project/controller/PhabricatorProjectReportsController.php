@@ -10,6 +10,11 @@ final class PhabricatorProjectReportsController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
+    $class = PhabricatorFactApplication::class;
+    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+      return new Aphront404Response();
+    }
+
     $response = $this->loadProject();
     if ($response) {
       return $response;

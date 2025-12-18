@@ -74,7 +74,7 @@ abstract class ConduitParameterType extends Phobject {
 
   final public static function getAllTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTypeName')
       ->setSortMethod('getTypeName')
       ->execute();

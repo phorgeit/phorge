@@ -428,8 +428,8 @@ final class PhabricatorRepositoryCommitPublishWorker
     PhabricatorUser $actor,
     PhabricatorRepositoryCommit $commit) {
 
-    $differential = 'PhabricatorDifferentialApplication';
-    if (!PhabricatorApplication::isClassInstalled($differential)) {
+    $differential_class = PhabricatorDifferentialApplication::class;
+    if (!PhabricatorApplication::isClassInstalled($differential_class)) {
       return;
     }
 

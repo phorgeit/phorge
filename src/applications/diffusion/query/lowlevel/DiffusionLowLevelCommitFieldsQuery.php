@@ -112,9 +112,11 @@ final class DiffusionLowLevelCommitFieldsQuery
    * there is only one revision found. Otherwise, we try to pick an accepted
    * revision first, followed by an open revision, and otherwise we go with a
    * closed or abandoned revision as a last resort.
+   *
+   * @param array<DifferentialRevision> $revisions
    */
   private function pickBestRevision(array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     // If we have more than one revision of a given status, choose the most
     // recently updated one.

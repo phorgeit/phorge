@@ -19,6 +19,10 @@ final class PhabricatorRepositoryConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorDiffusionApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('repository.default-local-path', 'string', '/var/repo/')

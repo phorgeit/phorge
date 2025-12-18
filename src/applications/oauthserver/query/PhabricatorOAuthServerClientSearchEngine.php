@@ -73,11 +73,16 @@ final class PhabricatorOAuthServerClientSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorOAuthServerClient> $clients
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $clients,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($clients, 'PhabricatorOAuthServerClient');
+    assert_instances_of($clients, PhabricatorOAuthServerClient::class);
 
     $viewer = $this->requireViewer();
 

@@ -12,7 +12,7 @@ final class NuanceSourceTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'NuanceSourceTransactionType';
+    return NuanceSourceTransactionType::class;
   }
 
 }

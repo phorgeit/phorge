@@ -21,6 +21,9 @@ final class AphrontRoutingMap extends Phobject {
     return $this;
   }
 
+  /**
+   * @return AphrontSite
+   */
   public function getSite() {
     return $this->site;
   }
@@ -30,6 +33,9 @@ final class AphrontRoutingMap extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorApplication
+   */
   public function getApplication() {
     return $this->application;
   }
@@ -87,7 +93,8 @@ final class AphrontRoutingMap extends Phobject {
    * @param string $route Pattern from the map.
    * @param string $value Value from the map.
    * @param string $path Path to route.
-   * @return dict<string, wild>|null Match details, if path matches sub-map.
+   * @return array<string, array<string>|string>|null Match details, if path
+   *   matches sub-map.
    * @task routing
    */
   private function tryRoute($route, $value, $path) {

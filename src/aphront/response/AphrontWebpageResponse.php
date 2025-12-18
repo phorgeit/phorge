@@ -29,6 +29,7 @@ final class AphrontWebpageResponse extends AphrontHTMLResponse {
         'position: relative;',
         'padding: 16px;',
         'font-family: monospace;',
+        'color: black;',
         'text-shadow: 1px 1px 1px white;',
       );
 

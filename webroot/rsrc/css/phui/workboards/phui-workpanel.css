@@ -37,7 +37,7 @@
 }
 
 .phui-workpanel-view.phui-workboard-column-milestone .phui-box-grey {
-  background-color: rgba(234, 230, 247, 0.85);
+  background-color: {$workboard-column-background};
 }
 
 .phui-workpanel-view .phui-header-col2 .phui-icon-view {
@@ -116,7 +116,7 @@
 }
 
 .project-panel-empty .phui-oi-list-view {
-  background: rgba(234, 230, 247, 0.85);
+  background: {$workboard-column-background};
   border-radius: 3px;
   margin-bottom: 4px;
   border: 1px dashed {$sh-indigoborder};
@@ -189,7 +189,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   border: 1px solid {$lightblueborder};
   padding: 4px 0;
-  background: #fff;
+  background: {$page.content};
 }
 
 .workboard-drop-preview li {

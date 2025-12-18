@@ -431,7 +431,7 @@ final class PhabricatorUser
    * Test if a given setting is set to a particular value.
    *
    * @param string $key Setting key constant.
-   * @param wild $value Value to compare.
+   * @param mixed $value Value to compare.
    * @return bool True if the setting has the specified value.
    * @task settings
    */
@@ -528,12 +528,23 @@ final class PhabricatorUser
     }
   }
 
-  public static function describeValidUsername() {
+  public static function describeValidUsername($bad_username) {
+    if (strlen($bad_username) > self::MAXIMUM_USERNAME_LENGTH) {
+      return pht(
+        'Usernames must have no more than %s characters.',
+         new PhutilNumber(self::MAXIMUM_USERNAME_LENGTH));
+    }
+    if (strpos($bad_username, ' ') !== false) {
+      return pht('Usernames cannot contain spaces. Please replace them '.
+      'with underscores, hyphens, periods, or some other way of separating '.
+      'words.');
+    }
+    if (substr($bad_username, -1) === '.') {
+      return pht('Usernames cannot end with a period.');
+    }
     return pht(
-      'Usernames must contain only numbers, letters, period, underscore, and '.
-      'hyphen, and can not end with a period. They must have no more than %d '.
-      'characters.',
-      new PhutilNumber(self::MAXIMUM_USERNAME_LENGTH));
+      'Usernames must contain only numbers, Latin letters, period, '.
+      'underscore and hyphen.');
   }
 
   public static function validateUsername($username) {
@@ -783,7 +794,7 @@ final class PhabricatorUser
   /**
    * Get cached availability, if present.
    *
-   * @return wild|null Cache data, or null if no cache is available.
+   * @return array|null Cache data, or null if no cache is available.
    * @task availability
    */
   public function getAvailabilityCache() {

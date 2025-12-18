@@ -19,7 +19,7 @@ abstract class PhabricatorEdgeType extends Phobject {
         pht(
           '%s class "%s" has an invalid %s property. '.
           'Edge constants must be positive integers.',
-          __CLASS__,
+          self::class,
           get_class($this),
           'EDGECONST'));
     }
@@ -57,6 +57,16 @@ abstract class PhabricatorEdgeType extends Phobject {
       $actor);
   }
 
+  /**
+    * Returns a string representing how adding this instances of this
+    * edge should be rendered in history of an object.
+    *
+    * Note that the parameters to this function (and overriding functions in
+    * subclasses) are special-cased by the i18n string extractor;
+    * the `add_count` parameter is treated as a number if passed to `pht`
+    * (even though the extractor can't generally parse numbers
+    *  passed as method arguments)
+    */
   public function getTransactionAddString(
     $actor,
     $add_count,
@@ -68,7 +78,16 @@ abstract class PhabricatorEdgeType extends Phobject {
       $add_count,
       $add_edges);
   }
-
+  /**
+    * Returns a string representing how adding removing instances of this
+    * edge should be rendered in history of an object.
+    *
+    * Note that the parameters to this function (and overriding functions in
+    * subclasses) are special-cased by the i18n string extractor;
+    * the `rem_count` parameter is treated as a number if passed to `pht`
+    * (even though the extractor can't generally parse numbers
+    *  passed as method arguments)
+    */
   public function getTransactionRemoveString(
     $actor,
     $rem_count,
@@ -81,6 +100,16 @@ abstract class PhabricatorEdgeType extends Phobject {
       $rem_edges);
   }
 
+  /**
+    * Returns a string representing how adding and removing instances of this
+    * edge should be rendered in history of an object.
+    *
+    * Note that the parameters to this function (and overriding functions in
+    * subclasses) are special-cased by the i18n string extractor;
+    * the `*_count` parameters are treated as a numbers if passed to `pht`
+    * (even though the extractor can't generally parse numbers
+    *  passed as method arguments)
+    */
   public function getTransactionEditString(
     $actor,
     $total_count,
@@ -99,6 +128,16 @@ abstract class PhabricatorEdgeType extends Phobject {
       $rem_edges);
   }
 
+  /**
+    * Returns a string representing how adding instances of this
+    * edge should be rendered in the feed.
+    *
+    * Note that the parameters to this function (and overriding functions in
+    * subclasses) are special-cased by the i18n string extractor;
+    * the `add_count` parameter is treated as a number if passed to `pht`
+    * (even though the extractor can't generally parse numbers
+    *  passed as method arguments)
+    */
   public function getFeedAddString(
     $actor,
     $object,
@@ -113,6 +152,16 @@ abstract class PhabricatorEdgeType extends Phobject {
       $add_edges);
   }
 
+  /**
+    * Returns a string representing how removing instances of this
+    * edge should be rendered in the feed.
+    *
+    * Note that the parameters to this function (and overriding functions in
+    * subclasses) are special-cased by the i18n string extractor;
+    * the `rem_count` parameter is treated as a number if passed to `pht`
+    * (even though the extractor can't generally parse numbers
+     * passed as method arguments)
+    */
   public function getFeedRemoveString(
     $actor,
     $object,
@@ -127,6 +176,16 @@ abstract class PhabricatorEdgeType extends Phobject {
       $rem_edges);
   }
 
+  /**
+    * Returns a string representing how adding and removing instances of this
+    * edge should be rendered in the feed.
+    *
+    * Note that the parameters to this function (and overriding functions in
+    * subclasses) are special-cased by the i18n string extractor;
+    * the `*_count` parameters are treated as numbers if passed to `pht`
+    * (even though the extractor can't generally parse numbers
+    *  passed as method arguments)
+    */
   public function getFeedEditString(
     $actor,
     $object,
@@ -159,7 +218,7 @@ abstract class PhabricatorEdgeType extends Phobject {
 
     if ($type_map === null) {
       $types = id(new PhutilClassMapQuery())
-        ->setAncestorClass(__CLASS__)
+        ->setAncestorClass(self::class)
         ->setUniqueMethod('getEdgeConstant')
         ->execute();
 

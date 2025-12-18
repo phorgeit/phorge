@@ -276,7 +276,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    *
    * @param list<string> $to List of To PHIDs.
    * @param list<string> $cc List of CC PHIDs.
-   * @return pair<list<string>, list<string>> Expanded PHID lists.
+   * @return array<list<string>, list<string>> Expanded PHID lists.
    */
   private function expandRecipientPHIDs(array $to, array $cc) {
     $to_result = array();
@@ -334,7 +334,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    *
    * @param list<string> $to List of To PHIDs.
    * @param list<string> $cc List of CC PHIDs.
-   * @return pair<wild, wild> Maps from PHIDs to users.
+   * @return array{array<string, PhabricatorUser>,
+   *         array<string, PhabricatorUser>} Maps from PHIDs to users.
    */
   private function loadRecipientUsers(array $to, array $cc) {
     $to_result = array();
@@ -372,7 +373,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    *
    * @param map<string, PhabricatorUser> $to Map of "To" users.
    * @param map<string, PhabricatorUser> $cc Map of "CC" users.
-   * @return pair<wild, wild> Filtered user maps.
+   * @return array{array<string, PhabricatorUser>,
+   *         array<string, PhabricatorUser>} Filtered user maps.
    */
   private function filterRecipientUsers(array $to, array $cc) {
     $to_result = array();

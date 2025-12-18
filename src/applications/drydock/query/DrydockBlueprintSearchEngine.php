@@ -38,6 +38,7 @@ final class DrydockBlueprintSearchEngine
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Disabled'))
         ->setKey('isDisabled')
+        ->setDescription(pht('Search for disabled or enabled blueprints.'))
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Disabled Blueprints'),
@@ -70,11 +71,16 @@ final class DrydockBlueprintSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<DrydockBlueprint> $blueprints
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $blueprints,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($blueprints, 'DrydockBlueprint');
+    assert_instances_of($blueprints, DrydockBlueprint::class);
 
     $viewer = $this->requireViewer();
 

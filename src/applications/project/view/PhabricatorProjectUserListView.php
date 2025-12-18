@@ -87,10 +87,20 @@ abstract class PhabricatorProjectUserListView
         $order_scalar = -1;
       }
 
-      $phid_map[$user_phid] = id(new PhutilSortVector())
-        ->addInt($is_viewer ? 0 : 1)
-        ->addInt($is_enabled ? 0 : 1)
-        ->addInt($order_scalar * count($phid_map));
+      // If viewer is an admin, list enabled accounts with MFA before others.
+      if ($viewer->getIsAdmin()) {
+        $has_mfa = $handle->getUserIsEnrolledInMultiFactor() && $is_enabled;
+        $phid_map[$user_phid] = id(new PhutilSortVector())
+          ->addInt($is_viewer ? 0 : 1)
+          ->addInt($has_mfa ? 0 : 1)
+          ->addInt($is_enabled ? 0 : 1)
+          ->addInt($order_scalar * count($phid_map));
+      } else {
+        $phid_map[$user_phid] = id(new PhutilSortVector())
+          ->addInt($is_viewer ? 0 : 1)
+          ->addInt($is_enabled ? 0 : 1)
+          ->addInt($order_scalar * count($phid_map));
+      }
     }
     $phid_map = msortv($phid_map, 'getSelf');
 
@@ -115,14 +125,18 @@ abstract class PhabricatorProjectUserListView
 
         $item
           ->setDisabled(true)
-          ->addAttribute(pht('Disabled'));
-      } else {
-        $icon = id(new PHUIIconView())
-          ->setIcon($handle->getIcon());
+          ->addIcon('fa-ban', pht('Disabled'));
+      }
 
-        $subtitle = $handle->getSubtitle();
+      $icon = id(new PHUIIconView())
+        ->setIcon($handle->getIcon());
 
-        $item->addAttribute(array($icon, ' ', $subtitle));
+      $subtitle = $handle->getSubtitle();
+
+      $item->addAttribute(array($icon, ' ', $subtitle));
+
+      if ($viewer->getIsAdmin() && $handle->getUserIsEnrolledInMultiFactor()) {
+        $item->addIcon('fa-lock', pht('Has MFA'));
       }
 
       if ($supports_edit && !$is_panel) {

@@ -31,9 +31,9 @@ abstract class PhutilKeyValueCache extends Phobject {
    * once.
    *
    * @param   string  $key Key to retrieve.
-   * @param   wild    $default (optional) Value to return if the key is not
+   * @param   mixed   $default (optional) Value to return if the key is not
    *                  found. By default, returns null.
-   * @return  wild    Cache value (on cache hit) or default value (on cache
+   * @return  mixed   Cache value (on cache hit) or default value (on cache
    *                  miss).
    * @task kvimpl
    */
@@ -50,7 +50,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * See @{method:setKeys} for a description of TTLs.
    *
    * @param   string    $key Key to set.
-   * @param   wild      $value Value to set.
+   * @param   mixed     $value Value to set.
    * @param   int|null  $ttl (optional) TTL.
    * @return  $this
    * @task kvimpl
@@ -76,10 +76,10 @@ abstract class PhutilKeyValueCache extends Phobject {
   /**
    * Get data from the cache.
    *
-   * @param   list<string>        $keys List of cache keys to retrieve.
-   * @return  dict<string, wild>  Dictionary of keys that were found in the
-   *                              cache. Keys not present in the cache are
-   *                              omitted, so you can detect a cache miss.
+   * @param   list<string>         $keys List of cache keys to retrieve.
+   * @return  array<string, mixed> Dictionary of keys that were found in the
+   *                               cache. Keys not present in the cache are
+   *                               omitted, so you can detect a cache miss.
    * @task kvimpl
    */
   abstract public function getKeys(array $keys);
@@ -92,8 +92,8 @@ abstract class PhutilKeyValueCache extends Phobject {
    * after a specified number of seconds. By default, there is no expiration
    * policy and data will persist in cache indefinitely.
    *
-   * @param dict<string, wild>  $keys Map of cache keys to values.
-   * @param int|null            $ttl (optional) TTL for cache keys, in seconds.
+   * @param array<string, mixed> $keys Map of cache keys to values.
+   * @param int|null             $ttl (optional) TTL for cache keys, in seconds.
    * @return $this
    * @task kvimpl
    */

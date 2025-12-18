@@ -19,7 +19,7 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
   }
 
   public function getIcon() {
-    return 'fa-dashboard';
+    return 'fa-tachometer';
   }
 
   public function isPinnedByDefault(PhabricatorUser $viewer) {
@@ -95,4 +95,13 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
       ),
     );
   }
+
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorDashboardDashboardPHIDType::TYPECONST,
+      PhabricatorDashboardPanelPHIDType::TYPECONST,
+      PhabricatorDashboardPortalPHIDType::TYPECONST,
+    );
+  }
+
 }

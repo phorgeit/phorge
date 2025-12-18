@@ -3,6 +3,10 @@
     "phutil": {
       "type": "phutil",
       "include": "(\\.php$)"
+    },
+    "celerity": {
+      "type": "celerity",
+      "include": "(\\.(css|js)$)"
     }
   }
 }

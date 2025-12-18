@@ -128,7 +128,7 @@ final class PhabricatorStartup {
       // NOTE: This protects us against multiple calls to didStartup() in the
       // same request, but also against repeated requests to the same
       // interpreter state, which we may implement in the future.
-      register_shutdown_function(array(__CLASS__, 'didShutdown'));
+      register_shutdown_function(array(self::class, 'didShutdown'));
       $registered = true;
     }
 
@@ -264,7 +264,7 @@ final class PhabricatorStartup {
     static $initialized = false;
     if (!$initialized) {
       declare(ticks=1);
-      register_tick_function(array(__CLASS__, 'onDebugTick'));
+      register_tick_function(array(self::class, 'onDebugTick'));
       $initialized = true;
     }
   }
@@ -348,7 +348,7 @@ final class PhabricatorStartup {
    *                  error log. If not provided, the client message is used.
    *                  You can pass a more detailed message here (e.g., with
    *                  stack traces) to avoid showing it to users.
-   * @return  exit    This method **does not return**.
+   * @return  never-returns This method **does not return**.
    *
    * @task apocalypse
    */
@@ -388,7 +388,7 @@ final class PhabricatorStartup {
    * @task validation
    */
   private static function setupPHP() {
-    error_reporting(E_ALL | E_STRICT);
+    error_reporting(E_ALL);
     self::$oldMemoryLimit = ini_get('memory_limit');
     ini_set('memory_limit', -1);
 
@@ -462,7 +462,7 @@ final class PhabricatorStartup {
         case INPUT_COOKIE:
           $_COOKIE = array_merge($_COOKIE, $filtered);
           break;
-        case INPUT_ENV;
+        case INPUT_ENV:
           $env = array_merge($_ENV, $filtered);
           $_ENV = self::filterEnvSuperglobal($env);
           break;
@@ -514,7 +514,7 @@ final class PhabricatorStartup {
    * Adjustments here primarily impact the environment as seen by subprocesses.
    * The environment is forwarded explicitly by @{class:ExecFuture}.
    *
-   * @param map<string, wild> $env Input `$_ENV`.
+   * @param map<string, mixed> $env Input `$_ENV`.
    * @return map<string, string> Suitable `$_ENV`.
    * @task validation
    */
@@ -557,22 +557,6 @@ final class PhabricatorStartup {
       }
     }
 
-    if (extension_loaded('apc')) {
-      $apc_version = phpversion('apc');
-      $known_bad = array(
-        '3.1.14' => true,
-        '3.1.15' => true,
-        '3.1.15-dev' => true,
-      );
-      if (isset($known_bad[$apc_version])) {
-        self::didFatal(
-          "You have APC {$apc_version} installed. This version of APC is ".
-          "known to be bad, and does not work with Phorge (it will cause ".
-          "Phorge to fatal unrecoverably with nonsense errors).".
-          "Downgrade to version 3.1.13.");
-      }
-    }
-
     if (isset($_SERVER['HTTP_PROXY'])) {
       self::didFatal(
         'This HTTP request included a "Proxy:" header, poisoning the '.
@@ -597,8 +581,18 @@ final class PhabricatorStartup {
     // to "$_REQUEST" here won't always work, because later code may rebuild
     // "$_REQUEST" from other sources.
 
-    if (isset($_REQUEST['__path__']) && strlen($_REQUEST['__path__'])) {
-      self::setRequestPath($_REQUEST['__path__']);
+    if (isset($_REQUEST['__path__']) && $_REQUEST['__path__'] !== '') {
+      // Carefully crafted urls can supply their own __path__.
+      // Harmless normally, but when specified as __path__[],
+      // it becomes an array and overwrites the initial __path__.
+      // Parse the request uri directly to send the user to the right place.
+      if (is_array($_REQUEST['__path__'])) {
+        $path = parse_url($_SERVER['REQUEST_URI'])['path'];
+      } else {
+        $path = $_REQUEST['__path__'];
+      }
+
+      self::setRequestPath($path);
       return;
     }
 
@@ -615,7 +609,7 @@ final class PhabricatorStartup {
         "are not configured correctly.");
     }
 
-    if (!strlen($_REQUEST['__path__'])) {
+    if ($_REQUEST['__path__'] === '') {
       self::didFatal(
         "Request parameter '__path__' is set, but empty. Your rewrite rules ".
         "are not configured correctly. The '__path__' should always ".
@@ -642,6 +636,7 @@ final class PhabricatorStartup {
 
   /**
    * @task request-path
+   * @param string $path
    */
   public static function setRequestPath($path) {
     self::$requestPath = $path;
@@ -699,7 +694,7 @@ final class PhabricatorStartup {
   /**
    * Tear down rate limiting and allow limits to score the request.
    *
-   * @param map<string, wild> $request_state Additional, freeform request
+   * @param map<string, mixed> $request_state Additional, freeform request
    *   state.
    * @return void
    * @task ratelimit
@@ -722,7 +717,7 @@ final class PhabricatorStartup {
    * Emit an HTTP 429 "Too Many Requests" response (indicating that the user
    * has exceeded application rate limits) and exit.
    *
-   * @return exit This method **does not return**.
+   * @return never-returns This method **does not return**.
    * @task ratelimit
    */
   private static function didRateLimit($reason) {

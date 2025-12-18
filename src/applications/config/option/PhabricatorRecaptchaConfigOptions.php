@@ -34,7 +34,8 @@ final class PhabricatorRecaptchaConfigOptions
           pht(
             'Enable recaptcha to require users solve captchas after a few '.
             'failed login attempts. This hinders brute-force attacks against '.
-            'user passwords. For more information, see http://recaptcha.net/')),
+            'user passwords. For more information, see '.
+            'https://www.google.com/recaptcha')),
       $this->newOption('recaptcha.public-key', 'string', null)
         ->setLocked(true)
         ->setDescription(

@@ -12,7 +12,7 @@ final class PhabricatorSpacesNamespaceTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorSpacesNamespaceTransactionType';
+    return PhabricatorSpacesNamespaceTransactionType::class;
   }
 
 }

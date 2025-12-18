@@ -4,7 +4,7 @@ final class FileMailReceiver extends PhabricatorObjectMailReceiver {
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorFilesApplication');
+      PhabricatorFilesApplication::class);
   }
 
   protected function getObjectPattern() {

@@ -135,6 +135,7 @@ final class ManiphestTaskListView extends ManiphestView {
           id(new PHUIListItemView())
             ->setIcon('fa-pencil')
             ->addSigil('maniphest-edit-task')
+            ->setAriaLabel(pht('Edit Task'))
             ->setHref($href));
       }
 
@@ -151,12 +152,18 @@ final class ManiphestTaskListView extends ManiphestView {
     return $list;
   }
 
-  // This method should be removed, and all call-sites switch
-  // to use ManiphestSearchEngine
+  /**
+   * Deprecated.
+   * @param PhabricatorUser $viewer
+   * @param array<ManiphestTask> $tasks
+   * @deprecated
+   */
   public static function loadTaskHandles(
     PhabricatorUser $viewer,
     array $tasks) {
-    assert_instances_of($tasks, 'ManiphestTask');
+    // TODO: This method should be removed, and all call-sites switch
+    // to use ManiphestSearchEngine
+    assert_instances_of($tasks, ManiphestTask::class);
 
     $phids = array();
     foreach ($tasks as $task) {

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends NuanceQuery<NuanceQueue>
+ */
 final class NuanceQueueQuery
   extends NuanceQuery {
 

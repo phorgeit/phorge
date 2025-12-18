@@ -265,8 +265,8 @@ Monitoring Services
 ===================
 
 You can get an overview of repository cluster status from the
-{nav Config > Repository Servers} screen. This table shows a high-level
-overview of all active repository services.
+{nav Config > Services > Repository Servers} screen. This table shows a
+high-level overview of all active repository services.
 
 **Repos**: The number of repositories hosted on this service.
 

@@ -35,6 +35,9 @@ final class PhabricatorFactChart
     return idx($this->chartParameters, $key, $default);
   }
 
+  /**
+   * @return string 12-character string identifier of chart
+   */
   public function newChartKey() {
     $digest = serialize($this->chartParameters);
     $digest = PhabricatorHash::digestForIndex($digest);
@@ -54,8 +57,11 @@ final class PhabricatorFactChart
     return parent::save();
   }
 
+  /**
+   * @param array<PhabricatorChartDataset> $datasets
+   */
   public function attachDatasets(array $datasets) {
-    assert_instances_of($datasets, 'PhabricatorChartDataset');
+    assert_instances_of($datasets, PhabricatorChartDataset::class);
     $this->datasets = $datasets;
     return $this;
   }

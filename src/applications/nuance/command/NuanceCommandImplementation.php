@@ -91,7 +91,7 @@ abstract class NuanceCommandImplementation
 
   final public static function getAllCommands() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getCommandKey')
       ->execute();
   }

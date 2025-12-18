@@ -6,6 +6,9 @@ final class PhabricatorFerretFulltextStorageEngine
   private $fulltextTokens = array();
   private $engineLimits;
 
+  /**
+   * @return string Engine identifier string: "mysql"
+   */
   public function getEngineIdentifier() {
     return 'mysql';
   }
@@ -26,7 +29,7 @@ final class PhabricatorFerretFulltextStorageEngine
 
   public function executeSearch(PhabricatorSavedQuery $query) {
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass(PhabricatorFerretInterface::class)
       ->execute();
 
     $type_map = array();
@@ -57,6 +60,15 @@ final class PhabricatorFerretFulltextStorageEngine
       $engine = $spec['engine'];
       $object = $spec['object'];
 
+      $search_engine = $engine->newSearchEngine()
+        ->setViewer($viewer);
+
+      // Ignore result objects from SearchEngines belonging to uninstalled apps
+      $app_class = $search_engine->getApplicationClassName();
+      $app = PhabricatorApplication::isClassInstalled($app_class);
+      if (!$app) {
+        continue;
+      }
       $local_query = new PhabricatorSavedQuery();
       $local_query->setParameter('query', $query->getParameter('query'));
 
@@ -69,9 +81,6 @@ final class PhabricatorFerretFulltextStorageEngine
       if ($subscriber_phids) {
         $local_query->setParameter('subscriberPHIDs', $subscriber_phids);
       }
-
-      $search_engine = $engine->newSearchEngine()
-        ->setViewer($viewer);
 
       $engine_query = $search_engine->buildQueryFromSavedQuery($local_query)
         ->setViewer($viewer);

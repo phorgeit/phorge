@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phutil-external-symbol class PhpParser\NodeTraverser
+ * @phutil-external-symbol class PhorgePHPParserExtractor
+ */
 final class PhabricatorInternationalizationManagementExtractWorkflow
   extends PhabricatorInternationalizationManagementWorkflow {
 
@@ -49,7 +53,7 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
       if (!$libraries) {
         throw new PhutilArgumentUsageException(
           pht(
-            'Path "%s" contains no libphutil libraries.',
+            'Path "%s" contains no libraries.',
             $path));
       }
 
@@ -127,109 +131,39 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
   private function extractFiles($root_path, array $files) {
     $hashes = array();
 
-    $futures = array();
-    foreach ($files as $file => $hash) {
-      $full_path = $root_path.DIRECTORY_SEPARATOR.$file;
-      $data = Filesystem::readFile($full_path);
-      $futures[$full_path] = PhutilXHPASTBinary::getParserFuture($data);
-
-      $hashes[$full_path] = $hash;
-    }
-
     $bar = id(new PhutilConsoleProgressBar())
-      ->setTotal(count($futures));
+      ->setTotal(count($files));
 
     $messages = array();
     $results = array();
 
-    $futures = id(new FutureIterator($futures))
-      ->limit(8);
-    foreach ($futures as $full_path => $future) {
+    $parser = PhutilPHPParserLibrary::getParser();
+    // Load this class now (once PHP-Parser is built so its base class exists)
+    // this is not in the autoloader to avoid errors from tests that try
+    // to load every class without installing PHP-Parser
+    $root = dirname(phutil_get_library_root('phorge'));
+    require_once $root.'/support/php-parser/PhorgePHPParserExtractor.php';
+    foreach ($files as $file => $hash) {
       $bar->update(1);
-
-      $hash = $hashes[$full_path];
-
+      $full_path = $root_path.DIRECTORY_SEPARATOR.$file;
+      $hashes[$full_path] = $hash;
+      $file = Filesystem::readablePath($full_path, $root_path);
       try {
-        $tree = XHPASTTree::newFromDataAndResolvedExecFuture(
-          Filesystem::readFile($full_path),
-          $future->resolve());
+        $data = Filesystem::readFile($full_path);
+        $tree = $parser->parse($data);
+        $visitor = new PhorgePHPParserExtractor($file);
+        id(new PhpParser\NodeTraverser($visitor))->traverse($tree);
       } catch (Exception $ex) {
         $messages[] = pht(
-          'WARNING: Failed to extract strings from file "%s": %s',
+          'Failed to parse file "%s": %s',
           $full_path,
           $ex->getMessage());
         continue;
       }
-
-      $root = $tree->getRootNode();
-      $calls = $root->selectDescendantsOfType('n_FUNCTION_CALL');
-      foreach ($calls as $call) {
-        $name = $call->getChildByIndex(0)->getConcreteString();
-        if ($name != 'pht') {
-          continue;
-        }
-
-        $params = $call->getChildByIndex(1, 'n_CALL_PARAMETER_LIST');
-        $string_node = $params->getChildByIndex(0);
-        $string_line = $string_node->getLineNumber();
-        try {
-          $string_value = $string_node->evalStatic();
-
-          $args = $params->getChildren();
-          $args = array_slice($args, 1);
-
-          $types = array();
-          foreach ($args as $child) {
-            $type = null;
-
-            switch ($child->getTypeName()) {
-              case 'n_FUNCTION_CALL':
-                $call = $child->getChildByIndex(0);
-                if ($call->getTypeName() == 'n_SYMBOL_NAME') {
-                  switch ($call->getConcreteString()) {
-                    case 'phutil_count':
-                      $type = 'number';
-                      break;
-                    case 'phutil_person':
-                      $type = 'person';
-                      break;
-                  }
-                }
-                break;
-              case 'n_NEW':
-                $class = $child->getChildByIndex(0);
-                if ($class->getTypeName() == 'n_CLASS_NAME') {
-                  switch ($class->getConcreteString()) {
-                    case 'PhutilNumber':
-                      $type = 'number';
-                      break;
-                  }
-                }
-                break;
-              default:
-                break;
-            }
-
-            $types[] = $type;
-          }
-
-          $results[$hash][] = array(
-            'string' => $string_value,
-            'file' => Filesystem::readablePath($full_path, $root_path),
-            'line' => $string_line,
-            'types' => $types,
-          );
-        } catch (Exception $ex) {
-          $messages[] = pht(
-            'WARNING: Failed to evaluate pht() call on line %d in "%s": %s',
-            $call->getLineNumber(),
-            $full_path,
-            $ex->getMessage());
-        }
-      }
-
-      $tree->dispose();
+      $results[$hash] = $visitor->getResults();
+      $messages += $visitor->getWarnings();
     }
+
     $bar->done();
 
     foreach ($messages as $message) {

@@ -7,7 +7,7 @@ final class DifferentialRevisionRelationshipSource
     $viewer = $this->getViewer();
 
     return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
   }
 

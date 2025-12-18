@@ -20,7 +20,7 @@ final class PhabricatorSlowvoteTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorSlowvoteTransactionType';
+    return PhabricatorSlowvoteTransactionType::class;
   }
 
   public function getMailTags() {

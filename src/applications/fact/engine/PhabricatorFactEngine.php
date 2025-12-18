@@ -7,7 +7,7 @@ abstract class PhabricatorFactEngine extends Phobject {
 
   final public static function loadAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

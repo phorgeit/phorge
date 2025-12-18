@@ -15,6 +15,7 @@ final class PhutilCalendarEventNode
   private $modifiedDateTime;
   private $organizer;
   private $attendees = array();
+  private $timeTransparency;
   private $recurrenceRule;
   private $recurrenceExceptions = array();
   private $recurrenceDates = array();
@@ -115,8 +116,11 @@ final class PhutilCalendarEventNode
     return $this->organizer;
   }
 
+  /**
+   * @param array<PhutilCalendarUserNode> $attendees
+   */
   public function setAttendees(array $attendees) {
-    assert_instances_of($attendees, 'PhutilCalendarUserNode');
+    assert_instances_of($attendees, PhutilCalendarUserNode::class);
     $this->attendees = $attendees;
     return $this;
   }
@@ -130,6 +134,24 @@ final class PhutilCalendarEventNode
     return $this;
   }
 
+  /**
+   * Get the "time transparency" as described by RFC 5545 3.8.2.7.
+   * @return string|null
+   */
+  public function getTimeTransparency() {
+    return $this->timeTransparency;
+  }
+
+  /**
+   * Set the "time transparency" as described by RFC 5545 3.8.2.7.
+   * @param string|null $time_transparency
+   * @return self
+   */
+  public function setTimeTransparency($time_transparency) {
+    $this->timeTransparency = $time_transparency;
+    return $this;
+  }
+
   public function setRecurrenceRule(
     PhutilCalendarRecurrenceRule $recurrence_rule) {
     $this->recurrenceRule = $recurrence_rule;
@@ -140,8 +162,11 @@ final class PhutilCalendarEventNode
     return $this->recurrenceRule;
   }
 
+  /**
+   * @param array<PhutilCalendarDateTime> $recurrence_exceptions
+   */
   public function setRecurrenceExceptions(array $recurrence_exceptions) {
-    assert_instances_of($recurrence_exceptions, 'PhutilCalendarDateTime');
+    assert_instances_of($recurrence_exceptions, PhutilCalendarDateTime::class);
     $this->recurrenceExceptions = $recurrence_exceptions;
     return $this;
   }
@@ -150,8 +175,11 @@ final class PhutilCalendarEventNode
     return $this->recurrenceExceptions;
   }
 
+  /**
+   * @param array<PhutilCalendarDateTime> $recurrence_dates
+   */
   public function setRecurrenceDates(array $recurrence_dates) {
-    assert_instances_of($recurrence_dates, 'PhutilCalendarDateTime');
+    assert_instances_of($recurrence_dates, PhutilCalendarDateTime::class);
     $this->recurrenceDates = $recurrence_dates;
     return $this;
   }

@@ -49,12 +49,17 @@ final class PhabricatorDashboardPortalSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorDashboardPortal> $portals
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $portals,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($portals, 'PhabricatorDashboardPortal');
+    assert_instances_of($portals, PhabricatorDashboardPortal::class);
 
     $viewer = $this->requireViewer();
 

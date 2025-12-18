@@ -107,24 +107,20 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
     $guide_items->addItem($item);
 
 
-    $title = pht('User Account Settings');
-    $href = PhabricatorEnv::getURI('/settings/');
-    $preferences = id(new PhabricatorUserPreferencesQuery())
-      ->setViewer($viewer)
-      ->withUsers(array($viewer))
-      ->executeOne();
-
-    $have_settings = ($preferences && $preferences->getPreferences());
-    if ($have_settings) {
+    $title = pht('Personalize your Install');
+    $wordmark = PhabricatorEnv::getEnvConfig('ui.logo');
+    $href = PhabricatorEnv::getURI('/config/edit/ui.logo/');
+    if ($wordmark) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
       $description = pht(
-        "You've adjusted at least one setting on your account.");
+        'It looks amazing, good work. Home Sweet Home.');
     } else {
-      $icon = 'fa-wrench';
+      $icon = 'fa-home';
       $icon_bg = 'bg-sky';
-      $description = pht(
-        'Configure account settings for all users, or just yourself');
+      $description =
+        pht('Change the name and add your company logo, just to give it a '.
+          'little extra polish.');
     }
 
     $item = id(new PhabricatorGuideItemView())

@@ -36,7 +36,7 @@ final class PhabricatorApplicationTransactionNoEffectResponse
 
     if ($ex->hasAnyEffect()) {
       $title = pht('%s Action(s) With No Effect', $count);
-      $head = pht('Some of your %s action(s) have no effect:', $count);
+      $head = pht('%s of your actions have no effect:', $count);
       $tail = pht('Apply remaining actions?');
       $continue = pht('Apply Remaining Actions');
     } else if ($ex->hasComment()) {

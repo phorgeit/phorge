@@ -43,6 +43,8 @@ final class PhabricatorAuthMFAEditEngineExtension
       ->setActionDescription(
         pht('You will be prompted to provide MFA when you submit.'))
       ->setDescription(pht('Sign this transaction group with MFA.'))
+      ->setConduitTypeDescription(
+        pht('True to sign this transaction group with MFA.'))
       ->setTransactionType($mfa_type);
 
     return array(

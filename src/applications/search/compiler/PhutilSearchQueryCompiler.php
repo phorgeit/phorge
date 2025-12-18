@@ -29,21 +29,44 @@ final class PhutilSearchQueryCompiler
     return $this;
   }
 
+  /**
+   * @return PhutilSearchStemmer
+   */
   public function getStemmer() {
     return $this->stemmer;
   }
 
+  /**
+   * @param bool $enable_functions
+   */
   public function setEnableFunctions($enable_functions) {
     $this->enableFunctions = $enable_functions;
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   public function getEnableFunctions() {
     return $this->enableFunctions;
   }
 
+  /**
+   * Get maximum number of tables in a single JOIN. MariaDB and MySQL set this
+   * to 61 tables per https://dev.mysql.com/doc/refman/8.4/en/join.html
+   *
+   * @return int
+   */
+  private function getMaxQueryTokens(): int {
+    return 61;
+  }
+
+  /**
+   * @param array<PhutilSearchQueryToken> $tokens
+   * @return string|null
+   */
   public function compileQuery(array $tokens) {
-    assert_instances_of($tokens, 'PhutilSearchQueryToken');
+    assert_instances_of($tokens, PhutilSearchQueryToken::class);
 
     $result = array();
     foreach ($tokens as $token) {
@@ -53,8 +76,12 @@ final class PhutilSearchQueryCompiler
     return $this->compileRenderedTokens($result);
   }
 
+  /**
+   * @param array<PhutilSearchQueryToken> $tokens
+   * @return string|null
+   */
   public function compileLiteralQuery(array $tokens) {
-    assert_instances_of($tokens, 'PhutilSearchQueryToken');
+    assert_instances_of($tokens, PhutilSearchQueryToken::class);
 
     $result = array();
     foreach ($tokens as $token) {
@@ -67,8 +94,12 @@ final class PhutilSearchQueryCompiler
     return $this->compileRenderedTokens($result);
   }
 
+  /**
+   * @param array<PhutilSearchQueryToken> $tokens
+   * @return string|null
+   */
   public function compileStemmedQuery(array $tokens) {
-    assert_instances_of($tokens, 'PhutilSearchQueryToken');
+    assert_instances_of($tokens, PhutilSearchQueryToken::class);
 
     $result = array();
     foreach ($tokens as $token) {
@@ -81,6 +112,9 @@ final class PhutilSearchQueryCompiler
     return $this->compileRenderedTokens($result);
   }
 
+  /**
+   * @return string|null
+   */
   private function compileRenderedTokens(array $list) {
     if (!$list) {
       return null;
@@ -90,6 +124,9 @@ final class PhutilSearchQueryCompiler
     return implode(' ', $list);
   }
 
+  /**
+   * @return PhutilSearchQueryToken[]
+   */
   public function newTokens($query) {
     $results = $this->tokenizeQuery($query);
 
@@ -101,6 +138,12 @@ final class PhutilSearchQueryCompiler
     return $tokens;
   }
 
+  /**
+   * @param  string $query Search string or part of the search string
+   * @return array<string[]> An array consisting of array elements like
+   *   {"operator":"and","quoted":false,"value":"get","raw":"get",
+   *   "function":null}
+   */
   private function tokenizeQuery($query) {
     $maximum_bytes = 1024;
     if ($query === null) {
@@ -110,7 +153,8 @@ final class PhutilSearchQueryCompiler
     if ($query_bytes > $maximum_bytes) {
       throw new PhutilSearchQueryCompilerSyntaxException(
         pht(
-          'Query is too long (%s bytes, maximum is %s bytes).',
+          'Query is too long (%s bytes, maximum is %s bytes). '.
+            'Please use more specific search criteria.',
           new PhutilNumber($query_bytes),
           new PhutilNumber($maximum_bytes)));
     }
@@ -264,6 +308,18 @@ final class PhutilSearchQueryCompiler
 
       $tokens[] = $token;
     }
+
+    $query_tokens = count($tokens);
+    $maximum_tokens = $this->getMaxQueryTokens();
+    if ($query_tokens > $maximum_tokens) {
+      throw new PhutilSearchQueryCompilerSyntaxException(
+        pht(
+          'Query has too many search tokens (%s tokens, maximum is %s '.
+            'tokens). Please use more specific search criteria.',
+          new PhutilNumber($query_tokens),
+          new PhutilNumber($maximum_tokens)));
+    }
+
 
     $results = array();
     $last_function = null;

@@ -96,18 +96,6 @@
 }
 
 .phui-action-panel-subheader a {
-  text-decoraction: none;
-}
-
-.phui-action-panel-status {
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.phui-action-panel-status:hover {
   text-decoration: none;
 }
 

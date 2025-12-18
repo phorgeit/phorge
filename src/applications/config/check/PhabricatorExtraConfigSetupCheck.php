@@ -85,6 +85,14 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
 
       if ($found_database) {
         $issue->addPhabricatorConfig($key);
+
+        $command = hsprintf(
+          '<tt>%s $</tt>./bin/config delete --database %s',
+          PlatformSymbols::getPlatformServerPath(),
+          $key);
+        $issue->addCommand($command);
+
+
       }
     }
 

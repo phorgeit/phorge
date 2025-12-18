@@ -6,10 +6,10 @@ This document contains instructions for keeping Phorge up to date.
 Overview
 ========
 
-Phorge is under active development, and new features are released
-continuously. Staying up to date will keep your install secure.
+Phorge is under active development, and releases are published regularly.
+Staying up to date will keep your install secure.
 
-We recommend installs upgrade regularly (every 1-2 weeks). Upgrades usually go
+We recommend installs upgrade regularly. Upgrades usually go
 smoothly and complete in a few minutes. If you put off upgrades for a long
 time, it may take a lot more work to bring things up to date if you want access
 to a useful new feature or an important security change.
@@ -31,10 +31,7 @@ You can either run the `master` or `stable` branch of Phorge. The `stable`
 branch is a little more stable than `master`, and may be helpful if you
 administrate a larger install.
 
-We promote `master` to `stable` frequently, then publish the changelog. During
-the week, major bugfixes are cherry-picked to the `stable` branch. The changelog
- lists the `stable` hashes for that week, as well as any fixes which were
- cherry-picked.
+We promote `master` to `stable` regularly, then publish the changelog.
 
 To switch to `stable`, check the branch out in each working copy:
 
@@ -58,10 +55,12 @@ script which can work on any system. However, the general steps are the same
 on every system:
 
   - Stop the webserver (including `php-fpm`, if you use it).
-  - Stop the daemons, with `phorge/bin/phd stop`.
+  - Stop the daemons with `phorge/bin/phd stop` or `systemctl stop phorge-phd`.
   - Run `git pull` in `arcanist/` and `phorge/`.
   - Run `phorge/bin/storage upgrade`.
-  - Start the daemons, with `phorge/bin/phd start`.
+  - If using systemd, `systemctl daemon-reload`.
+  - Start the daemons, with `phorge/bin/phd start`
+    or `systemctl start phorge-phd`.
   - Restart the webserver (and `php-fpm`, if you stopped it earlier).
 
 For some more discussion details, see @{article:Configuration Guide}.
@@ -89,6 +88,8 @@ ROOT=`pwd` # You can hard-code the path here instead.
 
 # Stop daemons.
 $ROOT/phorge/bin/phd stop
+# If using systemd to manage the daemons:
+# systemctl stop phorge-phd
 
 # If running the notification server, stop it.
 # $ROOT/phorge/bin/aphlict stop
@@ -117,6 +118,9 @@ $ROOT/phorge/bin/storage upgrade
 sudo /etc/init.d/httpd start
 
 # Restart daemons.
+# If using systemd, you may need to pick up changes to the phorge-phd unit:
+# systemctl daemon-reload
+# systemctl start phorge-phd
 $ROOT/phorge/bin/phd start
 
 # If running the notification server, start it.

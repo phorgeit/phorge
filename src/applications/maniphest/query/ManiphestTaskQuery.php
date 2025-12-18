@@ -3,6 +3,8 @@
 /**
  * Query tasks by specific criteria. This class uses the higher-performance
  * but less-general Maniphest indexes to satisfy queries.
+ *
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<ManiphestTask>
  */
 final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 

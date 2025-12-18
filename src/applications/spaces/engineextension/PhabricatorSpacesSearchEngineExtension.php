@@ -7,7 +7,7 @@ final class PhabricatorSpacesSearchEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorSpacesApplication');
+      PhabricatorSpacesApplication::class);
   }
 
   public function getExtensionName() {

@@ -58,37 +58,109 @@ of the "init system".
 Phorge virtually supports any init system. Which one is yours? Don't worry.
 If you don't know, it's systemd.
 
-We propose a minimal systemd configuration file, following some assumptions:
+Phorge ships with a systemd configuration file, following some assumptions:
 
-- your lovely Phorge is installed `/somewhere`
-- you have a database service called `mariadb`
-- you have a dedicated Unix user called `daemon-user` - coming from
-  @{article:Diffusion User Guide}
+  - Your lovely Phorge is installed `/somewhere/phorge`.
+  - Your repository storage location is `/somewhere/repositories`.
+  - You have a dedicated Unix user called `daemon-user` - coming from
+    @{article:Diffusion User Guide}.
 
-With the above assumptions, create this configuration file as super-user:
+IMPORTANT: The instructions in this section should all be performed as
+super-user.
 
-```lang=ini,name=/etc/systemd/system/phorge-phd.service
-[Unit]
-Description=Phorge Daemons
-Documentation=https://we.phorge.it/book/phorge/article/managing_daemons/
-After=syslog.target network.target mariadb.service
+First, link the phd service into your system configuration. This will ensure
+that when you update Phorge, the daemon service configuration is updated as
+well.
 
+```
+systemctl link /somewhere/phorge/resources/phd/phorge-phd.service
+```
+
+NOTE: If you're concerned about upgrades introducing unwanted changes, you may
+alternatively copy the unit file into `/etc/systemd/system`. If you do this,
+it's recommended to leave the unit unchanged and to follow the rest of the
+instructions as-is to help with merging in future updates manually.
+
+Create the following configuration so the service knows where Phorge is:
+
+```lang=ini,name=/etc/phorge/environment
+PHORGE_ROOT=/somewhere/phorge
+```
+
+Next, configure the service to use your daemon user, and give it access to your
+repository storage path. The following command will open up your default editor:
+
+```
+systemctl edit phorge-phd.service
+```
+
+In the editor, between the comments indicated in the file, place the following
+to set the user/group phd shall run as, along with the filesystem path(s) for
+Phorge's repository storage and the phd log location. The only paths you
+//must// include in `ReadWritePaths` are the paths in your phorge configuration
+that phd will //write// to:
+
+  - `repository.default-local-path`
+  - `phd.log-directory`
+    (Shown below as `/var/log/phorge/phd`; use the path you set in your config.)
+
+If have not explicitly set `phd.log-directory` the logs are placed in a
+temporary directory that is removed every time `phorge-phd.service` terminates
+and you do not need to configure `ReadWritePaths` for it. Even if you do not use
+the systemd service, the temporary directory phd uses by default may still be
+removed upon system reboot. If you care about being able to easily diagnose
+problems, set the option to ensure phd logs persist.
+
+```lang=ini,name=/etc/systemd/system/phorge-phd.service.d/override.conf
 [Service]
-Type=forking
 User=daemon-user
 Group=daemon-user
-ExecStart=/somewhere/phorge/bin/phd start
-ExecStop=/somewhere/phorge/bin/phd stop
 
-[Install]
-WantedBy=multi-user.target
+ReadWritePaths=/somewhere/repositories
+# uncomment or remove depending on phd.log-directory option.
+#ReadWritePaths=/var/log/phorge/phd
 ```
 
-To install this new systemd configuration, execute these commands as
-super-user:
+If your database service is managed by systemd and running on the same machine
+as Phorge (unlikely except in development environments), you may also wish to
+configure a dependency on it so that phd starts more reliably.
+
+Dependencies are configured by adding `Wants` and `After` systemd directives.
+Consult `man 5 systemd.unit` for the particulars of what those mean, but we'll
+add them with `systemctl edit phorge-phd.service` once again.
+
+**If you're using MariaDB:**
+
+Add the following to the top of the configuration you created above:
+
+```lang=ini,name=/etc/systemd/system/phorge-phd.service.d/override.conf
+[Unit]
+Wants=mariadb.service
+After=mariadb.service
+```
+
+The full file should look like the following when you're done:
+
+```lang=ini,name=/etc/systemd/system/phorge-phd.service.d/override.conf
+[Unit]
+Wants=mariadb.service
+After=mariadb.service
+
+[Service]
+User=daemon-user
+Group=daemon-user
+
+ReadWritePaths=/somewhere/repositories
+# uncomment or remove depending on phd.log-directory option.
+#ReadWritePaths=/var/log/phorge/phd
+```
+
+For other MySQL flavors, consult your system configuration for the appropriate
+unit name.
+
+To install this new systemd configuration, execute these commands as super-user:
 
 ```
-systemctl daemon-reload
 systemctl enable --now phorge-phd
 ```
 
@@ -100,13 +172,22 @@ To check if everything is OK:
 systemctl status phorge-phd
 ```
 
+NOTE: In addition to the basic `phorge-phd.service` file, Phorge also ships with
+a systemd template unit in the same directory as the standard unit, for use with
+advanced or multi-tenant installations. The vast majority of installations will
+not need this unit.
+
 Anything else can be explored in depth by reading the systemd documentation.
+Applicable systemd man pages are `systemd.exec(5)` and `systemd.service(5)`,
+which can be scrutinized for details on how how to expand or restrict phd's
+system access beyond the reasonably restricted defaults.
 
 = Daemon Console =
 
 You can view status and debugging information for daemons in the Daemon Console
-via the web interface. Go to `/daemon/` in your install or click
-**Daemon Console** from "More Stuff".
+via the web interface. Go to `/daemon/` in your install or navigate to
+{nav icon=home, name=Home > More Applications > Daemons }.
+
 
 The Daemon Console shows a list of all the daemons that have ever launched, and
 allows you to view log information for them. If you have issues with daemons,
@@ -126,8 +207,8 @@ You can get a list of launchable daemons with **phd list**:
   - **PhabricatorTaskmasterDaemon** performs work from a task queue;
   - **PhabricatorRepositoryPullLocalDaemon** daemons track repositories, for
     more information see @{article:Diffusion User Guide}; and
-  - **PhabricatorTriggerDaemon** schedules event triggers and cleans up old
-    logs and caches.
+  - **PhabricatorTriggerDaemon** schedules event triggers (see
+    @{article:Understanding Event Triggers}) and cleans up old logs and caches.
 
 = Debugging and Tuning =
 

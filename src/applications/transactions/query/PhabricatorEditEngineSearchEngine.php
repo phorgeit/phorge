@@ -56,11 +56,16 @@ final class PhabricatorEditEngineSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorEditEngine> $engines
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $engines,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($engines, 'PhabricatorEditEngine');
+    assert_instances_of($engines, PhabricatorEditEngine::class);
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())

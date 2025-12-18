@@ -5,10 +5,13 @@ final class PhabricatorApplicationTransactionValidationException
 
   private $errors;
 
+  /**
+   * @param array<PhabricatorApplicationTransactionValidationError> $errors
+   */
   public function __construct(array $errors) {
     assert_instances_of(
       $errors,
-      'PhabricatorApplicationTransactionValidationError');
+      PhabricatorApplicationTransactionValidationError::class);
 
     $this->errors = $errors;
 

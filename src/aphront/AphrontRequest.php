@@ -58,7 +58,7 @@ final class AphrontRequest extends Phobject {
    *
    * @param string $key URI data key to pull line range information from.
    * @param int|null $limit Maximum length of the range.
-   * @return null|pair<int, int> Null, or beginning and end of the range.
+   * @return null|array<int, int> Null, or beginning and end of the range.
    */
   public function getURILineRange($key, $limit) {
     $range = $this->getURIData($key);
@@ -211,7 +211,7 @@ final class AphrontRequest extends Phobject {
    */
   public function getStr($name, $default = null) {
     if (isset($this->requestData[$name])) {
-      $str = (string)$this->requestData[$name];
+      $str = phutil_string_cast($this->requestData[$name]);
       // Normalize newline craziness.
       $str = str_replace(
         array("\r\n", "\r"),
@@ -714,7 +714,7 @@ final class AphrontRequest extends Phobject {
    * This is primarily useful if you want to ask the user for more input and
    * then resubmit their request.
    *
-   * @return  dict<string, string>  Original request parameters.
+   * @return  array<string, string>  Original request parameters.
    */
   public function getPassthroughRequestParameters($include_quicksand = false) {
     return self::flattenData(
@@ -724,7 +724,7 @@ final class AphrontRequest extends Phobject {
   /**
    * Get request data other than "magic" parameters.
    *
-   * @return dict<string, wild> Request data, with magic filtered out.
+   * @return array<string, mixed> Request data, with magic filtered out.
    */
   public function getPassthroughRequestData($include_quicksand = false) {
     $data = $this->getRequestData();
@@ -748,9 +748,9 @@ final class AphrontRequest extends Phobject {
    * into a list of key-value pairs suitable for submitting via HTTP request
    * (with arrays flattened).
    *
-   * @param   dict<string, wild>    $data Data to flatten.
-   * @return  dict<string, string>  Flat data suitable for inclusion in an HTTP
-   *                                request.
+   * @param   array<string, mixed>    $data Data to flatten.
+   * @return  array<string, string>  Flat data suitable for inclusion in an HTTP
+   *                                 request.
    */
   public static function flattenData(array $data) {
     $result = array();
@@ -778,12 +778,11 @@ final class AphrontRequest extends Phobject {
    * and looks up the appropriate value in `$_SERVER` (in this case,
    * `"HTTP_ACCEPT_ENCODING"`).
    *
-   * @param   string        $name Canonical header name, like
-        `"Accept-Encoding"`.
-   * @param   wild          $default (optional) Default value to return if
-        header is not present.
-   * @param   array         $data (optional) Read this instead of `$_SERVER`.
-   * @return  string|wild   Header value if present, or `$default` if not.
+   * @param  string  $name Canonical header name, like `"Accept-Encoding"`.
+   * @param  mixed   $default (optional) Default value to return if
+   *                 header is not present.
+   * @param  array   $data (optional) Read this instead of `$_SERVER`.
+   * @return mixed   Header value if present, or `$default` if not.
    */
   public static function getHTTPHeader($name, $default = null, $data = null) {
     // PHP mangles HTTP headers by uppercasing them and replacing hyphens with
@@ -846,7 +845,8 @@ final class AphrontRequest extends Phobject {
    * This is not a general-purpose proxying method; it is a specialized
    * method with niche applications and severe security implications.
    *
-   * @param string URI $uri identifying the host we are proxying the request to.
+   * @param string $uri URI identifying the host we are proxying the request
+   *   to.
    * @return HTTPSFuture New proxy future.
    *
    * @phutil-external-symbol class PhabricatorStartup

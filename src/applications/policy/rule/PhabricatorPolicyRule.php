@@ -122,7 +122,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
    *
    * @param PhabricatorPolicyInterface $object Object to pass a hint about.
    * @param PhabricatorPolicyRule $rule Rule to pass hint to.
-   * @param wild $hint Hint.
+   * @param mixed $hint Hint.
    * @return void
    */
   public static function passTransactionHintToRule(
@@ -185,7 +185,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
    * @task objectpolicy
    */
   public function getObjectPolicyKey() {
-    return null;
+    return '';
   }
 
   final public function getObjectPolicyFullKey() {

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends DrydockQuery<DrydockRepositoryOperation>
+ */
 final class DrydockRepositoryOperationQuery extends DrydockQuery {
 
   private $ids;

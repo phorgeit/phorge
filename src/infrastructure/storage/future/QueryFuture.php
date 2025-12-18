@@ -55,20 +55,6 @@ final class QueryFuture extends Future {
       return true;
     }
 
-    if (!$this->conn->supportsAsyncQueries()) {
-      $conns = array();
-      $conn_queries = array();
-      foreach (self::$futures as $id => $future) {
-        $hash = spl_object_hash($future->conn);
-        $conns[$hash] = $future->conn;
-        $conn_queries[$hash][$id] = $future->query;
-      }
-      foreach ($conn_queries as $hash => $queries) {
-        $this->processResults($conns[$hash]->executeRawQueries($queries));
-      }
-      return true;
-    }
-
     if (!$this->async) {
       $profiler = PhutilServiceProfiler::getInstance();
       $this->profilerCallID = $profiler->beginServiceCall(

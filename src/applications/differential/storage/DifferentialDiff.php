@@ -98,8 +98,11 @@ final class DifferentialDiff
     return $this;
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   */
   public function attachChangesets(array $changesets) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
     $this->changesets = $changesets;
     return $this;
   }
@@ -137,7 +140,7 @@ final class DifferentialDiff
   public static function initializeNewDiff(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDifferentialApplication'))
+      ->withClasses(array(PhabricatorDifferentialApplication::class))
       ->executeOne();
     $view_policy = $app->getPolicy(
       DifferentialDefaultViewCapability::CAPABILITY);
@@ -148,18 +151,25 @@ final class DifferentialDiff
     return $diff;
   }
 
+  /**
+   * @param PhabricatorUser $actor
+   * @param array<ArcanistDiffChange> $changes
+   */
   public static function newFromRawChanges(
     PhabricatorUser $actor,
     array $changes) {
 
-    assert_instances_of($changes, 'ArcanistDiffChange');
+    assert_instances_of($changes, ArcanistDiffChange::class);
 
     $diff = self::initializeNewDiff($actor);
     return self::buildChangesetsFromRawChanges($diff, $changes);
   }
 
+  /**
+   * @param array<ArcanistDiffChange> $changes
+   */
   public static function newEphemeralFromRawChanges(array $changes) {
-    assert_instances_of($changes, 'ArcanistDiffChange');
+    assert_instances_of($changes, ArcanistDiffChange::class);
 
     $diff = id(new DifferentialDiff())->makeEphemeral();
     return self::buildChangesetsFromRawChanges($diff, $changes);

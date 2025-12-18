@@ -82,13 +82,13 @@ final class ManiphestTaskPointsTransaction
 
     foreach ($xactions as $xaction) {
       $new = $xaction->getNewValue();
-      if (phutil_nonempty_string($new) && !is_numeric($new)) {
+      if (phutil_nonempty_scalar($new) && !is_numeric($new)) {
         $errors[] = $this->newInvalidError(
           pht('Points value must be numeric or empty.'));
         continue;
       }
 
-      if ((double)$new < 0) {
+      if ((float)$new < 0) {
         $errors[] = $this->newInvalidError(
           pht('Points value must be nonnegative.'));
         continue;
@@ -116,7 +116,7 @@ final class ManiphestTaskPointsTransaction
       $value = null;
     }
     if ($value !== null) {
-      $value = (double)$value;
+      $value = (float)$value;
     }
     return $value;
   }

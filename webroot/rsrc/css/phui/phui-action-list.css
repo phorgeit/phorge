@@ -136,7 +136,6 @@
   padding: 4px 8px 6px 8px;
   display: block;
   text-transform: uppercase;
-  -webkit-font-smoothing: antialiased;
 }
 
 .phabricator-action-view + .phabricator-action-view-label {

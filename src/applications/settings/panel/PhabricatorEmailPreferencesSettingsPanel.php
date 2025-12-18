@@ -120,7 +120,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
     }
 
     // Sort them, then put "Common" at the top.
-    $tag_groups = isort($tag_groups, 0);
+    $tag_groups = isort($tag_groups, '0');
     if ($common_tags) {
       array_unshift($tag_groups, array(pht('Common'), $common_tags));
     }
@@ -148,7 +148,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
 
   private function getAllEditorsWithTags(?PhabricatorUser $user = null) {
     $editors = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionEditor')
+      ->setAncestorClass(PhabricatorApplicationTransactionEditor::class)
       ->setFilterMethod('getMailTagsMap')
       ->execute();
 

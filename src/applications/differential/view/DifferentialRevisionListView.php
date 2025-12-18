@@ -32,8 +32,11 @@ final class DifferentialRevisionListView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<DifferentialRevision> $revisions
+   */
   public function setRevisions(array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
     $this->revisions = $revisions;
     return $this;
   }
@@ -53,6 +56,9 @@ final class DifferentialRevisionListView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @return PHUIObjectItemListView
+   */
   public function render() {
     $viewer = $this->getViewer();
 

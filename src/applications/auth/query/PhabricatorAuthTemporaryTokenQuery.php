@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorAuthTemporaryToken>
+ */
 final class PhabricatorAuthTemporaryTokenQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

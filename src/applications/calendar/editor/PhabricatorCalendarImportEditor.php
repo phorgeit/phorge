@@ -44,8 +44,6 @@ final class PhabricatorCalendarImportEditor
           $should_reload = true;
           break;
         case PhabricatorCalendarImportFrequencyTransaction::TRANSACTIONTYPE:
-          $should_trigger = true;
-          break;
         case PhabricatorCalendarImportDisableTransaction::TRANSACTIONTYPE:
           $should_trigger = true;
           break;

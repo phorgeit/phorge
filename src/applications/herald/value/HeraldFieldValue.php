@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Implements the value to use for comparison in a Herald rule condition
+ * (e.g. the value which follows after "Assignee | is any of") and the value
+ * to set for a Herald rule action (e.g. what follows after "Add projects"
+ * or "Remove subscribers").
+ */
 abstract class HeraldFieldValue extends Phobject {
 
   private $viewer;

@@ -19,8 +19,11 @@ final class DoorkeeperImportEngine extends Phobject {
     return $this->viewer;
   }
 
+  /**
+   * @param array<DoorkeeperObjectRef> $refs
+   */
   public function setRefs(array $refs) {
-    assert_instances_of($refs, 'DoorkeeperObjectRef');
+    assert_instances_of($refs, DoorkeeperObjectRef::class);
     $this->refs = $refs;
     return $this;
   }
@@ -104,7 +107,7 @@ final class DoorkeeperImportEngine extends Phobject {
 
     if (!$this->localOnly) {
       $bridges = id(new PhutilClassMapQuery())
-        ->setAncestorClass('DoorkeeperBridge')
+        ->setAncestorClass(DoorkeeperBridge::class)
         ->setFilterMethod('isEnabled')
         ->execute();
 

@@ -65,8 +65,11 @@ final class HarbormasterBuildPlanBehavior
     return mpull($this->options, 'getName', 'getKey');
   }
 
+  /**
+   * @param array<HarbormasterBuildPlanBehaviorOption> $options
+   */
   public function setOptions(array $options) {
-    assert_instances_of($options, 'HarbormasterBuildPlanBehaviorOption');
+    assert_instances_of($options, HarbormasterBuildPlanBehaviorOption::class);
 
     $key_map = array();
     $default = null;

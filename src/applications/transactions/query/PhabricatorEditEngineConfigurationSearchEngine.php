@@ -100,11 +100,16 @@ final class PhabricatorEditEngineConfigurationSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorEditEngineConfiguration> $configs
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $configs,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($configs, 'PhabricatorEditEngineConfiguration');
+    assert_instances_of($configs, PhabricatorEditEngineConfiguration::class);
     $viewer = $this->requireViewer();
     $engine_key = $this->getEngineKey();
 

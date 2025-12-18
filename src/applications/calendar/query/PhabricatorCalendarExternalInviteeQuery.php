@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorCalendarExternalInvitee>
+ */
 final class PhabricatorCalendarExternalInviteeQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

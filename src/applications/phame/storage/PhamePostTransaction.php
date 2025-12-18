@@ -17,7 +17,7 @@ final class PhamePostTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhamePostTransactionType';
+    return PhamePostTransactionType::class;
   }
 
   public function getApplicationTransactionCommentObject() {

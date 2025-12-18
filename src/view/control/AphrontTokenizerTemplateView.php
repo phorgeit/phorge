@@ -18,8 +18,11 @@ final class AphrontTokenizerTemplateView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorTypeaheadTokenView> $value
+   */
   public function setValue(array $value) {
-    assert_instances_of($value, 'PhabricatorTypeaheadTokenView');
+    assert_instances_of($value, PhabricatorTypeaheadTokenView::class);
     $this->value = $value;
     return $this;
   }
@@ -78,12 +81,9 @@ final class AphrontTokenizerTemplateView extends AphrontView {
       ),
       $content);
 
-    $icon = id(new PHUIIconView())
-      ->setIcon('fa-search');
-
     $browse = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon($icon)
+      ->setIcon('fa-search')
       ->addClass('tokenizer-browse-button')
       ->setColor(PHUIButtonView::GREY)
       ->addSigil('tokenizer-browse');

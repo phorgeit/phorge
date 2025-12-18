@@ -77,8 +77,11 @@ abstract class PhabricatorStorageManagementWorkflow
     return $this->patches;
   }
 
+  /**
+   * @param array<PhabricatorStoragePatch> $patches
+   */
   public function setPatches(array $patches) {
-    assert_instances_of($patches, 'PhabricatorStoragePatch');
+    assert_instances_of($patches, PhabricatorStoragePatch::class);
     $this->patches = $patches;
     return $this;
   }

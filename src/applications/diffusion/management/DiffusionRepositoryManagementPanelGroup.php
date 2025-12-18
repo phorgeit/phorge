@@ -12,7 +12,7 @@ abstract class DiffusionRepositoryManagementPanelGroup
 
   public static function getAllPanelGroups() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getManagementPanelGroupKey')
       ->setSortMethod('getManagementPanelGroupOrder')
       ->execute();

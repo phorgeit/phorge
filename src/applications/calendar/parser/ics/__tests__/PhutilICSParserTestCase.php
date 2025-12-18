@@ -93,6 +93,17 @@ final class PhutilICSParserTestCase extends PhutilTestCase {
             'raw' => 'This is a simple event.',
           ),
         ),
+        array(
+          'name' => 'TRANSP',
+          'parameters' => array(),
+          'value' => array(
+            'type' => 'TEXT',
+            'value' => array(
+              'OPAQUE',
+            ),
+            'raw' => 'OPAQUE',
+          ),
+        ),
       ),
       $event->getAttribute('ics.properties'));
 

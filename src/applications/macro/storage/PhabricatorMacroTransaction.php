@@ -20,7 +20,7 @@ final class PhabricatorMacroTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorMacroTransactionType';
+    return PhabricatorMacroTransactionType::class;
   }
 
 

@@ -18,7 +18,7 @@ final class PhabricatorPeopleProfileRevisionsController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorDifferentialApplication';
+    $class = PhabricatorDifferentialApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }

@@ -72,7 +72,7 @@ final class PhabricatorCommitSearchEngine
   protected function buildCustomSearchFields() {
     $show_audit_fields = (id(new PhabricatorAuditApplication())->isInstalled());
     $show_packages = PhabricatorApplication::isClassInstalled(
-      'PhabricatorPackagesApplication');
+      PhabricatorPackagesApplication::class);
     return array(
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Responsible Users'))
@@ -222,11 +222,16 @@ final class PhabricatorCommitSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $commits,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
     $viewer = $this->requireViewer();
 
     $bucket = $this->getResultBucket($query);

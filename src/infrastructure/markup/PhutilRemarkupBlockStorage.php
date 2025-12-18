@@ -44,6 +44,9 @@ final class PhutilRemarkupBlockStorage extends Phobject {
   private $map = array();
   private $index = 0;
 
+  /**
+   * @return string Token in the format <0x01>1234Z
+   */
   public function store($text) {
     $key = self::MAGIC_BYTE.(++$this->index).'Z';
     $this->map[$key] = $text;

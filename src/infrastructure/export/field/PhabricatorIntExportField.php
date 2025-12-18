@@ -3,6 +3,9 @@
 final class PhabricatorIntExportField
   extends PhabricatorExportField {
 
+  /**
+   * @return int|null
+   */
   public function getNaturalValue($value) {
     if ($value === null) {
       return $value;

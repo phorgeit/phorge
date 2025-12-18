@@ -105,7 +105,7 @@ final class PhabricatorSettingsTimezoneController
           ->addCheckbox(
               'ignoreConflict',
               1,
-              pht('Ignore New Setting and Keep %s', $current_zone_identifier)));
+              pht('Ignore new setting and keep %s', $current_zone_identifier)));
 
 
     return $this->newDialog()

@@ -46,7 +46,7 @@ abstract class PhabricatorCalendarImportEngine
 
   final public static function getAllImportEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getImportEngineType')
       ->setSortMethod('getImportEngineName')
       ->execute();
@@ -207,10 +207,24 @@ abstract class PhabricatorCalendarImportEngine
       $events = null;
     }
 
+    // Verified emails of the Event Uploader, to be eventually matched.
+    // Phorge loves privacy, so emails are generally private.
+    // This just covers a corner case: yourself importing yourself.
+    // NOTE: We are using the omnipotent user since we already have
+    //       withUserPHIDs() limiting to a specific person (you).
+    $author_verified_emails = id(new PhabricatorPeopleUserEmailQuery())
+      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->withUserPHIDs(array($import->getAuthorPHID()))
+      ->withIsVerified(true)
+      ->execute();
+    $author_verified_emails = mpull($author_verified_emails, 'getAddress');
+    $author_verified_emails = array_fuse($author_verified_emails);
+
     $xactions = array();
     $update_map = array();
     $invitee_map = array();
-    $attendee_map = array();
+    $attendee_name_map = array(); // map[eventUID][email from] = Attendee
+    $attendee_user_map = array(); // map[eventUID][userPHID  ] = Attendee
     foreach ($node_map as $full_uid => $node) {
       $event = idx($events, $full_uid);
       if (!$event) {
@@ -227,7 +241,8 @@ abstract class PhabricatorCalendarImportEngine
       $xactions[$full_uid] = $this->newUpdateTransactions($event, $node);
       $update_map[$full_uid] = $event;
 
-      $attendee_map[$full_uid] = array();
+      $attendee_name_map[$full_uid] = array();
+      $attendee_user_map[$full_uid] = array();
       $attendees = $node->getAttendees();
       $private_index = 1;
       foreach ($attendees as $attendee) {
@@ -236,8 +251,16 @@ abstract class PhabricatorCalendarImportEngine
         // of the product.
         $name = $attendee->getName();
         if (phutil_nonempty_string($name) && preg_match('/@/', $name)) {
-          $name = new PhutilEmailAddress($name);
-          $name = $name->getDisplayName();
+          $attendee_mail = new PhutilEmailAddress($name);
+          $name = $attendee_mail->getDisplayName();
+          $address = $attendee_mail->getAddress();
+
+          // Skip creation of dummy "Private User" if it's me, the uploader.
+          if ($address && isset($author_verified_emails[$address])) {
+            $attendee_user_map[$full_uid][$import->getAuthorPHID()] =
+              $attendee;
+            continue;
+          }
         }
 
         // If we don't have a name or the name still looks like it's an
@@ -247,12 +270,12 @@ abstract class PhabricatorCalendarImportEngine
           $private_index++;
         }
 
-        $attendee_map[$full_uid][$name] = $attendee;
+        $attendee_name_map[$full_uid][$name] = $attendee;
       }
     }
 
     $attendee_names = array();
-    foreach ($attendee_map as $full_uid => $event_attendees) {
+    foreach ($attendee_name_map as $full_uid => $event_attendees) {
       foreach ($event_attendees as $name => $attendee) {
         $attendee_names[$name] = $attendee;
       }
@@ -331,7 +354,8 @@ abstract class PhabricatorCalendarImportEngine
 
     $update_map = array_select_keys($update_map, $insert_order);
     foreach ($update_map as $full_uid => $event) {
-      $parent_uid = $this->getParentNodeUID($node_map[$full_uid]);
+      $node = $node_map[$full_uid];
+      $parent_uid = $this->getParentNodeUID($node);
       if ($parent_uid) {
         $parent_phid = $update_map[$parent_uid]->getPHID();
       } else {
@@ -356,19 +380,28 @@ abstract class PhabricatorCalendarImportEngine
       // We're just forcing attendees to the correct values here because
       // transactions intentionally don't let you RSVP for other users. This
       // might need to be turned into a special type of transaction eventually.
-      $attendees = $attendee_map[$full_uid];
+      $attendees_name = $attendee_name_map[$full_uid];
+      $attendees_user = $attendee_user_map[$full_uid];
       $old_map = $event->getInvitees();
       $old_map = mpull($old_map, null, 'getInviteePHID');
 
-      $new_map = array();
-      foreach ($attendees as $name => $attendee) {
-        $phid = $external_invitees[$name]->getPHID();
+      $phid_invitees = array();
+      foreach ($attendees_name as $name => $attendee) {
+        $attendee_phid = $external_invitees[$name]->getPHID();
+        $phid_invitees[$attendee_phid] = $attendee;
+      }
+      foreach ($attendees_user as $phid_user_attendee => $attendee) {
+        $phid_invitees[$phid_user_attendee] = $attendee;
+      }
 
-        $invitee = idx($old_map, $phid);
+      $new_map = array();
+      foreach ($phid_invitees as $phid_invitee => $attendee) {
+
+        $invitee = idx($old_map, $phid_invitee);
         if (!$invitee) {
           $invitee = id(new PhabricatorCalendarEventInvitee())
             ->setEventPHID($event->getPHID())
-            ->setInviteePHID($phid)
+            ->setInviteePHID($phid_invitee)
             ->setInviterPHID($import->getPHID());
         }
 
@@ -381,15 +414,26 @@ abstract class PhabricatorCalendarImportEngine
             break;
           case PhutilCalendarUserNode::STATUS_INVITED:
           default:
-            $status = PhabricatorCalendarEventInvitee::STATUS_INVITED;
+            // Is me importing myself? I'm coming!
+            if ($phid_invitee === $import->getAuthorPHID()) {
+              $status = PhabricatorCalendarEventInvitee::STATUS_ATTENDING;
+            } else {
+              $status = PhabricatorCalendarEventInvitee::STATUS_INVITED;
+            }
             break;
         }
         $invitee->setStatus($status);
+        // Import "busy/available", very useful for myself to tell this
+        // to coworkers. This is probably somehow very un-useful for most
+        // "Private user(s)", but let's add it for them too since it
+        // doesn't hurt them.
+        $invitee->importAvailabilityFromTimeTransparency(
+          $node->getTimeTransparency());
         $invitee->save();
 
-        $new_map[$phid] = $invitee;
+        $new_map[$phid_invitee] = $invitee;
       }
-
+      // Remove old Invitees if they are not invited anymore.
       foreach ($old_map as $phid => $invitee) {
         if (empty($new_map[$phid])) {
           $invitee->delete();

@@ -6,8 +6,12 @@ final class PHUIDiffInlineCommentPreviewListView
   private $inlineComments = array();
   private $ownerPHID;
 
+  /**
+   * @param array<PhabricatorApplicationTransactionComment> $comments
+   */
   public function setInlineComments(array $comments) {
-    assert_instances_of($comments, 'PhabricatorApplicationTransactionComment');
+    assert_instances_of($comments,
+      PhabricatorApplicationTransactionComment::class);
     $this->inlineComments = $comments;
     return $this;
   }

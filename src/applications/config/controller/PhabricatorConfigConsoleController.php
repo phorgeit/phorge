@@ -153,6 +153,10 @@ final class PhabricatorConfigConsoleController
     foreach ($specs as $lib) {
       $root = dirname(phutil_get_library_root($lib));
 
+      if (Filesystem::isPharPath($root)) {
+        continue;
+      }
+
       $log_command = csprintf(
         'git log --format=%s -n 1 --',
         '%H %ct');
@@ -187,6 +191,9 @@ final class PhabricatorConfigConsoleController
     $upstream_futures = array();
     $lib_upstreams = array();
     foreach ($specs as $lib) {
+      if (!array_key_exists($lib, $remote_futures)) {
+        continue;
+      }
       $remote_future = $remote_futures[$lib];
 
       try {
@@ -291,6 +298,17 @@ final class PhabricatorConfigConsoleController
       }
 
       $results[$lib] = $result;
+    }
+
+    foreach ($specs as $lib) {
+      if (!array_key_exists($lib, $results)) {
+        $results[$lib] = array(
+          'hash' => null,
+          'epoch' => null,
+          'upstream' => null,
+          'branchpoint' => null,
+        );
+      }
     }
 
     return $results;

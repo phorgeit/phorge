@@ -131,8 +131,9 @@ final class PhabricatorSourceCodeView extends AphrontView {
       }
 
       if ($this->canClickHighlight) {
+        $line_id = 'L'.$line_number;
         if ($base_uri) {
-          $line_href = $base_uri.'$'.$line_number;
+          $line_href = $base_uri.'#'.$line_id;
         } else {
           $line_href = null;
         }
@@ -142,6 +143,7 @@ final class PhabricatorSourceCodeView extends AphrontView {
           array(
             'href' => $line_href,
             'data-n' => $line_number,
+            'id' => $line_id,
           ));
       } else {
         $tag_number = phutil_tag(

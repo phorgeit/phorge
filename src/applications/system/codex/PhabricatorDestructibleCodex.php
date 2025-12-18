@@ -53,7 +53,7 @@ abstract class PhabricatorDestructibleCodex
           get_class($object),
           'PhabricatorDestructibleCodexInterface',
           'newDestructibleCodex()',
-          __CLASS__));
+          self::class));
     }
 
     $codex

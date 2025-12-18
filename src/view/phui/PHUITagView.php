@@ -296,10 +296,38 @@ final class PHUITagView extends AphrontTagView {
     );
   }
 
+  /**
+   * Get all the color keys used for shades.
+   *
+   * @return array<string> Color keys for shades.
+   */
   public static function getShades() {
-    return array_keys(self::getShadeMap());
+    return array_keys(self::getShadeMapCached());
   }
 
+  /**
+   * Efficiently get all the colors used for shades.
+   *
+   * Generally this is used to render project colors.
+   * The result is cached. See @{method:getShadeMap} if you don't need a cache.
+   * @return array<string, string> Map of color keys and translated label.
+   */
+  public static function getShadeMapCached(): array {
+    static $map = null;
+    if (!$map) {
+      $map = self::getShadeMap();
+    }
+    return $map;
+  }
+
+  /**
+   * Get all the colors used for shades.
+   *
+   * Generally this is used to render project colors.
+   * The result is not cached.
+   * See @{method:getShadeMapCached} if you need a cache.
+   * @return array<string, string> Map of color keys and translated label.
+   */
   public static function getShadeMap() {
     return array(
       self::COLOR_RED => pht('Red'),
@@ -316,8 +344,17 @@ final class PHUITagView extends AphrontTagView {
     );
   }
 
+  /**
+   * Get the shade color name, if available, or just its key.
+   *
+   * @param string $shade Shade color key.
+   * @return string Shade color label (if available), or the input key.
+   */
   public static function getShadeName($shade) {
-    return idx(self::getShadeMap(), $shade, $shade);
+    $shades = self::getShadeMapCached();
+    // Get the color label, or the color key if missing.
+    // Avoid idx() to reduce overhead.
+    return $shades[$shade] ?? $shade;
   }
 
   public static function getOutlines() {

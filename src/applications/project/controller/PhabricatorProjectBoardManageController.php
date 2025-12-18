@@ -98,10 +98,14 @@ final class PhabricatorProjectBoardManageController
     return $curtain;
   }
 
+  /**
+   * @param PhabricatorProject $board
+   * @param array<PhabricatorProjectColumn> $columns
+   */
   private function buildColumnsList(
     PhabricatorProject $board,
     array $columns) {
-    assert_instances_of($columns, 'PhabricatorProjectColumn');
+    assert_instances_of($columns, PhabricatorProjectColumn::class);
 
     $board_id = $board->getID();
 

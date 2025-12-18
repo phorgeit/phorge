@@ -32,8 +32,11 @@ final class PhabricatorObjectRelationshipList extends Phobject {
     return $this->object;
   }
 
+  /**
+   * @param array<PhabricatorObjectRelationship> $relationships
+   */
   public function setRelationships(array $relationships) {
-    assert_instances_of($relationships, 'PhabricatorObjectRelationship');
+    assert_instances_of($relationships, PhabricatorObjectRelationship::class);
     $this->relationships = $relationships;
     return $this;
   }

@@ -131,8 +131,11 @@ abstract class PhabricatorSetupCheck extends Phobject {
     }
   }
 
+  /**
+   * @param array<PhabricatorSetupIssue> $all_issues
+   */
   final public static function getUnignoredIssueKeys(array $all_issues) {
-    assert_instances_of($all_issues, 'PhabricatorSetupIssue');
+    assert_instances_of($all_issues, PhabricatorSetupIssue::class);
     $keys = array();
     foreach ($all_issues as $issue) {
       if (!$issue->getIsIgnored()) {
@@ -239,7 +242,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
 
   final public static function loadAllChecks() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setSortMethod('getExecutionOrder')
       ->execute();
   }

@@ -12,8 +12,8 @@ passed, so they are deleted automatically (often after a month or two) in a
 process called "garbage collection".
 
 Garbage collection is performed automatically by the daemons. You can review
-all of the installed garbage collectors by browsing to {nav Config > Garbage
-Collectors}.
+all of the installed garbage collectors by browsing to {nav Config >
+Extensions/Modules > Garbage Collectors}.
 
 
 Configuring Retention Policies
@@ -31,8 +31,8 @@ some logs for a longer period of time, perhaps for auditing or analytic
 purposes.
 
 You can review the current retention policies in
-{nav Config > Garbage Collectors}. To change a policy, use
-`bin/garbage set-policy` to select a new policy:
+{nav Config > Extensions/Modules > Garbage Collectors}. To change a policy,
+use `bin/garbage set-policy` to select a new policy:
 
 ```
 phorge/ $ ./bin/garbage set-policy --collector cache.markup --days 7

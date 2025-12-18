@@ -20,10 +20,16 @@ final class PhabricatorElasticsearchHost
     return $this;
   }
 
+  /**
+   * @return string Display name of the search host: "Elasticsearch"
+   */
   public function getDisplayName() {
     return pht('Elasticsearch');
   }
 
+  /**
+   * @return string[] Get a list of fields to show in the status overview UI
+   */
   public function getStatusViewColumns() {
     return array(
         pht('Protocol') => $this->getProtocol(),
@@ -40,6 +46,9 @@ final class PhabricatorElasticsearchHost
     return $this;
   }
 
+  /**
+   * @return string Search host protocol, by default "http"
+   */
   public function getProtocol() {
     return $this->protocol;
   }
@@ -62,6 +71,9 @@ final class PhabricatorElasticsearchHost
     return $this->version;
   }
 
+  /**
+   * @return PhutilURI
+   */
   public function getURI($to_path = null) {
     $uri = id(new PhutilURI('http://'.$this->getHost()))
       ->setProtocol($this->getProtocol())

@@ -7,7 +7,7 @@ final class DiffusionCommitRelationshipSource
     $viewer = $this->getViewer();
 
     return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
   }
 

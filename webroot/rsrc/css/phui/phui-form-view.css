@@ -23,7 +23,6 @@
   font-weight: bold;
   font-size: {$normalfontsize};
   color: {$bluetext};
-  -webkit-font-smoothing: antialiased;
 }
 
 .device-phone .phui-form-view label.aphront-form-label,
@@ -57,10 +56,6 @@
 .aphront-form-input *::-moz-placeholder {
   color:{$greytext} !important;
   opacity: 1; /* Firefox nudges the opacity to 0.4 */
-}
-
-.aphront-form-input *:-ms-input-placeholder  {
-  color:{$greytext} !important;
 }
 
 .aphront-form-input > input[type="file"] {
@@ -98,15 +93,10 @@
   width: auto;
 }
 
-.device-phone .aphront-form-drag-and-drop-upload {
-  display: none;
-}
-
 .aphront-form-required {
   font-weight: normal;
   color: {$lightgreytext};
   font-size: {$smallestfontsize};
-  -webkit-font-smoothing: antialiased;
 }
 
 .aphront-form-input input[type="text"],
@@ -158,7 +148,6 @@
   padding: 8px 0;
   margin-right: 20%;
   margin-left: 20%;
-  -webkit-font-smoothing: antialiased;
   line-height: 16px;
 }
 
@@ -181,17 +170,6 @@
   padding: 12px 8px 8px;
 }
 
-.aphront-form-important {
-  margin: .5em 0;
-  background: #ffffdd;
-  padding: .5em 1em;
-}
-.aphront-form-important code {
-  display: block;
-  padding: .25em;
-  margin: .5em 2em;
-}
-
 .aphront-form-control-markup .aphront-form-input {
   font-size: {$normalfontsize};
   padding: 3px 0;
@@ -199,10 +177,6 @@
 
 .aphront-form-control-static .aphront-form-input {
   line-height: 28px;
-}
-
-.aphront-form-control-togglebuttons .aphront-form-input {
-  padding: 2px 0 0 0;
 }
 
 table.aphront-form-control-radio-layout,
@@ -244,15 +218,6 @@ table.aphront-form-control-checkbox-layout th {
   color: {$bluetext};
 }
 
-.aphront-form-control-image span {
-  margin: 0 4px 0 2px;
-}
-
-.aphront-form-control-image .default-image {
-  display: inline;
-  width: 12px;
-}
-
 .aphront-form-input hr {
   border: none;
   background: #bbbbbb;
@@ -263,7 +228,7 @@ table.aphront-form-control-checkbox-layout th {
 .phui-form-inset {
   margin: 12px 0;
   padding: 8px;
-  background: #f7f9fd;
+  background: {$form-inset-background};
   border: 1px solid {$lightblueborder};
   border-radius: 3px;
 }
@@ -276,36 +241,9 @@ table.aphront-form-control-checkbox-layout th {
   border-bottom: 1px solid {$thinblueborder};
 }
 
-.aphront-form-drag-and-drop-file-list {
-  width: 400px;
-}
-
-.drag-and-drop-instructions {
-  color: {$darkgreytext};
-  font-size: {$smallestfontsize};
-  padding: 6px 8px;
-}
-
-.drag-and-drop-file-target {
-  border: 1px dashed #bfbfbf;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
 body .phui-form-view .remarkup-assist-textarea.aphront-textarea-drag-and-drop {
   background: {$sh-greenbackground};
   border: 1px solid {$sh-greenborder};
-}
-
-.aphront-form-crop .crop-box {
-  cursor: move;
-  overflow: hidden;
-}
-
-.aphront-form-crop .crop-box .crop-image {
-  position: relative;
-  top: 0px;
-  left: 0px;
 }
 
 .calendar-button {
@@ -457,7 +395,7 @@ body .phui-form-view .remarkup-assist-textarea.aphront-textarea-drag-and-drop {
 }
 
 .fancy-datepicker-core {
-  background-color: white;
+  background-color: {$page.content};
   border: 1px solid {$lightgreyborder};
   box-shadow: {$dropshadow};
   border-radius: 3px;
@@ -488,10 +426,6 @@ properly, and submit values. */
   background: {$thinblueborder};
   width: 85%;
   margin: 15px auto;
-}
-
-.recaptcha_only_if_privacy {
-  display: none;
 }
 
 .phabricator-standard-custom-field-header {
@@ -571,7 +505,6 @@ properly, and submit values. */
   border-radius: 4px;
   text-align: center;
   vertical-align: middle;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .phui-form-timer-content {

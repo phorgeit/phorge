@@ -5,8 +5,11 @@ final class PhabricatorPackagesVersionListView
 
   private $versions;
 
+  /**
+   * @param array<PhabricatorPackagesVersion> $versions
+   */
   public function setVersions(array $versions) {
-    assert_instances_of($versions, 'PhabricatorPackagesVersion');
+    assert_instances_of($versions, PhabricatorPackagesVersion::class);
     $this->versions = $versions;
     return $this;
   }

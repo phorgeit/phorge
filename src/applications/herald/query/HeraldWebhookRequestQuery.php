@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<HeraldWebhookRequest>
+ */
 final class HeraldWebhookRequestQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

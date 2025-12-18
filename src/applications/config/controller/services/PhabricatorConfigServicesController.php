@@ -17,7 +17,7 @@ abstract class PhabricatorConfigServicesController
       ->setHref(urisprintf('%s%s/', $services_uri, 'cluster/databases'));
 
     $nav->newLink('schemata')
-      ->setName(pht('Database Schemata'))
+      ->setName(pht('Database Status'))
       ->setIcon('fa-table')
       ->setHref(urisprintf('%s%s/', $services_uri, 'database'));
 

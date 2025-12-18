@@ -27,14 +27,14 @@ final class DiffusionCompareController extends DiffusionController {
         ->addCancelButton($this->getApplicationURI(), pht('Okay'));
     }
 
-    $head_ref = $request->getStr('head');
-    $against_ref = $request->getStr('against');
+    $head_ref = $request->getStr('head', '');
+    $against_ref = $request->getStr('against', '');
 
     $must_prompt = false;
     if (!$request->isFormPost()) {
       if (!strlen($head_ref)) {
         $head_ref = $drequest->getSymbolicCommit();
-        if (!strlen($head_ref)) {
+        if (!phutil_nonempty_string($head_ref)) {
           $head_ref = $drequest->getBranch();
         }
       }

@@ -96,8 +96,6 @@ final class PhabricatorTokenUIEventListener
       return null;
     }
 
-    $limit = 1;
-
     $tokens_given = id(new PhabricatorTokenGivenQuery())
       ->setViewer($user)
       ->withObjectPHIDs(array($object->getPHID()))

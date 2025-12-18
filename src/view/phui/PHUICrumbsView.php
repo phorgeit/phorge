@@ -106,12 +106,19 @@ final class PHUICrumbsView extends AphrontView {
           $action_classes[] = 'phui-crumbs-action-disabled';
         }
 
+        $aria_label = null;
+        $metadata = $action->getMetadata();
+        if ($metadata && isset($metadata['tip'])) {
+          $aria_label = $metadata['tip'];
+        }
+
         $actions[] = javelin_tag(
           'a',
           array(
             'href' => $action->getHref(),
             'class' => implode(' ', $action_classes),
             'sigil' => implode(' ', $action_sigils),
+            'aria-label' => $aria_label,
             'style' => $action->getStyle(),
             'meta' => $action->getMetadata(),
           ),

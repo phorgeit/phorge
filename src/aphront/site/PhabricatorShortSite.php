@@ -19,7 +19,7 @@ final class PhabricatorShortSite extends PhabricatorSite {
     }
 
     $phurl_installed = PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhurlApplication');
+      PhabricatorPhurlApplication::class);
     if (!$phurl_installed) {
       return false;
     }
@@ -32,7 +32,8 @@ final class PhabricatorShortSite extends PhabricatorSite {
   }
 
   public function getRoutingMaps() {
-    $app = PhabricatorApplication::getByClass('PhabricatorPhurlApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorPhurlApplication::class);
 
     $maps = array();
     $maps[] = $this->newRoutingMap()

@@ -28,7 +28,7 @@ abstract class PhabricatorDatasourceEngineExtension extends Phobject {
 
   final public static function getAllExtensions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

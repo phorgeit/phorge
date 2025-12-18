@@ -9,7 +9,6 @@
   /* TODO: Position this over the slider for Differential's file tree view.
      Remove this once that gets sorted out. */
   position: relative;
-  -webkit-font-smoothing: antialiased;
   background-color: {$page.background};
 }
 
@@ -73,10 +72,6 @@
 
 .phui-crumb-strikethrough > .phui-crumb-name {
   text-decoration: line-through;
-}
-
-.device-phone .phui-crumb-icon {
-  margin-left: 7px;
 }
 
 .phui-crumbs-actions {

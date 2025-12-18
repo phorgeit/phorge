@@ -10,7 +10,7 @@ final class PhabricatorPeopleManageProfileMenuItem
   }
 
   private function getDefaultName() {
-    return pht('Manage');
+    return pht('Manage User');
   }
 
   public function canHideMenuItem(

@@ -9,7 +9,7 @@ abstract class PhabricatorMailExternalMessage
 
   final public static function getAllMessageTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getMessageType')
       ->execute();
   }

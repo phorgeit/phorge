@@ -191,6 +191,9 @@ final class PhabricatorProjectColumn
     return $this;
   }
 
+  /**
+   * @return PhabricatorProjectTrigger|null
+   */
   public function getTrigger() {
     return $this->assertAttached($this->trigger);
   }

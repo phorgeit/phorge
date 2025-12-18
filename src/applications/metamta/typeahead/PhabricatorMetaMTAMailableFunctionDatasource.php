@@ -8,8 +8,14 @@ final class PhabricatorMetaMTAMailableFunctionDatasource
   }
 
   public function getPlaceholderText() {
-    return pht(
-      'Type a username, project, mailing list, package, or function...');
+    if (id(new PhabricatorOwnersApplication())->isInstalled() ||
+        id(new PhabricatorPackagesApplication())->isInstalled()) {
+      return pht(
+        'Type a username, project, mailing list, package, or function...');
+    } else {
+      return pht(
+        'Type a username, project, mailing list, or function...');
+    }
   }
 
   public function getDatasourceApplicationClass() {

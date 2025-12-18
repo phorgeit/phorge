@@ -234,7 +234,7 @@ foreach ($refs as $ref) {
 }
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorStorageManagementWorkflow')
+  ->setAncestorClass(PhabricatorStorageManagementWorkflow::class)
   ->execute();
 
 $patches = PhabricatorSQLPatchList::buildAllPatches();

@@ -36,6 +36,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorController
+   */
   public function getController() {
     return $this->controller;
   }
@@ -51,6 +54,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $controller->delegateToController($search);
   }
 
+  /**
+   * @return object|null Matching object (e.g. PhabricatorUser, PhamePost, or
+   *   PhabricatorDashboardPanel), or null if no object matches.
+   */
   public function newResultObject() {
     // We may be able to get this automatically if newQuery() is implemented.
     $query = $this->newQuery();
@@ -73,6 +80,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   * @throws PhutilInvalidStateException
+   */
   protected function requireViewer() {
     if (!$this->viewer) {
       throw new PhutilInvalidStateException('setViewer');
@@ -80,21 +91,37 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this->viewer;
   }
 
+  /**
+   * Set rendering context (e.g. list or panel)
+   *
+   * @param $context string A CONTEXT_* constant
+   */
   public function setContext($context) {
     $this->context = $context;
     return $this;
   }
 
+  /**
+   * Whether this is in the context of rendering a panel
+   *
+   * @return bool True if in panel context
+   */
   public function isPanelContext() {
     return ($this->context == self::CONTEXT_PANEL);
   }
 
+  /**
+   * @param array<PHUIListItemView> $navigation_items
+   */
   public function setNavigationItems(array $navigation_items) {
-    assert_instances_of($navigation_items, 'PHUIListItemView');
+    assert_instances_of($navigation_items, PHUIListItemView::class);
     $this->navigationItems = $navigation_items;
     return $this;
   }
 
+  /**
+   * @return array<PHUIListItemView> $navigation_items
+   */
   public function getNavigationItems() {
     return $this->navigationItems;
   }
@@ -446,7 +473,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Return the URI to a path within the application. Used to construct default
    * URIs for management and results.
    *
-   * @return string URI to path.
+   * @return string URI to path; empty string if not implemented or applicable.
    * @task uri
    */
   abstract protected function getURI($path);
@@ -464,6 +491,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   abstract public function getResultTypeDescription();
 
 
+  /**
+   * @return PhabricatorSavedQuery New instance of PhabricatorSavedQuery
+   */
   public function newSavedQuery() {
     return id(new PhabricatorSavedQuery())
       ->setEngineClassName(get_class($this));
@@ -472,7 +502,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   public function addNavigationItems(PHUIListView $menu) {
     $viewer = $this->requireViewer();
 
-    $menu->newLabel(pht('Queries'));
+    $current_app = $this->getApplication()->getName();
+    $search_app = id(new PhabricatorSearchApplication())->getName();
+
+    if ($current_app === $search_app) {
+      $menu->newLabel(pht('Global Queries'));
+    } else {
+      $menu->newLabel(pht('%s Queries', $current_app));
+    }
 
     $named_queries = $this->loadEnabledNamedQueries();
 
@@ -489,7 +526,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $menu->newLabel(pht('Search'));
     $advanced_uri = $this->getQueryResultsPageURI('advanced');
-    $menu->newLink(pht('Advanced Search'), $advanced_uri, 'query/advanced');
+    if ($current_app === $search_app) {
+      $menu->newLink(pht('Global Search'), $advanced_uri, 'query/advanced');
+    } else {
+      $menu->newLink(
+        pht('%s Search', $current_app),
+        $advanced_uri,
+        'query/advanced');
+    }
 
     foreach ($this->navigationItems as $extra_item) {
       $menu->addMenuItem($extra_item);
@@ -498,6 +542,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return array<string,PhabricatorNamedQuery> Array with pairs of the query
+   * name (e.g. 'all' or 'open') and the corresponding PhabricatorNamedQuery
+   */
   public function loadAllNamedQueries() {
     $viewer = $this->requireViewer();
     $builtin = $this->getBuiltinQueries();
@@ -536,6 +584,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this->namedQueries + $builtin;
   }
 
+  /**
+   * @return array<string,PhabricatorNamedQuery> Array with pairs of the query
+   * name (e.g. 'all' or 'open') and the corresponding PhabricatorNamedQuery
+   */
   public function loadEnabledNamedQueries() {
     $named_queries = $this->loadAllNamedQueries();
     foreach ($named_queries as $key => $named_query) {
@@ -546,6 +598,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $named_queries;
   }
 
+  /**
+   * @return string Name of the default query (e.g. 'all' or 'open') when not
+   * passing a query key, e.g. by going to generic /search/ or /maniphest/
+   */
   public function getDefaultQueryKey() {
     $viewer = $this->requireViewer();
 
@@ -601,6 +657,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this->getApplication()->getApplicationURI($path);
   }
 
+  /**
+   * @return PhabricatorApplication A PhabricatorApplication subclass
+   */
   protected function getApplication() {
     if (!$this->application) {
       $class = $this->getApplicationClassName();
@@ -636,7 +695,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    */
   public static function getAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 
@@ -657,6 +716,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
 
   /**
+   * @return array<string,PhabricatorNamedQuery> Array with pairs of the query
+   * name (e.g. 'all' or 'open') and the corresponding PhabricatorNamedQuery
+   *
    * @task builtin
    */
   public function getBuiltinQueries() {
@@ -983,7 +1045,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return idx($buckets, $key);
   }
 
-
+  /**
+   * @return int|float Number of results to display (float if set to infinity)
+   */
   public function getPageSize(PhabricatorSavedQuery $saved) {
     $bucket = $this->getResultBucket($saved);
 
@@ -1008,7 +1072,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return false;
   }
 
-
+  /**
+   * @return AphrontCursorPagerView|PHUIPagerView
+   */
   public function newPagerForSavedQuery(PhabricatorSavedQuery $saved) {
     if ($this->shouldUseOffsetPaging()) {
       $pager = new PHUIPagerView();
@@ -1030,7 +1096,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $pager;
   }
 
-
+  /**
+   * @return array<string,PhabricatorObjectHandle> $results Array of pairs of
+   *   the object's PHID as key and the corresponding PhabricatorObjectHandle
+   */
   public function executeQuery(
     PhabricatorPolicyAwareQuery $query,
     AphrontView $pager) {
@@ -1214,8 +1283,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $attachments = $this->getConduitSearchAttachments();
 
-    // TODO: Validate this better.
     $attachment_specs = $request->getValue('attachments', array());
+    if (!is_array($attachment_specs)) {
+      throw new Exception(
+        pht(
+          'Parameter "attachments" must be a map of attachments, got "%s".',
+          phutil_describe_type($attachment_specs)));
+    }
+
     $attachments = array_select_keys(
       $attachments,
       array_keys($attachment_specs));
@@ -1460,7 +1535,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Render a content body (if available) to onboard new users.
    * This body is usually visible when you have no elements in a list,
    * or when you force the rendering on a list with the `?nux=1` URL.
-   * @return wild|PhutilSafeHTML|null
+   * @return mixed|PhutilSafeHTML|null
    */
   final public function renderNewUserView() {
     $body = $this->getNewUserBody();
@@ -1476,7 +1551,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Get a content body to onboard new users.
    * Traditionally this content is shown from an empty list, to explain
    * what a certain entity does, and how to create a new one.
-   * @return wild|PhutilSafeHTML|null
+   * @return mixed|PhutilSafeHTML|null
    */
   protected function getNewUserHeader() {
     return null;
@@ -1645,11 +1720,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Load from object and from storage, and updates Custom Fields instances
    * that are attached to each object.
    *
-   * @return map<phid->PhabricatorCustomFieldList> of loaded fields.
+   * @param array<PhabricatorCustomFieldInterface> $objects
+   * @param string $role One of the PhabricatorCustomField::ROLE_ constants
+   * @return array<string, PhabricatorCustomFieldList> Map of loaded fields
+   *   (PHID to PhabricatorCustomFieldList).
    * @task custom
    */
   protected function loadCustomFields(array $objects, $role) {
-    assert_instances_of($objects, 'PhabricatorCustomFieldInterface');
+    assert_instances_of($objects, PhabricatorCustomFieldInterface::class);
 
     $query = new PhabricatorCustomFieldStorageQuery();
     $lists = array();

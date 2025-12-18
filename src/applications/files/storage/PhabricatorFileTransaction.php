@@ -16,7 +16,7 @@ final class PhabricatorFileTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorFileTransactionType';
+    return PhabricatorFileTransactionType::class;
   }
 
 }

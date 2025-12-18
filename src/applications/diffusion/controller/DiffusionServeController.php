@@ -183,8 +183,13 @@ final class DiffusionServeController extends DiffusionController {
     // won't prompt users who provide a username but no password otherwise.
     // See T10797 for discussion.
 
-    $have_user = strlen(idx($_SERVER, 'PHP_AUTH_USER', ''));
-    $have_pass = strlen(idx($_SERVER, 'PHP_AUTH_PW', ''));
+    $have_user = phutil_nonempty_string(idx($_SERVER, 'PHP_AUTH_USER'));
+    $have_pass = phutil_nonempty_string(idx($_SERVER, 'PHP_AUTH_PW'));
+    if ($this->getIsGitLFSRequest() && !($have_user && $have_pass)) {
+      return new PhabricatorVCSResponse(
+        401,
+        pht('Git-LFS Authentication required'));
+    }
     if ($have_user && $have_pass) {
       $username = $_SERVER['PHP_AUTH_USER'];
       $password = new PhutilOpaqueEnvelope($_SERVER['PHP_AUTH_PW']);
@@ -361,10 +366,15 @@ final class DiffusionServeController extends DiffusionController {
       }
     }
 
+    // When considering whether or not a request is mismatched for a given
+    // repository type, there's only two considerations: whether or not the
+    // known type matches the request vcs type, and whether it's actually a
+    // git-lfs request. When it's a git-lfs request, then the vcs types may or
+    // may not match (in the case of using the Mercurial git-lfs extension, for
+    // instance), so don't throw errors for mismatched types.
     $vcs_type = $repository->getVersionControlSystem();
     $req_type = $this->isVCSRequest($request);
-
-    if ($vcs_type != $req_type) {
+    if ($vcs_type != $req_type && !$this->getIsGitLFSRequest()) {
       switch ($req_type) {
         case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
           $result = new PhabricatorVCSResponse(
@@ -758,7 +768,6 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     $this->gitLFSToken = $token;
-
     return $user;
   }
 
@@ -1283,7 +1292,7 @@ final class DiffusionServeController extends DiffusionController {
 
     unset($unguarded);
 
-    return $authorization;
+    return $authorization['header'];
   }
 
   private function getGitLFSRequestPath(PhabricatorRepository $repository) {

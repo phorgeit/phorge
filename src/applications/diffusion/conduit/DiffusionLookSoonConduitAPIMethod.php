@@ -7,10 +7,6 @@ final class DiffusionLookSoonConduitAPIMethod
     return 'diffusion.looksoon';
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodDescription() {
     return pht(
       'Advises this server to look for new commits in a repository as soon '.

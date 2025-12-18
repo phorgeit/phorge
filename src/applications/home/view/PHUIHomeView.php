@@ -11,20 +11,27 @@ final class PHUIHomeView
     return array();
   }
 
+  /**
+   * Construct the default homepage dashboard.
+   *
+   * @return PHUIBoxView Homepage dashboard content: a PHUIBoxView which wraps
+   *  a @{class:AphrontMultiColumnView} which includes numerous
+   *  @{class:PHUIObjectBoxView} boxes
+   */
   protected function getTagContent() {
     require_celerity_resource('phabricator-dashboard-css');
     $viewer = $this->getViewer();
 
     $has_maniphest = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+      PhabricatorManiphestApplication::class,
       $viewer);
 
     $has_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
 
     $has_differential = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
 
     $revision_panel = null;
@@ -77,6 +84,9 @@ final class PHUIHomeView
       return $view;
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   private function buildRevisionPanel() {
     $viewer = $this->getViewer();
     if (!$viewer->isLoggedIn()) {
@@ -91,6 +101,9 @@ final class PHUIHomeView
     return $this->renderPanel($panel);
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   private function buildTasksPanel() {
     $viewer = $this->getViewer();
 
@@ -111,6 +124,9 @@ final class PHUIHomeView
     return $this->renderPanel($panel);
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   public function buildFeedPanel() {
     $panel = $this->newQueryPanel()
       ->setName(pht('Recent Activity'))
@@ -121,6 +137,9 @@ final class PHUIHomeView
     return $this->renderPanel($panel);
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   public function buildRepositoryPanel() {
     $panel = $this->newQueryPanel()
       ->setName(pht('Active Repositories'))
@@ -131,6 +150,9 @@ final class PHUIHomeView
     return $this->renderPanel($panel);
   }
 
+  /**
+   * @return PhabricatorDashboardPanel
+   */
   private function newQueryPanel() {
     $panel_type = id(new PhabricatorDashboardQueryPanelType())
       ->getPanelTypeKey();
@@ -139,6 +161,9 @@ final class PHUIHomeView
       ->setPanelType($panel_type);
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   private function renderPanel(PhabricatorDashboardPanel $panel) {
     $viewer = $this->getViewer();
 

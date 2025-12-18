@@ -61,17 +61,24 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
 
   final public static function getAllMenuItems() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getMenuItemKey')
       ->execute();
   }
 
+  /**
+   * @return PhabricatorProfileMenuItemView
+   */
   final protected function newItemView() {
     return new PhabricatorProfileMenuItemView();
   }
 
   public function willGetMenuItemViewList(array $items) {}
 
+  /**
+   * @param PhabricatorProfileMenuItemConfiguration $config
+   * @param array<PhabricatorProfileMenuItemView> $list
+   */
   final public function getMenuItemViewList(
     PhabricatorProfileMenuItemConfiguration $config) {
     $list = $this->newMenuItemViewList($config);
@@ -85,7 +92,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
           phutil_describe_type($list)));
     }
 
-    assert_instances_of($list, 'PhabricatorProfileMenuItemView');
+    assert_instances_of($list, PhabricatorProfileMenuItemView::class);
 
     foreach ($list as $view) {
       $view->setMenuItemConfiguration($config);

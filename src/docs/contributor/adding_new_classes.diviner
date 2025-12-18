@@ -18,7 +18,7 @@ Fundamentals
 Phorge primarily discovers functionality by looking at concrete subclasses
 of some base class. For example, Phorge determines which applications are
 available by looking at all of the subclasses of
-@{class@phabricator:PhabricatorApplication}. It
+@{class:PhabricatorApplication}. It
 discovers available workflows in `arc` by looking at all of the subclasses of
 @{class@arcanist:ArcanistWorkflow}. It discovers available locales
 by looking at all of the subclasses of @{class@arcanist:PhutilLocale}.
@@ -112,7 +112,7 @@ No library currently exists at that path...
 The directory '/some/path/libcustom/src' does not exist.
 
   Do you want to create it? [y/N] y
-Creating new libphutil library in '/some/path/libcustom/src'.
+Creating new library in '/some/path/libcustom/src'.
 Choose a name for the new library.
 
   What do you want to name this library?
@@ -138,7 +138,7 @@ This will write three files:
     any time. If you check your library into version control, you can add this
     file to ignore rules (like `.gitignore`).
   - `src/__phutil_library_init__.php` This records the name of the library and
-    tells libphutil that a library exists here.
+    tells Arcanist that a library exists here.
   - `src/__phutil_library_map__.php` This is a map of all the symbols
     (functions and classes) in the library, which allows them to be autoloaded
     at runtime and dependencies to be statically managed by `arc liberate`.

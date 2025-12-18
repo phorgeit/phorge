@@ -34,6 +34,9 @@ final class PhabricatorImageTransformer extends Phobject {
       case 'image/png':
         $preferred = self::saveImageDataAsPNG($data);
         break;
+      case 'image/webp':
+        $preferred = self::saveImageDataAsWEBP($data);
+        break;
     }
 
     if ($preferred !== null) {
@@ -51,6 +54,11 @@ final class PhabricatorImageTransformer extends Phobject {
     }
 
     $data = self::saveImageDataAsGIF($data);
+    if ($data !== null) {
+      return $data;
+    }
+
+    $data = self::saveImageDataAsWEBP($data);
     if ($data !== null) {
       return $data;
     }
@@ -125,6 +133,29 @@ final class PhabricatorImageTransformer extends Phobject {
 
     ob_start();
     $result = imagejpeg($image);
+    $output = ob_get_clean();
+
+    if (!$result) {
+      return null;
+    }
+
+    return $output;
+  }
+
+  /**
+   * Save an image in WEBP format, returning the file data as a string.
+   *
+   * @param resource      $image GD image resource.
+   * @return string|null  WEBP file as a string, or null on failure.
+   * @task save
+   */
+  private static function saveImageDataAsWEBP($image) {
+    if (!function_exists('imagewebp')) {
+      return null;
+    }
+
+    ob_start();
+    $result = imagewebp($image);
     $output = ob_get_clean();
 
     if (!$result) {

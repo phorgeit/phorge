@@ -392,7 +392,7 @@ abstract class PhabricatorAphlictManagementWorkflow
         "%s\n",
         pht('Starting Aphlict server in foreground...'));
     } else {
-      Filesystem::writeFile($this->getPIDPath(), getmypid());
+      Filesystem::writeFile($this->getPIDPath(), (string)getmypid());
     }
 
     $command = $this->getStartCommand($this->getServerArgv());

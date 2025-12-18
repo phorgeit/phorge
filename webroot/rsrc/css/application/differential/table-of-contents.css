@@ -45,28 +45,6 @@ table.aphront-table-view td.differential-toc-ftype {
   margin-left: 4px;
 }
 
-.diff-star-none {
-  color: {$greytext};
-}
-
-.diff-star-okay {
-  color: {$orange};
-}
-
-/* TODO: 'warn' and 'fail' are both red, but we can't make 'warn' yellow since
-   'okay' is a "gold star". */
-.diff-star-warn {
-  color: {$red};
-}
-
-.diff-star-fail {
-  color: {$red};
-}
-
-.diff-star-skip {
-  color: {$indigo};
-}
-
 .differential-toc table td em {
   color: {$greytext};
 }

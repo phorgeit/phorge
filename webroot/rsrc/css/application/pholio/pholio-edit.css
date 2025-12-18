@@ -49,7 +49,11 @@
 }
 
 .pholio-thumb-frame {
+  /* TODO: Remove static image for old browsers some day; see D26155 */
   background: url('/rsrc/image/checker_lighter.png');
+  background: repeating-conic-gradient(
+    {$checker.lighter-one} 0% 25%,
+    {$checker.lighter-two} 0% 50%) 0 0/20px 20px;
 }
 
 .device .pholio-thumb-frame {
@@ -155,7 +159,7 @@
   height: 100%;
   width: 12px;
   cursor: move;
-  background-image: url(/rsrc/image/texture/grip.png);
+  background-image: url(/rsrc/image/grip.svg);
   background-position: center center;
   background-repeat: no-repeat;
 }

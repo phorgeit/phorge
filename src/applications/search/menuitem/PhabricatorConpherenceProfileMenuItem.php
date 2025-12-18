@@ -64,7 +64,7 @@ final class PhabricatorConpherenceProfileMenuItem
 
   public function getDisplayName(
     PhabricatorProfileMenuItemConfiguration $config) {
-    $room = $this->getConpherence($config);
+    $room = $this->getConpherence();
     if (!$room) {
       return pht('(Restricted/Invalid Conpherence)');
     }
@@ -101,7 +101,7 @@ final class PhabricatorConpherenceProfileMenuItem
   protected function newMenuItemViewList(
     PhabricatorProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
-    $room = $this->getConpherence($config);
+    $room = $this->getConpherence();
     if (!$room) {
       return array();
     }

@@ -62,7 +62,7 @@ abstract class PhabricatorMailStamp
 
   final public static function getAllStamps() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getStampType')
       ->execute();
   }

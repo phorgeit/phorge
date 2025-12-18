@@ -34,10 +34,17 @@ final class PhrictionContentSearchEngine
       id(new PhabricatorPHIDsSearchField())
         ->setKey('documentPHIDs')
         ->setAliases(array('document', 'documents', 'documentPHID'))
-        ->setLabel(pht('Documents')),
+        ->setLabel(pht('Documents'))
+        ->setDescription(
+          pht(
+            'Search for documents with specific PHIDs.')),
       id(new PhabricatorIDsSearchField())
         ->setKey('versions')
-        ->setAliases(array('version')),
+        ->setAliases(array('version'))
+        ->setLabel(pht('Versions'))
+        ->setDescription(
+          pht(
+            'Search for documents with specific versions.')),
     );
   }
 
@@ -65,11 +72,16 @@ final class PhrictionContentSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhrictionContent> $contents
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $contents,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($contents, 'PhrictionContent');
+    assert_instances_of($contents, PhrictionContent::class);
     throw new PhutilMethodNotImplementedException();
   }
 

@@ -57,6 +57,7 @@ final class PHUIBadgeMiniView extends AphrontTagView {
       'class' => implode(' ', $classes),
       'sigil' => 'has-tooltip',
       'href'  => $this->href,
+      'aria-label' => $this->header,
       'meta'  => array(
         'tip' => $this->header,
         'align' => $this->tipDirection,

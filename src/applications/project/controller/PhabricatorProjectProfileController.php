@@ -104,9 +104,7 @@ final class PhabricatorProjectProfileController
 
     $view_all = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon(
-        id(new PHUIIconView())
-          ->setIcon('fa-list-ul'))
+      ->setIcon('fa-list-ul')
       ->setText(pht('View All'))
       ->setHref('/feed/?projectPHIDs='.$project->getPHID());
 
@@ -184,8 +182,11 @@ final class PhabricatorProjectProfileController
     return $view;
   }
 
+  /**
+   * @param array<PhabricatorFeedStory> $stories
+   */
   private function renderStories(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, PhabricatorFeedStory::class);
 
     $builder = new PhabricatorFeedBuilder($stories);
     $builder->setUser($this->getRequest()->getUser());
@@ -224,9 +225,6 @@ final class PhabricatorProjectProfileController
       $watch_href = "/project/unwatch/{$id}/?via=profile";
       $watch_disabled = false;
     }
-
-    $watch_icon = id(new PHUIIconView())
-      ->setIcon($watch_icon);
 
     return id(new PHUIButtonView())
       ->setTag('a')
@@ -267,9 +265,7 @@ final class PhabricatorProjectProfileController
 
     $view_all = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon(
-        id(new PHUIIconView())
-          ->setIcon('fa-list-ul'))
+      ->setIcon('fa-list-ul')
       ->setText(pht('View All'))
       ->setHref("/project/subprojects/{$id}/");
 
@@ -315,9 +311,7 @@ final class PhabricatorProjectProfileController
 
     $view_all = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon(
-        id(new PHUIIconView())
-          ->setIcon('fa-list-ul'))
+      ->setIcon('fa-list-ul')
       ->setText(pht('View All'))
       ->setHref("/project/subprojects/{$id}/");
 

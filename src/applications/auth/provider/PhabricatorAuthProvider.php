@@ -60,10 +60,13 @@ abstract class PhabricatorAuthProvider extends Phobject {
 
   public static function getAllBaseProviders() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 
+  /**
+   * @return array<static>
+   */
   public static function getAllProviders() {
     static $providers;
 
@@ -99,6 +102,9 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return $providers;
   }
 
+  /**
+   * @return array<static>
+   */
   public static function getAllEnabledProviders() {
     $providers = self::getAllProviders();
     foreach ($providers as $key => $provider) {
@@ -190,10 +196,14 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return;
   }
 
+  /**
+   * @param array<PhabricatorExternalAccountIdentifier> $identifiers
+   */
   final protected function newExternalAccountForIdentifiers(
     array $identifiers) {
 
-    assert_instances_of($identifiers, 'PhabricatorExternalAccountIdentifier');
+    assert_instances_of($identifiers,
+      PhabricatorExternalAccountIdentifier::class);
 
     if (!$identifiers) {
       throw new Exception(
@@ -267,6 +277,9 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return $this->didUpdateAccount($account);
   }
 
+  /**
+   * @return PhabricatorExternalAccount
+   */
   private function didUpdateAccount(PhabricatorExternalAccount $account) {
     $adapter = $this->getAdapter();
 
@@ -322,7 +335,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getLoginURI() {
-    $app = PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorAuthApplication::class);
     return $app->getApplicationURI('/login/'.$this->getProviderKey().'/');
   }
 
@@ -331,7 +345,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getStartURI() {
-    $app = PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorAuthApplication::class);
     $uri = $app->getApplicationURI('/start/');
     return $uri;
   }
@@ -375,10 +390,16 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return '500-'.$this->getProviderName();
   }
 
+  /**
+   * @return string Name of the icon of the auth provider
+   */
   protected function getLoginIcon() {
     return 'Generic';
   }
 
+  /**
+   * @return PHUIIconView Icon of the auth provider
+   */
   public function newIconView() {
     return id(new PHUIIconView())
       ->setSpriteSheet(PHUIIconView::SPRITE_LOGIN)
@@ -464,7 +485,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
    * @param   string         $mode Request mode string.
    * @param   map            $attributes (optional) Additional parameters, see
    *   above.
-   * @return  wild            Log in button.
+   * @return  PhutilSafeHTML Log in button.
    */
   protected function renderStandardLoginButton(
     AphrontRequest $request,
@@ -546,7 +567,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
 
   public function getAuthCSRFCode(AphrontRequest $request) {
     $phcid = $request->getCookie(PhabricatorCookies::COOKIE_CLIENTID);
-    if (!strlen($phcid)) {
+    if (!phutil_nonempty_string($phcid)) {
       throw new AphrontMalformedRequestException(
         pht('Missing Client ID Cookie'),
         pht(
@@ -563,7 +584,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   protected function verifyAuthCSRFCode(AphrontRequest $request, $actual) {
     $expect = $this->getAuthCSRFCode($request);
 
-    if (!strlen($actual)) {
+    if (!phutil_nonempty_string($actual)) {
       throw new Exception(
         pht(
           'The authentication provider did not return a client state '.

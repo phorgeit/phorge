@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorExternalAccountIdentifier>
+ */
 final class PhabricatorExternalAccountIdentifierQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

@@ -7,8 +7,11 @@ abstract class DivinerController extends PhabricatorController {
       ->setSearchEngine(new DivinerAtomSearchEngine());
   }
 
+  /**
+   * @param array<DivinerLiveSymbol> $symbols
+   */
   protected function renderAtomList(array $symbols) {
-    assert_instances_of($symbols, 'DivinerLiveSymbol');
+    assert_instances_of($symbols, DivinerLiveSymbol::class);
 
     $list = array();
     foreach ($symbols as $symbol) {

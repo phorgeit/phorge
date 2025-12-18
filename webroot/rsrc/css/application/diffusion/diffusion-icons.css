@@ -2,12 +2,6 @@
  * @provides diffusion-icons-css
  */
 
-.diffusion-clone-extras {
-  font-size: 11px;
-  text-align: right;
-  color: {$lightgreytext};
-}
-
 .diffusion-clone-label {
   height: 30px;
   line-height: 28px;
@@ -20,14 +14,6 @@
 
 .diffusion-link-icon + .diffusion-link-icon {
   margin-left: 6px;
-}
-
-.diffusion-search-boxen {
-  padding: 16px;
-}
-
-.diffusion-search-boxen .phui-form-view {
-  padding: 0;
 }
 
 .diffusion-clone-uri-wrapper {

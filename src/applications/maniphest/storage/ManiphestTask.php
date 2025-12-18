@@ -17,6 +17,7 @@ final class ManiphestTask extends ManiphestDAO
     PhabricatorConduitResultInterface,
     PhabricatorFulltextInterface,
     PhabricatorFerretInterface,
+    PhabricatorInvolveeInterface,
     DoorkeeperBridgedObjectInterface,
     PhabricatorEditEngineSubtypeInterface,
     PhabricatorEditEngineLockableInterface,
@@ -57,7 +58,7 @@ final class ManiphestTask extends ManiphestDAO
   public static function initializeNewTask(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorManiphestApplication'))
+      ->withClasses(array(PhabricatorManiphestApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(ManiphestDefaultViewCapability::CAPABILITY);
@@ -344,7 +345,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {
-    // The owner of a task can always view and edit it.
+    // The owner (assignee) of a task can always view and edit it.
     $owner_phid = $this->getOwnerPHID();
     if ($owner_phid) {
       $user_phid = $user->getPHID();
@@ -444,7 +445,7 @@ final class ManiphestTask extends ManiphestDAO
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('ownerPHID')
         ->setType('phid?')
-        ->setDescription(pht('Current task owner, if task is assigned.')),
+        ->setDescription(pht('Current task assignee, if task is assigned.')),
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
@@ -494,6 +495,11 @@ final class ManiphestTask extends ManiphestDAO
       $closed_epoch = (int)$closed_epoch;
     }
 
+    $group_by_phid = $this->groupByProjectPHID;
+    if ($group_by_phid === self::ATTACHABLE) {
+      $group_by_phid = null;
+    }
+
     return array(
       'name' => $this->getTitle(),
       'description' => array(
@@ -507,6 +513,7 @@ final class ManiphestTask extends ManiphestDAO
       'subtype' => $this->getSubtype(),
       'closerPHID' => $this->getCloserPHID(),
       'dateClosed' => $closed_epoch,
+      'groupByProjectPHID' => $group_by_phid,
     );
   }
 
@@ -576,6 +583,25 @@ final class ManiphestTask extends ManiphestDAO
 
   public function newFerretEngine() {
     return new ManiphestTaskFerretEngine();
+  }
+
+
+/* -(  PhabricatorInvolveeInterface  )--------------------------------------- */
+
+
+  /**
+   * Get PHIDs of all user accounts involved in a task
+   *
+   * @return array<string> PHIDs of task author, assignee, and subscribers
+   */
+  public function getInvolvedUsers() {
+    $involved_users = $this->getSubscriberPHIDs();
+    $involved_users[] = $this->getAuthorPHID();
+    $owner_phid = $this->getOwnerPHID();
+    if ($owner_phid) {
+      $involved_users[] = $owner_phid;
+    }
+    return $involved_users;
   }
 
 

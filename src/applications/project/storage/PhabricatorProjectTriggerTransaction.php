@@ -12,7 +12,7 @@ final class PhabricatorProjectTriggerTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorProjectTriggerTransactionType';
+    return PhabricatorProjectTriggerTransactionType::class;
   }
 
 }

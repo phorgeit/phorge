@@ -87,10 +87,15 @@ final class ManiphestTaskResultListView extends ManiphestView {
     );
   }
 
-
+  /**
+   * @param array<ManiphestTask> $tasks
+   * @param string $group
+   * @param array<PhabricatorObjectHandle> $handles
+   * @return array<string,array<ManiphestTask>>
+   */
   private function groupTasks(array $tasks, $group, array $handles) {
-    assert_instances_of($tasks, 'ManiphestTask');
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($tasks, ManiphestTask::class);
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
 
     $groups = $this->getTaskGrouping($tasks, $group);
 

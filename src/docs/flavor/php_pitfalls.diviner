@@ -4,7 +4,7 @@
 This document discusses difficult traps and pitfalls in PHP, and how to avoid,
 work around, or at least understand them.
 
-= `array_merge()` in Incredibly Slow When Merging A List of Arrays =
+= `array_merge()` is Incredibly Slow When Merging A List of Arrays =
 
 If you merge a list of arrays like this:
 
@@ -18,7 +18,7 @@ If you merge a list of arrays like this:
 intermediate arrays and copies every element it has previously seen each time
 you iterate.
 
-In a libphutil environment, you can use @{function@arcanist:array_mergev}
+In an Arcanist environment, you can use @{function@arcanist:array_mergev}
 instead.
 
 = `var_export()` Hates Baby Animals =
@@ -193,7 +193,7 @@ keys that are naturally sortable with a function that uses native comparison
 (e.g., `sort()`, `asort()`, `ksort()`, or `natcasesort()`). Sort this array
 instead, and use it to reorder the original array.
 
-In a libphutil environment, you can often do this easily with
+In an Arcanist environment, you can often do this easily with
 @{function@arcanist:isort} or @{function@arcanist:msort}.
 
 = `array_intersect()` and `array_diff()` are Also Slow =
@@ -316,7 +316,7 @@ new $class_name($argv[0], $argv[1], ...);
 ```
 
 ...you'll probably invent a very interesting, very novel solution that is very
-wrong. In a libphutil environment, solve this problem with
+wrong. In an Arcanist environment, solve this problem with
 @{function@arcanist:newv}. Elsewhere, copy `newv()`'s implementation.
 
 = Equality is not Transitive =

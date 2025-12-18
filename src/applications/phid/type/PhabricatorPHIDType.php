@@ -10,7 +10,7 @@ abstract class PhabricatorPHIDType extends Phobject {
         pht(
           '%s class "%s" has an invalid %s property. PHID '.
           'constants must be a four character uppercase string.',
-          __CLASS__,
+          self::class,
           get_class($this),
           'TYPECONST'));
     }
@@ -69,7 +69,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    *
    * @param PhabricatorObjectQuery $query Query being executed.
    * @param list<string> $phids PHIDs to load.
-   * @return list<wild> Corresponding objects.
+   * @return array<object> Corresponding objects.
    */
   public function loadObjects(
     PhabricatorObjectQuery $query,
@@ -125,6 +125,11 @@ abstract class PhabricatorPHIDType extends Phobject {
     array $handles,
     array $objects);
 
+  /**
+   * Check whether a named object is of this PHID type
+   * @param string $name Object name
+   * @return bool True if the named object is of this PHID type
+   */
   public function canLoadNamedObject($name) {
     return false;
   }
@@ -142,7 +147,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * To get PHID types a given user has access to, see
    * @{method:getAllInstalledTypes}.
    *
-   * @return dict<string, PhabricatorPHIDType> Map of type constants to types.
+   * @return array<string, PhabricatorPHIDType> Map of type constants to types.
    */
   final public static function getAllTypes() {
     return self::newClassMapQuery()
@@ -158,7 +163,7 @@ abstract class PhabricatorPHIDType extends Phobject {
 
   private static function newClassMapQuery() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTypeConstant');
   }
 
@@ -167,7 +172,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * Get all PHID types of applications installed for a given viewer.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @return dict<string, PhabricatorPHIDType> Map of constants to installed
+   * @return array<string, PhabricatorPHIDType> Map of constants to installed
    *  types.
    */
   public static function getAllInstalledTypes(PhabricatorUser $viewer) {
@@ -210,8 +215,10 @@ abstract class PhabricatorPHIDType extends Phobject {
   /**
    * Get all PHID types of an application.
    *
-   * @param string $application Class name of an application
-   * @return dict<string, PhabricatorPHIDType> Map of constants of application
+   * @param class-string<PhabricatorApplication> $application Class name of an
+   *   application.
+   * @return array<string, PhabricatorPHIDType> Map of constants of
+   *   application.
    */
   public static function getAllTypesForApplication(
     string $application) {

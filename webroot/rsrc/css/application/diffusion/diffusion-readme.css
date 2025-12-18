@@ -17,7 +17,3 @@
 .device .diffusion-readme-view .phui-document-container {
   padding: 8px 16px;
 }
-
-.diffusion-readme-view .phabricator-remarkup-toc {
-  display: none;
-}

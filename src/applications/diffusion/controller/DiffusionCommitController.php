@@ -898,10 +898,16 @@ final class DiffusionCommitController extends DiffusionController {
     return $file->getRedirectResponse();
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $commit
+   * @param array<PhabricatorRepositoryAuditRequest> $audit_requests
+   */
   private function renderAuditStatusView(
     PhabricatorRepositoryCommit $commit,
     array $audit_requests) {
-    assert_instances_of($audit_requests, 'PhabricatorRepositoryAuditRequest');
+    assert_instances_of(
+      $audit_requests,
+      PhabricatorRepositoryAuditRequest::class);
     $viewer = $this->getViewer();
 
     $view = new PHUIStatusListView();
@@ -974,7 +980,7 @@ final class DiffusionCommitController extends DiffusionController {
       ->setDiffusionRequest($drequest);
 
     $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+      PhabricatorOwnersApplication::class,
       $viewer);
 
     if (!$changesets) {

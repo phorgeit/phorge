@@ -52,7 +52,7 @@ abstract class HarbormasterArtifact extends Phobject {
 
   final public static function getAllArtifactTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getArtifactConstant')
       ->execute();
   }

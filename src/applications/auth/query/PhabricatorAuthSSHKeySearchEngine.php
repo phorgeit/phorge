@@ -73,11 +73,16 @@ final class PhabricatorAuthSSHKeySearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorAuthSSHKey> $keys
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $keys,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($keys, 'PhabricatorAuthSSHKey');
+    assert_instances_of($keys, PhabricatorAuthSSHKey::class);
 
     $viewer = $this->requireViewer();
 

@@ -14,7 +14,7 @@ final class PhabricatorProjectPictureProfileMenuItem
   }
 
   public function getMenuItemTypeIcon() {
-    return 'fa-image';
+    return 'fa-picture-o';
   }
 
   public function canHideMenuItem(

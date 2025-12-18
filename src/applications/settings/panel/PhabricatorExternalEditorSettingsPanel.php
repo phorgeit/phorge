@@ -106,6 +106,7 @@ final class PhabricatorExternalEditorSettingsPanel
       'vscode' => pht('Visual Studio Code'),
       'editor' => pht('Generic Editor'),
       'idea' => pht('IntelliJ IDEA'),
+      'zed' => pht('Zed'),
     );
 
     $default_label = phutil_tag('em', array(), pht('Supported Protocol'));

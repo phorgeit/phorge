@@ -13,8 +13,11 @@ final class HarbormasterUnitPropertyView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<HarbormasterBuildUnitMessage> $messages
+   */
   public function setUnitMessages(array $messages) {
-    assert_instances_of($messages, 'HarbormasterBuildUnitMessage');
+    assert_instances_of($messages, HarbormasterBuildUnitMessage::class);
     $this->unitMessages = $messages;
     return $this;
   }

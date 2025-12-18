@@ -158,8 +158,13 @@ final class PhabricatorExternalAccount
     return array_values($raw);
   }
 
+  /**
+   * @param array<PhabricatorExternalAccountIdentifier> $identifiers
+   */
   public function attachAccountIdentifiers(array $identifiers) {
-    assert_instances_of($identifiers, 'PhabricatorExternalAccountIdentifier');
+    assert_instances_of(
+      $identifiers,
+      PhabricatorExternalAccountIdentifier::class);
     $this->accountIdentifiers = mpull($identifiers, null, 'getIdentifierRaw');
     return $this;
   }

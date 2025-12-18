@@ -43,8 +43,9 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
       }
     }
 
-    if (!PhabricatorUser::validateUsername($user->getUsername())) {
-      $valid = PhabricatorUser::describeValidUsername();
+    $name = $user->getUsername();
+    if (!PhabricatorUser::validateUsername($name)) {
+      $valid = PhabricatorUser::describeValidUsername($name);
       throw new Exception(pht('Username is invalid! %s', $valid));
     }
 
@@ -385,6 +386,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           if ($user_primary->getID() == $email->getID()) {
             $user->setIsEmailVerified(1);
             $user->save();
+            // Update the account status also in the fulltext search index.
+            PhabricatorSearchWorker::queueDocumentForIndexing(
+              $user->getPHID(),
+              array('force' => true));
           }
         }
 

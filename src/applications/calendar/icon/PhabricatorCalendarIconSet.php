@@ -27,7 +27,7 @@ final class PhabricatorCalendarIconSet
       'fa-cutlery' => pht('Meal'),
 
       'fa-paw' => pht('Pet Activity'),
-      'fa-institution' => pht('Official Business'),
+      'fa-university' => pht('Official Business'),
       'fa-bus' => pht('Field Trip'),
       'fa-microphone' => pht('Conference'),
     );

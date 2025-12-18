@@ -5,7 +5,7 @@ final class PhabricatorPhurlURLMailReceiver
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhurlApplication');
+      PhabricatorPhurlApplication::class);
   }
 
   protected function getObjectPattern() {

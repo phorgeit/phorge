@@ -20,7 +20,7 @@ final class PhabricatorPasteTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorPasteTransactionType';
+    return PhabricatorPasteTransactionType::class;
   }
 
   public function getMailTags() {

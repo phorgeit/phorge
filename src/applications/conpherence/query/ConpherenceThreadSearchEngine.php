@@ -91,11 +91,16 @@ final class ConpherenceThreadSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<ConpherenceThread> $conpherences
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $conpherences,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($conpherences, 'ConpherenceThread');
+    assert_instances_of($conpherences, ConpherenceThread::class);
 
     $viewer = $this->requireViewer();
 

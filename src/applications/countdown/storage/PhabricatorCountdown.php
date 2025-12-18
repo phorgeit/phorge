@@ -24,7 +24,7 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
   public static function initializeNewCountdown(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorCountdownApplication'))
+      ->withClasses(array(PhabricatorCountdownApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

@@ -325,11 +325,9 @@ final class ConpherenceUpdateController
 
     $need_transactions = false;
     switch ($action) {
-      case ConpherenceUpdateActions::LOAD:
-        $need_transactions = true;
-        break;
-      case ConpherenceUpdateActions::MESSAGE:
       case ConpherenceUpdateActions::ADD_PERSON:
+      case ConpherenceUpdateActions::LOAD:
+      case ConpherenceUpdateActions::MESSAGE:
         $need_transactions = true;
         break;
       case ConpherenceUpdateActions::REMOVE_PERSON:

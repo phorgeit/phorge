@@ -220,19 +220,21 @@ abstract class PhabricatorApplication
       }
     }
 
-    $command_specs = $this->getMailCommandObjects();
-    if ($command_specs) {
-      foreach ($command_specs as $key => $spec) {
-        $object = $spec['object'];
+    if (PhabricatorEnv::getEnvConfig('metamta.reply-handler-domain')) {
+      $command_specs = $this->getMailCommandObjects();
+      if ($command_specs) {
+        foreach ($command_specs as $key => $spec) {
+          $object = $spec['object'];
 
-        $class = get_class($this);
-        $href = '/applications/mailcommands/'.$class.'/'.$key.'/';
-        $item = id(new PhabricatorActionView())
-          ->setName($spec['name'])
-          ->setHref($href)
-          ->addSigil('help-item')
-          ->setOpenInNewWindow(true);
-        $items[] = $item;
+          $class = get_class($this);
+          $href = '/applications/mailcommands/'.$class.'/'.$key.'/';
+          $item = id(new PhabricatorActionView())
+            ->setName($spec['name'])
+            ->setHref($href)
+            ->addSigil('help-item')
+            ->setOpenInNewWindow(true);
+          $items[] = $item;
+        }
       }
     }
 
@@ -369,7 +371,7 @@ abstract class PhabricatorApplication
 
     if ($applications === null) {
       $apps = id(new PhutilClassMapQuery())
-        ->setAncestorClass(__CLASS__)
+        ->setAncestorClass(self::class)
         ->setSortMethod('getApplicationOrder')
         ->execute();
 
@@ -409,7 +411,7 @@ abstract class PhabricatorApplication
    * To check if an application is installed //and// available to a particular
    * viewer, user @{method:isClassInstalledForViewer}.
    *
-   * @param string $class Application class name.
+   * @param class-string<PhabricatorApplication> $class Application class name.
    * @return bool   True if the class is installed.
    * @task meta
    */
@@ -425,7 +427,7 @@ abstract class PhabricatorApplication
    * To check if an application is installed at all, use
    * @{method:isClassInstalled}.
    *
-   * @param string $class Application class name.
+   * @param class-string<PhabricatorApplication> $class Application class name.
    * @param PhabricatorUser $viewer Viewing user.
    * @return bool True if the class is installed for the viewer.
    * @task meta
@@ -468,6 +470,27 @@ abstract class PhabricatorApplication
     return $result;
   }
 
+  /**
+   * Determine if an application is installed at all, and if a viewer is given
+   * if the application is available to a viewer, by application class name.
+   *
+   * To check if an application is installed at all, use
+   * @{method:isClassInstalled}.
+   *
+   * @param class-string<PhabricatorApplication> $class Application class name.
+   * @param PhabricatorUser|null $viewer Viewing user.
+   * @return bool True if the class is installed or if the installed class is
+   * available to the viewer when a viewer is given.
+   * @task meta
+   */
+  final public static function isClassInstalledForViewerIfAny(
+    $class,
+    ?PhabricatorUser $viewer) {
+
+    return $viewer
+      ? self::isClassInstalledForViewer($class, $viewer)
+      : self::isClassInstalled($class);
+  }
 
 /* -(  PhabricatorPolicyInterface  )----------------------------------------- */
 
@@ -617,6 +640,10 @@ abstract class PhabricatorApplication
     return $map;
   }
 
+  /**
+   * @return array<string|null> Type constants of supported document types,
+   *   e.g. 'DREV' for Differential Revisions or 'TASK' for Maniphest Tasks
+   */
   public function getApplicationSearchDocumentTypes() {
     return array();
   }

@@ -49,7 +49,7 @@ final class PhabricatorSyntaxHighlightingConfigOptions
             'highlighting tool) to provide support for many more languages.'.
             "\n\n".
             'To install Pygments, visit '.
-            '[[ http://pygments.org | pygments.org ]] and follow the '.
+            '[[ https://pygments.org/ | pygments.org ]] and follow the '.
             'download and install instructions.'.
             "\n\n".
             'Once Pygments is installed, enable this option '.

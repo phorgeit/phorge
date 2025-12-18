@@ -76,6 +76,14 @@ final class PhabricatorConpherenceApplication extends PhabricatorApplication {
     );
   }
 
+  protected function getCustomCapabilities() {
+    return array(
+      ConpherenceCreateRoomCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_USER,
+      ),
+    );
+  }
+
   public function getMailCommandObjects() {
 
     // TODO: Conpherence threads don't currently support any commands directly,

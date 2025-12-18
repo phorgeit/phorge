@@ -19,6 +19,10 @@ final class PhabricatorFeedConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorFeedApplication::class;
+  }
+
   public function getOptions() {
     $hooks_help = $this->deformat(pht(<<<EODOC
 IMPORTANT: Feed hooks are deprecated and have been replaced by Webhooks.

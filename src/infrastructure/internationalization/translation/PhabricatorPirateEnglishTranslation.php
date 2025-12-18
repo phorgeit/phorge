@@ -13,7 +13,7 @@ final class PhabricatorPirateEnglishTranslation
       'Review Code' => 'Inspect Riggins',
       'Tasks and Bugs' => 'Bilge rats',
       'Cancel' => 'Belay',
-      'Advanced Search' => 'Scour Hard',
+      'Global Search' => 'Scour Wide',
       'No search results.' => 'We be finding nothin.',
       'Send' => 'Aye!',
       'Partial' => 'Parrtial',
@@ -60,6 +60,17 @@ final class PhabricatorPirateEnglishTranslation
         'Cap\'n %s be stakin\' a claim on this here task.',
       '%s created this task.' =>
         'Cap\'n %s be the one creatin\' this here task.',
+      '%s subscribed.' => '%s started spying.',
+      '%s unsubscribed.' => '%s stopped spying.',
+      '%s removed %d subscriber(s): %s.' => array(
+        array(
+          '%s removed a spy: %3$s',
+          '%s removed spies: %3$s',
+        ),
+      ),
+      '%s edited subscriber(s), added %d: %s; removed %d: %s.' =>
+        '%s edited spies, added: %3$s; removed: %5$s',
+      '%s added %d subscriber(s): %s.' => '%s tattled to %3$s.',
     );
   }
 }

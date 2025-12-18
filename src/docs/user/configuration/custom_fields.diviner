@@ -157,9 +157,6 @@ If you want custom fields to have advanced behaviors (sophisticated rendering,
 advanced validation, complicated controls, interaction with other systems, etc),
 you can write a custom field as an extension and add it to Phorge.
 
-NOTE: This API is somewhat new and fairly large. You should expect that there
-will be occasional changes to the API requiring minor updates in your code.
-
 To do this, extend the appropriate `CustomField` class for the application you
 want to add a field to:
 

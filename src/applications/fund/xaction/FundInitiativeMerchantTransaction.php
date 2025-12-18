@@ -86,7 +86,7 @@ final class FundInitiativeMerchantTransaction
   }
 
   public function getIcon() {
-    return 'fa-bank';
+    return 'fa-university';
   }
 
 

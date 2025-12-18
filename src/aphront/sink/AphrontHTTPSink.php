@@ -33,7 +33,7 @@ abstract class AphrontHTTPSink extends Phobject {
    * @return void
    */
   final public function writeHTTPStatus($code, $message = '') {
-    if (!preg_match('/^\d{3}$/', $code)) {
+    if (!preg_match('/^\d{3}$/', (string)$code)) {
       throw new Exception(pht("Malformed HTTP status code '%s'!", $code));
     }
 
@@ -45,7 +45,7 @@ abstract class AphrontHTTPSink extends Phobject {
   /**
    * Write HTTP headers to the output.
    *
-   * @param list<pair> $headers List of <name, value> pairs.
+   * @param list<array> $headers List of <name, value> pairs.
    * @return void
    */
   final public function writeHeaders(array $headers) {

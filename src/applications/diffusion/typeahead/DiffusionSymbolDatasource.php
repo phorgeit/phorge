@@ -27,7 +27,7 @@ final class DiffusionSymbolDatasource
 
     $results = array();
 
-    if (strlen($raw_query)) {
+    if (phutil_nonempty_string($raw_query)) {
       $symbols = id(new DiffusionSymbolQuery())
         ->setViewer($viewer)
         ->setNamePrefix($raw_query)

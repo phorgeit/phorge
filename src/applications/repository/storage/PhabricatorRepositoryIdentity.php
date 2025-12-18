@@ -143,7 +143,7 @@ final class PhabricatorRepositoryIdentity
 
   public function getPolicy($capability) {
     $app = PhabricatorApplication::getByClass(
-      'PhabricatorDiffusionApplication');
+      PhabricatorDiffusionApplication::class);
     return $app->getPolicy(
       PhabricatorRepositoryIdentityEditViewCapability::CAPABILITY);
   }

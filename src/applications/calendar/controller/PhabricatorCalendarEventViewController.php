@@ -166,6 +166,7 @@ final class PhabricatorCalendarEventViewController
       }
 
       $availability_select->setDropdownMenu($dropdown);
+      $availability_select->setDisabled($event->isImportedEvent());
       $header->addActionLink($availability_select);
     }
 
@@ -629,6 +630,7 @@ final class PhabricatorCalendarEventViewController
       ->setIcon('fa-times grey')
       ->setHref($this->getApplicationURI("/event/decline/{$id}/"))
       ->setWorkflow(true)
+      ->setDisabled($event->isImportedEvent())
       ->setText(pht('Decline'));
 
     $accept_button = id(new PHUIButtonView())
@@ -636,6 +638,7 @@ final class PhabricatorCalendarEventViewController
       ->setIcon('fa-check green')
       ->setHref($this->getApplicationURI("/event/accept/{$id}/"))
       ->setWorkflow(true)
+      ->setDisabled($event->isImportedEvent())
       ->setText(pht('Accept'));
 
     return array($decline_button, $accept_button);

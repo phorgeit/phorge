@@ -216,7 +216,7 @@ EOFILE;
    *
    * @param string $name Resource name.
    * @param string $data Resource data.
-   * @return pair<string|null, list<string>|null> The `@provides` symbol and
+   * @return array<string|null, list<string>|null> The `@provides` symbol and
    *    the list of `@requires` symbols. If the resource is not part of the
    *    dependency graph, both are null.
    */

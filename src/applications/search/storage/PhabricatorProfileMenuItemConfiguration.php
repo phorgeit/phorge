@@ -198,6 +198,9 @@ final class PhabricatorProfileMenuItemConfiguration
     return ($this->getVisibility() === self::VISIBILITY_DEFAULT);
   }
 
+  /**
+   * @return int|string
+   */
   public function getItemIdentifier() {
     $id = $this->getID();
 
@@ -208,6 +211,9 @@ final class PhabricatorProfileMenuItemConfiguration
     return $this->getBuiltinKey();
   }
 
+  /**
+   * @return string
+   */
   public function getDefaultMenuItemKey() {
     if ($this->getBuiltinKey()) {
       return $this->getBuiltinKey();

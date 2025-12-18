@@ -1,10 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-// NOTE: This is substantially the same as the libphutil/ "launch_daemon.php"
-// script, except it loads the Phabricator environment and adds some Phabricator
-// specific flags.
-
 if (function_exists('pcntl_async_signals')) {
   pcntl_async_signals(true);
 } else {

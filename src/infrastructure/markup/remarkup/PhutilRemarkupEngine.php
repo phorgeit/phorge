@@ -50,8 +50,11 @@ final class PhutilRemarkupEngine extends PhutilMarkupEngine {
     return $this->setConfig('runtime.quote.depth', $depth);
   }
 
+  /**
+   * @param array<PhutilRemarkupBlockRule> $rules
+   */
   public function setBlockRules(array $rules) {
-    assert_instances_of($rules, 'PhutilRemarkupBlockRule');
+    assert_instances_of($rules, PhutilRemarkupBlockRule::class);
 
     $rules = msortv($rules, 'getPriorityVector');
 

@@ -5,8 +5,11 @@ final class PhabricatorCalendarImportLogView extends AphrontView {
   private $logs = array();
   private $showImportSources = false;
 
+  /**
+   * @param array<PhabricatorCalendarImportLog> $logs
+   */
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorCalendarImportLog');
+    assert_instances_of($logs, PhabricatorCalendarImportLog::class);
     $this->logs = $logs;
     return $this;
   }

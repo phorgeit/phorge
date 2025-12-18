@@ -48,7 +48,7 @@ final class PhabricatorSearchManagementNgramsWorkflow
           pht('Specify a numeric threshold between 0 and 1.'));
       }
 
-      $threshold = (double)$threshold;
+      $threshold = (float)$threshold;
       if ($threshold <= 0 || $threshold >= 1) {
         throw new PhutilArgumentUsageException(
           pht('Threshold must be greater than 0.0 and less than 1.0.'));
@@ -56,7 +56,7 @@ final class PhabricatorSearchManagementNgramsWorkflow
     }
 
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass(PhabricatorFerretInterface::class)
       ->execute();
 
     foreach ($all_objects as $object) {

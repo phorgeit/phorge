@@ -39,11 +39,6 @@
   font-weight: normal;
 }
 
-.phui-hovercard-tags {
-  float: right;
-  white-space: normal;
-}
-
 .phui-hovercard-body {
   padding: 12px;
   color: {$darkgreytext};

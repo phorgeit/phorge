@@ -57,7 +57,7 @@ $ echo '{
       "value": "Poetry"
     }
   ]
-}' | arc call-conduit diffusion.repository.edit
+}' | arc call-conduit diffusion.repository.edit --
 ```
 
 If things work, you should get a result that looks something like this:
@@ -118,7 +118,7 @@ $ echo '{
       "value": "observe"
     }
   ]
-}' | arc call-conduit diffusion.uri.edit
+}' | arc call-conduit diffusion.uri.edit --
 ```
 
 You should get a response that looks something like this:

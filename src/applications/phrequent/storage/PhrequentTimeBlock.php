@@ -4,8 +4,11 @@ final class PhrequentTimeBlock extends Phobject {
 
   private $events;
 
+  /**
+   * @param array<PhrequentUserTime> $events
+   */
   public function __construct(array $events) {
-    assert_instances_of($events, 'PhrequentUserTime');
+    assert_instances_of($events, PhrequentUserTime::class);
     $this->events = $events;
   }
 
@@ -19,6 +22,9 @@ final class PhrequentTimeBlock extends Phobject {
     return $slices->getDuration($now);
   }
 
+  /**
+   * @return array<PhrequentTimeSlices>
+   */
   public function getObjectTimeRanges() {
     $ranges = array();
 
@@ -69,7 +75,7 @@ final class PhrequentTimeBlock extends Phobject {
       // Now, figure out how much time was actually spent working on the
       // object.
 
-      usort($timeline, array(__CLASS__, 'sortTimeline'));
+      usort($timeline, array(self::class, 'sortTimeline'));
 
       $stack = array();
       $depth = null;
@@ -254,12 +260,12 @@ final class PhrequentTimeBlock extends Phobject {
    * This is used to avoid double-counting time on objects which had timers
    * started multiple times.
    *
-   * @param list<pair<int, int>> $ranges List of possibly overlapping time
-   *   ranges.
-   * @return list<pair<int, int>> Nonoverlapping time ranges.
+   * @param list<array<int, int>> $ranges List of possibly overlapping time
+   *   range pairs.
+   * @return list<array<int, int>> Nonoverlapping time range pairs.
    */
   public static function mergeTimeRanges(array $ranges) {
-    $ranges = isort($ranges, 0);
+    $ranges = isort($ranges, '0');
 
     $result = array();
 

@@ -51,10 +51,10 @@ Reviewing Outstanding Adjustments
 There are two ways to review outstanding adjustments: you can use the web UI,
 or you can use the CLI.
 
-To access the web UI, navigate to {nav Config > Database Status} or
-{nav Config > Database Issues}. The //Database Status// panel provides a general
-overview of all schemata. The //Database Issues// panel shows outstanding
-issues.
+To access the web UI, navigate to {nav Config > Services > Database Status} or
+{nav Config > Services > Schemata Issues}. The //Database Status// panel
+provides a general overview of all schemata. The //Schemata Issues// panel
+shows outstanding issues.
 
 These interfaces report //Errors//, which are serious issues that can not be
 resolved through adjustment, and //Warnings//, which are minor issues that the
@@ -86,33 +86,23 @@ automatically after you run the `upgrade` workflow.
 History and Rationale
 =====================
 
-The primary motivation for the adjustment workflow is MySQL's handling of
-unicode character sets. Before MySQL 5.5, MySQL supports a character set called
-`utf8`. However, this character set can not store 4-byte unicode characters
-(including emoji). Inserting 4-byte characters into a `utf8` column truncates
-the data.
+The primary motivation for the adjustment workflow was MySQL's handling of
+unicode character sets.
+MySQL 5.5.3 (released March 2010) introduced a new `utf8mb4` character set.
+This character set allows to safely store 4-byte unicode characters.
 
-With MySQL 5.5, a new `utf8mb4` character set was introduced. This character
-set can safely store 4-byte unicode characters.
+The adjustment workflow allows us to primarily use `utf8mb4` character sets.
 
-The adjustment workflow allows us to alter the schema to primarily use
-`binary` character sets on older MySQL, and primarily use `utf8mb4` character
-sets on newer MySQL. The net effect is that Phorge works consistently and
-can store 4-byte unicode characters regardless of the MySQL version. Under
-newer MySQL, we can also take advantage of the better collation rules the
-`utf8mb4` character set offers.
-
-The adjustment workflow was introduced in November 2014. If your install
-predates its introduction, your first adjustment may take a long time (we must
-convert all of the data out of `utf8` and into the appropriate character set).
 If your install was set up after November 2014, adjustments should generally
 be very minor and complete quickly, unless you perform a major MySQL update and
 make new character sets available.
 
-If you plan to update MySQL from an older version to 5.5 or newer, it is
-advisable to update first, then run the adjustment workflow. If you adjust
-first, you'll need to adjust again after updating, so you'll end up spending
-twice as much time performing schemata adjustments.
+Only if your Phorge install predates November 2014 and you have not updated
+ever since, your first adjustment may take a long time (we must convert all of
+the data out of the `utf8` character set).
+
+If you plan to update MySQL from an old version (5.5.3 or older) to a recent
+version, it is advisable to update first, then run the adjustment workflow.
 
 
 Troubleshooting

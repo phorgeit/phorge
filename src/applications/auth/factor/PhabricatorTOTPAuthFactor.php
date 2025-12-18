@@ -403,7 +403,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
             ((ord($hash[$offset + 3])       )      );
 
     $code = ($code % 1000000);
-    $code = str_pad($code, 6, '0', STR_PAD_LEFT);
+    $code = str_pad((string)$code, 6, '0', STR_PAD_LEFT);
 
     return $code;
   }

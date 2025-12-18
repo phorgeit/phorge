@@ -12,10 +12,6 @@ final class PhrequentPushConduitAPIMethod extends PhrequentConduitAPIMethod {
       'pushing it on the tracking stack.');
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   protected function defineParamTypes() {
     return array(
       'objectPHID' => 'required phid',

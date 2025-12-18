@@ -36,6 +36,10 @@ final class PHUICrumbView extends AphrontView {
     return $this->alwaysVisible;
   }
 
+  /**
+   * @param bool $workflow
+   * @return $this
+   */
   public function setWorkflow($workflow) {
     $this->workflow = $workflow;
     return $this;

@@ -196,7 +196,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * @param string                      $field The field to retrieve.
    * @param string                      $metadata_key The engine metadata field
    *                                    to retrieve.
-   * @param wild                        $default (optional) Default value.
+   * @param mixed                       $default (optional) Default value.
    * @task markup
    */
   public function getEngineMetadata(
@@ -717,13 +717,13 @@ final class PhabricatorMarkupEngine extends Phobject {
 
   private static function loadCustomInlineRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorRemarkupCustomInlineRule')
+      ->setAncestorClass(PhabricatorRemarkupCustomInlineRule::class)
       ->execute();
   }
 
   private static function loadCustomBlockRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorRemarkupCustomBlockRule')
+      ->setAncestorClass(PhabricatorRemarkupCustomBlockRule::class)
       ->execute();
   }
 

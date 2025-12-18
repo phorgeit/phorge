@@ -18,8 +18,8 @@ SQLite.
 PHP Drivers
 ===========
 
-Phorge supports [[ https://www.php.net/book.mysql | MySQL ]] and
-[[ https://www.php.net/book.mysqli | MySQLi ]] PHP extensions.
+Phorge supports the [[ https://www.php.net/book.mysqli | MySQLi ]] PHP
+extension.
 
 Databases
 =========
@@ -203,6 +203,22 @@ set names:
 
 
 **Test your patch**. Run `bin/storage upgrade` to test your patch.
+
+Advanced Testing
+================
+
+If you are developing a database patch and you want to apply your patch more
+than once, remember that the command `bin/storage upgrade` is smart enough not
+to execute patches twice, but it does not allow a rollback, and it does
+not allow to apply a specific patch by name anyway.
+You may want to know that successfully applied patches are stored in this
+database table:
+
+    {$NAMESPACE}_meta_data.patch_status
+
+If you need to test a patch more than once, you can remove the line which lists
+your patch from this database table, and test your patch again by running
+`bin/storage upgrade`.
 
 See Also
 ========

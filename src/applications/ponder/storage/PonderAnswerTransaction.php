@@ -20,7 +20,7 @@ final class PonderAnswerTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PonderAnswerTransactionType';
+    return PonderAnswerTransactionType::class;
   }
 
   public function getMailTags() {

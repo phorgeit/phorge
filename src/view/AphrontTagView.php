@@ -14,11 +14,18 @@ abstract class AphrontTagView extends AphrontView {
   private $mustCapture;
   private $workflow;
 
+  /**
+   * @param bool $workflow
+   * @return $this
+   */
   public function setWorkflow($workflow) {
     $this->workflow = $workflow;
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   public function getWorkflow() {
     return $this->workflow;
   }

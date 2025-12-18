@@ -239,8 +239,11 @@ final class PhabricatorMetaMTAMail
       ->execute();
   }
 
+  /**
+   * @param array<PhabricatorMailAttachment> $attachments
+   */
   public function setAttachments(array $attachments) {
-    assert_instances_of($attachments, 'PhabricatorMailAttachment');
+    assert_instances_of($attachments, PhabricatorMailAttachment::class);
     $this->setParam('attachments', mpull($attachments, 'toDictionary'));
     return $this;
   }
@@ -844,9 +847,12 @@ final class PhabricatorMetaMTAMail
     return $this->expandRecipients($actor_phids);
   }
 
+  /**
+   * @return array<string> PHIDs and/or empty strings
+   */
   private function getAllActorPHIDs() {
     return array_merge(
-      array($this->getParam('from')),
+      array($this->getParam('from', '')),
       $this->getToPHIDs(),
       $this->getCcPHIDs());
   }
@@ -880,8 +886,11 @@ final class PhabricatorMetaMTAMail
     return array_keys($results);
   }
 
+  /**
+   * @param array<PhabricatorMetaMTAActor> $actors
+   */
   private function filterDeliverableActors(array $actors) {
-    assert_instances_of($actors, 'PhabricatorMetaMTAActor');
+    assert_instances_of($actors, PhabricatorMetaMTAActor::class);
     $deliverable_actors = array();
     foreach ($actors as $phid => $actor) {
       if ($actor->isDeliverable()) {
@@ -1088,11 +1097,14 @@ final class PhabricatorMetaMTAMail
     return $this->setParam('headers.unfiltered', $headers);
   }
 
+  /**
+   * @param array<PhabricatorMailHeader> $headers
+   */
   private function flattenHeaders(array $headers) {
-    assert_instances_of($headers, 'PhabricatorMailHeader');
+    assert_instances_of($headers, PhabricatorMailHeader::class);
 
     $list = array();
-    foreach ($list as $header) {
+    foreach ($headers as $header) {
       $list[] = array(
         $header->getName(),
         $header->getValue(),

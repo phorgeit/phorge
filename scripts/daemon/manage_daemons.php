@@ -10,14 +10,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage daemons'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **phd** __command__ [__options__]
-    Manage Phabricator daemons.
+    Manage daemons.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorDaemonManagementWorkflow')
+  ->setAncestorClass(PhabricatorDaemonManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

@@ -45,8 +45,12 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
     return $actors;
   }
 
+  /**
+   * @param array<PhabricatorMetaMTAActor> $actors
+   * @param array<string> $phids
+   */
   private function loadUserActors(array $actors, array $phids) {
-    assert_instances_of($actors, 'PhabricatorMetaMTAActor');
+    assert_instances_of($actors, PhabricatorMetaMTAActor::class);
 
     $emails = id(new PhabricatorUserEmail())->loadAllWhere(
       'userPHID IN (%Ls) AND isPrimary = 1',

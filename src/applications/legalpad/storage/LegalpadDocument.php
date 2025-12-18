@@ -33,7 +33,7 @@ final class LegalpadDocument extends LegalpadDAO
   public static function initializeNewDocument(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorLegalpadApplication'))
+      ->withClasses(array(PhabricatorLegalpadApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(LegalpadDefaultViewCapability::CAPABILITY);

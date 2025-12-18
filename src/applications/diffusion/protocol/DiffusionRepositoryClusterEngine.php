@@ -585,7 +585,7 @@ final class DiffusionRepositoryClusterEngine extends Phobject {
         pht(
           'Failed to reconnect to master database and release held write '.
           'lock ("%s") on device "%s" for repository "%s" after trying '.
-          'for %s seconds(s). This repository will be frozen.',
+          'for %s seconds. This repository will be frozen.',
           $this->clusterWriteOwner,
           $device->getName(),
           $repository->getDisplayName(),

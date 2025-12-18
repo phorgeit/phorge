@@ -198,6 +198,39 @@ final class PhabricatorProjectEditEngine
       $milestone_phid = null;
     }
 
+    //
+    // Load the colors available for selection.
+    //
+    // Goals:
+    //  1. Allow to pick the colors available from the option
+    //    'projects.colors' ('getColorMap').
+    //  2. Allow to show what is the **current** color.
+    //    2.1 If the current value is 'orange' but if omit
+    //        any fruit from 'projects.colors',
+    //        then show the truth: show 'Orange' (not 'Red').
+    //        So, you can easily inspect this legacy color and replace it.
+    //    2.2 If the current value is an internal color, like 'disabled',
+    //        which is an hardcoded color used for archived projects,
+    //        then show the truth: show 'Disabled' (not 'Red').
+    //    3.3. If the current color is anything else esoteric which is still
+    //        supported for rendering (available in 'getShadeMap'),
+    //        show it, and do not fallback on the first color.
+    //        In short, do not fallback on 'Red'.
+    //
+    // Elsewhere, if the current value is not a color, and cannot be
+    // rendered (not in 'getShadeMap') then don't propose it.
+    // So the UX forces you to select a "clean" one on the next edit.
+    //
+    // https://we.phorge.it/T16236
+    $colors_for_select = PhabricatorProjectIconSet::getColorMap();
+    $color_current = $object->getColor();
+    if ($color_current) {
+      $colors_supported = PHUITagView::getShadeMapCached();
+      if (isset($colors_supported[$color_current])) {
+        $colors_for_select[$color_current] = $colors_supported[$color_current];
+      }
+    }
+
     $fields = array(
       id(new PhabricatorHandlesEditField())
         ->setKey('parent')
@@ -263,10 +296,21 @@ final class PhabricatorProjectEditEngine
         ->setLabel(pht('Color'))
         ->setTransactionType(
             PhabricatorProjectColorTransaction::TRANSACTIONTYPE)
-        ->setOptions(PhabricatorProjectIconSet::getColorMap())
+        ->setOptions($colors_for_select)
         ->setDescription(pht('Project tag color.'))
         ->setConduitDescription(pht('Change the project tag color.'))
         ->setConduitTypeDescription(pht('New project tag color.'))
+        // When a project is archived, whatever color is set in the
+        // storage does not really matter, since the 'getColor()' has
+        // always been hardcoded to return a specific different color
+        // (the 'disabled' color).
+        // So, for archived projects, do not allow to change color.
+        // https://we.phorge.it/T15236
+        //
+        // Incidentally, this means that recently archived projects will
+        // keep their original color in their storage, so, when you
+        // re-activate a project, its original color is successfully shown.
+        ->setIsLocked($object->isArchived())
         ->setValue($object->getColor()),
       id(new PhabricatorStringListEditField())
         ->setKey('slugs')

@@ -32,8 +32,8 @@ abstract class PhabricatorFeedStory
    * construct appropriate @{class:PhabricatorFeedStory} wrappers for each
    * data row.
    *
-   * @param list<dict>  $rows List of @{class:PhabricatorFeedStoryData} rows
-   *                    from the database.
+   * @param array<int,array<string,string>>  $rows List of
+   *    @{class:PhabricatorFeedStoryData} rows from the database.
    * @param PhabricatorUser $viewer
    * @return list<PhabricatorFeedStory>   List of @{class:PhabricatorFeedStory}
    *                                      objects.
@@ -49,7 +49,7 @@ abstract class PhabricatorFeedStory
       try {
         $ok =
           class_exists($class) &&
-          is_subclass_of($class, __CLASS__);
+          is_subclass_of($class, self::class);
       } catch (PhutilMissingSymbolException $ex) {
         $ok = false;
       }
@@ -288,8 +288,11 @@ abstract class PhabricatorFeedStory
     return $this->hasViewed;
   }
 
+  /**
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   final public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }

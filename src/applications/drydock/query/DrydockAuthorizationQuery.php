@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends DrydockQuery<DrydockAuthorization>
+ */
 final class DrydockAuthorizationQuery extends DrydockQuery {
 
   private $ids;

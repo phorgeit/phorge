@@ -19,10 +19,16 @@ final class DiffusionCommitVerifyTransaction
     return DiffusionCommitEditEngine::ACTIONGROUP_COMMIT;
   }
 
+  /**
+   * @return string Transaction icon
+   */
   public function getIcon() {
     return 'fa-refresh';
   }
 
+  /**
+   * @return string Transaction color
+   */
   public function getColor() {
     return 'indigo';
   }

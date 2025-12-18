@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorRepositoryCommitHint>
+ */
 final class DiffusionCommitHintQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
@@ -25,8 +28,11 @@ final class DiffusionCommitHintQuery
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   public function withCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
 
     $repository_phids = array();
     foreach ($commits as $commit) {

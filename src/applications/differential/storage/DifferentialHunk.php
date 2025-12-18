@@ -225,7 +225,7 @@ final class DifferentialHunk
       }
 
       if ($line[0] == '\\') {
-        if ($use_next_newline) {
+        if ($use_next_newline && $results) {
           $results[last_key($results)] = rtrim(end($results), "\n");
         }
       } else if (empty($include_map[$line[0]])) {
@@ -361,7 +361,6 @@ final class DifferentialHunk
       switch ($type) {
         case self::DATATYPE_TEXT:
           // In this storage type, the changes are stored on the object.
-          $data = $data;
           break;
         case self::DATATYPE_FILE:
           $data = $this->loadFileData();
@@ -375,7 +374,6 @@ final class DifferentialHunk
       switch ($format) {
         case self::DATAFORMAT_RAW:
           // In this format, the changes are stored as-is.
-          $data = $data;
           break;
         case self::DATAFORMAT_DEFLATED:
           $data = PhabricatorCaches::inflateData($data);

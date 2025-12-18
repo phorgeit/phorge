@@ -17,7 +17,7 @@ abstract class PhabricatorAuthTemporaryTokenType
 
   final public static function getAllTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTokenTypeConstant')
       ->execute();
   }

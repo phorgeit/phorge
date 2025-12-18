@@ -8,14 +8,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage authentication'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **auth** __command__ [__options__]
-    Manage Phabricator authentication configuration.
+    Manage authentication configuration.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorAuthManagementWorkflow')
+  ->setAncestorClass(PhabricatorAuthManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

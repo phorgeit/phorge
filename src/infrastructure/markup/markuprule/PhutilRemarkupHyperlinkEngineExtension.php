@@ -11,7 +11,7 @@ abstract class PhutilRemarkupHyperlinkEngineExtension
 
   final public static function getAllLinkEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getHyperlinkEngineKey')
       ->execute();
   }

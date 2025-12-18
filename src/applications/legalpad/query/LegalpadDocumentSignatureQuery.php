@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<LegalpadDocumentSignature>
+ */
 final class LegalpadDocumentSignatureQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

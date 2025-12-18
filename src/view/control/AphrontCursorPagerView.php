@@ -70,6 +70,11 @@ final class AphrontCursorPagerView extends AphrontView {
     return $this->prevPageID;
   }
 
+  /**
+   * @param T[] $results
+   * @return T[]
+   * @template T
+   */
   public function sliceResults(array $results) {
     if (count($results) > $this->getPageSize()) {
       $page_size = (int)$this->getPageSize();

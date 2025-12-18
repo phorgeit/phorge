@@ -43,18 +43,25 @@ final class PhrictionDocumentSearchEngine
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
+        ->setDescription(pht('Search for objects with given statuses.'))
         ->setOptions(PhrictionDocumentStatus::getStatusMap()),
       id(new PhabricatorSearchStringListField())
         ->setKey('paths')
         ->setIsHidden(true)
+        ->setDescription(
+        pht('Find documents with specified paths (slugs).'))
         ->setLabel(pht('Paths')),
       id(new PhabricatorSearchStringListField())
         ->setKey('parentPaths')
         ->setIsHidden(true)
+        ->setDescription(
+        pht('Find documents beneath specified parent paths.'))
         ->setLabel(pht('Parent Paths')),
       id(new PhabricatorSearchStringListField())
         ->setKey('ancestorPaths')
         ->setIsHidden(true)
+        ->setDescription(
+        pht('Find documents beneath specified ancestor paths.'))
         ->setLabel(pht('Ancestor Paths')),
     );
   }
@@ -104,12 +111,16 @@ final class PhrictionDocumentSearchEngine
     return $phids;
   }
 
-
+  /**
+   * @param array<PhrictionDocument> $documents
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $documents,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($documents, 'PhrictionDocument');
+    assert_instances_of($documents, PhrictionDocument::class);
 
     $viewer = $this->requireViewer();
 

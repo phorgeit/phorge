@@ -3,7 +3,8 @@
     "(^externals/)",
     "(^webroot/rsrc/externals/(?!javelin/))",
     "(/__tests__/data/)",
-    "(^support/aphlict/server/package-lock.json)"
+    "(^support/aphlict/server/package-lock.json)",
+    "(^resources/phd/phorge-phd@.service)"
   ],
   "linters": {
     "chmod": {
@@ -81,7 +82,7 @@
       "type": "xhpast",
       "include": "(\\.php$)",
       "standard": "phutil.xhpast",
-      "xhpast.php-version": "5.5"
+      "xhpast.php-version": "7.2.25"
     }
   }
 }

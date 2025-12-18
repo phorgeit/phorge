@@ -40,7 +40,7 @@ abstract class PhabricatorDashboardPanelType extends Phobject {
 
   public static function getAllPanelTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPanelTypeKey')
       ->execute();
   }

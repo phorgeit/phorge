@@ -23,7 +23,7 @@ abstract class PhabricatorApplicationTransactionQuery
     $target_class = get_class($xaction);
 
     $queries = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
     foreach ($queries as $query) {
       $query_xaction = $query->getTemplateApplicationTransaction();

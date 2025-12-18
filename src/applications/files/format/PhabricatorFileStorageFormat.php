@@ -59,7 +59,7 @@ abstract class PhabricatorFileStorageFormat
 
   final public static function getAllFormats() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getStorageFormatKey')
       ->execute();
   }

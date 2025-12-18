@@ -68,8 +68,13 @@ final class PhabricatorPeopleApplication extends PhabricatorApplication {
           'PhabricatorPeopleProfileEditController',
         'badges/(?P<id>[1-9]\d*)/' =>
           'PhabricatorPeopleProfileBadgesController',
+        // Legacy route only kept for backward compatibility after T15998
         'tasks/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileTasksController',
+          'PhabricatorPeopleProfileTasksAssignedController',
+        'tasks/assigned/(?P<id>[1-9]\d*)/' =>
+          'PhabricatorPeopleProfileTasksAssignedController',
+        'tasks/authored/(?P<id>[1-9]\d*)/' =>
+          'PhabricatorPeopleProfileTasksAuthoredController',
         'commits/(?P<id>[1-9]\d*)/' =>
           'PhabricatorPeopleProfileCommitsController',
         'revisions/(?P<id>[1-9]\d*)/' =>

@@ -33,7 +33,7 @@ final class PhabricatorApplicationTransactionTransactionPHIDType
     static $queries;
     if ($queries === null) {
       $objects = id(new PhutilClassMapQuery())
-        ->setAncestorClass('PhabricatorApplicationTransactionQuery')
+        ->setAncestorClass(PhabricatorApplicationTransactionQuery::class)
         ->execute();
 
       $queries = array();

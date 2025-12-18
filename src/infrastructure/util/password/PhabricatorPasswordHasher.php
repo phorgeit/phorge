@@ -213,7 +213,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    */
   public static function getAllHashers() {
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getHashName')
       ->execute();
 

@@ -19,12 +19,17 @@ final class PhabricatorFilesConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorFilesApplication::class;
+  }
+
   public function getOptions() {
     $viewable_default = array(
       'image/jpeg'  => 'image/jpeg',
       'image/jpg'   => 'image/jpg',
       'image/png'   => 'image/png',
       'image/gif'   => 'image/gif',
+      'image/webp'  => 'image/webp',
       'text/plain'  => 'text/plain; charset=utf-8',
       'text/x-diff' => 'text/plain; charset=utf-8',
 
@@ -54,6 +59,7 @@ final class PhabricatorFilesConfigOptions
       'image/jpg'                 => true,
       'image/png'                 => true,
       'image/gif'                 => true,
+      'image/webp'                => true,
       'image/x-ico'               => true,
       'image/x-icon'              => true,
       'image/vnd.microsoft.icon'  => true,
@@ -111,7 +117,7 @@ final class PhabricatorFilesConfigOptions
       // pdf file icon
       'application/pdf' => 'fa-file-pdf-o',
       // zip file icon
-      'application/zip' => 'fa-file-zip-o',
+      'application/zip' => 'fa-file-archive-o',
       // msword icon
       'application/msword' => 'fa-file-word-o',
       // msexcel

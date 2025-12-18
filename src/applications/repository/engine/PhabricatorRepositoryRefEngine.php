@@ -121,10 +121,14 @@ final class PhabricatorRepositoryRefEngine
     }
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param array<PhabricatorRepositoryRefCursor> $cursors
+   */
   private function getCursorsForUpdate(
     PhabricatorRepository $repository,
     array $cursors) {
-    assert_instances_of($cursors, 'PhabricatorRepositoryRefCursor');
+    assert_instances_of($cursors, PhabricatorRepositoryRefCursor::class);
 
     $publisher = $repository->newPublisher();
 
@@ -145,11 +149,15 @@ final class PhabricatorRepositoryRefEngine
     return $results;
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param array<DiffusionRepositoryRef> $branches
+   */
   private function updateBranchStates(
     PhabricatorRepository $repository,
     array $branches) {
 
-    assert_instances_of($branches, 'DiffusionRepositoryRef');
+    assert_instances_of($branches, DiffusionRepositoryRef::class);
     $viewer = $this->getViewer();
 
     $all_cursors = id(new PhabricatorRepositoryRefCursorQuery())
@@ -509,21 +517,6 @@ final class PhabricatorRepositoryRefEngine
     $repository = $this->getRepository();
     $commit_table = new PhabricatorRepositoryCommit();
     $conn = $commit_table->establishConnection('w');
-
-    $vcs = $repository->getVersionControlSystem();
-    switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        $class = 'PhabricatorRepositoryGitCommitMessageParserWorker';
-        break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-        $class = 'PhabricatorRepositorySvnCommitMessageParserWorker';
-        break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
-        $class = 'PhabricatorRepositoryMercurialCommitMessageParserWorker';
-        break;
-      default:
-        throw new Exception(pht("Unknown repository type '%s'!", $vcs));
-    }
 
     $identifier_tokens = array();
     foreach ($identifiers as $identifier) {

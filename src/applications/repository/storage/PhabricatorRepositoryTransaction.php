@@ -12,7 +12,7 @@ final class PhabricatorRepositoryTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorRepositoryTransactionType';
+    return PhabricatorRepositoryTransactionType::class;
   }
 
 }

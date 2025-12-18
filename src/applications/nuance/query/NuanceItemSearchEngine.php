@@ -50,11 +50,16 @@ final class NuanceItemSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<NuanceItem> $items
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $items,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($items, 'NuanceItem');
+    assert_instances_of($items, NuanceItem::class);
 
     $viewer = $this->requireViewer();
 

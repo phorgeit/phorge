@@ -49,6 +49,9 @@ final class PHUICalendarListView extends AphrontTagView {
     );
   }
 
+  /**
+   * @return PhutilSafeHTML|string
+   */
   protected function getTagContent() {
     if (!$this->blankState && empty($this->events)) {
       return '';
@@ -156,12 +159,18 @@ final class PHUICalendarListView extends AphrontTagView {
     }
 
     if (empty($singletons)) {
+      if (PhabricatorEnv::getEnvConfig('phabricator.serious-business')) {
+        $no_events_text = pht('No visible events.');
+      } else {
+        $no_events_text = pht('Clear sailing ahead.');
+      }
+
       $singletons[] = phutil_tag(
         'li',
         array(
           'class' => 'phui-calendar-list-item-empty',
         ),
-        pht('Clear sailing ahead.'));
+        $no_events_text);
     }
 
     $list = phutil_tag(
@@ -174,6 +183,9 @@ final class PHUICalendarListView extends AphrontTagView {
     return $list;
   }
 
+  /**
+   * @return PhutilSafeHTML
+   */
   private function getEventTitle($event) {
     $class = 'phui-calendar-item';
     return phutil_tag(

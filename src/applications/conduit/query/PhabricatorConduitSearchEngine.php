@@ -122,11 +122,16 @@ final class PhabricatorConduitSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<ConduitAPIMethod> $methods
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $methods,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($methods, 'ConduitAPIMethod');
+    assert_instances_of($methods, ConduitAPIMethod::class);
 
     $viewer = $this->requireViewer();
 

@@ -117,11 +117,16 @@ final class HarbormasterBuildTargetSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<HarbormasterBuildTarget> $builds
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $builds,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($builds, 'HarbormasterBuildTarget');
+    assert_instances_of($builds, HarbormasterBuildTarget::class);
 
     // Currently, this only supports the "harbormaster.target.search"
     // API method.

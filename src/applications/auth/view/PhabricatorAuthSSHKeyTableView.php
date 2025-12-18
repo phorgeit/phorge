@@ -80,8 +80,11 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorAuthSSHKey> $keys
+   */
   public function setKeys(array $keys) {
-    assert_instances_of($keys, 'PhabricatorAuthSSHKey');
+    assert_instances_of($keys, PhabricatorAuthSSHKey::class);
     $this->keys = $keys;
     return $this;
   }

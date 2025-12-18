@@ -13,7 +13,7 @@ final class PhabricatorDisqusAuthProvider
     return pht(
       "To configure Disqus OAuth, create a new application here:".
       "\n\n".
-      "http://disqus.com/api/applications/".
+      "https://disqus.com/api/applications/".
       "\n\n".
       "Create an application, then adjust these settings:".
       "\n\n".

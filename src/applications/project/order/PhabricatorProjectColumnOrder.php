@@ -20,7 +20,7 @@ abstract class PhabricatorProjectColumnOrder
 
   final public static function getAllOrders() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getColumnOrderKey')
       ->setSortMethod('getMenuOrder')
       ->execute();
@@ -67,7 +67,7 @@ abstract class PhabricatorProjectColumnOrder
       $result = array();
     }
 
-    assert_instances_of($result, 'PhabricatorApplicationTransaction');
+    assert_instances_of($result, PhabricatorApplicationTransaction::class);
 
     return $result;
   }
@@ -108,7 +108,7 @@ abstract class PhabricatorProjectColumnOrder
           phutil_describe_type($headers)));
     }
 
-    assert_instances_of($headers, 'PhabricatorProjectColumnHeader');
+    assert_instances_of($headers, PhabricatorProjectColumnHeader::class);
 
     // Add a "0" to the end of each header. This makes them sort above object
     // cards in the same group.

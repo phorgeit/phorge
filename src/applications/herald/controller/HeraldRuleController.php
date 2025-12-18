@@ -710,8 +710,12 @@ final class HeraldRuleController extends HeraldController {
       HeraldActionGroup::getAllActionGroups());
   }
 
+  /**
+   * @param array $item_map
+   * @param array<HeraldGroup> $group_list
+   */
   private function getGroups(array $item_map, array $group_list) {
-    assert_instances_of($group_list, 'HeraldGroup');
+    assert_instances_of($group_list, HeraldGroup::class);
 
     $groups = array();
     foreach ($item_map as $group_key => $options) {

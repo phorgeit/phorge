@@ -8,7 +8,7 @@ final class PhabricatorRepositoryIdentityTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorRepositoryIdentityTransactionType';
+    return PhabricatorRepositoryIdentityTransactionType::class;
   }
 
   public function getApplicationName() {

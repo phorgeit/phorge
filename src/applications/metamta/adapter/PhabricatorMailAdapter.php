@@ -18,7 +18,7 @@ abstract class PhabricatorMailAdapter
 
   final public static function getAllAdapters() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getAdapterType')
       ->execute();
   }

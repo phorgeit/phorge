@@ -131,8 +131,6 @@ final class PhabricatorCalendarEventFrequencyTransaction
 
     if (is_array($value)) {
       $value = idx($value, 'rule');
-    } else {
-      $value = $value;
     }
 
     return phutil_utf8_strtoupper($value);

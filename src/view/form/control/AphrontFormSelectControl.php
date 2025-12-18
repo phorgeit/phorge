@@ -28,9 +28,10 @@ final class AphrontFormSelectControl extends AphrontFormControl {
       $this->getValue(),
       $this->getOptions(),
       array(
-        'name'      => $this->getName(),
-        'disabled'  => $this->getDisabled() ? 'disabled' : null,
-        'id'        => $this->getID(),
+        'name'       => $this->getName(),
+        'disabled'   => $this->getDisabled() ? 'disabled' : null,
+        'id'         => $this->getID(),
+        'aria-label' => $this->getAriaLabel(),
       ),
       $this->disabledOptions);
   }

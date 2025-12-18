@@ -575,7 +575,7 @@ abstract class PhabricatorEditField extends Phobject {
    *
    * @param AphrontRequest $request Request to read from.
    * @param string $key Key to read.
-   * @return wild|null Value read from request.
+   * @return mixed Value read from request.
    */
   protected function getInitialValueFromSubmit(AphrontRequest $request, $key) {
     return null;

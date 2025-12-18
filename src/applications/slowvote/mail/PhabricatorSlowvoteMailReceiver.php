@@ -5,7 +5,7 @@ final class PhabricatorSlowvoteMailReceiver
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorSlowvoteApplication');
+      PhabricatorSlowvoteApplication::class);
   }
 
   protected function getObjectPattern() {

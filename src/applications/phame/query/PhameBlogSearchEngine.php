@@ -29,6 +29,7 @@ final class PhameBlogSearchEngine
       id(new PhabricatorSearchSelectField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
+        ->setDescription(pht('Search for blogs with given statuses.'))
         ->setOptions(array(
           '' => pht('All'),
           PhameBlog::STATUS_ACTIVE => pht('Active'),
@@ -67,12 +68,18 @@ final class PhameBlogSearchEngine
 
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
+
+  /**
+   * @param array<PhameBlog> $blogs
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $blogs,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($blogs, 'PhameBlog');
+    assert_instances_of($blogs, PhameBlog::class);
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();

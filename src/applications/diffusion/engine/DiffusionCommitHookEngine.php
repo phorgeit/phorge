@@ -267,8 +267,11 @@ final class DiffusionCommitHookEngine extends Phobject {
     }
   }
 
+  /**
+   * @param array<PhabricatorRepositoryPushLog> $ref_updates
+   */
   private function rejectDangerousChanges(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, PhabricatorRepositoryPushLog::class);
 
     $repository = $this->getRepository();
     if ($repository->shouldAllowDangerousChanges()) {
@@ -296,8 +299,11 @@ final class DiffusionCommitHookEngine extends Phobject {
     }
   }
 
+  /**
+   * @param array<PhabricatorRepositoryPushLog> $ref_updates
+   */
   private function findContentUpdates(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, PhabricatorRepositoryPushLog::class);
 
     $type = $this->getRepository()->getVersionControlSystem();
     switch ($type) {
@@ -471,9 +477,11 @@ final class DiffusionCommitHookEngine extends Phobject {
     return $ref_updates;
   }
 
-
+  /**
+   * @param array<PhabricatorRepositoryPushLog> $ref_updates
+   */
   private function findGitMergeBases(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, PhabricatorRepositoryPushLog::class);
 
     $futures = array();
     foreach ($ref_updates as $key => $ref_update) {
@@ -522,9 +530,11 @@ final class DiffusionCommitHookEngine extends Phobject {
     return $ref_updates;
   }
 
-
+  /**
+   * @param array<PhabricatorRepositoryPushLog> $ref_updates
+   */
   private function findGitChangeFlags(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, PhabricatorRepositoryPushLog::class);
 
     foreach ($ref_updates as $key => $ref_update) {
       $ref_old = $ref_update->getRefOld();
@@ -972,12 +982,12 @@ final class DiffusionCommitHookEngine extends Phobject {
     $key_name = getenv('HG_KEY');
 
     $key_old = getenv('HG_OLD');
-    if (!strlen($key_old)) {
+    if (!$key_old || !strlen($key_old)) {
       $key_old = null;
     }
 
     $key_new = getenv('HG_NEW');
-    if (!strlen($key_new)) {
+    if (!$key_new || !strlen($key_new)) {
       $key_new = null;
     }
 

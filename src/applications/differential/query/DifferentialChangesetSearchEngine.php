@@ -86,12 +86,17 @@ final class DifferentialChangesetSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $changesets,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
     $viewer = $this->requireViewer();
 
     $rows = array();

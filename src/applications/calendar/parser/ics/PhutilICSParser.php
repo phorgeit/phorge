@@ -484,6 +484,9 @@ final class PhutilICSParser extends Phobject {
         $result = $map[$result];
         break;
       case 'CAL-ADDRESS':
+      case 'RECUR':
+      case 'URI':
+      case 'UTC-OFFSET':
         $result = $data;
         break;
       case 'DATE':
@@ -491,12 +494,6 @@ final class PhutilICSParser extends Phobject {
         $result = explode(',', $data);
         break;
       case 'DATE-TIME':
-        if (!strlen($data)) {
-          $result = array();
-        } else {
-          $result = explode(',', $data);
-        }
-        break;
       case 'DURATION':
         if (!strlen($data)) {
           $result = array();
@@ -517,22 +514,11 @@ final class PhutilICSParser extends Phobject {
         }
         break;
       case 'PERIOD':
-        $result = explode(',', $data);
-        break;
-      case 'RECUR':
-        $result = $data;
-        break;
-      case 'TEXT':
-        $result = $this->unescapeTextValue($data);
-        break;
       case 'TIME':
         $result = explode(',', $data);
         break;
-      case 'URI':
-        $result = $data;
-        break;
-      case 'UTC-OFFSET':
-        $result = $data;
+      case 'TEXT':
+        $result = $this->unescapeTextValue($data);
         break;
       default:
         // RFC5545 says we MUST preserve the data for any types we don't
@@ -672,6 +658,10 @@ final class PhutilICSParser extends Phobject {
       case 'ATTENDEE':
         $attendee = $this->newAttendeeFromProperty($parameters, $value);
         $node->addAttendee($attendee);
+        break;
+      case 'TRANSP':
+        $transp = $this->newTextFromProperty($parameters, $value);
+        $node->setTimeTransparency($transp);
         break;
     }
 

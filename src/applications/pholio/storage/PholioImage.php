@@ -70,8 +70,11 @@ final class PholioImage extends PholioDAO
     return (bool)$this->getMockPHID();
   }
 
+  /**
+   * @param array<PholioTransactionComment> $inline_comments
+   */
   public function attachInlineComments(array $inline_comments) {
-    assert_instances_of($inline_comments, 'PholioTransactionComment');
+    assert_instances_of($inline_comments, PholioTransactionComment::class);
     $this->inlineComments = $inline_comments;
     return $this;
   }

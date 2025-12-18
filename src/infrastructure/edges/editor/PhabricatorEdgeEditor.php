@@ -46,15 +46,16 @@ final class PhabricatorEdgeEditor extends Phobject {
    *     provided, `data` will be written.
    *
    * @param string  $src Source object PHID.
-   * @param string  $type Edge type constant.
+   * @param int     $edge_type Edge type constant
+   *                (SomeClassEdgeType::EDGECONST).
    * @param string  $dst Destination object PHID.
-   * @param map   $options (optional) Options map (see documentation).
+   * @param map     $options (optional) Options map (see documentation).
    * @return $this
    *
    * @task edit
    */
-  public function addEdge($src, $type, $dst, array $options = array()) {
-    foreach ($this->buildEdgeSpecs($src, $type, $dst, $options) as $spec) {
+  public function addEdge($src, $edge_type, $dst, array $options = array()) {
+    foreach ($this->buildEdgeSpecs($src, $edge_type, $dst, $options) as $spec) {
       $this->addEdges[] = $spec;
     }
     return $this;
@@ -68,14 +69,15 @@ final class PhabricatorEdgeEditor extends Phobject {
    * a remove plus an add is to overwrite.
    *
    * @param string  $src Source object PHID.
-   * @param string  $type Edge type constant.
+   * @param int     $edge_type Edge type constant
+   *                (SomeClassEdgeType::EDGECONST).
    * @param string  $dst Destination object PHID.
    * @return $this
    *
    * @task edit
    */
-  public function removeEdge($src, $type, $dst) {
-    foreach ($this->buildEdgeSpecs($src, $type, $dst) as $spec) {
+  public function removeEdge($src, $edge_type, $dst) {
+    foreach ($this->buildEdgeSpecs($src, $edge_type, $dst) as $spec) {
       $this->remEdges[] = $spec;
     }
     return $this;
@@ -354,7 +356,8 @@ final class PhabricatorEdgeEditor extends Phobject {
    * Get a list of all edge types which are being added, and which we should
    * prevent cycles on.
    *
-   * @return list<const> List of edge types which should have cycles prevented.
+   * @return list<int|string> List of edge type constants which should have
+   *   cycles prevented.
    * @task cycle
    */
   private function getPreventCyclesEdgeTypes() {

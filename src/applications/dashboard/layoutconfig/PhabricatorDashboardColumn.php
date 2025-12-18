@@ -25,8 +25,11 @@ final class PhabricatorDashboardColumn
     return $this->classes;
   }
 
+  /**
+   * @param array<PhabricatorDashboardPanelRef> $refs
+   */
   public function setPanelRefs(array $refs) {
-    assert_instances_of($refs, 'PhabricatorDashboardPanelRef');
+    assert_instances_of($refs, PhabricatorDashboardPanelRef::class);
     $this->refs = $refs;
     return $this;
   }

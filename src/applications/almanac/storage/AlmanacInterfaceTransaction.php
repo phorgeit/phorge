@@ -8,7 +8,7 @@ final class AlmanacInterfaceTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'AlmanacInterfaceTransactionType';
+    return AlmanacInterfaceTransactionType::class;
   }
 
 }

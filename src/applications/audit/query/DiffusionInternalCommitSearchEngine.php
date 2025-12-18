@@ -36,7 +36,7 @@ final class DiffusionInternalCommitSearchEngine
   }
 
   protected function getURI($path) {
-    return null;
+    return '';
   }
 
   protected function renderResultList(

@@ -8,7 +8,7 @@ final class PhabricatorUserPreferencesSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSettingApplication';
+    return PhabricatorSettingsApplication::class;
   }
 
   public function newQuery() {
@@ -50,11 +50,16 @@ final class PhabricatorUserPreferencesSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorUserPreferences> $settings
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $settings,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($settings, 'PhabricatorUserPreferences');
+    assert_instances_of($settings, PhabricatorUserPreferences::class);
 
     $viewer = $this->requireViewer();
 

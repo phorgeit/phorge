@@ -217,7 +217,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function getRemarkupChanges() {
     $changes = $this->newRemarkupChanges();
-    assert_instances_of($changes, 'PhabricatorTransactionRemarkupChange');
+    assert_instances_of($changes, PhabricatorTransactionRemarkupChange::class);
 
     // Convert older-style remarkup blocks into newer-style remarkup changes.
     // This builds changes that do not have the correct "old value", so rules
@@ -536,7 +536,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function getColor() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT;
+      case PhabricatorTransactions::TYPE_COMMENT:
         $comment = $this->getComment();
         if ($comment && $comment->getIsRemoved()) {
           return 'grey';
@@ -550,7 +550,7 @@ abstract class PhabricatorApplicationTransaction
             return 'sky';
         }
         break;
-      case PhabricatorTransactions::TYPE_MFA;
+      case PhabricatorTransactions::TYPE_MFA:
         return 'pink';
     }
     return null;
@@ -791,6 +791,7 @@ abstract class PhabricatorApplicationTransaction
     switch ($this->getTransactionType()) {
       case PhabricatorTransactions::TYPE_TOKEN:
       case PhabricatorTransactions::TYPE_MFA:
+      case PhabricatorTransactions::TYPE_INLINESTATE:
         return true;
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         // See T8952. When an application (usually Herald) modifies
@@ -815,8 +816,6 @@ abstract class PhabricatorApplicationTransaction
             break;
         }
         break;
-     case PhabricatorTransactions::TYPE_INLINESTATE:
-       return true;
     }
 
     return $this->shouldHide();
@@ -1674,8 +1673,11 @@ abstract class PhabricatorApplicationTransaction
       ->setNewText($new);
   }
 
+  /**
+   * @param array<PhabricatorApplicationTransaction> $group
+   */
   public function attachTransactionGroup(array $group) {
-    assert_instances_of($group, __CLASS__);
+    assert_instances_of($group, self::class);
     $this->transactionGroup = $group;
     return $this;
   }

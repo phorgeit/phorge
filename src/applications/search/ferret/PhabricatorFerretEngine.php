@@ -6,8 +6,18 @@ abstract class PhabricatorFerretEngine extends Phobject {
   private $ferretFunctions;
   private $templateObject;
 
+  /**
+   * @return string Application name in lower-case, e.g. 'maniphest'
+   */
   abstract public function getApplicationName();
+  /**
+   * @return string Object name in lower-case, e.g. 'task'
+   */
   abstract public function getScopeName();
+  /**
+   * @return PhabricatorApplicationSearchEngine New instance of the
+   *   corresponding PhabricatorApplicationSearchEngine subclass
+   */
   abstract public function newSearchEngine();
 
   public function getDefaultFunctionKey() {
@@ -47,10 +57,16 @@ abstract class PhabricatorFerretEngine extends Phobject {
     return $this->fieldMap[$raw_name];
   }
 
+  /**
+   * @return PhutilSearchStemmer New instance of PhutilSearchStemmer
+   */
   public function newStemmer() {
     return new PhutilSearchStemmer();
   }
 
+  /**
+   * @return string
+   */
   public function newTermsCorpus($raw_corpus) {
     $term_corpus = strtr(
       $raw_corpus,
@@ -108,6 +124,10 @@ abstract class PhabricatorFerretEngine extends Phobject {
 
 /* -(  Schema  )------------------------------------------------------------- */
 
+  /**
+   * @return string Name of database table, e.g. 'calendar_event_fdocument' or
+   *   'maniphest_task_fdocument' or 'phame_post_fdocument'
+   */
   public function getDocumentTableName() {
     $application = $this->getApplicationName();
     $scope = $this->getScopeName();
@@ -152,6 +172,10 @@ abstract class PhabricatorFerretEngine extends Phobject {
     );
   }
 
+  /**
+   * @return string Name of database table, e.g. 'calendar_event_ffield' or
+   *   'maniphest_task_ffield' or 'phame_post_ffield'
+   */
   public function getFieldTableName() {
     $application = $this->getApplicationName();
     $scope = $this->getScopeName();
@@ -183,6 +207,10 @@ abstract class PhabricatorFerretEngine extends Phobject {
     );
   }
 
+  /**
+   * @return string Name of database table, e.g. 'calendar_event_fngrams' or
+   *   'maniphest_task_fngrams' or 'phame_post_fngrams'
+   */
   public function getNgramsTableName() {
     $application = $this->getApplicationName();
     $scope = $this->getScopeName();
@@ -213,6 +241,11 @@ abstract class PhabricatorFerretEngine extends Phobject {
     );
   }
 
+  /**
+   * @return string Name of database table, e.g.
+   *   'calendar_event_fngrams_common' or 'maniphest_task_fngrams_common' or
+   *   'phame_post_fngrams_common'
+   */
   public function getCommonNgramsTableName() {
     $application = $this->getApplicationName();
     $scope = $this->getScopeName();

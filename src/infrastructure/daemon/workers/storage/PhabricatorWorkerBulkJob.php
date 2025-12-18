@@ -211,7 +211,7 @@ final class PhabricatorWorkerBulkJob
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
       case PhabricatorPolicyCapability::CAN_EDIT:
-        return pht('Only the owner of a bulk job can edit it.');
+        return pht('Only the author of a bulk job can edit it.');
       default:
         return null;
     }

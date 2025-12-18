@@ -5,10 +5,24 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
   abstract public function getName();
   abstract public function getDescription();
   abstract public function getGroup();
+  /**
+   * @return array<PhabricatorConfigOption>
+   */
   abstract public function getOptions();
 
   public function getIcon() {
     return 'fa-sliders';
+  }
+
+  /**
+   * Get corresponding application class for configuration options. Child
+   * classes returning a classname should also have getGroup() return 'apps'.
+   *
+   * @return class-string|null Application class name, or null if the config
+   *  options are not related to a specific application.
+   */
+  public function getApplicationClassName() {
+    return null;
   }
 
   public function validateOption(PhabricatorConfigOption $option, $value) {
@@ -67,8 +81,8 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
    *
    * @param   PhabricatorConfigOption   $option Option being rendered.
    * @param   AphrontRequest            $request Active request.
-   * @return  wild|null                 Additional contextual description
-   *                                    information.
+   * @return  PhutilSafeHTMLProducerInterface|array|null Additional contextual
+   *                                                    description information.
    */
   public function renderContextualDescription(
     PhabricatorConfigOption $option,
@@ -95,7 +109,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
 
   final public static function loadAll($external_only = false) {
     $symbols = id(new PhutilSymbolLoader())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setConcreteOnly(true)
       ->selectAndLoadSymbols();
 
@@ -114,7 +128,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
         throw new Exception(
           pht(
             "Multiple %s subclasses have the same key ('%s'): %s, %s.",
-            __CLASS__,
+            self::class,
             $key,
             $pclass,
             $nclass));
@@ -136,7 +150,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
           throw new Exception(
             pht(
               "Multiple %s subclasses contain an option named '%s'!",
-              __CLASS__,
+              self::class,
               $key));
         }
         $options[$key] = $option;

@@ -8,7 +8,7 @@ abstract class PhabricatorConfigType extends Phobject {
 
   final public static function getAllTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTypeKey')
       ->execute();
   }

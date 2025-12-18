@@ -4,8 +4,11 @@ final class DrydockResourceListView extends AphrontView {
 
   private $resources;
 
+  /**
+   * @param array<DrydockResource> $resources
+   */
   public function setResources(array $resources) {
-    assert_instances_of($resources, 'DrydockResource');
+    assert_instances_of($resources, DrydockResource::class);
     $this->resources = $resources;
     return $this;
   }

@@ -127,8 +127,8 @@ A typical `elasticsearch` service configuration looks like this:
 Monitoring Search Services
 ==========================
 
-You can monitor fulltext search in {nav Config > Search Servers}. This
-interface shows you a quick overview of services and their health.
+You can monitor fulltext search in {nav Config > Services > Search Servers}.
+This interface shows you a quick overview of services and their health.
 
 The table on this page shows some basic stats for each configured service,
 followed by the configuration and current status of each host.

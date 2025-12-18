@@ -143,8 +143,9 @@ revision. `arc` has several workflows which help with this, by:
 
   - squashing or merging changes from a feature branch into a master branch
     (if relevant);
-  - formatting a good commit message with all the information from Differential;
-    and
+  - formatting a good commit message (see //Write Sensible Commit Messages// in
+    @{article:Writing Reviewable Code}) with all the information from
+    Differential; and
   - automatically closing the revision.
 
 You don't need to use any of these workflows: you can just run `git push`,

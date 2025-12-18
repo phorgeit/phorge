@@ -12,7 +12,7 @@ final class PhabricatorDashboardTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorDashboardTransactionType';
+    return PhabricatorDashboardTransactionType::class;
   }
 
 }

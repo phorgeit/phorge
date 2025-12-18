@@ -35,7 +35,7 @@ final class PholioMock extends PholioDAO
   public static function initializeNewMock(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPholioApplication'))
+      ->withClasses(array(PhabricatorPholioApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PholioDefaultViewCapability::CAPABILITY);
@@ -78,8 +78,11 @@ final class PholioMock extends PholioDAO
     return PholioMockPHIDType::TYPECONST;
   }
 
+  /**
+   * @param array<PholioImage> $images
+   */
   public function attachImages(array $images) {
-    assert_instances_of($images, 'PholioImage');
+    assert_instances_of($images, PholioImage::class);
     $images = mpull($images, null, 'getPHID');
     $images = msort($images, 'getSequence');
     $this->images = $images;
@@ -190,7 +193,7 @@ final class PholioMock extends PholioDAO
   }
 
   public function describeAutomaticCapability($capability) {
-    return pht("A mock's owner can always view and edit it.");
+    return pht('The author of a mock can always view and edit it.');
   }
 
 

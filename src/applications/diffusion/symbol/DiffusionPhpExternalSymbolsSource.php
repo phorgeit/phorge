@@ -24,7 +24,7 @@ final class DiffusionPhpExternalSymbolsSource
             ->setSource(pht('PHP'))
             ->setLocation(pht('Manual at php.net'))
             ->setSymbolLanguage('php')
-            ->setExternalURI('http://www.php.net/function.'.$name);
+            ->setExternalURI('https://www.php.net/function.'.$name);
         }
       }
     }
@@ -38,7 +38,7 @@ final class DiffusionPhpExternalSymbolsSource
               ->setSource(pht('PHP'))
               ->setLocation(pht('Manual at php.net'))
               ->setSymbolLanguage('php')
-              ->setExternalURI('http://www.php.net/class.'.$name);
+              ->setExternalURI('https://www.php.net/class.'.$name);
           }
         }
       }

@@ -346,13 +346,13 @@ final class PhabricatorDatabaseRef
       $t_start = microtime(true);
       $replica_status = false;
       try {
-        $replica_status = queryfx_one($conn, 'SHOW SLAVE STATUS');
+        $replica_status = queryfx_one($conn, 'SHOW REPLICA STATUS');
         $ref->setConnectionStatus(self::STATUS_OKAY);
       } catch (AphrontAccessDeniedQueryException $ex) {
         $ref->setConnectionStatus(self::STATUS_REPLICATION_CLIENT);
         $ref->setConnectionMessage(
           pht(
-            'No permission to run "SHOW SLAVE STATUS". Grant this user '.
+            'No permission to run "SHOW REPLICA STATUS". Grant this user '.
             '"REPLICATION CLIENT" permission to allow this server to '.
             'monitor replica health.'));
       } catch (AphrontInvalidCredentialsQueryException $ex) {
@@ -386,7 +386,7 @@ final class PhabricatorDatabaseRef
           $ref->setReplicaMessage(
             pht(
               'This host has a "replica" role, but is not replicating data '.
-              'from a master (no output from "SHOW SLAVE STATUS").'));
+              'from a master (no output from "SHOW REPLICA STATUS").'));
         } else {
           $ref->setReplicaStatus(self::REPLICATION_OKAY);
         }

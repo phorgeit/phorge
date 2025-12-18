@@ -95,7 +95,7 @@ abstract class DifferentialCommitMessageField
 
   final public static function getAllFields() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getCommitMessageFieldKey')
       ->setSortMethod('getFieldOrder')
       ->execute();

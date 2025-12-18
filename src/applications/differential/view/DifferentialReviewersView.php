@@ -6,14 +6,20 @@ final class DifferentialReviewersView extends AphrontView {
   private $handles;
   private $diff;
 
+  /**
+   * @param array<DifferentialReviewer> $reviewers
+   */
   public function setReviewers(array $reviewers) {
-    assert_instances_of($reviewers, 'DifferentialReviewer');
+    assert_instances_of($reviewers, DifferentialReviewer::class);
     $this->reviewers = $reviewers;
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }

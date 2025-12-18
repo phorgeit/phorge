@@ -7,8 +7,11 @@ final class PhabricatorFeedBuilder extends Phobject {
   private $hovercards = false;
   private $noDataString;
 
+  /**
+   * @param array<PhabricatorFeedStory> $stories
+   */
   public function __construct(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, PhabricatorFeedStory::class);
     $this->stories = $stories;
   }
 
@@ -36,8 +39,6 @@ final class PhabricatorFeedBuilder extends Phobject {
     $stories = $this->stories;
 
     $null_view = new AphrontNullView();
-
-    require_celerity_resource('phabricator-feed-css');
 
     $last_date = null;
     foreach ($stories as $story) {

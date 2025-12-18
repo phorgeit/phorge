@@ -14,10 +14,12 @@ final class DifferentialHunkParser extends Phobject {
    * datastructure is used to determine when to render "Context not available."
    * in diffs with multiple hunks.
    *
-   * @return dict<int, bool>  Map of lines where hunks start, other than line 1.
+   * @param array<DifferentialHunk> $hunks
+   * @return array<int|string, bool> Map of lines where hunks start, other than
+   *   line 1.
    */
   public function getHunkStartLines(array $hunks) {
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
 
     $map = array();
     foreach ($hunks as $hunk) {
@@ -474,8 +476,11 @@ final class DifferentialHunkParser extends Phobject {
     return $corpus;
   }
 
+  /**
+   * @param array<DifferentialHunk> $hunks
+   */
   public function parseHunksForLineData(array $hunks) {
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
 
     $old_lines = array();
     $new_lines = array();
@@ -563,13 +568,18 @@ final class DifferentialHunkParser extends Phobject {
     return $this;
   }
 
+  /**
+   * @param array<DifferentialHunk> $changeset_hunks
+   * @param array<DifferentialHunk> $old_hunks
+   * @param array<DifferentialHunk> $new_hunks
+   */
   public function parseHunksForHighlightMasks(
     array $changeset_hunks,
     array $old_hunks,
     array $new_hunks) {
-    assert_instances_of($changeset_hunks, 'DifferentialHunk');
-    assert_instances_of($old_hunks,       'DifferentialHunk');
-    assert_instances_of($new_hunks,       'DifferentialHunk');
+    assert_instances_of($changeset_hunks, DifferentialHunk::class);
+    assert_instances_of($old_hunks,       DifferentialHunk::class);
+    assert_instances_of($new_hunks,       DifferentialHunk::class);
 
     // Put changes side by side.
     $olds = array();
@@ -662,6 +672,13 @@ final class DifferentialHunkParser extends Phobject {
     return array($highlight_old, $highlight_new);
   }
 
+  /**
+   * @param array<DifferentialHunk> $new_hunks
+   * @param bool $is_new
+   * @param int $line_number
+   * @param int $line_length
+   * @param int $add_context
+   */
   public function makeContextDiff(
     array $hunks,
     $is_new,
@@ -669,7 +686,7 @@ final class DifferentialHunkParser extends Phobject {
     $line_length,
     $add_context) {
 
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
 
     $context = array();
 
@@ -748,8 +765,11 @@ final class DifferentialHunkParser extends Phobject {
     return implode("\n", $context);
   }
 
+  /**
+   * @param array<DifferentialHunk> $new_hunks
+   */
   private function computeOffsets(array $hunks) {
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
 
     $offsets = array();
     $n = 1;

@@ -23,7 +23,7 @@ final class PhabricatorAmazonAuthProvider
       "%s\n\n".
       "To configure Amazon OAuth, create a new 'API Project' here:".
       "\n\n".
-      "http://login.amazon.com/manageApps".
+      "https://developer.amazon.com/apps-and-games/login-with-amazon".
       "\n\n".
       "Use these settings:".
       "\n\n".

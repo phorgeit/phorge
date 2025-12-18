@@ -99,8 +99,6 @@ final class DarkConsoleRequestPlugin extends DarkConsolePlugin {
           $value = phutil_tag('em', array(), pht('(Masked)'));
         } else if (is_array($value)) {
           $value = @json_encode($value);
-        } else {
-          $value = $value;
         }
 
         $rows[] = array(

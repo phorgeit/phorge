@@ -4,6 +4,8 @@
  * @task config   Query Configuration
  * @task exec     Query Execution
  * @task internal Internals
+ *
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DifferentialRevision>
  */
 final class DifferentialRevisionQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
@@ -862,8 +864,11 @@ final class DifferentialRevisionQuery
     );
   }
 
+  /**
+   * @param array<DifferentialRevision> $revisions
+   */
   private function loadCommitPHIDs(array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     if (!$revisions) {
       return;
@@ -885,8 +890,12 @@ final class DifferentialRevisionQuery
     }
   }
 
+  /**
+   * @param AphrontDatabaseConnection $conn_r
+   * @param array<DifferentialRevision> $revisions
+   */
   private function loadDiffIDs($conn_r, array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     $diff_table = new DifferentialDiff();
 
@@ -905,8 +914,12 @@ final class DifferentialRevisionQuery
     }
   }
 
+  /**
+   * @param AphrontDatabaseConnection $conn_r
+   * @param array<DifferentialRevision> $revisions
+   */
   private function loadActiveDiffs($conn_r, array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     $diff_table = new DifferentialDiff();
 
@@ -931,10 +944,14 @@ final class DifferentialRevisionQuery
     }
   }
 
+  /**
+   * @param AphrontDatabaseConnection $conn_r
+   * @param array<DifferentialRevision> $revisions
+   */
   private function loadHashes(
     AphrontDatabaseConnection $conn_r,
     array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     $data = queryfx_all(
       $conn_r,
@@ -953,11 +970,15 @@ final class DifferentialRevisionQuery
     }
   }
 
+  /**
+   * @param AphrontDatabaseConnection $conn
+   * @param array<DifferentialRevision> $revisions
+   */
   private function loadReviewers(
     AphrontDatabaseConnection $conn,
     array $revisions) {
 
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     $reviewer_table = new DifferentialReviewer();
     $reviewer_rows = queryfx_all(

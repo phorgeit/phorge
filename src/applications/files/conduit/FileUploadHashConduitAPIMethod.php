@@ -12,8 +12,9 @@ final class FileUploadHashConduitAPIMethod extends FileConduitAPIMethod {
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is deprecated. Callers should use "file.allocate" '.
-      'instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2017',
+      'file.allocate');
   }
 
   public function getMethodDescription() {

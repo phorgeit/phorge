@@ -66,7 +66,7 @@ final class ConpherenceRoomPictureController
         } else {
           $xform = PhabricatorFileTransform::getTransformByKey(
             PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
-          $xformed = $xform->executeTransform($file);
+          $xformed = $xform->executeTransformExplicit($file);
         }
       }
 

@@ -80,6 +80,10 @@ final class PhutilRemarkupHyperlinkRule extends PhutilRemarkupRule {
     return $this->markupHyperlink('{', $matches);
   }
 
+  /**
+   * @return string Token in the format <0x01>1234Z.
+   *   See @{class:PhutilRemarkupBlockStorage} for details
+   */
   protected function markupHyperlink($mode, array $matches) {
     $raw_uri = $matches[1];
 

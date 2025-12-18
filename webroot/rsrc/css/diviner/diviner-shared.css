@@ -54,7 +54,7 @@
 .diviner-parameter-table-docs {
   padding: 6px 12px 6px 8px;
   width: 80%;
-  background-color: #fff;
+  background-color: {$page.content};
 }
 
 .diviner-document-section {
@@ -111,7 +111,7 @@ body .diviner-view .diviner-section-content .phui-header-shell {
 
 .diviner-atom-signature {
   font-weight: normal;
-  color: #000;
+  color: {$blacktext};
 }
 
 .phui-header-view .phui-header-header a.diviner-atom-signature-name {

@@ -19,7 +19,7 @@ function phid_get_type($phid) {
  * Group a list of phids by type.
  *
  * @param   array $phids Array of PHIDs.
- * @return  map of phid type => list of phids
+ * @return  array Mapping of phid type => list of phids
  */
 function phid_group_by_type($phids) {
   $result = array();

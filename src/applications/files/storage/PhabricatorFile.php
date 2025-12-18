@@ -74,7 +74,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   public static function initializeNewFile() {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withClasses(array('PhabricatorFilesApplication'))
+      ->withClasses(array(PhabricatorFilesApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -340,11 +340,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
           pht(
             'No configured storage engine can store this file. See '.
             '"Configuring File Storage" in the documentation for '.
-            'information on configuring storage engines.'));
+            'information on configuring storage engines. '.
+            'This is likely because the file is too large.'));
       }
     }
 
-    assert_instances_of($engines, 'PhabricatorFileStorageEngine');
+    assert_instances_of($engines, PhabricatorFileStorageEngine::class);
     if (!$engines) {
       throw new Exception(pht('No valid storage engines are available!'));
     }
@@ -1027,7 +1028,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $ok = false;
     if ($this->getViewableMimeType() !== null) {
       $ok = preg_match(
-        '@^image/(gif|png|jpe?g)@',
+        '@^image/(gif|png|jpe?g|webp)@',
         $this->getViewableMimeType(),
         $matches);
     }
@@ -1036,13 +1037,15 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
 
     switch ($matches[1]) {
-      case 'jpg';
+      case 'jpg':
       case 'jpeg':
         return function_exists('imagejpeg');
       case 'png':
         return function_exists('imagepng');
       case 'gif':
         return function_exists('imagegif');
+      case 'webp':
+        return function_exists('imagewebp');
       default:
         throw new Exception(pht('Unknown type matched as image MIME type.'));
     }
@@ -1061,6 +1064,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     if (function_exists('imagegif')) {
       $supported[] = 'gif';
+    }
+
+    if (function_exists('imagewebp')) {
+      $supported[] = 'webp';
     }
 
     return $supported;
@@ -1094,7 +1101,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   public static function buildAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFileStorageEngine')
+      ->setAncestorClass(PhabricatorFileStorageEngine::class)
       ->execute();
   }
 
@@ -1204,7 +1211,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
 
   /**
-   * Load (or build) the {@class:PhabricatorFile} objects for builtin file
+   * Load (or build) the @{class:PhabricatorFile} objects for builtin file
    * resources. The builtin mechanism allows files shipped with Phabricator
    * to be treated like normal files so that APIs do not need to special case
    * things like default images or deleted files.
@@ -1215,7 +1222,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * @param  PhabricatorUser $user Viewing user.
    * @param  list<PhabricatorFilesBuiltinFile> $builtins List of builtin file
    *   specs.
-   * @return dict<string, PhabricatorFile> Dictionary of named builtins.
+   * @return array<string, PhabricatorFile> Dictionary of named builtins.
    */
   public static function loadBuiltins(PhabricatorUser $user, array $builtins) {
     $builtins = mpull($builtins, null, 'getBuiltinFileKey');
@@ -1525,7 +1532,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * This method is called both when creating a file from fresh data, and
    * when creating a new file which reuses existing storage.
    *
-   * @param map<string, wild> $params Bag of parameters, see
+   * @param map<string, mixed> $params Bag of parameters, see
    *   @{class:PhabricatorFile} for documentation.
    * @return $this
    */

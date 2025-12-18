@@ -387,8 +387,8 @@ final class AphrontApplicationConfiguration
   /**
    * Build a controller to respond to the request.
    *
-   * @return pair<AphrontController,dict> Controller and dictionary of request
-   *                                      parameters.
+   * @return array<AphrontController,array> Controller and dictionary of
+   *                                        request parameters.
    * @task routing
    */
   private function buildController() {
@@ -512,8 +512,9 @@ final class AphrontApplicationConfiguration
    *
    * @param list<AphrontRoutingMap> $maps List of routing maps.
    * @param string $path Path to route.
-   * @return pair<AphrontController,dict>|null Controller and dictionary of
-   *   request parameters, or null if no paths to route were found.
+   * @return array<AphrontController,array<string,string>>|null Controller
+   *   subclass and dictionary of request parameters, or null if no paths to
+   *   route were found.
    * @task routing
    */
   private function routePath(array $maps, $path) {
@@ -562,7 +563,7 @@ final class AphrontApplicationConfiguration
   /**
    * Tests if a response is of a valid type.
    *
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return bool True if the object is of a valid type.
    * @task response
    */
@@ -585,7 +586,7 @@ final class AphrontApplicationConfiguration
    *
    * @param AphrontController $controller Controller which returned the
    *   response.
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -615,7 +616,7 @@ final class AphrontApplicationConfiguration
    *
    * @param AphrontResponseProducerInterface $producer Object which produced
    *   this response.
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -645,7 +646,7 @@ final class AphrontApplicationConfiguration
    *
    * @param AphrontRequestExceptionHandler $handler Object which produced this
    *  response.
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -740,7 +741,7 @@ final class AphrontApplicationConfiguration
    * @{class:AphrontRequestExceptionHandler}.
    *
    * @param Throwable $throwable Exception which needs to be handled.
-   * @return wild Response or response producer, or null if no available
+   * @return mixed Response or response producer, or null if no available
    *   handler can produce a response.
    * @task exception
    */

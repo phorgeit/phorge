@@ -215,6 +215,9 @@ EOTEXT
 
           // This is for IntelliJ IDEA.
           'idea' => true,
+
+          // This handler is installed by the Zed Editor
+          'zed' => true,
         ))
         ->setSummary(pht('Whitelists editor protocols for "Open in Editor".'))
         ->setDescription(

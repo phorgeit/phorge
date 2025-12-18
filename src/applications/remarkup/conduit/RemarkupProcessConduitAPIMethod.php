@@ -6,10 +6,6 @@ final class RemarkupProcessConduitAPIMethod extends ConduitAPIMethod {
     return 'remarkup.process';
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodDescription() {
     return pht('Process text through remarkup.');
   }

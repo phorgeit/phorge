@@ -7,7 +7,7 @@ abstract class ManiphestTaskRelationship
     $viewer = $this->getViewer();
 
     $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+      PhabricatorManiphestApplication::class,
       $viewer);
     if (!$has_app) {
       return false;

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorConduitMethodCallLog>
+ */
 final class PhabricatorConduitLogQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
@@ -7,6 +10,7 @@ final class PhabricatorConduitLogQuery
   private $callerPHIDs;
   private $methods;
   private $methodStatuses;
+  private $isSystemAgent;
   private $epochMin;
   private $epochMax;
 
@@ -30,6 +34,11 @@ final class PhabricatorConduitLogQuery
     return $this;
   }
 
+  public function withIsSystemAgent($system_agent) {
+    $this->isSystemAgent = $system_agent;
+    return $this;
+  }
+
   public function withEpochBetween($epoch_min, $epoch_max) {
     $this->epochMin = $epoch_min;
     $this->epochMax = $epoch_max;
@@ -46,21 +55,21 @@ final class PhabricatorConduitLogQuery
     if ($this->ids !== null) {
       $where[] = qsprintf(
         $conn,
-        'id IN (%Ld)',
+        'conduitlog.id IN (%Ld)',
         $this->ids);
     }
 
     if ($this->callerPHIDs !== null) {
       $where[] = qsprintf(
         $conn,
-        'callerPHID IN (%Ls)',
+        'conduitlog.callerPHID IN (%Ls)',
         $this->callerPHIDs);
     }
 
     if ($this->methods !== null) {
       $where[] = qsprintf(
         $conn,
-        'method IN (%Ls)',
+        'conduitlog.method IN (%Ls)',
         $this->methods);
     }
 
@@ -85,25 +94,50 @@ final class PhabricatorConduitLogQuery
 
       $where[] = qsprintf(
         $conn,
-        'method IN (%Ls)',
+        'conduitlog.method IN (%Ls)',
         $method_names);
+    }
+
+    if ($this->isSystemAgent !== null) {
+      $where[] = qsprintf(
+        $conn,
+        'u.isSystemAgent = %d',
+        (int)$this->isSystemAgent);
     }
 
     if ($this->epochMin !== null) {
       $where[] = qsprintf(
         $conn,
-        'dateCreated >= %d',
+        'conduitlog.dateCreated >= %d',
         $this->epochMin);
     }
 
     if ($this->epochMax !== null) {
       $where[] = qsprintf(
         $conn,
-        'dateCreated <= %d',
+        'conduitlog.dateCreated <= %d',
         $this->epochMax);
     }
 
     return $where;
+  }
+
+  protected function buildJoinClauseParts(AphrontDatabaseConnection $conn) {
+    $joins = parent::buildJoinClauseParts($conn);
+
+    if ($this->isSystemAgent !== null) {
+      $user_table = new PhabricatorUser();
+      $joins[] = qsprintf(
+        $conn,
+        'JOIN %R u ON u.phid = conduitlog.callerPHID',
+        $user_table);
+    }
+
+    return $joins;
+  }
+
+  protected function getPrimaryTableAlias() {
+    return 'conduitlog';
   }
 
   public function getQueryApplicationClass() {

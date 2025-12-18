@@ -100,9 +100,9 @@ final class PhabricatorObjectListQuery extends Phobject {
     // If we're parsing with suffixes, strip them off any tokens and keep
     // track of them for later.
     $suffixes = $this->getSuffixes();
+    $suffix_map = array();
     if ($suffixes) {
       $suffixes = array_fuse($suffixes);
-      $suffix_map = array();
       $stripped_map = array();
       foreach ($name_map as $key => $name) {
         $found_suffixes = array();

@@ -5,6 +5,9 @@ abstract class PhabricatorProjectBoardController
 
   private $viewState;
 
+  /**
+   * @return PhabricatorWorkboardViewState
+   */
   final protected function getViewState() {
     if ($this->viewState === null) {
       $this->viewState = $this->newViewState();
@@ -22,6 +25,9 @@ abstract class PhabricatorProjectBoardController
       ->readFromRequest($request);
   }
 
+  /**
+   * @return AphrontDialogView
+   */
   final protected function newWorkboardDialog() {
     $dialog = $this->newDialog();
 

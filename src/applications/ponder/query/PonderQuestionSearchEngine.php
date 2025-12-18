@@ -109,11 +109,16 @@ final class PonderQuestionSearchEngine
     return mpull($questions, 'getAuthorPHID');
   }
 
+  /**
+   * @param array<PonderQuestion> $questions
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $questions,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($questions, 'PonderQuestion');
+    assert_instances_of($questions, PonderQuestion::class);
 
     $viewer = $this->requireViewer();
 

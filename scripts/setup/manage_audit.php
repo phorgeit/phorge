@@ -8,14 +8,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage audits'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **audit** __command__ [__options__]
-    Manage Phabricator audits.
+    Manage Diffusion audits.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorAuditManagementWorkflow')
+  ->setAncestorClass(PhabricatorAuditManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

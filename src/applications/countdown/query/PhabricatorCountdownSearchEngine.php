@@ -34,6 +34,8 @@ final class PhabricatorCountdownSearchEngine
       id(new PhabricatorUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
+        ->setDescription(
+          pht('Search for objects created by specific authors.'))
         ->setAliases(array('author', 'authors')),
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('upcoming')
@@ -86,12 +88,17 @@ final class PhabricatorCountdownSearchEngine
     return mpull($countdowns, 'getAuthorPHID');
   }
 
+  /**
+   * @param array<PhabricatorCountdown> $countdowns
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $countdowns,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($countdowns, 'PhabricatorCountdown');
+    assert_instances_of($countdowns, PhabricatorCountdown::class);
 
     $viewer = $this->requireViewer();
 

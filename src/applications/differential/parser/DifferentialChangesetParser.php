@@ -240,7 +240,7 @@ final class DifferentialChangesetParser extends Phobject {
    * the left and right halves of the displayed diff to be correctly mapped to
    * storage changesets.
    *
-   * @param id    $id The Differential Changeset ID that comments added to the
+   * @param int   $id The Differential Changeset ID that comments added to the
    *              right side of the visible diff should be attached to.
    * @param bool  $is_new If true, attach new comments to the right side of the
    *              storage changeset. Note that this may be false, if the left
@@ -334,8 +334,11 @@ final class DifferentialChangesetParser extends Phobject {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }
@@ -1193,7 +1196,7 @@ final class DifferentialChangesetParser extends Phobject {
    * "show more"). The $mask returned is a sparsely populated dictionary
    * of $visible_line_number => true.
    *
-   * @return array($gaps, $mask)
+   * @return array Array of <$gaps, $mask>
    */
   private function calculateGapsAndMask(
     $mask_force,
@@ -1301,7 +1304,7 @@ final class DifferentialChangesetParser extends Phobject {
    *
    * @param string $spec Range specification, indicating the range of the diff
    *               that should be rendered.
-   * @return tuple List of <start, end, mask> suitable for passing to
+   * @return array Tuple of <start, end, mask> suitable for passing to
    *               @{method:render}.
    */
   public static function parseRangeSpecification($spec) {

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DifferentialChangeset>
+ */
 final class DifferentialChangesetQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
@@ -22,8 +25,11 @@ final class DifferentialChangesetQuery
     return $this;
   }
 
+  /**
+   * @param array<DifferentialDiff> $diffs
+   */
   public function withDiffs(array $diffs) {
-    assert_instances_of($diffs, 'DifferentialDiff');
+    assert_instances_of($diffs, DifferentialDiff::class);
     $this->diffs = $diffs;
     return $this;
   }

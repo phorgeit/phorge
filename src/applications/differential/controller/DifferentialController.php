@@ -25,8 +25,11 @@ abstract class DifferentialController extends PhabricatorController {
     return $this->buildSideNavView(true)->getMenu();
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   */
   protected function buildPackageMaps(array $changesets) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
 
     $this->packageChangesetMap = array();
     $this->pathPackageMap = array();
@@ -39,7 +42,7 @@ abstract class DifferentialController extends PhabricatorController {
     $viewer = $this->getViewer();
 
     $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+      PhabricatorOwnersApplication::class,
       $viewer);
     if (!$have_owners) {
       return;
@@ -253,7 +256,7 @@ abstract class DifferentialController extends PhabricatorController {
     // Cast duration to a float since it used to be a string in some
     // cases.
     if (isset($map['duration'])) {
-      $map['duration'] = (double)$map['duration'];
+      $map['duration'] = (float)$map['duration'];
     }
 
     return $map;

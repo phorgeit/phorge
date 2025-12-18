@@ -137,7 +137,7 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
         return PhabricatorPolicies::getMostOpenPolicy();
       case PhabricatorPolicyCapability::CAN_EDIT:
         $app = PhabricatorApplication::getByClass(
-          'PhabricatorMacroApplication');
+          PhabricatorMacroApplication::class);
         return $app->getPolicy(PhabricatorMacroManageCapability::CAPABILITY);
     }
   }

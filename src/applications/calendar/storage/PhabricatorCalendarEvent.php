@@ -60,7 +60,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   public static function initializeNewCalendarEvent(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorCalendarApplication'))
+      ->withClasses(array(PhabricatorCalendarApplication::class))
       ->executeOne();
 
     $view_default = PhabricatorCalendarEventDefaultViewCapability::CAPABILITY;
@@ -675,7 +675,6 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       $status = $this->getUserInviteStatus($viewer_phid);
       switch ($status) {
         case PhabricatorCalendarEventInvitee::STATUS_ATTENDING:
-          return 'green';
         case PhabricatorCalendarEventInvitee::STATUS_INVITED:
           return 'green';
         case PhabricatorCalendarEventInvitee::STATUS_DECLINED:
@@ -910,16 +909,6 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     }
 
     return $this->newSequenceIndexDateTime($index);
-  }
-
-  private function newDateTimeFromEpoch($epoch) {
-    $datetime = PhutilCalendarAbsoluteDateTime::newFromEpoch($epoch);
-
-    if ($this->getIsAllDay()) {
-      $datetime->setIsAllDay(true);
-    }
-
-    return $this->newDateTimeFromDateTime($datetime);
   }
 
   private function newDateTimeFromDictionary(array $dict) {

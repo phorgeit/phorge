@@ -4,7 +4,7 @@
 
 
 .phui-cms-body {
-  background-color: #f0f0f2;
+  background-color: {$page.background};
 }
 
 .phui-cms-view .phui-crumbs-view {
@@ -14,7 +14,7 @@
 .phui-cms-page {
   max-width: 1140px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: {$page.content};
   border-left: 1px solid {$lightblueborder};
   border-right: 1px solid {$lightblueborder};
   border-bottom: 1px solid {$lightblueborder};

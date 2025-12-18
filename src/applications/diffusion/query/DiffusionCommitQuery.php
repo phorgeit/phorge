@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorRepositoryCommit>
+ */
 final class DiffusionCommitQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
@@ -123,8 +126,11 @@ final class DiffusionCommitQuery
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorUser> $users
+   */
   public function needAuditAuthority(array $users) {
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, PhabricatorUser::class);
     $this->needAuditAuthority = $users;
     return $this;
   }
@@ -551,7 +557,7 @@ final class DiffusionCommitQuery
     }
 
     if ($this->ancestorsOf !== null) {
-      if (count($this->repositoryIDs) !== 1) {
+      if ($this->repositoryIDs === null || count($this->repositoryIDs) !== 1) {
         throw new PhabricatorSearchConstraintException(
           pht(
             'To search for commits which are ancestors of particular refs, '.

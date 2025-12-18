@@ -155,8 +155,11 @@ final class PhabricatorPolicyFilter extends Phobject {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorPolicyInterface> $objects
+   */
   public function apply(array $objects) {
-    assert_instances_of($objects, 'PhabricatorPolicyInterface');
+    assert_instances_of($objects, PhabricatorPolicyInterface::class);
 
     $viewer       = $this->viewer;
     $capabilities = $this->capabilities;

@@ -54,6 +54,12 @@ final class PhabricatorSetupIssueView extends AphrontView {
     }
 
     $commands = $issue->getCommands();
+
+    $or = null;
+    if ($configs && $commands) {
+      $or = pht('Or:');
+    }
+
     if ($commands) {
       $run_these = pht('Run these %d command(s):', count($commands));
       $description[] = phutil_tag(
@@ -62,6 +68,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
           'class' => 'setup-issue-config',
         ),
         array(
+          phutil_tag('p', array(), $or),
           phutil_tag('p', array(), $run_these),
           phutil_tag('pre', array(), phutil_implode_html("\n", $commands)),
         ));
@@ -365,14 +372,14 @@ final class PhabricatorSetupIssueView extends AphrontView {
     $matches = null;
 
     $ini_loc = null;
-    if (preg_match($rex, $phpinfo, $matches)) {
+    if ($phpinfo && preg_match($rex, $phpinfo, $matches)) {
       $ini_loc = trim($matches[1]);
     }
 
     $rex = '@Additional \.ini files parsed\s*</td><td class="v">(.*?)</td>@i';
 
     $more_loc = array();
-    if (preg_match($rex, $phpinfo, $matches)) {
+    if ($phpinfo && preg_match($rex, $phpinfo, $matches)) {
       $more_loc = trim($matches[1]);
       if ($more_loc == '(none)') {
         $more_loc = array();
@@ -437,7 +444,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
           phutil_tag(
             'a',
             array(
-              'href' => 'http://php.net/manual/ini.list.php',
+              'href' => 'https://www.php.net/manual/ini.list.php',
               'target' => '_blank',
             ),
             pht('PHP Documentation'))));
@@ -453,7 +460,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
           phutil_tag(
             'a',
             array(
-              'href' => 'http://php.net/manual/opcache.configuration.php',
+              'href' => 'https://www.php.net/manual/opcache.configuration.php',
               'target' => '_blank',
             ),
             pht('PHP OPcache Documentation'))));

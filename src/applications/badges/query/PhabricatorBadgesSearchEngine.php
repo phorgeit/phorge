@@ -29,6 +29,8 @@ final class PhabricatorBadgesSearchEngine
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
+        ->setDescription(
+          pht('Search for active or archived badges.'))
         ->setOptions(
           id(new PhabricatorBadgesBadge())
             ->getStatusNameMap()),
@@ -93,11 +95,16 @@ final class PhabricatorBadgesSearchEngine
     return $phids;
   }
 
+  /**
+   * @param array<PhabricatorBadgesBadge> $badges
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $badges,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($badges, 'PhabricatorBadgesBadge');
+    assert_instances_of($badges, PhabricatorBadgesBadge::class);
 
     $viewer = $this->requireViewer();
 

@@ -3,8 +3,8 @@
 final class PonderQuestionMailReceiver extends PhabricatorObjectMailReceiver {
 
   public function isEnabled() {
-    $app_class = 'PhabricatorPonderApplication';
-    return PhabricatorApplication::isClassInstalled($app_class);
+    return PhabricatorApplication::isClassInstalled(
+      PhabricatorPonderApplication::class);
   }
 
   protected function getObjectPattern() {

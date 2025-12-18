@@ -58,7 +58,7 @@ abstract class DiffusionRepositoryManagementPanel
 
   public static function getAllPanels() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getManagementPanelKey')
       ->setSortMethod('getManagementPanelOrder')
       ->execute();

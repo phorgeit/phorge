@@ -59,7 +59,7 @@ abstract class PhabricatorPolicyCapability extends Phobject {
 
   final public static function getCapabilityMap() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getCapabilityKey')
       ->execute();
   }

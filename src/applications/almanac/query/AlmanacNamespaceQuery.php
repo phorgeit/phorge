@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends AlmanacQuery<AlmanacNamespace>
+ */
 final class AlmanacNamespaceQuery
   extends AlmanacQuery {
 

@@ -41,17 +41,6 @@
   border-right: 1px solid {$thinblueborder};
 }
 
-.config-options-current-value {
-  white-space: nowrap;
-  width: 200px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.config-options-current-value.violet {
-  color: {$violet};
-}
-
 .config-options-effective-value,
 .config-option-table .config-options-effective-value th {
   background: {$gentle.highlight};

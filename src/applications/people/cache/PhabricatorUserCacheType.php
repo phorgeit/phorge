@@ -40,7 +40,7 @@ abstract class PhabricatorUserCacheType extends Phobject {
 
   public static function getAllCacheTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getUserCacheType')
       ->execute();
   }

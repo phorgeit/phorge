@@ -16,7 +16,7 @@ final class PhabricatorGarbageCollectorManagementCompactEdgesWorkflow
 
   public function execute(PhutilArgumentParser $args) {
     $tables = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransaction')
+      ->setAncestorClass(PhabricatorApplicationTransaction::class)
       ->execute();
 
     foreach ($tables as $table) {

@@ -329,7 +329,7 @@ final class PhutilDaemonHandle extends Phobject {
    * Dispatch an event to event listeners.
    *
    * @param  string $type Event type.
-   * @param  dict   $params (optional) Event parameters.
+   * @param  array  $params (optional) Event parameters.
    * @return void
    */
   private function dispatchEvent($type, array $params = array()) {

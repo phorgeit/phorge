@@ -72,11 +72,15 @@ final class DifferentialTransactionComment
     return ($this->getTransactionPHID() != null);
   }
 
+  /**
+   * @param array<DifferentialTransaction> $inlines
+   * @param array<DifferentialChangeset> $changesets
+   */
   public static function sortAndGroupInlines(
     array $inlines,
     array $changesets) {
-    assert_instances_of($inlines, 'DifferentialTransaction');
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($inlines, DifferentialTransaction::class);
+    assert_instances_of($changesets, DifferentialChangeset::class);
 
     $changesets = mpull($changesets, null, 'getID');
     $changesets = msort($changesets, 'getFilename');

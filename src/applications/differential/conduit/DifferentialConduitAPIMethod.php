@@ -4,7 +4,7 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
     return PhabricatorApplication::getByClass(
-      'PhabricatorDifferentialApplication');
+      PhabricatorDifferentialApplication::class);
   }
 
   protected function buildDiffInfoDictionary(DifferentialDiff $diff) {
@@ -118,10 +118,14 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
       ->execute();
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @param array<DifferentialRevision> $revisions
+   */
   protected function loadCustomFieldsForRevisions(
     PhabricatorUser $viewer,
     array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     if (!$revisions) {
       return array();

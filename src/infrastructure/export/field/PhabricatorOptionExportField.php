@@ -14,6 +14,9 @@ final class PhabricatorOptionExportField
     return $this->options;
   }
 
+  /**
+   * @return array|null
+   */
   public function getNaturalValue($value) {
     if ($value === null) {
       return $value;

@@ -12,7 +12,7 @@ final class PhabricatorPackagesPackageTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorPackagesPackageTransactionType';
+    return PhabricatorPackagesPackageTransactionType::class;
   }
 
 }

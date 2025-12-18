@@ -114,8 +114,6 @@ final class PhabricatorDashboardPanelTabsController
 
       switch (phid_get_type($context_phid)) {
         case PhabricatorDashboardDashboardPHIDType::TYPECONST:
-          $cancel_uri = $context->getURI();
-          break;
         case PhabricatorDashboardPanelPHIDType::TYPECONST:
           $cancel_uri = $context->getURI();
           break;

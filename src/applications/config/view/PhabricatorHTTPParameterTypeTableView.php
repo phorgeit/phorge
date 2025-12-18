@@ -5,8 +5,11 @@ final class PhabricatorHTTPParameterTypeTableView
 
   private $types;
 
+  /**
+   * @param array<AphrontHTTPParameterType> $types
+   */
   public function setHTTPParameterTypes(array $types) {
-    assert_instances_of($types, 'AphrontHTTPParameterType');
+    assert_instances_of($types, AphrontHTTPParameterType::class);
     $this->types = $types;
     return $this;
   }

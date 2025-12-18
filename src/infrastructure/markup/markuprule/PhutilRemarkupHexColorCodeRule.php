@@ -24,9 +24,9 @@ final class PhutilRemarkupHexColorCodeRule
     list($r, $g, $b) = array_map('hexdec', $colors_hex);
     // Calculation adapted from Myndex, CC BY-SA 4.0
     // https://stackoverflow.com/a/69869976
-    $y = pow((double)$r / 255.0, 2.2) * 0.2126 +
-      pow((double)$g / 255.0, 2.2) * 0.7152 +
-      pow((double)$b / 255.0, 2.2) * 0.0722;
+    $y = pow((float)$r / 255.0, 2.2) * 0.2126 +
+      pow((float)$g / 255.0, 2.2) * 0.7152 +
+      pow((float)$b / 255.0, 2.2) * 0.0722;
 
     return ($y < 0.34) ? 'white' : 'black';
   }

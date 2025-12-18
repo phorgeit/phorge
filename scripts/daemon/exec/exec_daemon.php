@@ -99,7 +99,7 @@ if (!$daemon) {
       pht(
         'No class "%s" exists in any known library.',
         $daemon));
-  } else if (!is_subclass_of($daemon, 'PhutilDaemon')) {
+  } else if (!is_subclass_of($daemon, PhutilDaemon::class)) {
     throw new PhutilArgumentUsageException(
       pht(
         'Class "%s" is not a subclass of "%s".',

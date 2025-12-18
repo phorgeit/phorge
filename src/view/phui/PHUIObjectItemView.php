@@ -21,6 +21,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   private $imageURI;
   private $imageHref;
   private $imageIcon;
+  private $hasSpriteImage;
   private $titleText;
   private $badge;
   private $countdownNum;
@@ -178,6 +179,21 @@ final class PHUIObjectItemView extends AphrontTagView {
 
   public function getImageIcon() {
     return $this->imageIcon;
+  }
+
+  /**
+   * @param bool $sprite
+   */
+  public function setHasSpriteImage($sprite) {
+    $this->hasSpriteImage = $sprite;
+    return $this;
+  }
+
+  /**
+   * @return bool
+   */
+  public function getHasSpriteImage() {
+    return $this->hasSpriteImage;
   }
 
   public function setCoverImage($image) {
@@ -673,10 +689,14 @@ final class PHUIObjectItemView extends AphrontTagView {
         ),
         '');
     } else if ($this->getImageIcon()) {
+      $item_class = 'phui-oi-image-icon';
+      if ($this->getHasSpriteImage()) {
+        $item_class = $item_class.' phui-oi-with-sprite-image';
+      }
       $image = phutil_tag(
         'div',
         array(
-          'class' => 'phui-oi-image-icon',
+          'class' => $item_class,
         ),
         $this->getImageIcon());
     }
@@ -688,6 +708,7 @@ final class PHUIObjectItemView extends AphrontTagView {
         'a',
         array(
           'href' => $image_href,
+          'title' => $title_text,
         ),
         $image);
     }

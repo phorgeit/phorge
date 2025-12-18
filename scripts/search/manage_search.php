@@ -8,14 +8,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage search'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **search** __command__ [__options__]
-    Manage Phabricator search index.
+    Manage search index.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorSearchManagementWorkflow')
+  ->setAncestorClass(PhabricatorSearchManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

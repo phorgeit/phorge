@@ -74,7 +74,7 @@ abstract class DifferentialRevisionActionTransaction
 
   public static function loadAllActions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getRevisionActionKey')
       ->execute();
   }

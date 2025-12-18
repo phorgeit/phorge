@@ -119,8 +119,11 @@ final class AlmanacDevice
 /* -(  AlmanacPropertyInterface  )------------------------------------------- */
 
 
+  /**
+   * @param array<AlmanacProperty> $properties
+   */
   public function attachAlmanacProperties(array $properties) {
-    assert_instances_of($properties, 'AlmanacProperty');
+    assert_instances_of($properties, AlmanacProperty::class);
     $this->almanacProperties = mpull($properties, null, 'getFieldName');
     return $this;
   }

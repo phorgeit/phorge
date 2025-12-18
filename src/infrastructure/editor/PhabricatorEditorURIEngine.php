@@ -68,7 +68,7 @@ final class PhabricatorEditorURIEngine
   }
 
   public function getURIForPath($path, $line) {
-    $tokens = $this->getURITokensForRepository($path);
+    $tokens = $this->getURITokensForRepository();
 
     $variables = array(
       'f' => $this->escapeToken($path),
@@ -81,7 +81,7 @@ final class PhabricatorEditorURIEngine
   }
 
   public function getURITokensForPath($path) {
-    $tokens = $this->getURITokensForRepository($path);
+    $tokens = $this->getURITokensForRepository();
 
     $variables = array(
       'f' => $this->escapeToken($path),
@@ -141,10 +141,13 @@ final class PhabricatorEditorURIEngine
 
     $variables = array(
       'r' => $this->escapeToken($repository->getCallsign()),
-      'n' => $this->escapeToken($repository->getRepositorySlug()),
+      'n' => null,
       'd' => $this->escapeToken($repository->getID()),
       'p' => $this->escapeToken($repository->getPHID()),
     );
+    if ($repository->getRepositorySlug()) {
+      $variables['n'] = $this->escapeToken($repository->getRepositorySlug());
+    }
 
     return $this->newTokensWithVariables($tokens, $variables);
   }

@@ -7,8 +7,11 @@ final class PhabricatorAuthHighSecurityRequiredException extends Exception {
   private $factorValidationResults;
   private $isSessionUpgrade;
 
+  /**
+   * @param array<PhabricatorAuthFactorResult> $results
+   */
   public function setFactorValidationResults(array $results) {
-    assert_instances_of($results, 'PhabricatorAuthFactorResult');
+    assert_instances_of($results, PhabricatorAuthFactorResult::class);
     $this->factorValidationResults = $results;
     return $this;
   }
@@ -17,8 +20,11 @@ final class PhabricatorAuthHighSecurityRequiredException extends Exception {
     return $this->factorValidationResults;
   }
 
+  /**
+   * @param array<PhabricatorAuthFactorConfig> $factors
+   */
   public function setFactors(array $factors) {
-    assert_instances_of($factors, 'PhabricatorAuthFactorConfig');
+    assert_instances_of($factors, PhabricatorAuthFactorConfig::class);
     $this->factors = $factors;
     return $this;
   }

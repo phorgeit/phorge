@@ -50,8 +50,6 @@
   font-weight: bold;
   white-space: nowrap;
   color: {$bluetext};
-  font-weight: bold;
-  text-shadow: 0 1px 0 white;
   background-color: {$lightbluebackground};
 }
 
@@ -249,12 +247,12 @@ span.single-display-line-content {
 .aphront-table-view tr.closed td.object-link .object-name,
 .aphront-table-view tr.alt-closed td.object-link .object-name {
   text-decoration: line-through;
-  color: rgba({$alphablack}, 0.5);
+  color: {$greytext};
 }
 
 .aphront-table-view tr.closed td.object-link a,
 .aphront-table-view tr.alt-closed td.object-link a {
-  color: rgba({$alphablack}, 0.5);
+  color: {$greytext};
 }
 
 .aphront-table-view tr.closed td.graph-status,
@@ -264,7 +262,7 @@ span.single-display-line-content {
 }
 
 .aphront-table-view tr.highlighted {
-  background: #fdf9e4;
+  background: {$sh-yellowbackground};
 }
 
 .aphront-table-view tr.alt-highlighted {
@@ -345,7 +343,7 @@ span.single-display-line-content {
 .object-graph-header {
   padding: 8px 12px;
   overflow: hidden;
-  background: {$lightyellow};
+  background: {$gentle.highlight};
   border-bottom: 1px solid {$lightblueborder};
   vertical-align: middle;
 }

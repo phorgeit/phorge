@@ -37,8 +37,11 @@ final class PhabricatorMailEmailMessage
     return $this->replyToAddress;
   }
 
+  /**
+   * @param array<PhutilEmailAddress> $addresses
+   */
   public function setToAddresses(array $addresses) {
-    assert_instances_of($addresses, 'PhutilEmailAddress');
+    assert_instances_of($addresses, PhutilEmailAddress::class);
     $this->toAddresses = $addresses;
     return $this;
   }
@@ -47,8 +50,11 @@ final class PhabricatorMailEmailMessage
     return $this->toAddresses;
   }
 
+  /**
+   * @param array<PhutilEmailAddress> $addresses
+   */
   public function setCCAddresses(array $addresses) {
-    assert_instances_of($addresses, 'PhutilEmailAddress');
+    assert_instances_of($addresses, PhutilEmailAddress::class);
     $this->ccAddresses = $addresses;
     return $this;
   }
@@ -57,8 +63,11 @@ final class PhabricatorMailEmailMessage
     return $this->ccAddresses;
   }
 
+  /**
+   * @param array<PhabricatorMailHeader> $headers
+   */
   public function setHeaders(array $headers) {
-    assert_instances_of($headers, 'PhabricatorMailHeader');
+    assert_instances_of($headers, PhabricatorMailHeader::class);
     $this->headers = $headers;
     return $this;
   }
@@ -67,8 +76,11 @@ final class PhabricatorMailEmailMessage
     return $this->headers;
   }
 
+  /**
+   * @param array<PhabricatorMailAttachment> $attachments
+   */
   public function setAttachments(array $attachments) {
-    assert_instances_of($attachments, 'PhabricatorMailAttachment');
+    assert_instances_of($attachments, PhabricatorMailAttachment::class);
     $this->attachments = $attachments;
     return $this;
   }

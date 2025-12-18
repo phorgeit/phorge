@@ -25,6 +25,9 @@ abstract class PhabricatorPeopleMailEngine
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   */
   final public function getRecipient() {
     if (!$this->recipient) {
       throw new PhutilInvalidStateException('setRecipient');

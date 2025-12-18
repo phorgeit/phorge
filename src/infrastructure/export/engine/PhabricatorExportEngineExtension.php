@@ -23,7 +23,7 @@ abstract class PhabricatorExportEngineExtension extends Phobject {
 
   final public static function getAllExtensions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getExtensionKey')
       ->execute();
   }

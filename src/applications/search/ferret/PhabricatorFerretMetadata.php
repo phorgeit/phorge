@@ -11,6 +11,10 @@ final class PhabricatorFerretMetadata extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorFerretEngine A subclass of PhabricatorFerretEngine,
+   *   e.g. DiffusionCommitFerretEngine or ManiphestTaskFerretEngine
+   */
   public function getEngine() {
     return $this->engine;
   }
@@ -20,6 +24,9 @@ final class PhabricatorFerretMetadata extends Phobject {
     return $this;
   }
 
+  /**
+   * @return string PHID of a search result
+   */
   public function getPHID() {
     return $this->phid;
   }
@@ -29,10 +36,16 @@ final class PhabricatorFerretMetadata extends Phobject {
     return $this;
   }
 
+  /**
+   * @return int
+   */
   public function getRelevance() {
     return $this->relevance;
   }
 
+  /**
+   * @return PhutilSortVector
+   */
   public function getRelevanceSortVector() {
     $engine = $this->getEngine();
 

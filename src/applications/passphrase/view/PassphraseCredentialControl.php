@@ -26,8 +26,11 @@ final class PassphraseCredentialControl extends AphrontFormControl {
     return $this->credentialType;
   }
 
+  /**
+   * @param array<PassphraseCredential> $options
+   */
   public function setOptions(array $options) {
-    assert_instances_of($options, 'PassphraseCredential');
+    assert_instances_of($options, PassphraseCredential::class);
     $this->options = $options;
     return $this;
   }

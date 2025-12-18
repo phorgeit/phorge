@@ -182,8 +182,9 @@ final class DifferentialRevisionEditEngine
       ->setDatasource(new PhabricatorPeopleDatasource())
       ->setTransactionType(
         DifferentialRevisionAuthorTransaction::TRANSACTIONTYPE)
-      ->setDescription(pht('Foist this revision upon someone else.'))
-      ->setConduitDescription(pht('Foist this revision upon another user.'))
+      ->setDescription(pht('Make someone else the author of this revision.'))
+      ->setConduitDescription(
+        pht('Make another user the author of this revision.'))
       ->setConduitTypeDescription(pht('New author.'))
       ->setSingleValue($object->getAuthorPHID());
 
@@ -193,11 +194,11 @@ final class DifferentialRevisionEditEngine
       $author_field->setIsHidden(true);
     }
 
-    // Only show the "Foist Upon" comment action to the current revision
-    // author. Other users can use "Edit Revision", it's just very unlikley
+    // Only show the "Change Author" comment action to the current revision
+    // author. Other users can use "Edit Revision", it's just very unlikely
     // that they're interested in this action.
     if ($viewer->getPHID() === $object->getAuthorPHID()) {
-      $author_field->setCommentActionLabel(pht('Foist Upon'));
+      $author_field->setCommentActionLabel(pht('Change Author'));
     }
 
     $fields[] = $author_field;

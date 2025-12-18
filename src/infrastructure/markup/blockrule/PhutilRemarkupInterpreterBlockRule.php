@@ -19,7 +19,7 @@ final class PhutilRemarkupInterpreterBlockRule extends PhutilRemarkupBlockRule {
    */
   private function getStartBlockPattern() {
     $interpreters = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhutilRemarkupBlockInterpreter')
+      ->setAncestorClass(PhutilRemarkupBlockInterpreter::class)
       ->execute();
     $interpreters_regex = mpull($interpreters, 'getInterpreterName');
     $interpreters_regex = array_map('preg_quote', $interpreters_regex);
@@ -63,7 +63,7 @@ final class PhutilRemarkupInterpreterBlockRule extends PhutilRemarkupBlockRule {
     }
 
     $interpreters = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhutilRemarkupBlockInterpreter')
+      ->setAncestorClass(PhutilRemarkupBlockInterpreter::class)
       ->execute();
 
     foreach ($interpreters as $interpreter) {

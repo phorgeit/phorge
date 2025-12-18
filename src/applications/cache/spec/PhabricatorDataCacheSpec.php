@@ -33,8 +33,6 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
     if (ini_get('apc.enabled')) {
       if (function_exists('apcu_clear_cache')) {
         $clear_callback = 'apcu_clear_cache';
-      } else {
-        $clear_callback = 'apc_clear_cache';
       }
 
       $this
@@ -67,9 +65,6 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
     if (function_exists('apcu_sma_info')) {
       $mem = apcu_sma_info();
       $info = apcu_cache_info();
-    } else if (function_exists('apc_sma_info')) {
-      $mem = apc_sma_info();
-      $info = apc_cache_info('user');
     } else {
       $mem = null;
     }

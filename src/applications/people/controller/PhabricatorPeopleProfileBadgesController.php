@@ -16,7 +16,7 @@ final class PhabricatorPeopleProfileBadgesController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorBadgesApplication';
+    $class = PhabricatorBadgesApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }
@@ -100,14 +100,16 @@ final class PhabricatorPeopleProfileBadgesController
         $flex->addItem($item);
       }
     } else {
-      $flex = id(new PHUIInfoView())
-        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
-        ->appendChild(pht('User has not been awarded any badges.'));
+      $flex = id(new PHUIObjectItemListView())
+        ->setNoDataString(pht('User has not been awarded any badges.'));
     }
 
-    return array(
-      $flex,
-      $pager,
-    );
+    $view = id(new PHUIObjectBoxView())
+      ->setHeaderText(pht('Received Badges'))
+      ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
+      ->appendChild($flex)
+      ->appendChild($pager);
+
+    return $view;
   }
 }

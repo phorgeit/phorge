@@ -42,7 +42,7 @@ final class AphlictDropdownDataQuery extends Phobject {
   public function execute() {
     $viewer = $this->getViewer();
 
-    $conpherence_app = 'PhabricatorConpherenceApplication';
+    $conpherence_app = PhabricatorConpherenceApplication::class;
     $is_c_installed = PhabricatorApplication::isClassInstalledForViewer(
       $conpherence_app,
       $viewer);
@@ -63,7 +63,7 @@ final class AphlictDropdownDataQuery extends Phobject {
     );
     $this->setConpherenceData($conpherence_data);
 
-    $notification_app = 'PhabricatorNotificationsApplication';
+    $notification_app = PhabricatorNotificationsApplication::class;
     $is_n_installed = PhabricatorApplication::isClassInstalledForViewer(
       $notification_app,
       $viewer);

@@ -43,6 +43,10 @@ final class PhabricatorSearchApplicationSearchEngine
     return $saved;
   }
 
+  /**
+   * @param PhabricatorSavedQuery $saved
+   * @return PhabricatorSearchDocumentQuery
+   */
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
     $query = new PhabricatorSearchDocumentQuery();
 
@@ -110,7 +114,7 @@ final class PhabricatorSearchApplicationSearchEngine
       PhabricatorSearchRelationship::RELATIONSHIP_CLOSED => pht('Closed'),
     );
     $status_control = id(new AphrontFormCheckboxControl())
-      ->setLabel(pht('Document Status'));
+      ->setLabel(pht('Item Status'));
     foreach ($statuses as $status => $name) {
       $status_control->addCheckbox(
         'statuses[]',
@@ -123,7 +127,7 @@ final class PhabricatorSearchApplicationSearchEngine
     $type_values = array_fuse($type_values);
 
     $types_control = id(new AphrontFormTokenizerControl())
-      ->setLabel(pht('Document Types'))
+      ->setLabel(pht('Item Types'))
       ->setName('types')
       ->setDatasource(new PhabricatorSearchDocumentTypeDatasource())
       ->setValue($type_values);
@@ -176,12 +180,15 @@ final class PhabricatorSearchApplicationSearchEngine
 
   protected function getBuiltinQueryNames() {
     return array(
-      'all' => pht('All Documents'),
-      'open' => pht('Open Documents'),
+      'all' => pht('All Items'),
+      'open' => pht('Open Items'),
       'open-tasks' => pht('Open Tasks'),
     );
   }
 
+  /**
+   * @return PhabricatorSavedQuery
+   */
   public function buildSavedQueryFromBuiltin($query_key) {
     $query = $this->newSavedQuery();
     $query->setQueryKey($query_key);
@@ -200,6 +207,10 @@ final class PhabricatorSearchApplicationSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @return array<string,string> PHIDType and its description, for example
+   *   'TASK => Maniphest Task' or 'DREV => Differential Revision'
+   */
   public static function getIndexableDocumentTypes(
     ?PhabricatorUser $viewer = null) {
 
@@ -207,7 +218,7 @@ final class PhabricatorSearchApplicationSearchEngine
     // results. It would be nice to do this more elegantly.
 
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFulltextInterface')
+      ->setAncestorClass(PhabricatorFulltextInterface::class)
       ->execute();
 
     $type_map = array();
@@ -240,6 +251,12 @@ final class PhabricatorSearchApplicationSearchEngine
     return true;
   }
 
+  /**
+   * @param array<string,PhabricatorObjectHandle> $results Array of pairs of
+   *   the object's PHID as key and the corresponding PhabricatorObjectHandle
+   * @param PhabricatorSavedQuery $query
+   * @param array<string,PhabricatorObjectHandle> $handles Unused.
+   */
   protected function renderResultList(
     array $results,
     PhabricatorSavedQuery $query,

@@ -12,7 +12,7 @@ final class PhabricatorProjectColumnTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorProjectColumnTransactionType';
+    return PhabricatorProjectColumnTransactionType::class;
   }
 
 }

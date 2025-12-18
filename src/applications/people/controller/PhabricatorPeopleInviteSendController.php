@@ -17,6 +17,11 @@ final class PhabricatorPeopleInviteSendController
     $message = $request->getStr('message');
     $emails = $request->getStr('emails');
     $severity = PHUIInfoView::SEVERITY_ERROR;
+
+    $any_valid = false;
+    $all_valid = true;
+    $actions = null;
+
     if ($request->isFormPost()) {
       // NOTE: We aren't using spaces as a delimiter here because email
       // addresses with names often include spaces.
@@ -42,8 +47,6 @@ final class PhabricatorPeopleInviteSendController
           $viewer,
           $email_list);
 
-        $any_valid = false;
-        $all_valid = true;
         foreach ($actions as $action) {
           if ($action->willSend()) {
             $any_valid = true;

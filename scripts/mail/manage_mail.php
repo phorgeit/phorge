@@ -8,14 +8,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage mail'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **mail** __command__ [__options__]
-    Manage Phabricator mail stuff.
+    Manage mail stuff.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorMailManagementWorkflow')
+  ->setAncestorClass(PhabricatorMailManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

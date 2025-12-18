@@ -28,10 +28,11 @@ final class PhabricatorFlagSelectControl extends AphrontFormControl {
     foreach ($colors as $const => $name) {
       // TODO: This should probably be a sprite sheet.
       $partial = $file_map[$const];
-      $uri = '/rsrc/image/icon/fatcow/flag_'.$partial.'.png';
+      $uri = '/rsrc/image/icon/flags/flag_'.$partial.'.svg';
       $uri = celerity_get_resource_uri($uri);
 
       $icon = id(new PHUIIconView())
+        ->setHeadSize(PHUIIconView::HEAD_FLAG)
         ->setImage($uri);
 
       $input = phutil_tag(
@@ -39,6 +40,7 @@ final class PhabricatorFlagSelectControl extends AphrontFormControl {
         array(
           'type' => 'checkbox',
           'name' => $this->getName().'[]',
+          'aria-label' => $partial,
           'value' => $const,
           'checked' => isset($value_map[$const])
             ? 'checked'

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends NuanceQuery<NuanceSource>
+ */
 final class NuanceSourceQuery
   extends NuanceQuery {
 

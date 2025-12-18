@@ -42,6 +42,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
         'autocorrect' => 'off',
         'autocapitalize' => 'off',
         'spellcheck' => 'false',
+        'aria-label' => pht('Search'),
       ));
 
     $target = javelin_tag(
@@ -123,32 +124,30 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     $items = array();
     $items[] = array(
-      'name' => pht('Search'),
+      'name' => pht('Global Search'),
     );
 
     $items[] = array(
       'icon' => 'fa-globe',
-      'name' => pht('All Documents'),
+      'name' => pht('All Items'),
       'value' => 'all',
     );
 
-    $application_value = null;
-    $application_icon = self::DEFAULT_APPLICATION_ICON;
-    if ($application) {
-      $application_value = get_class($application);
-      if ($application->getApplicationSearchDocumentTypes()) {
-        $application_icon = $application->getIcon();
+    if ($application && $application->getApplicationSearchDocumentTypes()) {
+      $application_icon = $application->getIcon();
+      $application_name = $application->getName();
+      if (!$application_icon) {
+        $application_icon = self::DEFAULT_APPLICATION_ICON;
       }
+      $items[] = array(
+        'icon' => $application_icon,
+        'name' => pht('In %s Only', $application_name),
+        'value' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
+      );
     }
 
     $items[] = array(
-      'icon' => $application_icon,
-      'name' => pht('Current Application'),
-      'value' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
-    );
-
-    $items[] = array(
-      'name' => pht('Saved Queries'),
+      'name' => pht('Saved Global Queries'),
     );
 
 
@@ -180,14 +179,8 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
       );
     }
 
-    $items[] =  array(
-      'name' => pht('More Options'),
-    );
-
     $items[] = array(
-      'icon' => 'fa-search-plus',
-      'name' => pht('Advanced Search'),
-      'href' => '/search/query/advanced/',
+      'name' => pht('Documentation'),
     );
 
     $items[] = array(

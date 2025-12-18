@@ -24,7 +24,7 @@ final class PhabricatorExampleEventListener extends PhabricatorEventListener {
       "%s\n",
       pht(
         '%s got test event at %d',
-        __CLASS__,
+        self::class,
         $event->getValue('time')));
   }
 

@@ -14,7 +14,7 @@ abstract class PhabricatorContentSource extends Phobject {
 
   final public static function getAllContentSources() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getSourceTypeConstant')
       ->execute();
   }

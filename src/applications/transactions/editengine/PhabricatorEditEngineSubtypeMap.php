@@ -7,8 +7,11 @@ final class PhabricatorEditEngineSubtypeMap
   private $subtypes;
   private $datasource;
 
+  /**
+   * @param array<PhabricatorEditEngineSubtype> $subtypes
+   */
   public function __construct(array $subtypes) {
-    assert_instances_of($subtypes, 'PhabricatorEditEngineSubtype');
+    assert_instances_of($subtypes, PhabricatorEditEngineSubtype::class);
 
     $this->subtypes = $subtypes;
   }

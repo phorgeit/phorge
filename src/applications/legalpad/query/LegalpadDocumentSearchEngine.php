@@ -38,10 +38,14 @@ final class LegalpadDocumentSearchEngine
           pht('Search for documents with given contributors.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Created After'))
-        ->setKey('createdStart'),
+        ->setKey('createdStart')
+        ->setDescription(
+          pht('Search for documents created after a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Created Before'))
-        ->setKey('createdEnd'),
+        ->setKey('createdEnd')
+        ->setDescription(
+          pht('Search for documents created before a certain date.')),
     );
   }
 
@@ -103,11 +107,16 @@ final class LegalpadDocumentSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<LegalpadDocument> $documents
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $documents,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($documents, 'LegalpadDocument');
+    assert_instances_of($documents, LegalpadDocument::class);
 
     $viewer = $this->requireViewer();
 

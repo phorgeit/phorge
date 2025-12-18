@@ -32,6 +32,10 @@ class AphrontFormTextAreaControl extends AphrontFormControl {
     return $this->placeHolder;
   }
 
+  /**
+   * @param string $height One of the AphrontFormTextAreaControl::HEIGHT_*
+   *   variables
+   */
   public function setHeight($height) {
     $this->height = $height;
     return $this;
@@ -55,6 +59,9 @@ class AphrontFormTextAreaControl extends AphrontFormControl {
     return $this;
   }
 
+  /**
+   * @return PhutilSafeHTML HTML textarea element
+   */
   protected function renderInput() {
 
     $height_class = null;
@@ -84,6 +91,7 @@ class AphrontFormTextAreaControl extends AphrontFormControl {
       'textarea',
       array(
         'name'        => $this->getName(),
+        'aria-label'  => $this->getName(),
         'disabled'    => $this->getDisabled() ? 'disabled' : null,
         'readonly'    => $this->getReadOnly() ? 'readonly' : null,
         'class'       => $classes,

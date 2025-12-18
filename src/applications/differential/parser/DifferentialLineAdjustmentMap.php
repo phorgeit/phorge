@@ -60,7 +60,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
    *
    * @param int $line Line to map
    * @param bool $is_end True to map it as the end of a range.
-   * @return wild Spooky magic.
+   * @return array{bool,int,int} Tuple of (deleted, offset, line).
    */
   public function mapLine($line, $is_end) {
     $nmap = $this->getNearestMap();
@@ -158,8 +158,11 @@ final class DifferentialLineAdjustmentMap extends Phobject {
     return $this;
   }
 
+  /**
+   * @param array<DifferentialHunk> $hunks
+   */
   public static function newFromHunks(array $hunks) {
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
 
     $map = array();
     $o = 0;

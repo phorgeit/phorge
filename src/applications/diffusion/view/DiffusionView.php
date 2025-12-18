@@ -221,8 +221,11 @@ abstract class DiffusionView extends AphrontView {
 
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   final protected function loadBuildables(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
 
     if (!$commits) {
       return array();
@@ -230,7 +233,7 @@ abstract class DiffusionView extends AphrontView {
 
     $viewer = $this->getUser();
 
-    $harbormaster_app = 'PhabricatorHarbormasterApplication';
+    $harbormaster_app = PhabricatorHarbormasterApplication::class;
     $have_harbormaster = PhabricatorApplication::isClassInstalledForViewer(
       $harbormaster_app,
       $viewer);

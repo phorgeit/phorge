@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DifferentialViewState>
+ */
 final class DifferentialViewStateQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

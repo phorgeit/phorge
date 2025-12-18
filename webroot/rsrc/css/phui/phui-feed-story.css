@@ -71,7 +71,7 @@
   color: {$darkgreytext};
 }
 
-.phui-feed-story-bigtext-post h3 {
+.phui-feed-story-bigtext-post h2 {
   font-size: {$biggestfontsize};
   line-height: 18px;
   color: {$darkgreytext};

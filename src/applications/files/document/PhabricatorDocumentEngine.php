@@ -28,7 +28,12 @@ abstract class PhabricatorDocumentEngine
   }
 
   final public function canRenderDocument(PhabricatorDocumentRef $ref) {
-    return $this->canRenderDocumentType($ref);
+    try {
+      return $this->canRenderDocumentType($ref);
+    } catch (Throwable $e) {
+      phlog($e);
+      return false;
+    }
   }
 
   public function canDiffDocuments(
@@ -75,6 +80,10 @@ abstract class PhabricatorDocumentEngine
     return false;
   }
 
+  /**
+   * Check if the engine supports the blame feature.
+   * @return bool
+   */
   public function canBlame(PhabricatorDocumentRef $ref) {
     return false;
   }
@@ -155,7 +164,7 @@ abstract class PhabricatorDocumentEngine
 
   final public static function getAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getDocumentEngineKey')
       ->execute();
   }

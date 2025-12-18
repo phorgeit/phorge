@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorApplication>
+ */
 final class PhabricatorApplicationQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
@@ -53,6 +56,9 @@ final class PhabricatorApplicationQuery
     return $this;
   }
 
+  /**
+   * @param array<class-string<PhabricatorApplication>> $classes
+   */
   public function withClasses(array $classes) {
     $this->classes = $classes;
     return $this;
@@ -151,7 +157,6 @@ final class PhabricatorApplicationQuery
         $apps = msort($apps, 'getName');
         break;
       case self::ORDER_APPLICATION:
-        $apps = $apps;
         break;
       default:
         throw new Exception(

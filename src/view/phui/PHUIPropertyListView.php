@@ -3,7 +3,6 @@
 final class PHUIPropertyListView extends AphrontView {
 
   private $parts = array();
-  private $hasKeyboardShortcuts;
   private $object;
   private $invokedWillRenderEvent;
   private $actionList = null;
@@ -38,11 +37,6 @@ final class PHUIPropertyListView extends AphrontView {
 
   public function addClass($class) {
     $this->classes[] = $class;
-    return $this;
-  }
-
-  public function setHasKeyboardShortcuts($has_keyboard_shortcuts) {
-    $this->hasKeyboardShortcuts = $has_keyboard_shortcuts;
     return $this;
   }
 
@@ -115,6 +109,12 @@ final class PHUIPropertyListView extends AphrontView {
     $this->invokedWillRenderEvent = true;
   }
 
+  /**
+   * Whether there are any properties to display in the list view.
+   * Useful to e.g. display an explanation via PHUIInfoView if false.
+   *
+   * @return bool
+   */
   public function hasAnyProperties() {
     $this->invokeWillRenderEvent();
 
@@ -223,17 +223,12 @@ final class PHUIPropertyListView extends AphrontView {
       ),
       $items);
 
-    $shortcuts = null;
-    if ($this->hasKeyboardShortcuts) {
-      $shortcuts = new AphrontKeyboardShortcutsAvailableView();
-    }
-
     $list = phutil_tag(
       'div',
       array(
         'class' => 'phui-property-list-properties-wrap '.$stacked,
       ),
-      array($shortcuts, $list));
+      array($list));
 
     $action_list = null;
     if ($this->actionList) {

@@ -30,6 +30,10 @@
   background-size: 35px;
 }
 
+.phui-icon-view.phuihead-flag {
+  background-size: 16px;
+}
+
 .phui-icon-has-text:before {
   margin-right: 6px;
 }
@@ -172,7 +176,7 @@ a.phui-icon-circle.hover-red:hover .phui-icon-view {
 .phui-icon-view.phui-icon-square {
   height: 40px;
   width: 40px;
-  color: #fff;
+  color: {$page.content};
   font-size: 26px;
   text-align: center;
   line-height: 38px;
@@ -181,7 +185,7 @@ a.phui-icon-circle.hover-red:hover .phui-icon-view {
 
 a.phui-icon-view.phui-icon-square:hover {
   text-decoration: none;
-  color: #fff;
+  color: {$page.content};
 }
 
 

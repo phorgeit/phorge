@@ -163,7 +163,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
     }
 
     $related_tabs[] = $this->newMocksTab($task, $query);
-    $related_tabs[] = $this->newMentionsTab($task, $query);
+    $related_tabs[] = $this->newMentionsTab($query);
     $related_tabs[] = $this->newDuplicatesTab($task, $query);
 
     $tab_view = null;
@@ -243,9 +243,9 @@ final class ManiphestTaskDetailController extends ManiphestController {
   private function getOpenGraphProtocolMetadataValues($task) {
     $viewer = $this->getViewer();
 
-    $v = [];
+    $v = array();
     $v['og:site_name'] = PlatformSymbols::getPlatformServerName();
-    $v['og:type'] = 'object';
+    $v['og:type'] = 'website';
     $v['og:url'] = PhabricatorEnv::getProductionURI($task->getURI());
     $v['og:title'] = $task->getMonogram().' '.$task->getTitle();
 
@@ -268,7 +268,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
    * Add Open Graph Protocol metadata tags to Maniphest task page
    * @param PhabricatorStandardPageView $page
    * @param ManiphestTask $task
-   * @return $page with additional OGP <meta> tags
+   * @return PhabricatorStandardPageView with additional OGP <meta> tags
    */
   private function addOpenGraphProtocolMetadataTags($page, $task) {
     foreach ($this->getOpenGraphProtocolMetadataValues($task) as $k => $v) {
@@ -415,7 +415,11 @@ final class ManiphestTaskDetailController extends ManiphestController {
     $viewer_phid = $viewer->getPHID();
     $owner_phid = $task->getOwnerPHID();
     $author_phid = $task->getAuthorPHID();
-    $handles = $viewer->loadHandles(array($owner_phid, $author_phid));
+    if ($owner_phid) {
+      $handles = $viewer->loadHandles(array($owner_phid, $author_phid));
+    } else {
+      $handles = $viewer->loadHandles(array($author_phid));
+    }
 
     $assigned_refs = id(new PHUICurtainObjectRefListView())
       ->setViewer($viewer)
@@ -528,49 +532,15 @@ final class ManiphestTaskDetailController extends ManiphestController {
   }
 
   private function newMentionsTab(
-    ManiphestTask $task,
     PhabricatorEdgeQuery $edge_query) {
 
-    $in_type = PhabricatorObjectMentionedByObjectEdgeType::EDGECONST;
-    $out_type = PhabricatorObjectMentionsObjectEdgeType::EDGECONST;
+    $view = (new PhorgeApplicationMentionsListView())
+      ->setEdgeQuery($edge_query)
+      ->setViewer($this->getViewer())
+      ->getMentionsView();
 
-    $in_phids = $edge_query->getDestinationPHIDs(array(), array($in_type));
-    $out_phids = $edge_query->getDestinationPHIDs(array(), array($out_type));
-
-    // Filter out any mentioned users from the list. These are not generally
-    // very interesting to show in a relationship summary since they usually
-    // end up as subscribers anyway.
-
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
-    foreach ($out_phids as $key => $out_phid) {
-      if (phid_get_type($out_phid) == $user_type) {
-        unset($out_phids[$key]);
-      }
-    }
-
-    if (!$in_phids && !$out_phids) {
+    if (!$view ) {
       return null;
-    }
-
-    $viewer = $this->getViewer();
-    $in_handles = $viewer->loadHandles($in_phids);
-    $out_handles = $viewer->loadHandles($out_phids);
-
-    $in_handles = $this->getCompleteHandles($in_handles);
-    $out_handles = $this->getCompleteHandles($out_handles);
-
-    if (!count($in_handles) && !count($out_handles)) {
-      return null;
-    }
-
-    $view = new PHUIPropertyListView();
-
-    if (count($in_handles)) {
-      $view->addProperty(pht('Mentioned In'), $in_handles->renderList());
-    }
-
-    if (count($out_handles)) {
-      $view->addProperty(pht('Mentioned Here'), $out_handles->renderList());
     }
 
     return id(new PHUITabView())

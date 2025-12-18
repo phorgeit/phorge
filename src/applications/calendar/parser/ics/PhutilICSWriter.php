@@ -213,6 +213,17 @@ final class PhutilICSWriter extends Phobject {
       }
     }
 
+    // In the future you may want to add export support
+    // to the "Time Trasparency" field. In case, please tell us why.
+    // No one needs it at the moment. This is not even persisted
+    // in the event object, so, this cannot be exported.
+//    $transp = $event->getTimeTransparency();
+//    if ($transp) {
+//      $properties[] = $this->newTextProperty(
+//        'TRANSP',
+//        $transp);
+//    }
+
     $rrule = $event->getRecurrenceRule();
     if ($rrule) {
       $properties[] = $this->newRRULEProperty(
@@ -274,11 +285,16 @@ final class PhutilICSWriter extends Phobject {
     return $this->newDateTimesProperty($name, array($value), $parameters);
   }
 
+  /**
+   * @param $name
+   * @param array<PhutilCalendarDateTime> $values
+   * @param array $parameters
+   */
   private function newDateTimesProperty(
     $name,
     array $values,
     array $parameters = array()) {
-    assert_instances_of($values, 'PhutilCalendarDateTime');
+    assert_instances_of($values, PhutilCalendarDateTime::class);
 
     if (head($values)->getIsAllDay()) {
       $parameters[] = array(

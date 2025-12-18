@@ -28,7 +28,8 @@ final class PhabricatorPeopleSearchEngine
         ->setLabel(pht('Name Contains'))
         ->setKey('nameLike')
         ->setDescription(
-          pht('Find users whose usernames contain a substring.')),
+          pht(
+            'Find users whose usernames or real names contain a substring.')),
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Administrators'))
         ->setKey('isAdmin')
@@ -234,12 +235,17 @@ final class PhabricatorPeopleSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorUser> $users
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $users,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, PhabricatorUser::class);
 
     $request = $this->getRequest();
     $viewer = $this->requireViewer();

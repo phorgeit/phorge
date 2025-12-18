@@ -45,7 +45,7 @@ abstract class HarbormasterBuildMessageTransaction
 
   final public static function getAllMessages() {
     $message_xactions = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
 
     return $message_xactions;

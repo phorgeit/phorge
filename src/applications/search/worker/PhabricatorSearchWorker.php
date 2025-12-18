@@ -12,7 +12,7 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
     }
 
     parent::scheduleTask(
-      __CLASS__,
+      self::class,
       array(
         'documentPHID' => $phid,
         'parameters' => $parameters,

@@ -6,11 +6,11 @@ final class PhabricatorPeopleBadgesProfileMenuItem
   const MENUITEMKEY = 'people.badges';
 
   public function getMenuItemTypeName() {
-    return pht('Badges');
+    return pht('Received Badges');
   }
 
   private function getDefaultName() {
-    return pht('Badges');
+    return pht('Received Badges');
   }
 
   public function canHideMenuItem(

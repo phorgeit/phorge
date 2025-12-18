@@ -16,7 +16,7 @@ final class PhabricatorDashboardQueryPanelQueryEditField
 
   protected function newControl() {
     $engines = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationSearchEngine')
+      ->setAncestorClass(PhabricatorApplicationSearchEngine::class)
       ->setFilterMethod('canUseInPanelContext')
       ->execute();
 

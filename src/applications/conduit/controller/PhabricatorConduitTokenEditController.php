@@ -81,9 +81,6 @@ final class PhabricatorConduitTokenEditController
         ->addSubmitButton($submit_button)
         ->addCancelButton($panel_uri);
     } else {
-      $form = id(new AphrontFormView())
-        ->setUser($viewer);
-
       if ($token->getTokenType() === PhabricatorConduitToken::TYPE_CLUSTER) {
         $dialog->appendChild(
           pht(
@@ -91,15 +88,20 @@ final class PhabricatorConduitTokenEditController
             'requests between nodes in a cluster. You can not use this '.
             'token in external applications.'));
       } else {
-        $form->appendChild(
-          id(new AphrontFormTextControl())
-            ->setLabel(pht('Token'))
-            ->setValue($token->getToken()));
+        Javelin::initBehavior('select-on-click');
+        $form = id(new AphrontFormView())
+          ->setUser($viewer)
+          ->appendChild(
+            id(new AphrontFormTextControl())
+              ->setLabel(pht('Token'))
+              ->setReadOnly(true)
+              ->setSigil('select-on-click')
+              ->setValue($token->getToken()));
+
+        $dialog->appendForm($form);
       }
 
-      $dialog
-        ->appendForm($form)
-        ->addCancelButton($panel_uri, pht('Done'));
+      $dialog->addCancelButton($panel_uri, pht('Done'));
     }
 
     return $dialog;

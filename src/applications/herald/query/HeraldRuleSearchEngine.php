@@ -130,11 +130,16 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<HeraldRule> $rules
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $rules,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($rules, 'HeraldRule');
+    assert_instances_of($rules, HeraldRule::class);
     $viewer = $this->requireViewer();
 
     $list = id(new HeraldRuleListView())

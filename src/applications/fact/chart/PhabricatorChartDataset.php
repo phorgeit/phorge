@@ -17,7 +17,7 @@ abstract class PhabricatorChartDataset
    * @param array<PhabricatorComposeChartFunction> $functions
    */
   final public function setFunctions(array $functions) {
-    assert_instances_of($functions, 'PhabricatorComposeChartFunction');
+    assert_instances_of($functions, PhabricatorComposeChartFunction::class);
 
     $this->functions = $functions;
 
@@ -26,7 +26,7 @@ abstract class PhabricatorChartDataset
 
   final public static function getAllDatasetTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getDatasetTypeKey')
       ->execute();
   }

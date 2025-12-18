@@ -230,7 +230,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
     $info = $this->getAPI($ref)->getCharsetInfo();
 
     $specs = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorConfigSchemaSpec')
+      ->setAncestorClass(PhabricatorConfigSchemaSpec::class)
       ->execute();
 
     $server_schema = id(new PhabricatorConfigServerSchema())

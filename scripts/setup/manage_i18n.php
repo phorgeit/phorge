@@ -2,7 +2,7 @@
 <?php
 
 $root = dirname(dirname(dirname(__FILE__)));
-require_once $root.'/scripts/__init_script__.php';
+require_once $root.'/scripts/init/init-setup.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage internationalization'));
@@ -15,7 +15,7 @@ EOSYNOPSIS
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorInternationalizationManagementWorkflow')
+  ->setAncestorClass(PhabricatorInternationalizationManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

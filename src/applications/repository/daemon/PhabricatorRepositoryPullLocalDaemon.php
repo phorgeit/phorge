@@ -37,7 +37,7 @@ final class PhabricatorRepositoryPullLocalDaemon
    */
   protected function run() {
     $argv = $this->getArgv();
-    array_unshift($argv, __CLASS__);
+    array_unshift($argv, self::class);
     $args = new PhutilArgumentParser($argv);
     $args->parse(
       array(
@@ -343,7 +343,7 @@ final class PhabricatorRepositoryPullLocalDaemon
    *
    * @param bool $consume (optional) Pass `true` to consume these messages, so
    *   the process will not see them again.
-   * @return list<wild> Pending update messages.
+   * @return array<PhabricatorRepositoryStatusMessage> Pending update messages.
    *
    * @task pull
    */

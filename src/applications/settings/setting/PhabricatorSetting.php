@@ -50,7 +50,7 @@ abstract class PhabricatorSetting extends Phobject {
 
   public static function getAllSettings() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getSettingKey')
       ->execute();
   }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<HeraldTranscript>
+ */
 final class HeraldTranscriptQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

@@ -20,7 +20,7 @@ final class PhabricatorCountdownTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorCountdownTransactionType';
+    return PhabricatorCountdownTransactionType::class;
   }
 
   public function getMailTags() {

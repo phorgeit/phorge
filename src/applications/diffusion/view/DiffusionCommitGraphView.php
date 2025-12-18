@@ -9,6 +9,7 @@ final class DiffusionCommitGraphView
   private $isTail;
   private $parents;
   private $filterParents;
+  private $noDataString;
 
   private $commitMap;
   private $buildableMap;
@@ -16,8 +17,11 @@ final class DiffusionCommitGraphView
 
   private $showAuditors;
 
+  /**
+   * @param array<DiffusionPathChange> $history
+   */
   public function setHistory(array $history) {
-    assert_instances_of($history, 'DiffusionPathChange');
+    assert_instances_of($history, DiffusionPathChange::class);
     $this->history = $history;
     return $this;
   }
@@ -26,8 +30,11 @@ final class DiffusionCommitGraphView
     return $this->history;
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   public function setCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
     $this->commits = $commits;
     return $this;
   }
@@ -79,6 +86,11 @@ final class DiffusionCommitGraphView
 
   public function getFilterParents() {
     return $this->filterParents;
+  }
+
+  public function setNoDataString($no_data_string) {
+    $this->noDataString = $no_data_string;
+    return $this;
   }
 
   private function getRepository() {
@@ -215,6 +227,9 @@ final class DiffusionCommitGraphView
     return $views;
   }
 
+  /**
+   * @return array<PHUIObjectItemListView>
+   */
   private function newObjectItemRows() {
     $viewer = $this->getViewer();
 
@@ -276,12 +291,17 @@ final class DiffusionCommitGraphView
       $rows[$idx] = phutil_tag('tr', array(), $cells);
     }
 
-    $table = phutil_tag(
-      'table',
-      array(
-        'class' => 'diffusion-commit-graph-table',
-      ),
-      $rows);
+    if ($rows) {
+      $table = phutil_tag(
+        'table',
+        array(
+          'class' => 'diffusion-commit-graph-table',
+        ),
+        $rows);
+    } else {
+      $table = id(new PHUIObjectItemListView())
+        ->setNoDataString($this->noDataString);
+    }
 
     return $table;
   }
@@ -317,7 +337,7 @@ final class DiffusionCommitGraphView
     $viewer = $this->getViewer();
 
     $show_builds = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorHarbormasterApplication',
+      PhabricatorHarbormasterApplication::class,
       $this->getUser());
 
     return $show_builds;
@@ -327,7 +347,7 @@ final class DiffusionCommitGraphView
     $viewer = $this->getViewer();
 
     $show_revisions = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
 
     return $show_revisions;

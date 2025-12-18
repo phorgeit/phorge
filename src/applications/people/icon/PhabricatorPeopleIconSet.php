@@ -121,7 +121,7 @@ final class PhabricatorPeopleIconSet
       ),
       array(
         'key' => 'analysis',
-        'icon' => 'fa-bar-chart-o',
+        'icon' => 'fa-bar-chart',
         'name' => pht('Analysis'),
       ),
       array(

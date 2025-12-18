@@ -50,8 +50,11 @@ final class DiffusionCommitRef extends Phobject {
       ->setHashes($hashes);
   }
 
+  /**
+   * @param array<DiffusionCommitHash> $hashes
+   */
   public function setHashes(array $hashes) {
-    assert_instances_of($hashes, 'DiffusionCommitHash');
+    assert_instances_of($hashes, DiffusionCommitHash::class);
     $this->hashes = $hashes;
     return $this;
   }

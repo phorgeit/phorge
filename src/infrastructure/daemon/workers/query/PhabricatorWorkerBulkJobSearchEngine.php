@@ -71,11 +71,16 @@ final class PhabricatorWorkerBulkJobSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorWorkerBulkJob> $jobs
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $jobs,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($jobs, 'PhabricatorWorkerBulkJob');
+    assert_instances_of($jobs, PhabricatorWorkerBulkJob::class);
 
     $viewer = $this->requireViewer();
 

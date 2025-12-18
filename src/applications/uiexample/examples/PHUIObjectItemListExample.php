@@ -278,7 +278,7 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
     $list = new PHUIObjectItemListView();
 
     $bar_colors = array(
-      null      => pht('None'),
+      ''        => pht('None'),
       'red'     => pht('Red'),
       'orange'  => pht('Orange'),
       'yellow'  => pht('Yellow'),

@@ -15,7 +15,7 @@ final class PhabricatorProjectsEditEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorProjectApplication');
+      PhabricatorProjectApplication::class);
   }
 
   public function getExtensionName() {

@@ -92,12 +92,13 @@ final class DiffusionGitLFSAuthenticateWorkflow
       $operation);
 
     $headers = array(
-      'authorization' => $authorization,
+      'authorization' => $authorization['header'],
     );
 
     $result = array(
       'header' => $headers,
       'href' => $lfs_uri,
+      'expires_in' => $authorization['ttl'],
     );
     $result = phutil_json_encode($result);
 

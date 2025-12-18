@@ -59,7 +59,7 @@ final class DiffusionExternalController extends DiffusionController {
 
     if (empty($commits)) {
       $desc = null;
-      if (strlen($uri)) {
+      if (phutil_nonempty_string($uri)) {
         $desc = pht('"%s", at "%s"', $uri, $id);
       } else {
         $desc = pht('"%s"', $id);

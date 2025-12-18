@@ -28,9 +28,12 @@ abstract class PhabricatorAuthRevoker
     return $this->getPhobjectClassConstant('REVOKERKEY');
   }
 
+  /**
+   * @return array<PhabricatorAuthRevoker>
+   */
   final public static function getAllRevokers() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getRevokerKey')
       ->execute();
   }

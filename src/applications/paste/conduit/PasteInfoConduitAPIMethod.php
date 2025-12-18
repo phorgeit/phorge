@@ -11,7 +11,10 @@ final class PasteInfoConduitAPIMethod extends PasteConduitAPIMethod {
   }
 
   public function getMethodStatusDescription() {
-    return pht("Replaced by '%s'.", 'paste.query');
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '08/2012',
+      'paste.query');
   }
 
   public function getMethodDescription() {

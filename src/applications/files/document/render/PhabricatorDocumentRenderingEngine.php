@@ -69,7 +69,10 @@ abstract class PhabricatorDocumentRenderingEngine
       $engine->setHighlightingConfiguration($highlight_setting);
     }
 
-    $blame_setting = ($request->getStr('blame') !== 'off');
+    $blame_setting = false;
+    if ($engine->canBlame($ref)) {
+      $blame_setting = ($request->getStr('blame') !== 'off');
+    }
     $engine->setBlameConfiguration($blame_setting);
 
     $views = array();
@@ -217,7 +220,10 @@ abstract class PhabricatorDocumentRenderingEngine
       $engine->setHighlightingConfiguration($highlight_setting);
     }
 
-    $blame_setting = ($request->getStr('blame') !== 'off');
+    $blame_setting = false;
+    if ($engine->canBlame($ref)) {
+      $blame_setting = ($request->getStr('blame') !== 'off');
+    }
     $engine->setBlameConfiguration($blame_setting);
 
     try {

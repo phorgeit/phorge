@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorPackagesQuery<PhabricatorPackagesVersion>
+ */
 final class PhabricatorPackagesVersionQuery
   extends PhabricatorPackagesQuery {
 

@@ -29,6 +29,10 @@ final class FlagDeleteConduitAPIMethod extends FlagConduitAPIMethod {
     );
   }
 
+  /**
+   * @param ConduitAPIRequest $request
+   * @return array<string,mixed>|null
+   */
   protected function execute(ConduitAPIRequest $request) {
     $id = $request->getValue('id');
     $object = $request->getValue('objectPHID');

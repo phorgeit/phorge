@@ -12,7 +12,7 @@ final class PhabricatorDashboardPortalTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorDashboardPortalTransactionType';
+    return PhabricatorDashboardPortalTransactionType::class;
   }
 
 }

@@ -14,7 +14,7 @@ final class NuanceItemTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'NuanceItemTransactionType';
+    return NuanceItemTransactionType::class;
   }
 
 }

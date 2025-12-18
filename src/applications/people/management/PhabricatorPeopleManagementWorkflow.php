@@ -36,10 +36,14 @@ abstract class PhabricatorPeopleManagementWorkflow
     return $user;
   }
 
+  /**
+   * @param PhabricatorUser $user
+   * @param array<PhabricatorUserTransaction> $xactions
+   */
   final protected function applyTransactions(
     PhabricatorUser $user,
     array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorUserTransaction');
+    assert_instances_of($xactions, PhabricatorUserTransaction::class);
 
     $viewer = $this->getViewer();
     $application = id(new PhabricatorPeopleApplication())->getPHID();

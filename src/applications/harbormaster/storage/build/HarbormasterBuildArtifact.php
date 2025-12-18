@@ -162,7 +162,7 @@ final class HarbormasterBuildArtifact
     $viewer = $this->getViewer();
 
     $this->openTransaction();
-      $this->releaseArtifact($viewer);
+      $this->releaseArtifact();
       $this->delete();
     $this->saveTransaction();
   }

@@ -7,7 +7,7 @@ abstract class DiffusionCommitRelationship
     $viewer = $this->getViewer();
 
     $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
     if (!$has_app) {
       return false;

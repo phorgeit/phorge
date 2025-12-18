@@ -13,10 +13,15 @@ final class PhabricatorGuideModuleController
       $key = key($all_modules);
     }
 
+    $module = idx($all_modules, $key);
+
+    if (!$module) {
+      return new Aphront404Response();
+    }
+
     $nav = $this->buildSideNavView();
     $nav->selectFilter($key.'/');
 
-    $module = $all_modules[$key];
     $content = $module->renderModuleStatus($request);
     $title = $module->getModuleName();
 

@@ -15,7 +15,7 @@ EOHELP
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('DivinerWorkflow')
+  ->setAncestorClass(DivinerWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

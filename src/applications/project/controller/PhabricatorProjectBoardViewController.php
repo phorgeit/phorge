@@ -7,6 +7,9 @@ final class PhabricatorProjectBoardViewController
     return true;
   }
 
+  /**
+   * @return AphrontResponse|PhabricatorStandardPageView
+   */
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
@@ -32,10 +35,14 @@ final class PhabricatorProjectBoardViewController
       $custom_query = null;
     }
 
-    $layout_engine = $state->getLayoutEngine();
-
+    $columns = array();
     $board_phid = $project->getPHID();
-    $columns = $layout_engine->getColumns($board_phid);
+
+    if ($project->getHasWorkboard()) {
+      $layout_engine = $state->getLayoutEngine();
+      $columns = $layout_engine->getColumns($board_phid);
+    }
+
     if (!$columns || !$project->getHasWorkboard()) {
       $has_normal_columns = false;
 
@@ -191,10 +198,22 @@ final class PhabricatorProjectBoardViewController
         $panel->addHeaderAction($trigger_menu);
       }
 
+      $column_points_tip = pht('Tasks');
+      $point_limit = $column->getPointLimit();
+      if (ManiphestTaskPoints::getIsEnabled()) {
+        $column_points_tip .= ' | '.pht('Points');
+        if ($point_limit !== null) {
+          $column_points_tip .= ' / '.pht('Point Limit');
+        }
+      } else if ($point_limit !== null) {
+          $column_points_tip .= ' / '.pht('Count Limit');
+      }
+
       $count_tag = id(new PHUITagView())
         ->setType(PHUITagView::TYPE_SHADE)
         ->setColor(PHUITagView::COLOR_BLUE)
         ->addSigil('column-points')
+        ->addSigil('has-tooltip')
         ->setName(
           javelin_tag(
             'span',
@@ -202,6 +221,11 @@ final class PhabricatorProjectBoardViewController
               'sigil' => 'column-points-content',
             ),
             pht('-')))
+        ->setMetadata(
+          array(
+            'tip' => $column_points_tip,
+            'align' => 'S',
+          ))
         ->setStyle('display: none');
 
       $panel->setHeaderTag($count_tag);
@@ -383,6 +407,9 @@ final class PhabricatorProjectBoardViewController
     return $page;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildSortMenu(
     PhabricatorUser $viewer,
     PhabricatorProject $project,
@@ -456,6 +483,9 @@ final class PhabricatorProjectBoardViewController
     return $sort_button;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildFilterMenu(
     PhabricatorUser $viewer,
     PhabricatorProject $project,
@@ -730,7 +760,8 @@ final class PhabricatorProjectBoardViewController
 
     $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
-      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      PhabricatorApplication::getByClass(
+        PhabricatorManiphestApplication::class),
       ManiphestBulkEditCapability::CAPABILITY);
 
     $column_move_uri = urisprintf('bulkmove/%d/column/', $column->getID());

@@ -6,7 +6,7 @@ final class PhabricatorTaskmasterDaemonModule
   public function shouldWakePool(PhutilDaemonPool $pool) {
     $class = $pool->getPoolDaemonClass();
 
-    if ($class != 'PhabricatorTaskmasterDaemon') {
+    if ($class != PhabricatorTaskmasterDaemon::class) {
       return false;
     }
 

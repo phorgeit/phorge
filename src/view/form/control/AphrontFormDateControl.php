@@ -227,9 +227,10 @@ final class AphrontFormDateControl extends AphrontFormControl {
     $cal_icon = javelin_tag(
       'a',
       array(
-        'href'  => '#',
-        'class' => 'calendar-button',
-        'sigil' => 'calendar-button',
+        'href'       => '#',
+        'class'      => 'calendar-button',
+        'sigil'      => 'calendar-button',
+        'aria-label' => pht('Calendar date picker'),
       ),
       $cicon);
 

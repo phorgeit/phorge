@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhrequentUserTime>
+ */
 final class PhrequentUserTimeQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

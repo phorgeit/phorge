@@ -136,19 +136,6 @@ body.device .phui-box.phui-object-box.phui-comment-form-view {
   padding: 0;
 }
 
-.phui-comment-form-view .phui-comment-action-icon {
-  float: left;
-  font-size: 20px;
-  color: {$lightbluetext};
-  height: 40px;
-  line-height: 40px;
-  margin: 0 4px;
-}
-
-.device-phone .phui-comment-form-view .phui-comment-action-icon {
-  display: none;
-}
-
 .device-phone .aphront-form-control-submit button {
   width: 100%;
 }

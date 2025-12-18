@@ -323,6 +323,9 @@ abstract class PhabricatorController extends AphrontController {
     return null;
   }
 
+  /**
+   * @return PHUICrumbsView
+   */
   protected function buildApplicationCrumbs() {
     $crumbs = array();
 
@@ -420,10 +423,16 @@ abstract class PhabricatorController extends AphrontController {
       ->setSubmitURI($submit_uri);
   }
 
+  /**
+   * @return AphrontRedirectResponse
+   */
   public function newRedirect() {
     return id(new AphrontRedirectResponse());
   }
 
+  /**
+   * @return PhabricatorStandardPageView
+   */
   public function newPage() {
     $page = id(new PhabricatorStandardPageView())
       ->setRequest($this->getRequest())
@@ -446,11 +455,17 @@ abstract class PhabricatorController extends AphrontController {
     return $page;
   }
 
+  /**
+   * @return PHUIApplicationMenuView
+   */
   public function newApplicationMenu() {
     return id(new PHUIApplicationMenuView())
       ->setViewer($this->getViewer());
   }
 
+  /**
+   * @return PHUICurtainView
+   */
   public function newCurtainView($object = null) {
     $viewer = $this->getViewer();
 
@@ -584,7 +599,7 @@ abstract class PhabricatorController extends AphrontController {
     $must_sign_docs = array();
     $sign_docs = array();
 
-    $legalpad_class = 'PhabricatorLegalpadApplication';
+    $legalpad_class = PhabricatorLegalpadApplication::class;
     $legalpad_installed = PhabricatorApplication::isClassInstalledForViewer(
       $legalpad_class,
       $viewer);
@@ -607,7 +622,7 @@ abstract class PhabricatorController extends AphrontController {
       // If nothing needs to be signed (either because there are no documents
       // which require a signature, or because the user has already signed
       // all of them) mark the session as good and continue.
-      $engine = id(new PhabricatorAuthSessionEngine())
+      id(new PhabricatorAuthSessionEngine())
         ->signLegalpadDocuments($viewer, $sign_docs);
 
       return null;

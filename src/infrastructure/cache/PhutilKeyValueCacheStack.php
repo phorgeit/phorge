@@ -38,13 +38,13 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
   /**
    * Set the caches which comprise this stack.
    *
-   * @param   list<PhutilKeyValueCache> $caches Ordered list of key-value
+   * @param   array<PhutilKeyValueCache> $caches Ordered list of key-value
    *   caches.
    * @return  $this
    * @task    config
    */
   public function setCaches(array $caches) {
-    assert_instances_of($caches, 'PhutilKeyValueCache');
+    assert_instances_of($caches, parent::class);
     $this->cachesForward  = $caches;
     $this->cachesBackward = array_reverse($caches);
 
@@ -113,6 +113,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
     foreach ($this->cachesBackward as $cache) {
       $cache->setKeys($keys, $ttl);
     }
+    return $this;
   }
 
 
@@ -120,6 +121,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
     foreach ($this->cachesBackward as $cache) {
       $cache->deleteKeys($keys);
     }
+    return $this;
   }
 
 
@@ -127,6 +129,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
     foreach ($this->cachesBackward as $cache) {
       $cache->destroyCache();
     }
+    return $this;
   }
 
 }

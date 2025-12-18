@@ -19,6 +19,10 @@ final class PhabricatorUserConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorPeopleApplication::class;
+  }
+
   public function getOptions() {
 
     $default = array(

@@ -120,9 +120,9 @@ effect, then continue to "Monitoring Replicas" to verify the configuration.
 Monitoring Replicas
 ===================
 
-You can monitor replicas in {nav Config > Database Servers}. This interface
-shows you a quick overview of replicas and their health, and can detect some
-common issues with replication.
+You can monitor replicas in {nav Config > Services > Database Servers}. This
+interface shows you a quick overview of replicas and their health, and can
+detect some common issues with replication.
 
 The table on this page shows each database and current status.
 
@@ -143,7 +143,7 @@ should //not// be replicating from another database.
 
 To report this status, the user Phorge is connecting as must have the
 `REPLICATION CLIENT` privilege (or the `SUPER` privilege) so it can run the
-`SHOW SLAVE STATUS` command. The `REPLICATION CLIENT` privilege only enables
+`SHOW REPLICA STATUS` command. The `REPLICATION CLIENT` privilege only enables
 the user to run diagnostic commands so it should be reasonable to grant it in
 most cases, but it is not required. If you choose not to grant it, this page
 can not show any useful diagnostic information about replication status but

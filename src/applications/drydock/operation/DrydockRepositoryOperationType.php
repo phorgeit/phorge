@@ -58,7 +58,7 @@ abstract class DrydockRepositoryOperationType extends Phobject {
 
   final public static function getAllOperationTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getOperationConstant')
       ->execute();
   }

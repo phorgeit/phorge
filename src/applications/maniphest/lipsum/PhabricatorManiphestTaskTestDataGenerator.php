@@ -13,8 +13,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
     $author_phid = $this->loadPhabricatorUserPHID();
     $author = id(new PhabricatorUser())
       ->loadOneWhere('phid = %s', $author_phid);
-    $task = ManiphestTask::initializeNewTask($author)
-      ->setTitle($this->generateTitle());
+    $task = ManiphestTask::initializeNewTask($author);
 
     $content_source = $this->getLipsumContentSource();
 
@@ -72,7 +71,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
   public function getProjectPHIDs() {
     $projects = array();
     for ($i = 0; $i < rand(1, 4);$i++) {
-      $project = $this->loadOneRandom('PhabricatorProject');
+      $project = $this->loadOneRandom(PhabricatorProject::class);
       if ($project) {
         $projects[] = $project->getPHID();
       }

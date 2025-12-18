@@ -10,8 +10,11 @@ final class PhabricatorUserLogView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorUserLog> $logs
+   */
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorUserLog');
+    assert_instances_of($logs, PhabricatorUserLog::class);
     $this->logs = $logs;
     return $this;
   }

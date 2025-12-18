@@ -30,6 +30,7 @@
  * @{class:AphrontDatabaseConnection}; this will tell Lisk where to save your
  * objects.
  *
+ *   lang=php
  *   class Dog extends LiskDAO {
  *
  *     protected $name;
@@ -40,7 +41,7 @@
  *     }
  *   }
  *
- * Now, you should create your table:
+ * Now, you should create your table in the @{article:Database Schema}:
  *
  *   lang=sql
  *   CREATE TABLE dog (
@@ -76,6 +77,7 @@
  *
  * To create and persist a Lisk object, use @{method:save}:
  *
+ *   lang=php
  *   $dog = id(new Dog())
  *     ->setName('Sawyer')
  *     ->setBreed('Pug')
@@ -91,6 +93,7 @@
  *
  * To load objects by ID, use the @{method:load} method:
  *
+ *   lang=php
  *   $dog = id(new Dog())->load($id);
  *
  * This will load the Dog record with ID $id into $dog, or `null` if no such
@@ -100,10 +103,12 @@
  *
  * To update an object, change its properties and save it:
  *
+ *   lang=php
  *   $dog->setBreed('Lab')->save();
  *
  * To delete an object, call @{method:delete}:
  *
+ *   lang=php
  *   $dog->delete();
  *
  * That's Lisk CRUD in a nutshell.
@@ -113,6 +118,7 @@
  * Often, you want to load a bunch of objects, or execute a more specialized
  * query. Use @{method:loadAllWhere} or @{method:loadOneWhere} to do this:
  *
+ *   lang=php
  *   $pugs = $dog->loadAllWhere('breed = %s', 'Pug');
  *   $sawyer = $dog->loadOneWhere('name = %s', 'Sawyer');
  *
@@ -128,6 +134,7 @@
  * of the transactional state of objects to implement correct transaction
  * semantics:
  *
+ *   lang=php
  *   $obj->openTransaction();
  *     $obj->save();
  *     $other->save();
@@ -243,7 +250,8 @@ abstract class LiskDAO extends Phobject
   /**
    * Get an existing, cached connection for this object.
    *
-   * @param mode $mode Connection mode.
+   * @param string $mode Connection mode: 'r' for read, 'w' for read/write.
+   *   This strings may also have an 'isolate-' prefix.
    * @return AphrontDatabaseConnection|null  Connection, if it exists in cache.
    * @task conn
    */
@@ -259,7 +267,8 @@ abstract class LiskDAO extends Phobject
   /**
    * Store a connection in the connection cache.
    *
-   * @param mode $mode Connection mode.
+   * @param string $mode Connection mode: 'r' for read, 'w' for read/write.
+   *   This strings may also have an 'isolate-' prefix.
    * @param AphrontDatabaseConnection $connection Connection to cache.
    * @param bool $force_unique (optional)
    * @return $this
@@ -384,7 +393,7 @@ abstract class LiskDAO extends Phobject
    * advanced, specialized feature and there are usually better approaches for
    * most locking/contention problems.
    *
-   * @return dictionary  Map of configuration options to values.
+   * @return array<string, mixed>  Map of configuration options to values.
    *
    * @task   config
    */
@@ -450,8 +459,8 @@ abstract class LiskDAO extends Phobject
   /**
    * Loads all of the objects, unconditionally.
    *
-   * @return dict    Dictionary of all persisted objects of this type, keyed
-   *                 on object ID.
+   * @return array<int,object> Dictionary of all persisted objects of this
+   *   type, keyed on object ID.
    *
    * @task   load
    */
@@ -470,7 +479,7 @@ abstract class LiskDAO extends Phobject
    *
    * @param  string  $pattern queryfx()-style SQL WHERE clause.
    * @param  mixed   $args,... Zero or more conversions.
-   * @return dict    Dictionary of matching objects, keyed on ID.
+   * @return array<int,object> Dictionary of matching objects, keyed on ID.
    *
    * @task   load
    */
@@ -574,9 +583,9 @@ abstract class LiskDAO extends Phobject
    * convenient to pull data from elsewhere directly (e.g., a complicated
    * join via @{method:queryData}) and then load from an array representation.
    *
-   * @param  dict  $row Dictionary of properties, which should be equivalent
-   *               to selecting a row from the table or calling
-   *               @{method:getProperties}.
+   * @param  array<string,string|null>  $row Dictionary of properties, which
+   *   should be equivalent to selecting a row from the table or calling
+   *   @{method:getProperties}.
    * @return $this
    *
    * @task   load
@@ -650,7 +659,7 @@ abstract class LiskDAO extends Phobject
    * This is a lot messier than @{method:loadAllWhere}, but more flexible.
    *
    * @param  list  $rows List of property dictionaries.
-   * @return dict  List of constructed objects, keyed on ID.
+   * @return array<int,object> List of constructed objects, keyed on ID.
    *
    * @task   load
    */
@@ -739,8 +748,8 @@ abstract class LiskDAO extends Phobject
    * database.
    * Properties that should not be persisted must be declared as private.
    *
-   * @return dict  Dictionary of normalized (lowercase) to canonical (original
-   *               case) property names.
+   * @return array<string,string>  Dictionary of normalized (lowercase) to
+   *   canonical (original case) property names.
    *
    * @task   info
    */
@@ -874,7 +883,7 @@ abstract class LiskDAO extends Phobject
    * using legacy features with CONFIG_CONVERT_CAMELCASE, but in that case you
    * should just go ahead and die in a fire).
    *
-   * @return dict  Dictionary of object properties.
+   * @return array<string,mixed>  Dictionary of object properties.
    *
    * @task   info
    */

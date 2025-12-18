@@ -63,7 +63,7 @@ final class PhabricatorProjectImageTransaction
   }
 
   public function getIcon() {
-    return 'fa-photo';
+    return 'fa-picture-o';
   }
 
   public function extractFilePHIDs($object, $value) {

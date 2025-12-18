@@ -25,6 +25,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   */
   public function getUser() {
     return $this->user;
   }
@@ -34,6 +37,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   */
   public function getViewer() {
     return $this->viewer;
   }
@@ -48,6 +54,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorController
+   */
   final public function getController() {
     return $this->controller;
   }
@@ -57,6 +66,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return AphrontSideNavFilterView
+   */
   final public function getNavigation() {
     return $this->navigation;
   }
@@ -66,13 +78,16 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUserPreferences
+   */
   public function getPreferences() {
     return $this->preferences;
   }
 
   final public static function getAllPanels() {
     $panels = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPanelKey')
       ->execute();
     return msortv($panels, 'getPanelOrderVector');
@@ -223,8 +238,8 @@ abstract class PhabricatorSettingsPanel extends Phobject {
    * a redirect when the user saves settings.
    *
    * @param   AphrontRequest  $request Incoming request.
-   * @return  wild            Response to request, either as an
-   *                          @{class:AphrontResponse} or something which can
+   * @return  AphrontResponse|AphrontView|array Response to request, either as
+   *                          an @{class:AphrontResponse} or something which can
    *                          be composed into a @{class:AphrontView}.
    * @task panel
    */

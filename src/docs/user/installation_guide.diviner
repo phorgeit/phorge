@@ -16,7 +16,7 @@ Phorge, you will need:
   - basic sysadmin skills;
   - Apache, nginx, or another webserver;
   - PHP;
-  - MySQL (you will need a server with multiple databases);
+  - MySQL or MariaDB (you will need a server with multiple databases);
   - git
 
 The remainder of this document details these requirements.
@@ -77,16 +77,17 @@ Beyond an operating system, you will need **a webserver**.
 
 You will also need:
 
-  - **MySQL**: You need MySQL. We strongly recommend MySQL 5.5 or newer.
+  - **MySQL or MariaDB**: You need MySQL or MariaDB. The minimum required
+    version is 8.0 MySQL and 10.5.1 for MariaDB.
     You will need a server with multiple databases.
+    From now on, both will be referred to as MySQL.
   - **PHP**: You need a PHP engine:
     - PHP 7 - 7.2.25 or newer.
     - PHP 8 - 8.0 or newer.
   - **git**: You need git 2.5.0 or newer on the server.
     No particular version is needed on your clients.
 
-You'll probably also need a **domain name**. In particular, you should read this
-note:
+You'll probably also need a **domain name**. In particular:
 
 NOTE: Phorge must be installed on an entire domain. You can not install it
 to a path on an existing domain, like `example.com/phorge/`. Instead,
@@ -120,9 +121,8 @@ Here's a general description of what you need to install:
   - Apache (usually "httpd" or "apache2") (or nginx)
   - MySQL Server (usually "mysqld" or "mysql-server" or "mariadb-server")
   - PHP (usually "php")
-  - Required PHP extensions: mbstring, iconv, mysqli, curl, pcntl
-    (these might be something like "php-mysql" or "php-mysqlnd")
-  - Optional PHP extensions: gd, zip
+  - Required PHP extensions: mbstring, iconv, mysqli, curl, pcntl, posix
+  - Optional PHP extensions: gd, zip, opcache, apcu
 
 If you already have LAMP setup, you've probably already got everything you need.
 It may also be helpful to refer to the install scripts above, even if they don't

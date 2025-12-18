@@ -143,8 +143,11 @@ abstract class HeraldAdapter extends Phobject {
       ->getHeraldFieldValue($this->getObject());
   }
 
+  /**
+   * @param array<HeraldEffect> $effects
+   */
   public function applyHeraldEffects(array $effects) {
-    assert_instances_of($effects, 'HeraldEffect');
+    assert_instances_of($effects, HeraldEffect::class);
 
     $result = array();
     foreach ($effects as $effect) {
@@ -171,12 +174,12 @@ abstract class HeraldAdapter extends Phobject {
    * These transactions are set by @{class:PhabricatorApplicationEditor}
    * automatically, before it invokes Herald.
    *
-   * @param list<PhabricatorApplicationTransaction> $xactions List of
+   * @param array<PhabricatorApplicationTransaction> $xactions List of
    *   transactions.
    * @return $this
    */
   final public function setAppliedTransactions(array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, PhabricatorApplicationTransaction::class);
     $this->appliedTransactions = $xactions;
     return $this;
   }
@@ -509,12 +512,11 @@ abstract class HeraldAdapter extends Phobject {
           $condition_value);
       case self::CONDITION_EXISTS:
       case self::CONDITION_IS_TRUE:
+      case self::CONDITION_UNCONDITIONALLY:
         return (bool)$field_value;
       case self::CONDITION_NOT_EXISTS:
       case self::CONDITION_IS_FALSE:
         return !$field_value;
-      case self::CONDITION_UNCONDITIONALLY:
-        return (bool)$field_value;
       case self::CONDITION_NEVER:
         return false;
       case self::CONDITION_REGEXP:
@@ -883,7 +885,7 @@ abstract class HeraldAdapter extends Phobject {
 
   public static function getAllAdapters() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getAdapterContentType')
       ->setSortMethod('getAdapterSortKey')
       ->execute();

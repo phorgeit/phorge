@@ -12,7 +12,7 @@ final class PhabricatorEditEngineConfigurationTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorEditEngineTransactionType';
+    return PhabricatorEditEngineTransactionType::class;
   }
 
 }

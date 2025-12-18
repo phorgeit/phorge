@@ -3,12 +3,15 @@
 final class PhabricatorDoubleExportField
   extends PhabricatorExportField {
 
+  /**
+   * @return float|null
+   */
   public function getNaturalValue($value) {
     if ($value === null) {
       return $value;
     }
 
-    return (double)$value;
+    return (float)$value;
   }
 
   /**

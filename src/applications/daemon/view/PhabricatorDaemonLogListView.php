@@ -4,8 +4,11 @@ final class PhabricatorDaemonLogListView extends AphrontView {
 
   private $daemonLogs;
 
+  /**
+   * @param array<PhabricatorDaemonLog> $daemon_logs
+   */
   public function setDaemonLogs(array $daemon_logs) {
-    assert_instances_of($daemon_logs, 'PhabricatorDaemonLog');
+    assert_instances_of($daemon_logs, PhabricatorDaemonLog::class);
     $this->daemonLogs = $daemon_logs;
     return $this;
   }

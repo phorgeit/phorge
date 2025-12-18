@@ -109,7 +109,7 @@ final class PhabricatorWorkerTriggerQuery
 
       foreach ($triggers as $key => $trigger) {
         $clock_class = $trigger->getClockClass();
-        if (!is_subclass_of($clock_class, 'PhabricatorTriggerClock')) {
+        if (!is_subclass_of($clock_class, PhabricatorTriggerClock::class)) {
           unset($triggers[$key]);
           continue;
         }
@@ -128,7 +128,7 @@ final class PhabricatorWorkerTriggerQuery
 
       foreach ($triggers as $key => $trigger) {
         $action_class = $trigger->getActionClass();
-        if (!is_subclass_of($action_class, 'PhabricatorTriggerAction')) {
+        if (!is_subclass_of($action_class, PhabricatorTriggerAction::class)) {
           unset($triggers[$key]);
           continue;
         }

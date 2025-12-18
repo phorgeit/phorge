@@ -15,7 +15,10 @@ final class UserEnableConduitAPIMethod extends UserConduitAPIMethod {
   }
 
   public function getMethodStatusDescription() {
-    return pht('Obsoleted by method "user.edit".');
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '08/2018',
+      'user.edit');
   }
 
   protected function defineParamTypes() {

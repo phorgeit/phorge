@@ -191,7 +191,7 @@ final class PhabricatorHandleList
       pht(
         'Trying to mutate a %s, but this is not permitted; '.
         'handle lists are immutable.',
-        __CLASS__));
+        self::class));
   }
 
 

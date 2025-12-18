@@ -211,8 +211,8 @@ final class DifferentialTransactionEditor
         // "T123" or similar, automatically associate the commit with the
         // task that the branch names.
 
-        $maniphest = 'PhabricatorManiphestApplication';
-        if (PhabricatorApplication::isClassInstalled($maniphest)) {
+        $maniphest_class = PhabricatorManiphestApplication::class;
+        if (PhabricatorApplication::isClassInstalled($maniphest_class)) {
           $diff = $this->requireDiff($xaction->getNewValue());
           $branch = $diff->getBranch();
 

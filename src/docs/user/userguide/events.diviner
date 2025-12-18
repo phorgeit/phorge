@@ -24,7 +24,7 @@ the most direct and powerful way to respond to events.
 To install event listeners in Phorge, follow these steps:
 
   - Write a listener class which extends @{class@arcanist:PhutilEventListener}.
-  - Add it to a libphutil library, or create a new library (for instructions,
+  - Add it to a library, or create a new library (for instructions,
     see @{article@contrib:Adding New Classes}.
   - Configure Phorge to load the library by adding it to `load-libraries`
     in the Phorge config.
@@ -41,7 +41,7 @@ see any events the page emitted there. For details on DarkConsole, see
 To install event listeners in Arcanist, follow these steps:
 
   - Write a listener class which extends @{class@arcanist:PhutilEventListener}.
-  - Add it to a libphutil library, or create a new library (for instructions,
+  - Add it to a library, or create a new library (for instructions,
     see @{article@contrib:Adding New Classes}.
   - Configure Phorge to load the library by adding it to `load`
     in the Arcanist config (e.g., `.arcconfig`, or user/global config).
@@ -185,8 +185,8 @@ NOTE: This event is unstable and subject to change.
 If you're having problems with your listener, try these steps:
 
   - If you're getting an error about Phorge being unable to find the
-    listener class, make sure you've added it to a libphutil library and
-    configured Phorge to load the library with `load-libraries`.
+    listener class, make sure you've added it to a library and configured
+    Phorge to load the library with `load-libraries`.
   - Make sure the listener is registered. It should appear in the "Events" tab
     of DarkConsole. If it's not there, you may have forgotten to add it to
     `events.listeners`.
@@ -215,4 +215,4 @@ If you're having problems with your listener, try these steps:
 Continue by:
 
   - taking a look at @{class:PhabricatorExampleEventListener}; or
-  - building a library with @{article:libphutil Libraries User Guide}.
+  - building a library with @{article@contrib:Adding New Classes}.

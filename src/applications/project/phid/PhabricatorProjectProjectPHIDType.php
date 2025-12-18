@@ -70,6 +70,11 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
     return '[^\s,#]+';
   }
 
+  /**
+   * Check whether a named object is of this PHID type
+   * @param string $name Object name
+   * @return bool True if the named object is of this PHID type
+   */
   public function canLoadNamedObject($name) {
     $fragment = self::getProjectMonogramPatternFragment();
     return preg_match('/^#'.$fragment.'$/i', $name);

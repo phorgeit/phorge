@@ -49,11 +49,16 @@ final class PhabricatorXHProfSampleSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorXHProfSample> $samples
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $samples,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($samples, 'PhabricatorXHProfSample');
+    assert_instances_of($samples, PhabricatorXHProfSample::class);
 
     $viewer = $this->requireViewer();
 

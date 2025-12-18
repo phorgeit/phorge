@@ -39,7 +39,7 @@ abstract class PhabricatorHovercardEngineExtension extends Phobject {
 
   final public static function getAllExtensions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getExtensionKey')
       ->setSortMethod('getExtensionOrder')
       ->execute();

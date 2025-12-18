@@ -30,7 +30,6 @@ final class CelerityDefaultPostprocessor
 
       // Drop Shadow
       'dropshadow' => '0 2px 12px rgba(0, 0, 0, .20)',
-      'whitetextshadow' => '0 1px 0 rgba(255, 255, 255, 1)',
 
       // Anchors
       'anchor' => '#136CB2',
@@ -117,6 +116,12 @@ final class CelerityDefaultPostprocessor
       'redtext'               => '#802b2b',
       'lightredbackground'    => '#f5e1e1',
 
+      // Base Yellow
+      'lightyellowborder'     => '#dbdbbd',
+      'yellowborder'          => '#b9b988',
+      'yellowtext'            => '#72723c',
+      'lightyellowbackground' => '#ededde',
+
       // Base Violet
       'lightvioletborder'     => '#cfbddb',
       'violetborder'          => '#b589ba',
@@ -161,6 +166,9 @@ final class CelerityDefaultPostprocessor
       'sh-bluetext'           => '#464c5c',
       'sh-bluebackground'     => '#dee7f8',
 
+      // Shade Sky (mostly re-uses Blue colors above)
+      'sh-skybackground'      => '#e0f0fa',
+
       // Shade Indigo
       'sh-lightindigoborder'  => '#d1c9ee',
       'sh-indigoborder'       => '#bcb4da',
@@ -196,6 +204,10 @@ final class CelerityDefaultPostprocessor
       'sh-disabledtext'         => '#a6a6a6',
       'sh-disabledbackground'   => '#f3f3f3',
 
+      // Shade Checkered
+      'sh-checkeredtext' => '#555555',
+      'sh-checkeredicon' => '#757575',
+
       // Diffs
       'diff.background' => '#fff',
       'new-background' => 'rgba(151, 234, 151, .3)',
@@ -204,6 +216,16 @@ final class CelerityDefaultPostprocessor
       'old-bright' => 'rgba(251, 175, 175, .7)',
       'move-background' => '#fdf5d4',
       'copy-background' => '#f1c40f',
+
+      'diffsize.small.background' => '#f2f7ff',
+      'diffsize.large.background' => '#fbede1',
+      'diffsize.small.icon' => '#6699ba',
+      'diffsize.large.icon' => '#e5ae7e',
+
+      'diff.update-history-new' => '#d0ffd0',
+      'diff.update-history-new-now' => '#aaffaa',
+      'diff.update-history-old' => '#f9d0d0',
+      'diff.update-history-old-now' => '#ffaaaa',
 
       // Usually light yellow
       'gentle.highlight' => '#fdf3da',
@@ -228,6 +250,11 @@ final class CelerityDefaultPostprocessor
       'menu.main.height' => '44px',
       'menu.profile.width' => '240px',
 
+      'navigation-menu-selection-background' => 'rgba(0, 0, 0,.05)',
+      'navigation-menu-hover-background' => 'rgba(0, 0, 0,.07)',
+      'workboard-column-background' => 'rgba(234, 230, 247, 0.85)',
+      'form-inset-background' => '#f7f9fd',
+
       // Buttons
       'blue.button.color' => '#2980b9',
       'blue.button.gradient' => 'linear-gradient(to bottom, #3498db, #2980b9)',
@@ -246,6 +273,14 @@ final class CelerityDefaultPostprocessor
 
       'delete-color' => '#c0392b',
       'create-color' => '#139543',
+
+      // Checkerboard patterns
+      'checker.light-one' => '#cccccc',
+      'checker.light-two' => '#f3f3f3',
+      'checker.lighter-one' => '#ebebeb',
+      'checker.lighter-two' => '#fafafa',
+      'checker.dark-one' => '#343434',
+      'checker.dark-two' => '#0d0d0d',
 
       // Codeblock syntax highlighting
       'syntax.highlighted-line' => '#ffffcc',

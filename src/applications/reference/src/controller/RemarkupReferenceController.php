@@ -208,12 +208,15 @@ Code Blocks
 
 Make **code blocks** by indenting two spaces:
 
-  f(x, y);
+`  f(x, y);`
 
 You can also use three backticks to enclose the code block:
 
-  ```f(x, y);
-  g(f);```
+  lang=text
+  ```
+  f(x, y);
+  g(f);
+  ```
 
 You can specify a language for syntax highlighting with `lang=xxx`:
 
@@ -221,7 +224,7 @@ You can specify a language for syntax highlighting with `lang=xxx`:
   lang=html
   <a href="#">...</a>
 
-When using fenced code blocks (triple backticks) you can simply append the
+When using fenced code blocks (triple backticks) you can append the
 language right after the backticks, like this: ##```html##
 
 This will highlight the block using a highlighter for that language, if one is
@@ -498,7 +501,7 @@ silliness implications. Carefully read the description before enabling it.
 
 = Image Macros =
 
-You can upload image macros (More Stuff -> Macro) which will replace text
+You can upload image macros (More Applications -> Macro) which will replace text
 strings with the image you specify. For instance, you could upload an image of a
 dancing banana to create a macro named "peanutbutterjellytime", and then any
 time you type that string on a separate line it will be replaced with the image
@@ -748,7 +751,7 @@ exit **Fullscreen** mode by clicking the button again or by pressing escape.
 EOTEXT;
 
     $remarkup_syntax_documentation_providers = id(new PhutilClassMapQuery())
-      ->setAncestorClass('RemarkupSyntaxDocumentationProvider')
+      ->setAncestorClass(RemarkupSyntaxDocumentationProvider::class)
       ->execute();
 
     // add custom Remarkup help

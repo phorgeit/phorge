@@ -43,7 +43,7 @@ final class PhabricatorRepositoryManagementReparseWorkflow
               "  '31 March 2013', '31 Mar', '03/31', '03/31/2013',\n".
               "See __%s__ for more.",
               '--all',
-              'http://www.php.net/manual/en/datetime.formats.php'),
+              'https://www.php.net/manual/datetime.formats.php'),
           ),
           array(
             'name'     => 'message',

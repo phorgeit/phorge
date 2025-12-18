@@ -99,7 +99,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
           $class));
     }
 
-    if (!is_subclass_of($class, 'PhabricatorFeedStory')) {
+    if (!is_subclass_of($class, PhabricatorFeedStory::class)) {
       throw new Exception(
         pht(
           "Story type must be a valid class name and must subclass %s. ".
@@ -321,7 +321,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
       // We're on a 32-bit machine.
       if (function_exists('bcadd')) {
         // Try to use the 'bc' extension.
-        return bcadd(bcmul($time, bcpow(2, 32)), $rand);
+        return bcadd(bcmul($time, bcpow('2', '32')), $rand);
       } else {
         // Do the math in MySQL. TODO: If we formalize a bc dependency, get
         // rid of this.

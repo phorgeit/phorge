@@ -160,7 +160,7 @@ final class PhabricatorBulkManagementExportWorkflow
     }
 
     $engine_classes = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationSearchEngine')
+      ->setAncestorClass(PhabricatorApplicationSearchEngine::class)
       ->execute();
 
     $class = $args->getArg('class');
@@ -283,11 +283,15 @@ final class PhabricatorBulkManagementExportWorkflow
     return array($engine, $queries);
   }
 
+  /**
+   * @param PhabricatorApplicationSearchEngine $engine
+   * @param array<PhabricatorSavedQuery> $queries
+   */
   private function newUnionQuery(
     PhabricatorApplicationSearchEngine $engine,
     array $queries) {
 
-    assert_instances_of($queries, 'PhabricatorSavedQuery');
+    assert_instances_of($queries, PhabricatorSavedQuery::class);
 
     $engine = clone $engine;
 

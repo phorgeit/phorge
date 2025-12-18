@@ -26,10 +26,6 @@ final class PhabricatorDaemonManagementRestartWorkflow
               'Stop all daemon processes on this host, even if they belong '.
               'to another instance.'),
           ),
-          array(
-            'name' => 'gently',
-            'help' => pht('Deprecated. Has no effect.'),
-          ),
           $this->getAutoscaleReserveArgument(),
         ));
   }

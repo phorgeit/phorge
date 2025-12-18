@@ -18,6 +18,9 @@ final class PhabricatorProjectTriggerManiphestOwnerRule
     if ($value === PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN) {
       $value = null;
     }
+    if ($value === PhabricatorViewerDatasource::FUNCTION_TOKEN) {
+      $value = $this->getViewer()->getPHID();
+    }
     return $value;
   }
 
@@ -35,7 +38,8 @@ final class PhabricatorProjectTriggerManiphestOwnerRule
       throw new Exception(
         pht(
           'Owner rule value is required. Specify a user to assign tasks '.
-          'to, or the token "none()" to unassign tasks.'));
+          'to, the token "viewer()" to assign to the user moving tasks, '.
+          'or the token "none()" to unassign tasks.'));
     }
 
     if (count($value) > 1) {
@@ -123,11 +127,10 @@ final class PhabricatorProjectTriggerManiphestOwnerRule
   }
 
   public function getRuleViewDescription($value) {
-    $value = $this->convertTokenizerValueToOwner($value);
-
-    if (!$value) {
-      return pht('Unassign task.');
-    } else {
+    if (head($value) === PhabricatorViewerDatasource::FUNCTION_TOKEN) {
+      return pht('Assign task to user moving the task.');
+    } else if ($value) {
+      $value = $this->convertTokenizerValueToOwner($value);
       return pht(
         'Assign task to %s.',
         phutil_tag(
@@ -136,6 +139,8 @@ final class PhabricatorProjectTriggerManiphestOwnerRule
           $this->getViewer()
             ->renderHandle($value)
             ->render()));
+    } else { // !$value
+      return pht('Unassign task.');
     }
   }
 

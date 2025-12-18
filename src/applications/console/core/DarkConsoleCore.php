@@ -7,7 +7,7 @@ final class DarkConsoleCore extends Phobject {
 
   public function __construct() {
     $this->plugins = id(new PhutilClassMapQuery())
-      ->setAncestorClass('DarkConsolePlugin')
+      ->setAncestorClass(DarkConsolePlugin::class)
       ->execute();
 
     foreach ($this->plugins as $plugin) {

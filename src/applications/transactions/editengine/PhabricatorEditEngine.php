@@ -78,6 +78,12 @@ abstract class PhabricatorEditEngine
     return true;
   }
 
+  /**
+   * Whether this EditEngine creates by default an entry in the Favorites
+   * dropdown in the top bar to use the Default Form for this EditEngine
+   *
+   * @return bool
+   */
   public function isDefaultQuickCreateEngine() {
     return false;
   }
@@ -96,6 +102,13 @@ abstract class PhabricatorEditEngine
     return $keys;
   }
 
+  /**
+   * Split the Full Key into its Edit Engine Key and its Form Key
+   *
+   * @param string $full_key 'Edit Engine Key/Form Key' string, e.g.
+   *   'macro.image/default' or 'maniphest.task/5'
+   * @return array<string,string> Edit Engine Key and Form Key
+   */
   public static function splitFullKey($full_key) {
     return explode('/', $full_key, 2);
   }
@@ -190,7 +203,7 @@ abstract class PhabricatorEditEngine
         $template_object);
 
       // TODO: Validate this in more detail with a more tailored error.
-      assert_instances_of($extension_fields, 'PhabricatorEditField');
+      assert_instances_of($extension_fields, PhabricatorEditField::class);
 
       foreach ($extension_fields as $field) {
         $field
@@ -467,7 +480,9 @@ abstract class PhabricatorEditEngine
           get_class($this)));
     }
 
-    assert_instances_of($configurations, 'PhabricatorEditEngineConfiguration');
+    assert_instances_of(
+      $configurations,
+      PhabricatorEditEngineConfiguration::class);
 
     $has_default = false;
     foreach ($configurations as $config) {
@@ -678,7 +693,7 @@ abstract class PhabricatorEditEngine
    * Initialize a new object for object creation via Conduit.
    *
    * @return object Newly initialized object.
-   * @param list<wild> $raw_xactions Raw transactions.
+   * @param array<mixed> $raw_xactions Raw transactions.
    * @task load
    */
   protected function newEditableObjectFromConduit(array $raw_xactions) {
@@ -712,7 +727,7 @@ abstract class PhabricatorEditEngine
    * Try to load an object by ID, PHID, or monogram. This is done primarily
    * to make Conduit a little easier to use.
    *
-   * @param wild $identifier ID, PHID, or monogram.
+   * @param int|string $identifier ID, PHID, or monogram.
    * @param list<string> $capabilities (optional) List of required capability
    *   constants, or omit for defaults.
    * @return object Corresponding editable object.
@@ -860,7 +875,7 @@ abstract class PhabricatorEditEngine
   /**
    * Verify that an object is appropriate for editing.
    *
-   * @param wild $object Loaded value.
+   * @param PhabricatorApplicationTransactionInterface $object Loaded value.
    * @return void
    * @task load
    */
@@ -1422,6 +1437,9 @@ abstract class PhabricatorEditEngine
     return $fields;
   }
 
+  /**
+   * @return PHUIButtonView|null
+   */
   private function buildEditFormActionButton($object) {
     if (!$this->isEngineConfigurable()) {
       return null;
@@ -1446,6 +1464,9 @@ abstract class PhabricatorEditEngine
     return $action_button;
   }
 
+  /**
+   * @return array<PhabricatorActionView>
+   */
   private function buildEditFormActions($object) {
     $actions = array();
 
@@ -2245,7 +2266,8 @@ abstract class PhabricatorEditEngine
    * request.
    *
    * @param ConduitAPIRequest $request The request.
-   * @param list<wild> $xactions Raw conduit transactions.
+   * @param array<array{type:string,value:mixed}> $xactions Raw conduit
+   *                                              transactions.
    * @param list<PhabricatorEditType> $types Supported edit types.
    * @param PhabricatorApplicationTransaction $template Template transaction.
    * @return list<PhabricatorApplicationTransaction> Generated transactions.
@@ -2350,7 +2372,7 @@ abstract class PhabricatorEditEngine
 
   final public static function getAllEditEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getEngineKey')
       ->execute();
   }
@@ -2471,7 +2493,7 @@ abstract class PhabricatorEditEngine
     if ($this->pages === null) {
       $pages = $this->newPages($object);
 
-      assert_instances_of($pages, 'PhabricatorEditPage');
+      assert_instances_of($pages, PhabricatorEditPage::class);
       $pages = mpull($pages, null, 'getKey');
 
       $this->pages = $pages;

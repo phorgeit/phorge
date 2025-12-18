@@ -76,8 +76,11 @@ final class ConpherenceThread extends ConpherenceDAO
     return '/'.$this->getMonogram();
   }
 
+  /**
+   * @param array<ConpherenceParticipant> $participants
+   */
   public function attachParticipants(array $participants) {
-    assert_instances_of($participants, 'ConpherenceParticipant');
+    assert_instances_of($participants, ConpherenceParticipant::class);
     $this->participants = $participants;
     return $this;
   }
@@ -101,8 +104,11 @@ final class ConpherenceThread extends ConpherenceDAO
     return array_keys($participants);
   }
 
+  /**
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   public function attachHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }
@@ -111,8 +117,11 @@ final class ConpherenceThread extends ConpherenceDAO
     return $this->assertAttached($this->handles);
   }
 
+  /**
+   * @param array<ConpherenceTransaction> $transactions
+   */
   public function attachTransactions(array $transactions) {
-    assert_instances_of($transactions, 'ConpherenceTransaction');
+    assert_instances_of($transactions, ConpherenceTransaction::class);
     $this->transactions = $transactions;
     return $this;
   }
@@ -278,7 +287,7 @@ final class ConpherenceThread extends ConpherenceDAO
     PhabricatorUser $viewer,
     array $conpherences) {
 
-    assert_instances_of($conpherences, __CLASS__);
+    assert_instances_of($conpherences, self::class);
 
     $policies = array();
     foreach ($conpherences as $room) {
@@ -295,8 +304,11 @@ final class ConpherenceThread extends ConpherenceDAO
     return $policy_objects;
   }
 
+  /**
+   * @param array<PhabricatorPolicy> $policy_objects
+   */
   public function getPolicyIconName(array $policy_objects) {
-    assert_instances_of($policy_objects, 'PhabricatorPolicy');
+    assert_instances_of($policy_objects, PhabricatorPolicy::class);
 
     $icon = $policy_objects[$this->getViewPolicy()]->getIcon();
     return $icon;

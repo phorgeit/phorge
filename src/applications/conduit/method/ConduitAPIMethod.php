@@ -49,11 +49,17 @@ abstract class ConduitAPIMethod
     return array();
   }
 
+  /**
+   * @return ConduitAPIDocumentationPage
+   */
   final protected function newDocumentationPage(PhabricatorUser $viewer) {
     return id(new ConduitAPIDocumentationPage())
       ->setIconIcon('fa-chevron-right');
   }
 
+  /**
+   * @return ConduitAPIDocumentationPage
+   */
   final protected function newDocumentationBoxPage(
     PhabricatorUser $viewer,
     $title,
@@ -69,9 +75,20 @@ abstract class ConduitAPIMethod
       ->setContent($box_view);
   }
 
+  /**
+   * @return array Pairs of parameter name and their type
+   */
   abstract protected function defineParamTypes();
+
+  /**
+   * @return string Human-readable text description of the return format,
+   *   for example 'array<string,mixed> | null'
+   */
   abstract protected function defineReturnType();
 
+  /**
+   * @return array Pairs of error code and the corresponding error message
+   */
   protected function defineErrorTypes() {
     return array();
   }
@@ -94,10 +111,17 @@ abstract class ConduitAPIMethod
     return $types;
   }
 
+  /**
+   * @return string Human-readable text description of the return format,
+   *   for example 'array<string,mixed> | null'
+   */
   public function getReturnType() {
     return $this->defineReturnType();
   }
 
+  /**
+   * @return array Pairs of error code and the corresponding error message
+   */
   public function getErrorTypes() {
     return $this->defineErrorTypes();
   }
@@ -165,6 +189,8 @@ abstract class ConduitAPIMethod
   /**
    * Return a key which sorts methods by application name, then method status,
    * then method name.
+   *
+   * @return string For example 'almanac.0.namespace.edit' or 'user.2.enable'
    */
   public function getSortOrder() {
     $name = $this->getAPIMethodName();
@@ -201,7 +227,7 @@ abstract class ConduitAPIMethod
 
   private static function newClassMapQuery() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getAPIMethodName');
   }
 
@@ -212,14 +238,30 @@ abstract class ConduitAPIMethod
       ->loadClass($method_name);
   }
 
+  /**
+   * Whether to require a session key for calling the API method.
+   *
+   * @return bool Defaults to true
+   */
   public function shouldRequireAuthentication() {
     return true;
   }
 
+  /**
+   * Whether to allow public access. Related to the `policy.allow-public`
+   * global setting and policies set for the corresponding application.
+   *
+   * @return bool Defaults to false
+   */
   public function shouldAllowPublic() {
     return false;
   }
 
+  /**
+   * Whether not to guard writes against CSRF. See @{class:AphrontWriteGuard}.
+   *
+   * @return bool Defaults to false
+   */
   public function shouldAllowUnguardedWrites() {
     return false;
   }
@@ -298,6 +340,7 @@ abstract class ConduitAPIMethod
 
 
   /**
+   * @return AphrontCursorPagerView
    * @task pager
    */
   protected function newPager(ConduitAPIRequest $request) {

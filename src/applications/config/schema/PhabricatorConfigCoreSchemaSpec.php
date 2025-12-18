@@ -10,7 +10,7 @@ final class PhabricatorConfigCoreSchemaSpec
     // Build all Lisk table schemata.
 
     $lisk_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorLiskDAO')
+      ->setAncestorClass(PhabricatorLiskDAO::class)
       ->execute();
 
     $counters = array();
@@ -43,7 +43,7 @@ final class PhabricatorConfigCoreSchemaSpec
     }
 
     $ferret_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass(PhabricatorFerretInterface::class)
       ->execute();
 
     foreach ($ferret_objects as $ferret_object) {

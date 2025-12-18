@@ -10,10 +10,6 @@ final class PhrequentPopConduitAPIMethod extends PhrequentConduitAPIMethod {
     return pht('Stop tracking time on an object by popping it from the stack.');
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   protected function defineParamTypes() {
     return array(
       'objectPHID' => 'phid',

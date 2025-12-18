@@ -26,11 +26,7 @@ Supported Browsers
 ==================
 
 Notifications are supported for browsers which support WebSockets. This covers
-most modern browsers (like Chrome, Firefox, Safari, and recent versions of
-Internet Explorer) and many mobile browsers.
-
-IE8 and IE9 do not support WebSockets, so real-time notifications won't work in
-those browsers.
+most modern browsers (Chrome, Firefox, Safari, Edge) and many mobile browsers.
 
 
 Installing Node and Modules
@@ -39,7 +35,7 @@ Installing Node and Modules
 The notification server uses Node.js, so you'll need to install it first.
 
 To install Node.js, follow the instructions on
-[[ http://nodejs.org | nodejs.org ]].
+[[ https://nodejs.org | nodejs.org ]].
 
 You will also need to install the dependencies for Node. This needs to be
 installed into the notification server directory:
@@ -220,7 +216,7 @@ HTTP traffic and have `nginx` proxy it selectively based on the request path.
 This requires `nginx` 1.3 or greater. See the `nginx` documentation for
 details:
 
-> http://nginx.com/blog/websocket-nginx/
+> https://www.f5.com/company/blog/nginx/websocket-nginx
 
 This is very complex, but allows you to support notifications without opening
 additional ports.

@@ -67,7 +67,7 @@ final class DiffusionRepositoryProfilePictureController
         } else {
           $xform = PhabricatorFileTransform::getTransformByKey(
             PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
-          $xformed = $xform->executeTransform($file);
+          $xformed = $xform->executeTransformExplicit($file);
         }
       }
 
@@ -147,10 +147,6 @@ final class DiffusionRepositoryProfilePictureController
 
     $buttons = array();
     foreach ($images as $phid => $spec) {
-      $style = null;
-      if (isset($spec['style'])) {
-        $style = $spec['style'];
-      }
       $button = javelin_tag(
         'button',
         array(

@@ -57,7 +57,6 @@ final class PhabricatorFileTransformListController
       $dst_phid = idx($xsrc, $xform->getTransformKey());
 
       if ($xform->canApplyTransform($file)) {
-        $can_apply = pht('Yes');
 
         $view_href = $file->getURIForTransform($xform);
         $view_href = new PhutilURI($view_href);
@@ -72,39 +71,35 @@ final class PhabricatorFileTransformListController
             'href' => $view_href,
           ),
           $view_text);
-      } else {
-        $can_apply = phutil_tag('em', array(), pht('No'));
-        $view_link = phutil_tag('em', array(), pht('None'));
-      }
 
-      if ($dst_phid) {
-        $dst_link = $viewer->renderHandle($dst_phid);
-      } else {
-        $dst_link = phutil_tag('em', array(), pht('None'));
-      }
+        if ($dst_phid) {
+          $dst_link = $viewer->renderHandle($dst_phid);
+        } else {
+          $dst_link = phutil_tag('em', array(), pht('None'));
+        }
 
-      $src_rows[] = array(
-        $xform->getTransformName(),
-        $xform->getTransformKey(),
-        $can_apply,
-        $dst_link,
-        $view_link,
-      );
+        $src_rows[] = array(
+          $xform->getTransformName(),
+          $xform->getTransformKey(),
+          $dst_link,
+          $view_link,
+        );
+      }
     }
 
     $src_table = id(new AphrontTableView($src_rows))
+      ->setNoDataString(
+        pht('No supported transforms are available for this file format.'))
       ->setHeaders(
         array(
           pht('Name'),
           pht('Key'),
-          pht('Supported'),
           pht('Transform'),
           pht('View'),
         ))
       ->setColumnClasses(
         array(
           'wide',
-          '',
           '',
           '',
           'action',

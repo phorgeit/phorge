@@ -12,7 +12,7 @@ final class PhabricatorAuthMessageTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorAuthMessageTransactionType';
+    return PhabricatorAuthMessageTransactionType::class;
   }
 
 }

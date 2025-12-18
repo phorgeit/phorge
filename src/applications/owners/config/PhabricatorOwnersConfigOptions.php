@@ -19,6 +19,10 @@ final class PhabricatorOwnersConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorOwnersApplication::class;
+  }
+
   public function getOptions() {
     $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
     $default_fields = array();

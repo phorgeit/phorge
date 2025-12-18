@@ -27,7 +27,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
 
   public static function getAllFactors() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getFactorKey')
       ->execute();
   }
@@ -139,11 +139,16 @@ abstract class PhabricatorAuthFactor extends Phobject {
     PhabricatorAuthFactorConfig $config,
     AphrontRequest $response);
 
+  /**
+   * @param PhabricatorAuthFactorConfig $config
+   * @param PhabricatorUser $viewer
+   * @param array<PhabricatorAuthChallenge> $challenges
+   */
   final public function getNewIssuedChallenges(
     PhabricatorAuthFactorConfig $config,
     PhabricatorUser $viewer,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, PhabricatorAuthChallenge::class);
 
     $now = PhabricatorTime::getNow();
 
@@ -161,7 +166,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
       return $new_challenges;
     }
 
-    assert_instances_of($new_challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($new_challenges, PhabricatorAuthChallenge::class);
 
     foreach ($new_challenges as $new_challenge) {
       $ttl = $new_challenge->getChallengeTTL();
@@ -194,11 +199,16 @@ abstract class PhabricatorAuthFactor extends Phobject {
     PhabricatorUser $viewer,
     array $challenges);
 
+  /**
+   * @param PhabricatorAuthFactorConfig $config
+   * @param PhabricatorUser $viewer
+   * @param array<PhabricatorAuthChallenge> $challenges
+   */
   final public function getResultFromIssuedChallenges(
     PhabricatorAuthFactorConfig $config,
     PhabricatorUser $viewer,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, PhabricatorAuthChallenge::class);
 
     $result = $this->newResultFromIssuedChallenges(
       $config,
@@ -221,12 +231,18 @@ abstract class PhabricatorAuthFactor extends Phobject {
     return $result;
   }
 
+  /**
+   * @param PhabricatorAuthFactorConfig $config
+   * @param PhabricatorUser $viewer
+   * @param AphrontRequest $request
+   * @param array<PhabricatorAuthChallenge> $challenges
+   */
   final public function getResultForPrompt(
     PhabricatorAuthFactorConfig $config,
     PhabricatorUser $viewer,
     AphrontRequest $request,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, PhabricatorAuthChallenge::class);
 
     $result = $this->newResultForPrompt(
       $config,
@@ -260,12 +276,18 @@ abstract class PhabricatorAuthFactor extends Phobject {
     PhabricatorUser $viewer,
     array $challenges);
 
+  /**
+   * @param PhabricatorAuthFactorConfig $config
+   * @param PhabricatorUser $viewer
+   * @param AphrontRequest $request
+   * @param array<PhabricatorAuthChallenge> $challenges
+   */
   final public function getResultFromChallengeResponse(
     PhabricatorAuthFactorConfig $config,
     PhabricatorUser $viewer,
     AphrontRequest $request,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, PhabricatorAuthChallenge::class);
 
     $result = $this->newResultFromChallengeResponse(
       $config,

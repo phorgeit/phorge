@@ -12,6 +12,9 @@
  * @task order Result Ordering
  * @task edgelogic Working with Edge Logic
  * @task spaces Working with Spaces
+ *
+ * @template R of PhabricatorPolicyInterface
+ * @extends PhabricatorPolicyAwareQuery<R>
  */
 abstract class PhabricatorCursorPagedPolicyAwareQuery
   extends PhabricatorPolicyAwareQuery {
@@ -439,6 +442,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return null;
   }
 
+  /**
+   * @return R|null
+   */
   public function newResultObject() {
     return null;
   }
@@ -949,7 +955,11 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *   - `vector` (`list<string>`): The actual order vector to use.
    *   - `name` (`string`): Human-readable order name.
    *
-   * @return map<string, wild> Map from builtin order keys to specification.
+   * @phpstan-type BuiltinOrder array{name: string, vector: string[],
+   *                                  aliases?: string[]}
+   * @return map<string,BuiltinOrder> Map from builtin order keys to
+   *                                    specification.
+   *
    * @task order
    */
   public function getBuiltinOrders() {
@@ -1143,6 +1153,11 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
+   * @return array<string,array<string,string>> PhutilKeyValueCacheStack string
+   *   (e.g. 'id', 'rank', 'fulltext-created', 'fulltext-modified') and the
+   *   cache value as an array, for example '{"table":"user","column":"id",
+   *   "reverse":false,"type":"int","unique":true}' or '{"table":null,
+   *   "column":"_ft_rank","type":"int","requires-ferret":true,"having":true}'
    * @task order
    */
   public function getOrderableColumns() {
@@ -1244,6 +1259,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   /**
+   * @return PhabricatorQueryOrderVector
    * @task order
    */
   private function getQueryableOrderVector() {
@@ -2587,7 +2603,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Convenience method for specifying edge logic constraints with a list of
    * PHIDs.
    *
-   * @param string $edge_type Edge constant.
+   * @param int $edge_type Edge type constant (SomeClassEdgeType::EDGECONST).
    * @param string $operator Constraint operator.
    * @param list<string> $phids List of PHIDs.
    * @return $this
@@ -2604,11 +2620,13 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
+   * @param int $edge_type An edge type's EDGECONST constant
+   * @param array<PhabricatorQueryConstraint> $constraints
    * @return $this
    * @task edgelogic
    */
   public function withEdgeLogicConstraints($edge_type, array $constraints) {
-    assert_instances_of($constraints, 'PhabricatorQueryConstraint');
+    assert_instances_of($constraints, PhabricatorQueryConstraint::class);
 
     $constraints = mgroup($constraints, 'getOperator');
     foreach ($constraints as $operator => $list) {

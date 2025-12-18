@@ -10,7 +10,6 @@
 .phui-list-item-header a {
   color: {$bluetext};
   font-weight: bold;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* - Sidenav and Actions -------------------------------------------------------
@@ -28,7 +27,6 @@
   color: {$bluetext};
   padding: 4px 8px 6px 8px;
   display: block;
-  -webkit-font-smoothing: antialiased;
 }
 
 .phui-list-sidenav .phui-list-item-type-divider {
@@ -134,7 +132,7 @@
 
 .phui-list-navbar-vertical .phui-list-item-href {
   display: block;
-  background: #ffffff;
+  background: {$page.content};
 }
 
 .phui-list-navbar .phui-list-item-selected .phui-list-item-href {
@@ -252,7 +250,7 @@
 */
 
 .phui-list-item-warn .phui-list-item-href {
-  color: #bc7837;
+  color: {$orange};
 }
 
 .phui-list-item-fail .phui-list-item-href {
@@ -262,13 +260,13 @@
 .phui-list-item-warn.phui-list-item-selected .phui-list-item-href,
 .phui-list-item-warn .phui-list-item-href:hover {
   background: {$lightyellow};
-  color: #bc7837;
+  color: rgba({$alphagrey},.9);
 }
 
 .phui-list-item-fail.phui-list-item-selected .phui-list-item-href,
 .phui-list-item-fail .phui-list-item-href:hover {
   background: {$lightred};
-  color: {$red};
+  color: rgba({$alphagrey},.9);
 }
 
 .phui-list-item-warn.phui-list-item-selected .phui-list-item-href:hover {

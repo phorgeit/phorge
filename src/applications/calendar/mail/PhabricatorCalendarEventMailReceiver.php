@@ -4,8 +4,8 @@ final class PhabricatorCalendarEventMailReceiver
   extends PhabricatorObjectMailReceiver {
 
   public function isEnabled() {
-    $app_class = 'PhabricatorCalendarApplication';
-    return PhabricatorApplication::isClassInstalled($app_class);
+    return PhabricatorApplication::isClassInstalled(
+      PhabricatorCalendarApplication::class);
   }
 
   protected function getObjectPattern() {

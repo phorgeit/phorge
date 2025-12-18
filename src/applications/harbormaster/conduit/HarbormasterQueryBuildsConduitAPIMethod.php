@@ -16,7 +16,10 @@ final class HarbormasterQueryBuildsConduitAPIMethod
   }
 
   public function getMethodStatusDescription() {
-    return pht('Use %s instead.', 'harbormaster.build.search');
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '07/2016',
+      'harbormaster.build.search');
   }
 
   protected function defineParamTypes() {

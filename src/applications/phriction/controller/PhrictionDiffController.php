@@ -215,8 +215,11 @@ final class PhrictionDiffController extends PhrictionController {
       $label);
   }
 
+  /**
+   * @param array<PhrictionContent> $content
+   */
   private function renderComparisonTable(array $content) {
-    assert_instances_of($content, 'PhrictionContent');
+    assert_instances_of($content, PhrictionContent::class);
 
     $viewer = $this->getViewer();
 

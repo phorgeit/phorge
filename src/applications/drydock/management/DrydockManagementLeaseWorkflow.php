@@ -69,6 +69,7 @@ final class DrydockManagementLeaseWorkflow
           'number.'));
     }
 
+    $attributes = array();
     $attributes_file = $args->getArg('attributes');
     if (phutil_nonempty_string($attributes_file)) {
       if ($attributes_file == '-') {
@@ -80,9 +81,9 @@ final class DrydockManagementLeaseWorkflow
         $data = Filesystem::readFile($attributes_file);
       }
 
-      $attributes = phutil_json_decode($data);
-    } else {
-      $attributes = array();
+      if ($data) {
+        $attributes = phutil_json_decode($data);
+      }
     }
 
     $filter_identifiers = $args->getArg('blueprint');
@@ -308,10 +309,14 @@ final class DrydockManagementLeaseWorkflow
     return mpull($map, null, 'getPHID');
   }
 
+  /**
+   * @param DrydockLease $lease
+   * @param array<DrydockBlueprint> $filter_blueprints
+   */
   private function newAllowedBlueprintPHIDs(
     DrydockLease $lease,
     array $filter_blueprints) {
-    assert_instances_of($filter_blueprints, 'DrydockBlueprint');
+    assert_instances_of($filter_blueprints, DrydockBlueprint::class);
 
     $viewer = $this->getViewer();
 

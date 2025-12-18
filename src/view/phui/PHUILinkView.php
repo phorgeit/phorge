@@ -21,6 +21,10 @@ final class PHUILinkView
     return $this;
   }
 
+  /**
+   * @param bool $workflow
+   * @return $this
+   */
   public function setWorkflow($workflow) {
     $this->workflow = $workflow;
     return $this;

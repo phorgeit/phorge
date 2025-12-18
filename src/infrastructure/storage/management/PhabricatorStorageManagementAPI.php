@@ -104,8 +104,12 @@ final class PhabricatorStorageManagementAPI extends Phobject {
     return $this->getRef()->getDisplayName();
   }
 
+  /**
+   * @param array<PhabricatorStoragePatch> $patches
+   * @param bool $only_living
+   */
   public function getDatabaseList(array $patches, $only_living = false) {
-    assert_instances_of($patches, 'PhabricatorStoragePatch');
+    assert_instances_of($patches, PhabricatorStoragePatch::class);
 
     $list = array();
 
@@ -194,8 +198,11 @@ final class PhabricatorStorageManagementAPI extends Phobject {
       implode(', ', $cols));
   }
 
+  /**
+   * @param array<PhabricatorStoragePatch> $patches
+   */
   public function getLegacyPatches(array $patches) {
-    assert_instances_of($patches, 'PhabricatorStoragePatch');
+    assert_instances_of($patches, PhabricatorStoragePatch::class);
 
     try {
       $row = queryfx_one(

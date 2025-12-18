@@ -55,11 +55,14 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     } else {
       $cwd = getcwd();
       $this->log(pht('FINDING DOCUMENTATION BOOKS'));
+      $books = array();
 
-      $books = id(new FileFinder($cwd))
-        ->withType('f')
-        ->withSuffix('book')
-        ->find();
+      if ($cwd) {
+        $books = id(new FileFinder($cwd))
+          ->withType('f')
+          ->withSuffix('book')
+          ->find();
+      }
 
       if (!$books) {
         throw new PhutilArgumentUsageException(
@@ -180,7 +183,7 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     $symbols = id(new PhutilSymbolLoader())
       ->setName($publisher_class)
       ->setConcreteOnly(true)
-      ->setAncestorClass('DivinerPublisher')
+      ->setAncestorClass(DivinerPublisher::class)
       ->selectAndLoadSymbols();
 
     if (!$symbols) {
@@ -375,8 +378,12 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     return $futures;
   }
 
+  /**
+   * @param array<Future> $futures
+   * @param array<string,string> $file_hashes
+   */
   private function resolveAtomizerFutures(array $futures, array $file_hashes) {
-    assert_instances_of($futures, 'Future');
+    assert_instances_of($futures, Future::class);
 
     $atom_cache = $this->getAtomCache();
     $bar = id(new PhutilConsoleProgressBar())
@@ -414,7 +421,7 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     $version['rules'] = $this->getRules();
 
     $atomizers = id(new PhutilClassMapQuery())
-      ->setAncestorClass('DivinerAtomizer')
+      ->setAncestorClass(DivinerAtomizer::class)
       ->execute();
 
     $atomizer_versions = array();

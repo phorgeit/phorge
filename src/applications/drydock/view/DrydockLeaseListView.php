@@ -4,8 +4,11 @@ final class DrydockLeaseListView extends AphrontView {
 
   private $leases;
 
+  /**
+   * @param array<DrydockLease> $leases
+   */
   public function setLeases(array $leases) {
-    assert_instances_of($leases, 'DrydockLease');
+    assert_instances_of($leases, DrydockLease::class);
     $this->leases = $leases;
     return $this;
   }

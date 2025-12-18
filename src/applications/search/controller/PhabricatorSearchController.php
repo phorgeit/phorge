@@ -9,6 +9,9 @@ final class PhabricatorSearchController
     return true;
   }
 
+  /**
+   * @return PhabricatorStandardPageView|AphrontRedirectResponse
+   */
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $query = $request->getStr('query');
@@ -31,7 +34,7 @@ final class PhabricatorSearchController
     if ($request->getBool('search:primary')) {
 
       // If there's no query, just take the user to advanced search.
-      if (!strlen($query)) {
+      if (!phutil_nonempty_string($query)) {
         $advanced_uri = '/search/query/advanced/';
         return id(new AphrontRedirectResponse())->setURI($advanced_uri);
       }
@@ -96,6 +99,9 @@ final class PhabricatorSearchController
     return $this->delegateToController($controller);
   }
 
+  /**
+   * @return AphrontSideNavFilterView
+   */
   public function buildSideNavView($for_app = false) {
     $viewer = $this->getViewer();
 

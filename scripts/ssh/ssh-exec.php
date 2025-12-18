@@ -220,7 +220,7 @@ try {
   }
 
   $workflows = id(new PhutilClassMapQuery())
-    ->setAncestorClass('PhabricatorSSHWorkflow')
+    ->setAncestorClass(PhabricatorSSHWorkflow::class)
     ->setUniqueMethod('getName')
     ->execute();
 

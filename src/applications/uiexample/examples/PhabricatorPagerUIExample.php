@@ -36,11 +36,14 @@ final class PhabricatorPagerUIExample extends PhabricatorUIExample {
     $panel->setHeaderText(pht('Example'));
     $panel->appendChild($table);
 
-    $panel->appendChild(hsprintf(
-      '<p class="phabricator-ui-example-note">%s</p>',
-      pht(
-        'Use %s to render a pager element.',
-        phutil_tag('tt', array(), 'PHUIPagerView'))));
+    $panel->appendChild(
+      id(new PHUIInfoView())
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
+        ->setErrors(array(
+          pht(
+            'Use %s to render a pager element.',
+            phutil_tag('tt', array(), 'PHUIPagerView')),
+        )));
 
     $pager = new PHUIPagerView();
     $pager->setPageSize($page_size);
@@ -49,9 +52,12 @@ final class PhabricatorPagerUIExample extends PhabricatorUIExample {
     $pager->setURI($request->getRequestURI(), 'offset');
     $panel->appendChild($pager);
 
-    $panel->appendChild(hsprintf(
-      '<p class="phabricator-ui-example-note">%s</p>',
-      pht('You can show more or fewer pages of surrounding context.')));
+    $panel->appendChild(
+      id(new PHUIInfoView())
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
+        ->setErrors(array(
+          pht('You can show more or fewer pages of surrounding context.'),
+        )));
 
     $many_pages_pager = new PHUIPagerView();
     $many_pages_pager->setPageSize($page_size);
@@ -61,13 +67,16 @@ final class PhabricatorPagerUIExample extends PhabricatorUIExample {
     $many_pages_pager->setSurroundingPages(7);
     $panel->appendChild($many_pages_pager);
 
-    $panel->appendChild(hsprintf(
-      '<p class="phabricator-ui-example-note">%s</p>',
-      pht(
-        'When it is prohibitively expensive or complex to attain a complete '.
-        'count of the items, you can select one extra item and set '.
-        '%s if it exists, creating an inexact pager.',
-        phutil_tag('tt', array(), 'hasMorePages(true)'))));
+    $panel->appendChild(
+      id(new PHUIInfoView())
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
+        ->setErrors(array(
+          pht(
+            'When it is prohibitively expensive or complex to attain a '.
+            'complete count of the items, you can select one extra item and '.
+            'set %s if it exists, creating an inexact pager.',
+            phutil_tag('tt', array(), 'hasMorePages(true)')),
+        )));
 
     $inexact_pager = new PHUIPagerView();
     $inexact_pager->setPageSize($page_size);

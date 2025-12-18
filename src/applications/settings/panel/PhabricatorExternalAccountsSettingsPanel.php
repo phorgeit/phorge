@@ -66,6 +66,7 @@ final class PhabricatorExternalAccountsSettingsPanel
         $item->addAction(
           id(new PHUIListItemView())
             ->setIcon('fa-refresh')
+            ->setName(pht('Refresh'))
             ->setHref('/auth/refresh/'.$config->getID().'/'));
       }
 
@@ -74,6 +75,7 @@ final class PhabricatorExternalAccountsSettingsPanel
           ->setIcon('fa-times')
           ->setWorkflow(true)
           ->setDisabled(!$can_unlink)
+          ->setName(pht('Unlink'))
           ->setHref('/auth/unlink/'.$account->getID().'/'));
 
       if ($provider) {

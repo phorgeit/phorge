@@ -60,10 +60,10 @@ abstract class PhutilRemarkupRule extends Phobject {
    * This method acts as @{function:phutil_tag}, but checks attributes before
    * using them.
    *
-   * @param   string              $name Tag name.
-   * @param   dict<string, wild>  $attrs Tag attributes.
-   * @param   wild                $content (optional) Tag content.
-   * @return  PhutilSafeHTML      Tag object.
+   * @param   string               $name Tag name.
+   * @param   array<string, mixed> $attrs Dictionary of tag attributes.
+   * @param   mixed                $content (optional) Tag content.
+   * @return  PhutilSafeHTML       Tag object.
    */
   protected function newTag($name, array $attrs, $content = null) {
     foreach ($attrs as $key => $attr) {
@@ -86,7 +86,7 @@ abstract class PhutilRemarkupRule extends Phobject {
    * Normally, you can call @{method:newTag} rather than calling this method
    * directly. @{method:newTag} will check attributes for you.
    *
-   * @param   wild    $text Ostensibly flat text.
+   * @param   mixed   $text Ostensibly flat text.
    * @return  string  Flat text.
    */
   protected function assertFlatText($text) {
@@ -105,7 +105,7 @@ abstract class PhutilRemarkupRule extends Phobject {
   /**
    * Check whether text is flat (contains no replacement tokens) or not.
    *
-   * @param   wild  $text Ostensibly flat text.
+   * @param   mixed $text Ostensibly flat text.
    * @return  bool  True if the text is flat.
    */
   protected function isFlatText($text) {
@@ -121,7 +121,7 @@ abstract class PhutilRemarkupRule extends Phobject {
    * @return string
    */
   protected function getRemarkupLinkClass($is_internal) {
-    // Allow developers to style esternal links differently
+    // Allow developers to style external links differently
     $classes = array('remarkup-link');
     if (!$is_internal) {
       $classes[] = 'remarkup-link-ext';

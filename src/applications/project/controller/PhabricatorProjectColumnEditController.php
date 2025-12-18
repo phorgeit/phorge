@@ -167,14 +167,24 @@ final class PhabricatorProjectColumnEditController
           ->setError($e_milestone_name));
     }
 
+    // The "limit" has always had a dual purpose.
+    // Let's make it more obvious.
+    if (ManiphestTaskPoints::getIsEnabled()) {
+      $limit_label = pht('Point Limit');
+      $limit_caption =
+        pht('Maximum number of points of tasks allowed in the column.');
+    } else {
+      $limit_label = pht('Count Limit');
+      $limit_caption = pht('Maximum number of tasks allowed in the column.');
+    }
+
     $form->appendChild(
       id(new AphrontFormTextControl())
         ->setValue($v_limit)
-        ->setLabel(pht('Point Limit'))
+        ->setLabel($limit_label)
         ->setName('limit')
         ->setError($e_limit)
-        ->setCaption(
-          pht('Maximum number of points of tasks allowed in the column.')));
+        ->setCaption($limit_caption));
 
     if ($is_new) {
       $title = pht('Create Column');

@@ -134,11 +134,6 @@
   display: block;
 }
 
-.lightbox-attachment .lightbox-status .lightbox-download
-  .lightbox-download-form {
-    display: inline;
-}
-
 .lightbox-attachment a.lightbox-download,
 .lightbox-attachment a.lightbox-comment,
 .lightbox-attachment a.lightbox-close {

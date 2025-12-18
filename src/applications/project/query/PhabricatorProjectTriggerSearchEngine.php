@@ -69,11 +69,16 @@ final class PhabricatorProjectTriggerSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorProjectTrigger> $triggers
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $triggers,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($triggers, 'PhabricatorProjectTrigger');
+    assert_instances_of($triggers, PhabricatorProjectTrigger::class);
     $viewer = $this->requireViewer();
 
     $example_phids = array();

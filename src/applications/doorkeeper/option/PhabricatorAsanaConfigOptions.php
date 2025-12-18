@@ -128,7 +128,7 @@ final class PhabricatorAsanaConfigOptions
     $viewer = $request->getUser();
 
     $publishers = id(new PhutilClassMapQuery())
-      ->setAncestorClass('DoorkeeperFeedStoryPublisher')
+      ->setAncestorClass(DoorkeeperFeedStoryPublisher::class)
       ->execute();
 
     $out = array();

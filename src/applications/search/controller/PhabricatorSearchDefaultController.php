@@ -7,7 +7,7 @@ final class PhabricatorSearchDefaultController
     $viewer = $this->getViewer();
     $engine_class = $request->getURIData('engine');
 
-    $base_class = 'PhabricatorApplicationSearchEngine';
+    $base_class = PhabricatorApplicationSearchEngine::class;
     if (!is_subclass_of($engine_class, $base_class)) {
       return new Aphront400Response();
     }

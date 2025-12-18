@@ -14,7 +14,7 @@ final class HeraldRuleTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'HeraldRuleTransactionType';
+    return HeraldRuleTransactionType::class;
   }
 
 }

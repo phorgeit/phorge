@@ -91,7 +91,6 @@ ul.phui-oi-list-view {
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: bold;
-  -webkit-font-smoothing: antialiased;
 }
 
 .device-phone .phui-oi-name {
@@ -129,7 +128,7 @@ ul.phui-oi-list-view {
   bottom: 0;
   left: 0;
   width: 20px;
-  background: url('/rsrc/image/texture/grip.png') center center no-repeat;
+  background: url('/rsrc/image/grip.svg') center center no-repeat;
 }
 
 .phui-oi-ungrippable .phui-oi-grip {
@@ -636,6 +635,16 @@ ul.phui-oi-list-view .phui-oi-selected
   line-height: 36px;
 }
 
+/* Set $hoverblue for auth icons to make them readable in dark mode */
+.phui-oi-image-icon.phui-oi-with-sprite-image {
+  background-image: radial-gradient(#eceff5 0%, #eceff5 60%, transparent 65%);
+  margin: 10px 2px 12px;
+}
+
+.phui-icon-view.sprite-login {
+  margin-top: 6px;
+}
+
 .phui-oi-image {
   width: 40px;
   height: 40px;
@@ -703,27 +712,27 @@ ul.phui-oi-list-view .phui-oi-selectable
 }
 
 .differential-revision-large {
-  background: {$sh-orangebackground};
+  background: {$diffsize.large.background};
 }
 
 /* NOTE: These are intentionally using nonstandard colors, see T13127. */
 
 .differential-revision-large .phui-icon-view {
-  color: #e5ae7e;
+  color: {$diffsize.large.icon};
 }
 
 .differential-revision-small {
-  background: #f2f7ff;
+  background: {$diffsize.small.background};
 }
 
 .differential-revision-small .phui-icon-view {
-  color: #6699ba;
+  color: {$diffsize.small.icon};
 }
 
 .phui-oi-tail {
   text-align: center;
   padding: 8px 0;
-  background: linear-gradient({$lightbluebackground}, #fff 66%, #fff);
+  border-top: 1px solid {$thinblueborder};
 }
 
 .phui-oi-menu {

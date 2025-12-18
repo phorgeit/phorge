@@ -33,6 +33,9 @@ final class PhabricatorHomeProfileMenuItem
     return $this->getDefaultName();
   }
 
+  /**
+   * @return PHUIHomeView
+   */
   public function newPageContent(
     PhabricatorProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
@@ -41,6 +44,9 @@ final class PhabricatorHomeProfileMenuItem
       ->setViewer($viewer);
   }
 
+  /**
+   * @return array<PhabricatorTextEditField>
+   */
   public function buildEditEngineFields(
     PhabricatorProfileMenuItemConfiguration $config) {
     return array(
@@ -52,6 +58,9 @@ final class PhabricatorHomeProfileMenuItem
     );
   }
 
+  /**
+   * @return array<PhabricatorProfileMenuItemView>
+   */
   protected function newMenuItemViewList(
     PhabricatorProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();

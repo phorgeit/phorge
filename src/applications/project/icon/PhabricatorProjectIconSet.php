@@ -385,7 +385,17 @@ final class PhabricatorProjectIconSet
     return idx($map, $color_key);
   }
 
+  /**
+   * Get the default value for the config `project.colors`.
+   *
+   * The result is simple enough to be easily JSON-encoded later.
+   * @return array Array of colors. Each color is an associative array with
+   *               these keys: 'key' (color key) and 'name' (translated label).
+   */
   public static function getDefaultColorMap() {
+    // In the future, generate this list using PHUITagView::getShadeMapCached(),
+    // instead of re-defining these colors also here.
+    // https://we.phorge.it/T16240
     return array(
       array(
         'key' => PHUITagView::COLOR_RED,

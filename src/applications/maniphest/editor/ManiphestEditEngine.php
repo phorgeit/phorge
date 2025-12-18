@@ -202,7 +202,7 @@ EODOCS
         ->setDescription(pht('User who is responsible for the task.'))
         ->setConduitDescription(pht('Reassign the task.'))
         ->setConduitTypeDescription(
-          pht('New task owner, or `null` to unassign.'))
+          pht('New task assignee, or `null` to unassign.'))
         ->setTransactionType(ManiphestTaskOwnerTransaction::TRANSACTIONTYPE)
         ->setIsCopyable(true)
         ->setIsNullable(true)

@@ -36,6 +36,7 @@ final class PhabricatorMySQLConfigOptions
         ->setDescription(
           pht('MySQL password to use when connecting to the database.')),
       $this->newOption('storage.default-namespace', 'string', 'phabricator')
+        ->setType(PhabricatorDatabaseNamePrefixType::TYPEKEY)
         ->setLocked(true)
         ->setSummary(
           pht('The namespace that databases should use.'))

@@ -9,7 +9,18 @@ final class PhabricatorCelerityTestCase extends PhabricatorTestCase {
   public function testCelerityMaps() {
     $resources_map = CelerityPhysicalResources::getAll();
 
+    // The ../ hack works for Phorge, and that's good enough for now.
+    $phorge_path = Filesystem::resolvePath(
+      '../',
+      phutil_get_library_root('phorge'));
+    $phorge_path_len = strlen($phorge_path);
+
     foreach ($resources_map as $resources) {
+      $map_path = $resources->getPathToMap();
+      if (strncmp($phorge_path, $map_path, $phorge_path_len)) {
+        // This resource is from another repository
+        continue;
+      }
       $old_map = new CelerityResourceMap($resources);
 
       $new_map = id(new CelerityResourceMapGenerator($resources))

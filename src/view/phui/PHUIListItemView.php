@@ -37,6 +37,7 @@ final class PHUIListItemView extends AphrontTagView {
   private $rel;
   private $dropdownMenu;
   private $keyCommand;
+  private $ariaLabel;
 
   public function setOpenInNewWindow($open_in_new_window) {
     $this->openInNewWindow = $open_in_new_window;
@@ -214,6 +215,16 @@ final class PHUIListItemView extends AphrontTagView {
 
   public function setTooltip($tooltip) {
     $this->tooltip = $tooltip;
+    return $this;
+  }
+
+  /**
+   * Explicitly set an aria-label attribute for accessibility. Only to be used
+   * when no other means of differentiation are already available.
+   * @param string $aria_label aria-label text to add to a list item
+   */
+  public function setAriaLabel($aria_label) {
+    $this->ariaLabel = $aria_label;
     return $this;
   }
 
@@ -412,6 +423,7 @@ final class PHUIListItemView extends AphrontTagView {
         'class' => implode(' ', $classes),
         'meta' => $meta,
         'sigil' => implode(' ', $sigil),
+        'aria-label' => $this->ariaLabel,
         'target' => $this->getOpenInNewWindow() ? '_blank' : null,
         'rel' => $this->rel,
       ),

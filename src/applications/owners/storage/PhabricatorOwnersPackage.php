@@ -50,7 +50,7 @@ final class PhabricatorOwnersPackage
   public static function initializeNewPackage(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorOwnersApplication'))
+      ->withClasses(array(PhabricatorOwnersApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -212,11 +212,16 @@ final class PhabricatorOwnersPackage
     return self::loadPackagesForPaths($repository, $paths);
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param DifferentialDiff $diff
+   * @param array<DifferentialChangeset> $changesets
+   */
   public static function loadAffectedPackagesForChangesets(
     PhabricatorRepository $repository,
     DifferentialDiff $diff,
     array $changesets) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
 
     $paths_all = array();
     $paths_ungenerated = array();
@@ -518,8 +523,11 @@ final class PhabricatorOwnersPackage
     return $result;
   }
 
+  /**
+   * @param array<PhabricatorOwnersPath> $paths
+   */
   public function attachPaths(array $paths) {
-    assert_instances_of($paths, 'PhabricatorOwnersPath');
+    assert_instances_of($paths, PhabricatorOwnersPath::class);
     $this->paths = $paths;
 
     // Drop this cache if we're attaching new paths.
@@ -549,8 +557,11 @@ final class PhabricatorOwnersPackage
     return $this->pathRepositoryMap[$repository_phid];
   }
 
+  /**
+   * @param array<PhabricatorOwnersOwner> $owners
+   */
   public function attachOwners(array $owners) {
-    assert_instances_of($owners, 'PhabricatorOwnersOwner');
+    assert_instances_of($owners, PhabricatorOwnersOwner::class);
     $this->owners = $owners;
     return $this;
   }

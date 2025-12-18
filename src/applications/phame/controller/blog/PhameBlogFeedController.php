@@ -24,16 +24,23 @@ final class PhameBlogFeedController extends PhameBlogController {
       ->withVisibility(array(PhameConstants::VISIBILITY_PUBLISHED))
       ->execute();
 
-    $blog_uri = PhabricatorEnv::getProductionURI(
-      $this->getApplicationURI('blog/feed/'.$blog->getID().'/'));
+    $blog_feed_uri = PhabricatorEnv::getProductionURI($blog->getFeedURI());
+    $blog_view_uri = PhabricatorEnv::getProductionURI($blog->getViewURI());
     $content = array();
     $content[] = phutil_tag('title', array(), $blog->getName());
-    $content[] = phutil_tag('id', array(), $blog_uri);
+    $content[] = phutil_tag('id', array(), $blog_feed_uri);
     $content[] = phutil_tag('link',
       array(
         'rel' => 'self',
         'type' => 'application/atom+xml',
-        'href' => $blog_uri,
+        'href' => $blog_feed_uri,
+      ));
+    $content[] = phutil_tag('link',
+      array(
+        'rel' => 'alternate',
+        'type' => 'text/html',
+        'href' => $blog_view_uri,
+        'title' => $blog->getName(),
       ));
 
     $updated = $blog->getDateModified();

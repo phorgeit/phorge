@@ -89,6 +89,7 @@ final class PHUIRemarkupPreviewPanel extends AphrontTagView {
       ),
       $loading);
 
+    $content = null;
     if (!$this->previewType) {
       $header = null;
       if ($this->header) {

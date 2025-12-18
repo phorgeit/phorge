@@ -8,14 +8,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage files'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **files** __command__ [__options__]
-    Manage Phabricator file storage.
+    Manage file storage.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorFilesManagementWorkflow')
+  ->setAncestorClass(PhabricatorFilesManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

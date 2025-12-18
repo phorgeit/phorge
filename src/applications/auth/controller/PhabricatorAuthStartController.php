@@ -298,8 +298,11 @@ final class PhabricatorAuthStartController
       ->setURI($auto_uri);
   }
 
+  /**
+   * @param array<PhabricatorAuthProviderConfig> $configs
+   */
   private function newEmailLoginView(array $configs) {
-    assert_instances_of($configs, 'PhabricatorAuthProviderConfig');
+    assert_instances_of($configs, PhabricatorAuthProviderConfig::class);
 
     // Check if password auth is enabled. If it is, the password login form
     // renders a "Forgot password?" link, so we don't need to provide a

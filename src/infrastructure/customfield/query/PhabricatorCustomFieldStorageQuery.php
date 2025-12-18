@@ -12,8 +12,11 @@ final class PhabricatorCustomFieldStorageQuery extends Phobject {
   private $fieldMap = array();
   private $storageSources = array();
 
+  /**
+   * @param array<PhabricatorCustomField> $fields
+   */
   public function addFields(array $fields) {
-    assert_instances_of($fields, 'PhabricatorCustomField');
+    assert_instances_of($fields, PhabricatorCustomField::class);
 
     foreach ($fields as $field) {
       $this->addField($field);

@@ -12,7 +12,7 @@ final class PhabricatorAuthFactorProviderTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorAuthFactorProviderTransactionType';
+    return PhabricatorAuthFactorProviderTransactionType::class;
   }
 
 }

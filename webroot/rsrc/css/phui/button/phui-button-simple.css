@@ -94,7 +94,7 @@ input[type="submit"].phui-button-simple.button-yellow,
 a.phui-button-simple.button-yellow,
 a.phui-button-simple.button-yellow:visited {
   background-color: {$sh-yellowbackground};
-  color: {$sh-yellowtext};
+  color: {$yellowtext};
   border: 1px solid {$sh-yellowborder};
 }
 
@@ -102,7 +102,7 @@ button.phui-button-simple.button-yellow .phui-icon-view,
 input[type="submit"].phui-button-simple.button-yellow .phui-icon-view,
 a.phui-button-simple.button-yellow .phui-icon-view,
 a.phui-button-simple.button-yellow:visited .phui-icon-view {
-  color: {$sh-yellowicon};
+  color: {$yellowtext};
 }
 
 a.button.phui-button-simple.button-yellow:hover,

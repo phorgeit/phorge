@@ -5,8 +5,11 @@ final class PhabricatorProjectActivityChartEngine
 
   const CHARTENGINEKEY = 'project.activity';
 
+  /**
+   * @param array<PhabricatorProject> $projects
+   */
   public function setProjects(array $projects) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, PhabricatorProject::class);
     $project_phids = mpull($projects, 'getPHID');
     return $this->setEngineParameter('projectPHIDs', $project_phids);
   }
@@ -46,8 +49,8 @@ final class PhabricatorProjectActivityChartEngine
     $function->getFunctionLabel()
       ->setKey('moved-in')
       ->setName(pht('Tasks Moved Into Project'))
-      ->setColor('rgba(128, 128, 200, 1)')
-      ->setFillColor('rgba(128, 128, 200, 0.15)');
+      ->setColor('rgba(182, 126, 200, 1)')
+      ->setFillColor('rgba(182, 126, 200, 0.15)');
 
     $functions[] = $function;
 
@@ -78,8 +81,8 @@ final class PhabricatorProjectActivityChartEngine
     $function->getFunctionLabel()
       ->setKey('created')
       ->setName(pht('Tasks Created'))
-      ->setColor('rgba(0, 0, 200, 1)')
-      ->setFillColor('rgba(0, 0, 200, 0.15)');
+      ->setColor('rgba(41, 128, 185, 1)')
+      ->setFillColor('rgba(41, 128, 185, 0.15)');
 
     $functions[] = $function;
 

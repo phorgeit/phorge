@@ -8,14 +8,14 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage cache'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **cache** __command__ [__options__]
-    Manage Phabricator caches.
+    Manage caches.
 
 EOSYNOPSIS
   );
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorCacheManagementWorkflow')
+  ->setAncestorClass(PhabricatorCacheManagementWorkflow::class)
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

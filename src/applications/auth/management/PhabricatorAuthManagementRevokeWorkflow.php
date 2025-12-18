@@ -62,7 +62,7 @@ final class PhabricatorAuthManagementRevokeWorkflow
     $is_everything = $args->getArg('everything');
     if ($type === null && !$is_everything) {
       if ($is_list) {
-        // By default, "bin/revoke --list" implies "--everything".
+        // By default, "bin/auth revoke --list" implies "--everything".
         $types = $all_types;
       } else {
         throw new PhutilArgumentUsageException(
@@ -71,7 +71,7 @@ final class PhabricatorAuthManagementRevokeWorkflow
             '"--everything". Use "--list" to list available credential '.
             'types.'));
       }
-    } else if (strlen($type) && $is_everything) {
+    } else if (phutil_nonempty_string($type) && $is_everything) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify the credential type to revoke with "--type" or '.
@@ -119,12 +119,12 @@ final class PhabricatorAuthManagementRevokeWorkflow
     }
 
     $target = null;
-    if (!strlen($from) && !$is_everywhere) {
+    if (!phutil_nonempty_string($from) && !$is_everywhere) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify the target to revoke credentials from with "--from" or '.
           'specify "--everywhere".'));
-    } else if (strlen($from) && $is_everywhere) {
+    } else if (phutil_nonempty_string($from) && $is_everywhere) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify the target to revoke credentials from with "--from" or '.

@@ -133,6 +133,10 @@ final class PHUIButtonView extends AphrontTagView {
     return $this->auralLabel;
   }
 
+  /**
+   * @param PHUIIconView|string $icon
+   * @param ?bool $first
+   */
   public function setIcon($icon, $first = true) {
     if (!($icon instanceof PHUIIconView)) {
       $icon = id(new PHUIIconView())

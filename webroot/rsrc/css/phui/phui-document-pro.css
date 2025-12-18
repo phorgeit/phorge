@@ -31,7 +31,6 @@
 .device-desktop .phui-document-content-outer {
   display: table;
   width: 100%;
-  layout: fixed;
 }
 
 /* Force very wide content, like tables with many columns, to scroll inside
@@ -59,8 +58,7 @@
   border-bottom: 1px solid {$document.border};
 }
 
-.phui-document-view-pro-box,
-.phui-document-properties {
+.phui-document-view-pro-box {
   max-width: 800px;
   margin: 0 auto;
 }
@@ -176,6 +174,7 @@ body.printable {
 span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   color: {$anchor};
   text-decoration: underline;
+  background-color: {$navigation-menu-hover-background};
 }
 
 .phui-document-view-pro .phui-document-toc-content li + ul {

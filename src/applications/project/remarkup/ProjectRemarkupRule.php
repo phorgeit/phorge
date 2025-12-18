@@ -21,6 +21,9 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
     return $tag;
   }
 
+  /**
+   * @return string Regex which defines a valid object ID
+   */
   protected function getObjectIDPattern() {
     // NOTE: This rule matches monograms with internal periods,
     // like `#domain.com`, but does not match monograms with terminal

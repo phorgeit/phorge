@@ -4,8 +4,11 @@ final class PhameBlogListView extends AphrontTagView {
 
   private $blogs;
 
+  /**
+   * @param array<PhameBlog> $blogs
+   */
   public function setBlogs($blogs) {
-    assert_instances_of($blogs, 'PhameBlog');
+    assert_instances_of($blogs, PhameBlog::class);
     $this->blogs = $blogs;
     return $this;
   }

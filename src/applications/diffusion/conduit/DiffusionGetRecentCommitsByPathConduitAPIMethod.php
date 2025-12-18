@@ -14,7 +14,10 @@ final class DiffusionGetRecentCommitsByPathConduitAPIMethod
   }
 
   public function getMethodStatusDescription() {
-    return pht('Obsoleted by "diffusion.historyquery".');
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '08/2018',
+      'diffusion.historyquery');
   }
 
   public function getMethodDescription() {

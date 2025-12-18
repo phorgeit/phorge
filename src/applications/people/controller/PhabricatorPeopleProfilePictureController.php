@@ -76,7 +76,7 @@ final class PhabricatorPeopleProfilePictureController
           $e_file = pht('Not Supported');
           $errors[] = $supported_formats_message;
         } else {
-          $xformed = $xform->executeTransform($file);
+          $xformed = $xform->executeTransformExplicit($file);
         }
       }
 
@@ -191,10 +191,6 @@ final class PhabricatorPeopleProfilePictureController
 
     $buttons = array();
     foreach ($images as $phid => $spec) {
-      $style = null;
-      if (isset($spec['style'])) {
-        $style = $spec['style'];
-      }
       $button = javelin_tag(
         'button',
         array(

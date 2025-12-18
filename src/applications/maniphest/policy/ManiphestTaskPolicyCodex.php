@@ -46,7 +46,7 @@ final class ManiphestTaskPolicyCodex
           PhabricatorPolicyCapability::CAN_EDIT,
         ))
       ->setDescription(
-        pht('The owner of a task can always view and edit it.'));
+        pht('The assignee of a task can always view and edit it.'));
 
     $rules[] = $this->newRule()
       ->setCapabilities(
@@ -56,7 +56,7 @@ final class ManiphestTaskPolicyCodex
       ->setIsActive($object->areEditsLocked())
       ->setDescription(
         pht(
-          'Tasks with edits locked may only be edited by their owner.'));
+          'Tasks with edits locked may only be edited by their assignee.'));
 
     return $rules;
   }
@@ -64,8 +64,8 @@ final class ManiphestTaskPolicyCodex
   public function getPolicyForEdit($capability) {
 
     // When a task has its edits locked, the effective edit policy is locked
-    // to "No One". However, the task owner may still bypass the lock and edit
-    // the task. When they do, we want the control in the UI to have the
+    // to "No One". However, the task assignee may still bypass the lock and
+    // edit the task. When they do, we want the control in the UI to have the
     // correct value. Return the real value stored on the object.
 
     switch ($capability) {

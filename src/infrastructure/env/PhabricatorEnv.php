@@ -220,7 +220,7 @@ final class PhabricatorEnv extends Phobject {
 
     // If this install has site config sources, load them now.
     $site_sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorConfigSiteSource')
+      ->setAncestorClass(PhabricatorConfigSiteSource::class)
       ->setSortMethod('getPriority')
       ->execute();
 
@@ -791,7 +791,7 @@ final class PhabricatorEnv extends Phobject {
    *
    * @param string $raw_uri URI to test.
    * @param list<string> $protocols Allowed protocols.
-   * @return pair<string, string> Pre-resolved URI and domain.
+   * @return array<string, string> Pre-resolved URI and domain.
    * @task uri
    */
   public static function requireValidRemoteURIForFetch(

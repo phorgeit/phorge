@@ -187,6 +187,15 @@ final class PhabricatorPeopleProfileManageController
 
     $curtain->addAction(
       id(new PhabricatorActionView())
+        ->setIcon('fa-list-alt')
+        ->setName(pht('View Activity Log'))
+        ->setDisabled(!$is_admin)
+        ->setHref(
+          $this->getApplicationURI('logs/?users='.
+          $user->getUsername().'#R')));
+
+    $curtain->addAction(
+      id(new PhabricatorActionView())
         ->setIcon($disable_icon)
         ->setName($disable_name)
         ->setDisabled(!$can_disable)

@@ -119,7 +119,7 @@ final class PHUIFeedStoryView extends AphrontView {
 
   public function setPontification($text, $title = null) {
     if ($title) {
-      $title = phutil_tag('h3', array(), $title);
+      $title = phutil_tag('h2', array(), $title);
     }
     $copy = phutil_tag(
       'div',

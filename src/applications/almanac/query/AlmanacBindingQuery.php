@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends AlmanacQuery<AlmanacBinding>
+ */
 final class AlmanacBindingQuery
   extends AlmanacQuery {
 

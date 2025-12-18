@@ -2,10 +2,6 @@
 
 final class PhabricatorFlagListController extends PhabricatorFlagController {
 
-  public function shouldAllowPublic() {
-    return true;
-  }
-
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $querykey = $request->getURIData('queryKey');

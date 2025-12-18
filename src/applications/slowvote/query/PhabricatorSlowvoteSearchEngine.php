@@ -42,6 +42,8 @@ final class PhabricatorSlowvoteSearchEngine
       id(new PhabricatorUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('authors'))
+        ->setDescription(
+          pht('Search for objects created by specific authors.'))
         ->setLabel(pht('Authors')),
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('voted')
@@ -106,12 +108,17 @@ final class PhabricatorSlowvoteSearchEngine
     return mpull($polls, 'getAuthorPHID');
   }
 
+  /**
+   * @param array<PhabricatorSlowvotePoll> $polls
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $polls,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($polls, 'PhabricatorSlowvotePoll');
+    assert_instances_of($polls, PhabricatorSlowvotePoll::class);
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())

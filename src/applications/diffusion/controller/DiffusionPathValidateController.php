@@ -32,10 +32,8 @@ final class DiffusionPathValidateController extends DiffusionController {
 
     if (!$valid) {
       switch ($browse_results->getReasonForEmptyResultSet()) {
-        case DiffusionBrowseResultSet::REASON_IS_FILE:
-          $valid = true;
-          break;
         case DiffusionBrowseResultSet::REASON_IS_EMPTY:
+        case DiffusionBrowseResultSet::REASON_IS_FILE:
           $valid = true;
           break;
       }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<HarbormasterBuildLog>
+ */
 final class HarbormasterBuildLogQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

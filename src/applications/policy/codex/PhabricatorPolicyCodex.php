@@ -104,7 +104,7 @@ abstract class PhabricatorPolicyCodex
           get_class($object),
           'PhabricatorPolicyCodexInterface',
           'newPolicyCodex()',
-          __CLASS__));
+          self::class));
     }
 
     $codex

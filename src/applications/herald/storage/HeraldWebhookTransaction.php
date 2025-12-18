@@ -12,7 +12,7 @@ final class HeraldWebhookTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'HeraldWebhookTransactionType';
+    return HeraldWebhookTransactionType::class;
   }
 
 }

@@ -15,7 +15,7 @@ final class DrydockBlueprintTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'DrydockBlueprintTransactionType';
+    return DrydockBlueprintTransactionType::class;
   }
 
 }

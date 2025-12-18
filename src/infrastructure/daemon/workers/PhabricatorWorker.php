@@ -89,6 +89,9 @@ abstract class PhabricatorWorker extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorWorkerTask
+   */
   public function getCurrentWorkerTask() {
     return $this->currentWorkerTask;
   }
@@ -101,6 +104,13 @@ abstract class PhabricatorWorker extends Phobject {
     return $task->getID();
   }
 
+  /**
+   *  Perform some preparations and set up context, then call the final
+   *  functionality (e.g. publishFeedStory() or importEvents() or whatever
+   *  work the PhabricatorWorker subclass is supposed to do).
+   *
+   *  @return void
+   */
   abstract protected function doWork();
 
   final public function __construct($data) {
@@ -120,6 +130,11 @@ abstract class PhabricatorWorker extends Phobject {
     return idx($data, $key, $default);
   }
 
+  /**
+   *  Public wrapper function which calls the doWork() function
+   *
+   *  @return void
+   */
   final public function executeTask() {
     $this->doWork();
   }
@@ -248,7 +263,7 @@ abstract class PhabricatorWorker extends Phobject {
   /**
    * Get tasks queued as followups by @{method:queueTask}.
    *
-   * @return list<tuple<string, wild, int|null>> Queued task specifications.
+   * @return list<array{string, mixed, int|null}> Queued task specifications.
    */
   final protected function getQueuedTasks() {
     return $this->queuedTasks;
@@ -262,7 +277,7 @@ abstract class PhabricatorWorker extends Phobject {
    * this method to force the queue to flush before failing (for example, if
    * you are using queues to improve locking behavior).
    *
-   * @param map<string, wild> $defaults (optional) Default options.
+   * @param map<string, mixed> $defaults (optional) Default options.
    */
   final public function flushTaskQueue($defaults = array()) {
     foreach ($this->getQueuedTasks() as $task) {
@@ -287,7 +302,7 @@ abstract class PhabricatorWorker extends Phobject {
    * This method does not provide any assurances about when these tasks will
    * execute, or even guarantee that it will have any effect at all.
    *
-   * @param list<id> $ids List of task IDs to try to awaken.
+   * @param array<int> $ids List of task IDs to try to awaken.
    * @return void
    */
   final public static function awakenTaskIDs(array $ids) {

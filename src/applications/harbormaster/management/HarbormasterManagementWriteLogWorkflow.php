@@ -75,8 +75,12 @@ final class HarbormasterManagementWriteLogWorkflow
         pht('Writing log, slowly...'));
 
       $offset = 0;
-      $total = strlen($content);
-      $pieces = str_split($content, $rate);
+      $total = 0;
+      $pieces = array();
+      if ($content) {
+        $total = strlen($content);
+        $pieces = str_split($content, $rate);
+      }
 
       $bar = id(new PhutilConsoleProgressBar())
         ->setTotal($total);

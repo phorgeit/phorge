@@ -7,7 +7,7 @@ Simple guide to Arcanist and Phorge unit tests.
 
 Arcanist and Phorge provide and use a simple unit test framework. This
 document is aimed at project contributors and describes how to use it to add
-and run tests in these projects or other libphutil libraries.
+and run tests in these projects or other custom libraries.
 
 In the general case, you can integrate `arc` with a custom unit test engine
 (like PHPUnit or any other unit testing library) to run tests in other projects.

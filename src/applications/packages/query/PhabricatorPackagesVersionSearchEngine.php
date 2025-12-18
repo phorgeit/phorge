@@ -71,12 +71,17 @@ final class PhabricatorPackagesVersionSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorPackagesVersion> $versions
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $versions,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($versions, 'PhabricatorPackagesVersion');
+    assert_instances_of($versions, PhabricatorPackagesVersion::class);
     $viewer = $this->requireViewer();
 
     $list = id(new PhabricatorPackagesVersionListView())

@@ -45,7 +45,7 @@ final class DivinerAtomizeWorkflow extends DivinerWorkflow {
     $symbols = id(new PhutilSymbolLoader())
       ->setName($atomizer_class)
       ->setConcreteOnly(true)
-      ->setAncestorClass('DivinerAtomizer')
+      ->setAncestorClass(DivinerAtomizer::class)
       ->selectAndLoadSymbols();
     if (!$symbols) {
       throw new PhutilArgumentUsageException(

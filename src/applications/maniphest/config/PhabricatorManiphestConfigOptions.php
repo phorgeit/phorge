@@ -19,6 +19,10 @@ final class PhabricatorManiphestConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorManiphestApplication::class;
+  }
+
   public function getOptions() {
     $priority_type = 'maniphest.priorities';
     $priority_defaults = array(
@@ -248,14 +252,14 @@ EOTEXT
     $status_example = $json->encodeFormatted($status_example);
 
     // This is intentionally blank for now, until we can move more Maniphest
-    // logic to custom fields.
+    // logic to custom fields. Once done, enable the foreach loop below.
     $default_fields = array();
 
-    foreach ($default_fields as $key => $enabled) {
-      $default_fields[$key] = array(
-        'disabled' => !$enabled,
-      );
-    }
+    // foreach ($default_fields as $key => $enabled) {
+    //   $default_fields[$key] = array(
+    //     'disabled' => !$enabled,
+    //   );
+    // }
 
     $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
 

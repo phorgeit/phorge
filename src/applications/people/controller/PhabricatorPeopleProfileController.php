@@ -78,6 +78,13 @@ abstract class PhabricatorPeopleProfileController
         ->setColor('violet');
     }
 
+    if ($viewer->getIsAdmin() && $user->getIsEnrolledInMultiFactor()) {
+      $tags[] = id(clone $tag)
+        ->setName(pht('Has MFA'))
+        ->setIcon('fa-lock')
+        ->setColor('green');
+    }
+
     $header = id(new PHUIHeaderView())
       ->setHeader($user->getFullName())
       ->setImage($picture)

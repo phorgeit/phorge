@@ -30,10 +30,10 @@ final class PhabricatorTypeaheadModularDatasourceController
     $class = nonempty($request->getURIData('class'), $request->getStr('class'));
 
     $sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTypeaheadDatasource')
+      ->setAncestorClass(PhabricatorTypeaheadDatasource::class)
       ->execute();
 
-    if (isset($sources[$class])) {
+    if ($class && isset($sources[$class])) {
       $source = $sources[$class];
 
       $parameters = array();
@@ -52,6 +52,14 @@ final class PhabricatorTypeaheadModularDatasourceController
                 $ex->getMessage()))
             ->addCancelButton('/');
         }
+      }
+
+      if (!$parameters &&
+          $source instanceof PhabricatorTypeaheadProxyDatasource) {
+        // PhabricatorTypeaheadProxyDatasource requires another data source
+        // to function as it is merely a proxy. If no parameters are given
+        // return a 404 to prevent crawlers from filling up the error log.
+        return new Aphront404Response();
       }
 
       $source->setParameters($parameters);

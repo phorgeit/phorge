@@ -48,7 +48,7 @@ Other options include:
   - **load**: list of additional Phutil libraries to load at startup.
     See below for details about path resolution, or see
     @{article@contrib:Adding New Classes} for a general introduction to
-    libphutil libraries.
+    libraries.
   - **https.cabundle**: specifies the path to an alternate certificate bundle
     for use when making HTTPS connections.
   - **lint.engine**: the name of a subclass of

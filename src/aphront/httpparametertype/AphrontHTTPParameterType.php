@@ -76,7 +76,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    *
    * @param AphrontRequest $request The incoming request.
    * @param string $key The key to examine.
-   * @return wild Value, or default if value is not present.
+   * @return mixed Value, or default if value is not present.
    * @task read
    */
   final public function getValue(AphrontRequest $request, $key) {
@@ -92,7 +92,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
   /**
    * Get the default value for this parameter type.
    *
-   * @return wild Default value for this type.
+   * @return mixed Default value for this type.
    * @task read
    */
   final public function getDefaultValue() {
@@ -192,7 +192,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * @param AphrontHTTPParameterType $type The other type.
    * @param AphrontRequest $request Incoming request.
    * @param string $key Key to examine.
-   * @return wild Parsed value.
+   * @return mixed Parsed value.
    * @task util
    */
   final protected function getValueWithType(
@@ -214,7 +214,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    */
   final public static function getAllTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTypeName')
       ->setSortMethod('getTypeName')
       ->execute();
@@ -255,7 +255,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    *
    * @param AphrontRequest $request The incoming request.
    * @param string $key The key to examine.
-   * @return wild Parsed value.
+   * @return mixed Parsed value.
    * @task impl
    */
   abstract protected function getParameterValue(AphrontRequest $request, $key);
@@ -299,7 +299,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    *
    * See @{method:getDefaultValue}. If unspecified, the default is `null`.
    *
-   * @return wild|null Default value (null if unspecified).
+   * @return mixed Default value (null if unspecified).
    * @task impl
    */
   protected function getParameterDefault() {

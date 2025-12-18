@@ -44,8 +44,11 @@ final class DrydockLogListView extends AphrontView {
     return $this->hideOperations;
   }
 
+  /**
+   * @param array<DrydockLog> $logs
+   */
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'DrydockLog');
+    assert_instances_of($logs, DrydockLog::class);
     $this->logs = $logs;
     return $this;
   }

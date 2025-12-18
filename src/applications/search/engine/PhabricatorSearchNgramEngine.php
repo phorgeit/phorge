@@ -3,20 +3,37 @@
 final class PhabricatorSearchNgramEngine
   extends Phobject {
 
+  /**
+   * @param string $value
+   * @return array<string>
+   */
   public function tokenizeNgramString($value) {
     $value = trim($value, ' ');
     $value = preg_split('/\s+/u', $value);
     return $value;
   }
 
+  /**
+   * @param string $string
+   * @return array<string>
+   */
   public function getTermNgramsFromString($string) {
     return $this->getNgramsFromString($string, true);
   }
 
+  /**
+   * @param string $string
+   * @return array<string>
+   */
   public function getSubstringNgramsFromString($string) {
     return $this->getNgramsFromString($string, false);
   }
 
+  /**
+   * @param string $value
+   * @param bool $as_term
+   * @return array<string>
+   */
   private function getNgramsFromString($value, $as_term) {
     $value = phutil_utf8_strtolower($value);
     $tokens = $this->tokenizeNgramString($value);
@@ -35,6 +52,7 @@ final class PhabricatorSearchNgramEngine
 
     $ngrams = array();
     foreach ($unique_tokens as $token => $ignored) {
+      $token = (string)$token;
       $token_v = phutil_utf8v($token);
       $length = count($token_v);
 

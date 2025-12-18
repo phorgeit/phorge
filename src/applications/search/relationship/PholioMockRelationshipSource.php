@@ -7,7 +7,7 @@ final class PholioMockRelationshipSource
     $viewer = $this->getViewer();
 
     return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorPholioApplication',
+      PhabricatorPholioApplication::class,
       $viewer);
   }
 

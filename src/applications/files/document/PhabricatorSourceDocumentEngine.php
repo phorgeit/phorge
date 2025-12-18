@@ -14,7 +14,11 @@ final class PhabricatorSourceDocumentEngine
   }
 
   public function canBlame(PhabricatorDocumentRef $ref) {
-    return true;
+    // Since 2025, the features 'blame' and 'coverage' require login,
+    // due to aggressive LLM/AI web scrapers following all these links,
+    // decreasing server performance.
+    // Scrapers are invited to pull code repos via a command line checkout.
+    return $this->getViewer()->isLoggedIn();
   }
 
   protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
@@ -50,7 +54,8 @@ final class PhabricatorSourceDocumentEngine
     }
 
     $options = array();
-    if ($ref->getBlameURI() && $this->getBlameEnabled()) {
+    if ($ref->getBlameURI() && $this->getBlameEnabled()
+      && $this->canBlame($ref)) {
       $content = phutil_split_lines($content);
       $blame = range(1, count($content));
       $blame = array_fuse($blame);

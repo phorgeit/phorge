@@ -4,8 +4,11 @@ final class PhabricatorFaviconRefQuery extends Phobject {
 
   private $refs;
 
+  /**
+   * @param array<PhabricatorFaviconRef> $refs
+   */
   public function withRefs(array $refs) {
-    assert_instances_of($refs, 'PhabricatorFaviconRef');
+    assert_instances_of($refs, PhabricatorFaviconRef::class);
     $this->refs = $refs;
     return $this;
   }

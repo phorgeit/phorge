@@ -19,6 +19,10 @@ final class PhabricatorDiffusionConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorDiffusionApplication::class;
+  }
+
   public function getOptions() {
     $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
 
@@ -61,22 +65,6 @@ final class PhabricatorDiffusionConfigOptions
         ->setDescription(pht('Hard byte limit on including patches in email.')),
       $this->newOption('metamta.diffusion.time-limit', 'int', 60)
         ->setDescription(pht('Hard time limit on generating patches.')),
-
-      $this->newOption(
-        'audit.can-author-close-audit',
-        'bool',
-        false)
-        ->setBoolOptions(
-          array(
-            pht('Enable Self-Accept'),
-            pht('Disable Self-Accept'),
-          ))
-        ->setDescription(
-          pht(
-            'Allows the author of a commit to be an auditor and accept their '.
-            'own commits. Note that this behavior is different from the '.
-            'behavior implied by the name of the option: long ago, it did '.
-            'something else.')),
 
       $this->newOption('bugtraq.url', 'string', null)
         ->addExample('https://bugs.php.net/%BUGID%', pht('PHP bugs'))

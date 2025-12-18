@@ -5,13 +5,13 @@
 .device-desktop .phui-navigation-shell,
 .phabricator-home.device .phui-navigation-shell {
   width: 100%;
-  height: calc(100vh - {$menu.main.height});
+  min-height: calc(100vh - {$menu.main.height});
 }
 
 .device-desktop .phui-navigation-shell .phabricator-nav,
 .phabricator-home.device .phui-navigation-shell .phabricator-nav {
   display: flex;
-  min-height: 100%;
+  min-height: calc(100vh - {$menu.main.height});
 }
 
 .device-desktop .phui-navigation-shell .phabricator-nav-local,
@@ -65,7 +65,6 @@
   display: block;
   white-space: nowrap;
   text-decoration: none;
-  -webkit-font-smoothing: antialiased;
 }
 
 .phui-basic-nav .phabricator-side-menu .phui-list-item-href {
@@ -100,7 +99,7 @@
 }
 
 .phui-basic-nav .phabricator-side-menu .phui-list-item-selected {
-  background-color: rgba({$alphablack},.05);
+  background-color: {$navigation-menu-selection-background};
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   font-weight: bold;
@@ -109,7 +108,7 @@
 .device-desktop .phui-basic-nav .phabricator-side-menu
   .phui-list-item-selected
   a.phui-list-item-href:hover {
-    background-color: rgba({$alphablack},.05);
+    background-color: {$navigation-menu-selection-background};
 }
 
 .phui-basic-nav .phabricator-side-menu .phui-list-item-type-label {
@@ -125,7 +124,7 @@
 .device-desktop .phui-basic-nav .phabricator-side-menu
   a.phui-list-item-href:hover {
   text-decoration: none;
-  background-color: rgba({$alphablack},.07);
+  background-color: {$navigation-menu-hover-background};
 }
 
 .phui-basic-nav .phabricator-side-menu .phui-list-item-type-link +

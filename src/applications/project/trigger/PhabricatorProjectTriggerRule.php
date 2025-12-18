@@ -15,7 +15,7 @@ abstract class PhabricatorProjectTriggerRule
 
   final public static function getAllTriggerRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTriggerType')
       ->execute();
   }

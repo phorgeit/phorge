@@ -48,7 +48,7 @@ final class PhabricatorPolicyEditController
     );
 
     $rules = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyRule')
+      ->setAncestorClass(PhabricatorPolicyRule::class)
       ->execute();
 
     foreach ($rules as $key => $rule) {

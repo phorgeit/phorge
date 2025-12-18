@@ -18,6 +18,9 @@ final class PHUIFormationResizerView
     return 8;
   }
 
+  /**
+   * @return PhutilSafeHTML
+   */
   public function render() {
     $width = $this->getWidth();
     $style = sprintf('width: %dpx;', $width);
@@ -26,6 +29,7 @@ final class PHUIFormationResizerView
       'div',
       array(
         'id' => $this->getID(),
+        'aria-hidden' => 'true',
         'class' => 'phui-formation-resizer',
         'style' => $style,
       ));

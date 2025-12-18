@@ -40,7 +40,7 @@
 
 .conpherence-show-more-messages {
   display: block;
-  background: #e0e3ec;
+  background: {$gentle.highlight};
   margin: 10px;
   text-align: center;
   padding: 10px;
@@ -235,21 +235,6 @@
   background-size: 25px;
 }
 
-.conpherence-transaction-view.conpherence-comment.anchor-target,
-.conpherence-transaction-view.conpherence-edited.anchor-target {
-  background: {$lightyellow};
-}
-
-.cconpherence-transaction-view.conpherence-comment.anchor-target {
-  margin: 4px 8px 4px 8px;
-  padding: 2px 4px 2px 4px;
-}
-
-.conpherence-transaction-view.conpherence-edited.anchor-target {
-  margin: 0px 8px 0px 8px;
-  padding: 0px 4px 0px 4px;
-}
-
 .conpherence-transaction-view .conpherence-transaction-detail {
   border-width: 0;
   margin-left: 45px;
@@ -350,7 +335,6 @@ body .conpherence-message-pane .aphront-form-control {
   height: 34px;
   padding: 8px;
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }

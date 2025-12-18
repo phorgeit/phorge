@@ -7,10 +7,6 @@ final class DiffusionUpdateCoverageConduitAPIMethod
     return 'diffusion.updatecoverage';
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodDescription() {
     return pht('Publish coverage information for a repository.');
   }

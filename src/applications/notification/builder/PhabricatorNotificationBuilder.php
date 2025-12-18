@@ -7,8 +7,11 @@ final class PhabricatorNotificationBuilder extends Phobject {
   private $user = null;
   private $showTimestamps = true;
 
+  /**
+   * @param array<PhabricatorFeedStory> $stories
+   */
   public function __construct(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, PhabricatorFeedStory::class);
     $this->stories = $stories;
   }
 

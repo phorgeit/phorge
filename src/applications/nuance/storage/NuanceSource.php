@@ -57,7 +57,7 @@ final class NuanceSource extends NuanceDAO
     NuanceSourceDefinition $definition) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorNuanceApplication'))
+      ->withClasses(array(PhabricatorNuanceApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

@@ -8,7 +8,7 @@ final class AlmanacNetworkTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'AlmanacNetworkTransactionType';
+    return AlmanacNetworkTransactionType::class;
   }
 
 }

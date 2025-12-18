@@ -58,11 +58,6 @@ abstract class AphrontDatabaseConnection
     return call_user_func_array('queryfx', $args);
   }
 
-
-  public function supportsAsyncQueries() {
-    return false;
-  }
-
   public function setReadOnly($read_only) {
     $this->readOnly = $read_only;
     return $this;

@@ -35,8 +35,11 @@ final class DifferentialTransactionView
     return $this->revision;
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   */
   public function setChangesets(array $changesets) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
     $this->changesets = $changesets;
     return $this;
   }

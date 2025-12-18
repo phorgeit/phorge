@@ -12,7 +12,7 @@ final class PhabricatorAuthContactNumberTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorAuthContactNumberTransactionType';
+    return PhabricatorAuthContactNumberTransactionType::class;
   }
 
 }

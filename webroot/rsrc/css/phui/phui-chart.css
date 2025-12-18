@@ -32,13 +32,13 @@
 .chart .line {
   fill: none;
   stroke: {$blue};
-  stroke-width: 2px;
+  stroke-width: 1px;
 }
 
 .chart .point {
-  fill: #ffffff;
-  stroke: {$blue};
-  stroke-width: 2px;
+  fill: {$lightgreybackground};
+  stroke: {$darkgreyborder};
+  stroke-width: 1px;
   position: relative;
   cursor: pointer;
 }

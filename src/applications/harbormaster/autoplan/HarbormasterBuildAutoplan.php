@@ -11,7 +11,7 @@ abstract class HarbormasterBuildAutoplan extends Phobject {
 
   public static function getAllAutoplans() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getAutoplanPlanKey')
       ->execute();
   }

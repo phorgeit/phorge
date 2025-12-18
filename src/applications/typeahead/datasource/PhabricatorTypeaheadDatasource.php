@@ -98,12 +98,22 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $this->phase;
   }
 
+  /**
+   * @return string A text URI consisting of '/typeahead/class/' followed by
+   *   a datasource (e.g. 'PhabricatorProjectDatasource/') and optionally
+   *   URI parameters (e.g. '?parameters=%7B%22autocomplete%22%3A1%7D')
+   */
   public function getDatasourceURI() {
     $params = $this->newURIParameters();
     $uri = new PhutilURI('/typeahead/class/'.get_class($this).'/', $params);
     return phutil_string_cast($uri);
   }
 
+  /**
+   * @return string|null A text URI consisting of '/typeahead/browse/' followed
+   *   by a datasource (e.g. 'PhabricatorPeopleDatasource/') and optionally
+   *   URI parameters. Returns null if not browsable.
+   */
   public function getBrowseURI() {
     if (!$this->isBrowsable()) {
       return null;
@@ -114,6 +124,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return phutil_string_cast($uri);
   }
 
+  /**
+   * @return array Array with key 'parameters' and value consisting of JSON
+   *   encoded parameters.
+   */
   private function newURIParameters() {
     if (!$this->parameters) {
       return array();
@@ -126,8 +140,16 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $map;
   }
 
+  /**
+   * @return string Placeholder text to display in the empty datasource field
+   *   field to provide a hint to the user, for example 'Type a user'
+   */
   abstract public function getPlaceholderText();
 
+  /**
+   * @return string Title to display in the selection popup dialog created
+   * after selecting the magnifier icon, for example 'Browse Projects'
+   */
   public function getBrowseTitle() {
     return get_class($this);
   }
@@ -135,6 +157,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
   abstract public function getDatasourceApplicationClass();
   abstract public function loadResults();
 
+  /**
+   * @param string $phase
+   * @param int $limit
+   */
   protected function loadResultsForPhase($phase, $limit) {
     // By default, sources just load all of their results in every phase and
     // rely on filtering at a higher level to sequence phases correctly.
@@ -146,6 +172,9 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $results;
   }
 
+  /**
+   * @return array<string>
+   */
   public static function tokenizeString($string) {
     $string = phutil_utf8_strtolower($string);
     $string = trim($string);
@@ -169,6 +198,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return array_values($tokens);
   }
 
+  /**
+   * Break search term entered in typeahead field into string tokens
+   * @return array<string>
+   */
   public function getTokens() {
     return self::tokenizeString($this->getRawQuery());
   }
@@ -350,6 +383,12 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * Return available function tokens for this typeahead datasource, with each
+   * key being the function name (e.g. any, not, null, only) and each value
+   * being another array containing name, summary, description. See the
+   * "Function Quick Reference" in the Typeahead Function Help for details.
+   *
+   * @return array<array<string>|null>
    * @task functions
    */
   public function getDatasourceFunctions() {
@@ -358,6 +397,12 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * Return all function tokens for typeahead datasources, with each key being
+   * the function name (e.g. any, not, null, only) and each value being another
+   * array containing name, summary, description. See the
+   * "Function Quick Reference" in the Typeahead Function Help for details.
+   *
+   * @return array<array<string>>
    * @task functions
    */
   public function getAllDatasourceFunctions() {
@@ -471,6 +516,8 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * @param string $token
+   * @return bool
    * @task functions
    */
   public static function isFunctionToken($token) {
@@ -585,6 +632,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * Get the function tokens entered in the typeahead field,
+   * e.g. "not" or "any"
+   *
+   * @return array<string|null>
    * @task functions
    */
   public function getFunctionStack() {
@@ -593,6 +644,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * @return array<PhabricatorTypeaheadTokenView>
    * @task functions
    */
   protected function getCurrentFunction() {

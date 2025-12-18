@@ -80,6 +80,7 @@ final class PHUIFormationView
       array(
         'id' => $this->getID(),
         'class' => 'phui-formation-view',
+        'role' => 'presentation',
         'sigil' => 'phuix-formation-view',
         'meta' => array(
           'items' => $phuix_items,

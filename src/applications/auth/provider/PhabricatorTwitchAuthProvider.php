@@ -13,7 +13,7 @@ final class PhabricatorTwitchAuthProvider
     return pht(
       "To configure Twitch.tv OAuth, create a new application here:".
       "\n\n".
-      "http://www.twitch.tv/settings/applications".
+      "https://www.twitch.tv/settings/applications".
       "\n\n".
       "When creating your application, use these settings:".
       "\n\n".

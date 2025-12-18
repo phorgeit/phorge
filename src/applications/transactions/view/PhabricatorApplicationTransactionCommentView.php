@@ -127,8 +127,13 @@ final class PhabricatorApplicationTransactionCommentView
     return $this->infoView;
   }
 
+  /**
+   * @param array<PhabricatorEditEngineCommentAction> $comment_actions
+   */
   public function setCommentActions(array $comment_actions) {
-    assert_instances_of($comment_actions, 'PhabricatorEditEngineCommentAction');
+    assert_instances_of(
+      $comment_actions,
+      PhabricatorEditEngineCommentAction::class);
     $this->commentActions = $comment_actions;
     return $this;
   }
@@ -137,8 +142,13 @@ final class PhabricatorApplicationTransactionCommentView
     return $this->commentActions;
   }
 
+  /**
+   * @param array<PhabricatorEditEngineCommentActionGroup> $groups
+   */
   public function setCommentActionGroups(array $groups) {
-    assert_instances_of($groups, 'PhabricatorEditEngineCommentActionGroup');
+    assert_instances_of(
+      $groups,
+      PhabricatorEditEngineCommentActionGroup::class);
     $this->commentActionGroups = $groups;
     return $this;
   }
@@ -295,7 +305,7 @@ final class PhabricatorApplicationTransactionCommentView
       ->appendChild($anchor)
       ->appendChild(
         phutil_tag(
-          'h3',
+          'h2',
           array(
             'class' => 'aural-only',
           ),
@@ -325,6 +335,7 @@ final class PhabricatorApplicationTransactionCommentView
       ->setID($this->getCommentID())
       ->addClass('phui-comment-fullwidth-control')
       ->addClass('phui-comment-textarea-control')
+      ->setSurroundingObject($this->getObject())
       ->setCanPin(true)
       ->setPlaceholder($placeholder_text)
       ->setName('comment');
@@ -451,6 +462,7 @@ final class PhabricatorApplicationTransactionCommentView
       $action_select = id(new AphrontFormSelectControl())
         ->addClass('phui-comment-fullwidth-control')
         ->addClass('phui-comment-action-control')
+        ->setAriaLabel(pht('Comment Action Options'))
         ->setID($action_id)
         ->setOptions($options);
 
@@ -619,7 +631,7 @@ final class PhabricatorApplicationTransactionCommentView
   private function renderBadgeView() {
     $user = $this->getUser();
     $can_use_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
+      PhabricatorBadgesApplication::class,
       $user);
     if (!$can_use_badges) {
       return null;

@@ -26,8 +26,8 @@ final class PhabricatorMetaMTAEmailBodyParser extends Phobject {
    *     ),
    *   )
    *
-   * @param   string  $body Raw mail text body.
-   * @return  dict    Parsed body.
+   * @param   string $body Raw mail text body.
+   * @return  array<string, array|string> Parsed body.
    */
   public function parseBody($body) {
     $body = $this->stripTextBody($body);

@@ -76,7 +76,7 @@ abstract class PhabricatorWorkerTask extends PhabricatorWorkerDAO {
           $class));
     }
 
-    if (!is_subclass_of($class, 'PhabricatorWorker')) {
+    if (!is_subclass_of($class, PhabricatorWorker::class)) {
       throw new PhabricatorWorkerPermanentFailureException(
         pht(
           "Task class '%s' does not extend %s.",

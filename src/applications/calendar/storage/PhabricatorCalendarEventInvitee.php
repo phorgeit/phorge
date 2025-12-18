@@ -69,6 +69,33 @@ final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
     }
   }
 
+  /**
+   * Import the invitee availability from the Time Transparency
+   * field in an ICS calendar event as per RFC 5545 section 3.8.2.7.
+   * @param mixed $time_transp Time transparency like 'OPAQUE'
+   *                          or 'TRANSPARENT' or null.
+   * @return void
+   */
+  public function importAvailabilityFromTimeTransparency($time_transp) {
+    // How to understand RFC 5545 suburbs. Example conversation:
+    //  "Hey dude
+    //   I'm a bit *opaque* on this event so I'm not *transparent*"
+    // Means:
+    //  "Good morning Sir,
+    //   I'm a bit *busy* on this business so I'm not *available*"
+    static $transparency_2_availability = array(
+      'OPAQUE'      => self::AVAILABILITY_BUSY,
+      'TRANSPARENT' => self::AVAILABILITY_AVAILABLE,
+    );
+
+    // Note that idx($array, $key) likes a null $key.
+    $availability = idx($transparency_2_availability, $time_transp);
+    if ($availability) {
+      $this->setAvailability($availability);
+    }
+  }
+
+
   public static function getAvailabilityMap() {
     return array(
       self::AVAILABILITY_AVAILABLE => array(

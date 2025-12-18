@@ -11,7 +11,10 @@ final class PHIDInfoConduitAPIMethod extends PHIDConduitAPIMethod {
   }
 
   public function getMethodStatusDescription() {
-    return pht("Replaced by 'phid.query'.");
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2012',
+      'phid.query');
   }
 
   public function getMethodDescription() {

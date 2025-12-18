@@ -245,10 +245,18 @@ final class PhabricatorMultiFactorSettingsPanel
         $menu->addItem($item);
       }
 
-      return $this->newDialog()
+      $dialog = $this->newDialog()
         ->setTitle(pht('Choose Factor Type'))
         ->appendChild($menu)
         ->addCancelButton($cancel_uri);
+
+      if ($viewer->getIsEnrolledInMultiFactor()) {
+        $dialog->appendRemarkup(pht(
+          'NOTE: You already have an Auth Factor configured. Adding '.
+          'another factor will require you to always provide all Auth '.
+          'Factors instead of selecting one of your Auth Factors.'));
+      }
+      return $dialog;
     }
 
     // NOTE: Beyond providing guidance, this step is also providing a CSRF gate

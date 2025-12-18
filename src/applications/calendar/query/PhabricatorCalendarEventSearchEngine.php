@@ -32,10 +32,14 @@ final class PhabricatorCalendarEventSearchEngine
         ->setLabel(pht('Hosts'))
         ->setKey('hostPHIDs')
         ->setAliases(array('host', 'hostPHID', 'hosts'))
+        ->setDescription(
+          pht('Search for events created by specific hosts.'))
         ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Invited'))
         ->setKey('invitedPHIDs')
+        ->setDescription(
+          pht('Search for events with specific invited users.'))
         ->setDatasource(new PhabricatorCalendarInviteeDatasource()),
       id(new PhabricatorSearchDateControlField())
         ->setLabel(pht('Occurs After'))
@@ -52,15 +56,20 @@ final class PhabricatorCalendarEventSearchEngine
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Cancelled Events'))
         ->setKey('isCancelled')
+        ->setDescription(pht('Search for active or cancelled events.'))
         ->setOptions($this->getCancelledOptions())
         ->setDefault('active'),
       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Import Sources'))
         ->setKey('importSourcePHIDs')
+        ->setDescription(
+          pht('Search for events with specific import sources.'))
         ->setAliases(array('importSourcePHID')),
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Display Options'))
         ->setKey('display')
+        ->setDescription(
+          pht('Display events in a certain display format.'))
         ->setOptions($this->getViewOptions())
         ->setDefault('month'),
     );
@@ -137,7 +146,7 @@ final class PhabricatorCalendarEventSearchEngine
       $query->withImportSourcePHIDs($map['importSourcePHIDs']);
     }
 
-    if (!$map['ids'] && !$map['phids']) {
+    if (empty($map['ids']) && empty($map['phids'])) {
       $query
         ->withIsStub(false)
         ->setGenerateGhosts(true);
@@ -286,11 +295,15 @@ final class PhabricatorCalendarEventSearchEngine
     return $result;
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   */
   private function buildCalendarListView(
     array $events,
     PhabricatorSavedQuery $query) {
 
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, PhabricatorCalendarEvent::class);
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
 
@@ -335,10 +348,14 @@ final class PhabricatorCalendarEventSearchEngine
       ->setNoDataString(pht('No events found.'));
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   */
   private function buildCalendarMonthView(
     array $events,
     PhabricatorSavedQuery $query) {
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, PhabricatorCalendarEvent::class);
 
     $viewer = $this->requireViewer();
     $now = PhabricatorTime::getNow();

@@ -31,9 +31,7 @@ final class PhabricatorPeopleProfileViewController
 
     $view_all = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon(
-        id(new PHUIIconView())
-          ->setIcon('fa-list-ul'))
+      ->setIcon('fa-list-ul')
       ->setText(pht('View All'))
       ->setHref('/feed/?userPHIDs='.$user->getPHID());
 
@@ -85,6 +83,9 @@ final class PhabricatorPeopleProfileViewController
         ));
   }
 
+  /**
+   * @return PHUIObjectBoxView|null
+   */
   private function buildPropertyView(
     PhabricatorUser $user) {
 
@@ -114,6 +115,9 @@ final class PhabricatorPeopleProfileViewController
     return $view;
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   private function buildProjectsView(
     PhabricatorUser $user) {
 
@@ -138,21 +142,18 @@ final class PhabricatorPeopleProfileViewController
         ->setViewer($viewer)
         ->setProjects($render_phids);
 
-      if (count($projects) > $limit) {
-        $header_text = pht(
-          'Projects (%s)',
-          phutil_count($projects));
+      $header_text = pht(
+        'Projects (%s)',
+        phutil_count($projects));
 
-        $header = id(new PHUIHeaderView())
-          ->setHeader($header_text)
-          ->addActionLink(
-            id(new PHUIButtonView())
-              ->setTag('a')
-              ->setIcon('fa-list-ul')
-              ->setText(pht('View All'))
-              ->setHref('/project/?member='.$user->getPHID()));
-
-      }
+      $header = id(new PHUIHeaderView())
+        ->setHeader($header_text)
+        ->addActionLink(
+          id(new PHUIButtonView())
+            ->setTag('a')
+            ->setIcon('fa-list-ul')
+            ->setText(pht('View All'))
+            ->setHref('/project/?member='.$user->getPHID().'#R'));
 
     } else {
       $list = id(new PHUIInfoView())
@@ -168,9 +169,12 @@ final class PhabricatorPeopleProfileViewController
     return $box;
   }
 
+  /**
+   * @return PHUIObjectBoxView|null
+   */
   private function buildCalendarDayView(PhabricatorUser $user) {
     $viewer = $this->getViewer();
-    $class = 'PhabricatorCalendarApplication';
+    $class = PhabricatorCalendarApplication::class;
 
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return null;

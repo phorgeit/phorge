@@ -100,7 +100,16 @@ final class PhabricatorProjectColumnDetailController
     } else {
       $limit_text = $limit;
     }
-    $properties->addProperty(pht('Point Limit'), $limit_text);
+
+    // The "limit" has always had a dual purpose.
+    // Let's make it more obvious.
+    if (ManiphestTaskPoints::getIsEnabled()) {
+      $limit_label = pht('Point Limit');
+    } else {
+      $limit_label = pht('Count Limit');
+    }
+
+    $properties->addProperty($limit_label, $limit_text);
 
     $box = id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Details'))

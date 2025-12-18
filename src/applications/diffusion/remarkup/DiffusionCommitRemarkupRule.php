@@ -10,6 +10,9 @@ final class DiffusionCommitRemarkupRule extends PhabricatorObjectRemarkupRule {
     return true;
   }
 
+  /**
+   * @return string Regex which defines a valid object ID
+   */
   protected function getObjectIDPattern() {
     return PhabricatorRepositoryCommitPHIDType::getCommitObjectNamePattern();
   }

@@ -25,6 +25,8 @@ final class PhabricatorProjectColumnSearchEngine
         ->setLabel(pht('Projects'))
         ->setKey('projectPHIDs')
         ->setConduitKey('projects')
+        ->setDescription(
+          pht('Search for objects with specific project PHIDs.'))
         ->setAliases(array('project', 'projects', 'projectPHID')),
     );
   }
@@ -42,7 +44,7 @@ final class PhabricatorProjectColumnSearchEngine
   protected function getURI($path) {
     // NOTE: There's no way to query columns in the web UI, at least for
     // the moment.
-    return null;
+    return '';
   }
 
   protected function getBuiltinQueryNames() {
@@ -65,11 +67,16 @@ final class PhabricatorProjectColumnSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorProjectColumn> $projects
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $projects,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($projects, 'PhabricatorProjectColumn');
+    assert_instances_of($projects, PhabricatorProjectColumn::class);
     $viewer = $this->requireViewer();
 
     return null;

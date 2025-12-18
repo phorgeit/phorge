@@ -24,6 +24,8 @@ final class PhabricatorPhurlURLSearchEngine
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Created By'))
         ->setKey('authorPHIDs')
+        ->setDescription(
+          pht('Search for Phurl URLs created by specific authors.'))
         ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
       id(new PhabricatorSearchTextField())
         ->setLabel(pht('Name Contains'))
@@ -91,12 +93,17 @@ final class PhabricatorPhurlURLSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorPhurlURL> $urls
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $urls,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($urls, 'PhabricatorPhurlURL');
+    assert_instances_of($urls, PhabricatorPhurlURL::class);
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
     $handles = $viewer->loadHandles(mpull($urls, 'getAuthorPHID'));

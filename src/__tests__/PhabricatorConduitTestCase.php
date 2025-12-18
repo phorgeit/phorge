@@ -4,7 +4,7 @@ final class PhabricatorConduitTestCase extends PhabricatorTestCase {
 
   public function testConduitMethods() {
     $methods = id(new PhutilClassMapQuery())
-      ->setAncestorClass('ConduitAPIMethod')
+      ->setAncestorClass(ConduitAPIMethod::class)
       ->execute();
 
     // We're just looking for a side effect of ConduitCall construction

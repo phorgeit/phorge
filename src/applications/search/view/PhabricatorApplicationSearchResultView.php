@@ -47,6 +47,9 @@ final class PhabricatorApplicationSearchResultView extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PHUIInfoView
+   */
   public function getInfoView() {
     return $this->infoView;
   }
@@ -74,8 +77,11 @@ final class PhabricatorApplicationSearchResultView extends Phobject {
     return $this;
   }
 
+  /**
+   * @param array<PHUICrumbView> $crumbs
+   */
   public function setCrumbs(array $crumbs) {
-    assert_instances_of($crumbs, 'PHUICrumbView');
+    assert_instances_of($crumbs, PHUICrumbView::class);
 
     $this->crumbs = $crumbs;
     return $this;

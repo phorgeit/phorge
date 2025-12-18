@@ -4,8 +4,7 @@
 
 .phui-timeline-view {
   padding: 0 16px;
-  background-image: url('/rsrc/image/d5d8e1.png');
-  background-repeat: repeat-y;
+  background: linear-gradient(to right, #d5d8e1 1px, transparent 1px);
   background-position: 96px;
 }
 
@@ -370,14 +369,6 @@
 .phui-timeline-title .phui-timeline-extra-information a {
   font-weight: normal;
   color: {$greytext};
-}
-
-.phui-timeline-comment-actions .phui-icon-view {
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
-  text-align: center;
-  overflow: hidden;
 }
 
 .phui-timeline-menu {

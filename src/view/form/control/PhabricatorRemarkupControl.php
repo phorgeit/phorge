@@ -7,12 +7,19 @@ final class PhabricatorRemarkupControl
   private $canPin;
   private $sendOnEnter = false;
   private $remarkupMetadata = array();
+  private $surroundingObject;
 
   public function setDisableFullScreen($disable) {
     $this->disableFullScreen = $disable;
     return $this;
   }
 
+  /**
+   * Set whether the form can be pinned on the screen
+   * @param bool $can_pin True if the form can be pinned on the screen by the
+   *   user
+   * @return $this
+   */
   public function setCanPin($can_pin) {
     $this->canPin = $can_pin;
     return $this;
@@ -38,6 +45,23 @@ final class PhabricatorRemarkupControl
 
   public function getRemarkupMetadata() {
     return $this->remarkupMetadata;
+  }
+
+  /**
+   * Set the type of object in which the control is rendered
+   * @param $object Object class, e.g. 'ManiphestTask'
+   */
+  public function setSurroundingObject($object) {
+    $this->surroundingObject = $object;
+    return $this;
+  }
+
+  /**
+   * Return the type of object in which this control is rendered
+   * @return object Object class, e.g. 'ManiphestTask'
+   */
+  public function getSurroundingObject() {
+    return $this->surroundingObject;
   }
 
   public function setValue($value) {
@@ -110,6 +134,13 @@ final class PhabricatorRemarkupControl
     $phriction_datasource = new PhrictionDocumentDatasource();
     $phurl_datasource = new PhabricatorPhurlURLDatasource();
 
+    // Get users involved in surrounding object (if available)
+    $involved_users = null;
+    if ($this->getSurroundingObject() instanceof
+        PhabricatorInvolveeInterface) {
+      $involved_users = $this->getSurroundingObject()->getInvolvedUsers();
+    }
+
     Javelin::initBehavior(
       'phabricator-remarkup-assist',
       array(
@@ -136,6 +167,7 @@ final class PhabricatorRemarkupControl
             'headerIcon' => 'fa-user',
             'headerText' => pht('Find User:'),
             'hintText' => $user_datasource->getPlaceholderText(),
+            'involvedUsers' => $involved_users,
           ),
           35 => array( // "#"
             'datasourceURI' => $proj_datasource->getDatasourceURI(),
@@ -152,10 +184,19 @@ final class PhabricatorRemarkupControl
             // Cancel on emoticons like ":3".
             'ignore' => array(
               '3',
+              '\'', // crying :'(
               ')',
               '(',
               '-',
               '/',
+              '<',
+              '>',
+              '[',
+              ']',
+              '|',
+              'D',
+//            'p', // Too risky, many emojis starting with lowercase p
+              'P',
             ),
           ),
           91 => array( // "["
@@ -234,7 +275,7 @@ final class PhabricatorRemarkupControl
 
     if ($can_use_macros) {
       $can_use_macros = PhabricatorApplication::isClassInstalledForViewer(
-        'PhabricatorMacroApplication',
+        PhabricatorMacroApplication::class,
         $viewer);
     }
 

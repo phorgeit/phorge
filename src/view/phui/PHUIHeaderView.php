@@ -303,15 +303,13 @@ final class PHUIHeaderView extends AphrontTagView {
 
     if ($this->actionItems) {
       $action_list = array();
-      if ($this->actionItems) {
-        foreach ($this->actionItems as $item) {
-          $action_list[] = phutil_tag(
-            'li',
-            array(
-              'class' => 'phui-header-action-item',
-            ),
-            $item);
-        }
+      foreach ($this->actionItems as $item) {
+        $action_list[] = phutil_tag(
+          'li',
+          array(
+            'class' => 'phui-header-action-item',
+          ),
+          $item);
       }
       $right[] = phutil_tag(
         'ul',

@@ -13,6 +13,9 @@ abstract class HeraldField extends Phobject {
   const STANDARD_PHID_BOOL = 'standard.phid.bool';
   const STANDARD_PHID_NULLABLE = 'standard.phid.nullable';
 
+  /**
+   * @return string Text of option in first dropdown of a Herald Condition
+   */
   abstract public function getHeraldFieldName();
   abstract public function getHeraldFieldValue($object);
 
@@ -36,6 +39,11 @@ abstract class HeraldField extends Phobject {
     return null;
   }
 
+  /**
+   * @return array Conditions available in the dropdown after the object
+   *   dropdown as one of the CONDITION_* constants defined in the
+   *   HeraldAdapter class, rendered as e.g. "contains" or "is any of"
+   */
   public function getHeraldFieldConditions() {
     $standard_type = $this->getHeraldFieldStandardType();
     switch ($standard_type) {
@@ -154,6 +162,9 @@ abstract class HeraldField extends Phobject {
         $standard_type));
   }
 
+  /**
+   * @return bool
+   */
   abstract public function supportsObject($object);
 
   public function getFieldsForObject($object) {
@@ -232,7 +243,7 @@ abstract class HeraldField extends Phobject {
 
   final public static function getAllFields() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getFieldConstant')
       ->execute();
   }

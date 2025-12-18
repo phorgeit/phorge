@@ -5,7 +5,7 @@ final class PhabricatorBadgesMailReceiver
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorBadgesApplication');
+      PhabricatorBadgesApplication::class);
   }
 
   protected function getObjectPattern() {

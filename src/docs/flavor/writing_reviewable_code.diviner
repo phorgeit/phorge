@@ -126,14 +126,36 @@ This information can not be extracted from the change itself, and is much more
 useful for the reviewer and for anyone trying to understand the change after the
 fact.
 
+== Referencing Other Objects ==
+
 An easy way to explain //why// is to reference other objects
 (bugs/issues/revisions) which motivate the change.
+
+Commit messages support special syntax you can use in your commit message to
+cause effects on related items:
+
+  - `Ref T123`: Attach a revision or a commit to a task. You can also specify
+    several tasks, optionally using commas: `Ref T123 T124` or `Ref T123, T124`.
+  - `Fixes T123`: Close a task when pushing a commit.
+  - `Reverts rXabcdef`: Mark a commit as reverting something.
+  - `Depends on D123`: Mark a revision as depending on another revision.
+
+Similar syntax exists for each status you may want to set on a related task.
+Define the syntax to cause an effect via the `prefixes` key of a task status
+configured via the configuration option `maniphest.statuses`.
+
+You can also attach a revision to a task `T123` by diffing it from a branch name
+like `T123-newfeature` with `arc`.
+
+== Test Plans ==
 
 Differential also includes a "Test Plan" field which is required by default.
 There is a detailed description of this field in @{article:Differential User
 Guide: Test Plans}. You can make it optional or disable it in the configuration,
 but consider adopting it. Having this information can be particularly helpful
 for reviewers.
+
+== Social Constructs ==
 
 Some things that people sometimes feel strongly about but which are probably not
 really all that important in commit messages include:

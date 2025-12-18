@@ -11,7 +11,7 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
   }
 
   public function getIcon() {
-    return 'fa-paste';
+    return 'fa-clipboard';
   }
 
   public function getTitleGlyph() {
@@ -89,6 +89,12 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
           'This page documents the commands you can use to interact with '.
           'pastes.'),
       ),
+    );
+  }
+
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorPastePastePHIDType::TYPECONST,
     );
   }
 

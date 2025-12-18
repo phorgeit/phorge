@@ -6,7 +6,6 @@
   font-weight: bold;
   text-decoration: none;
   position: relative;
-  -webkit-font-smoothing: antialiased;
   white-space: nowrap;
 }
 
@@ -286,7 +285,7 @@ a.phui-tag-view:hover.phui-tag-blue .phui-tag-core,
 
 .phui-tag-sky .phui-tag-core,
 .jx-tokenizer-token.sky {
-  background: #E0F0FA;
+  background: {$sh-skybackground};
   border-color: {$sh-lightblueborder};
   color: {$sh-bluetext};
 }
@@ -406,17 +405,21 @@ a.phui-tag-view:hover.phui-tag-grey .phui-tag-core,
 
 .phui-tag-checkered .phui-tag-core,
 .jx-tokenizer-token.checkered {
-  background: url(/rsrc/image/checker_lighter.png);
+  /* TODO: Remove static image for old browsers some day; see D26155 */
+  background: url('/rsrc/image/checker_lighter.png');
+  background: repeating-conic-gradient(
+    {$checker.lighter-one} 0% 25%,
+    {$checker.lighter-two} 0% 50%) 0 0/20px 20px;
   border-style: dashed;
   border-color: {$sh-greyborder};
-  color: {$sh-greytext};
-  text-shadow: 1px 1px #fff;
+  color: {$sh-checkeredtext};
+  text-shadow: 1px 1px {$page.content};
 }
 
 .phui-tag-checkered .phui-icon-view,
 .jx-tokenizer-token.checkered .phui-icon-view,
 .jx-tokenizer-token.checkered .jx-tokenizer-x {
-  color: {$sh-greyicon};
+  color: {$sh-checkeredicon};
 }
 
 a.phui-tag-view:hover.phui-tag-checkered .phui-tag-core,
@@ -459,7 +462,7 @@ a.phui-tag-view:hover.phui-tag-disabled .phui-tag-core {
 }
 
 .phui-tag-view.phui-tag-type-outline .phui-tag-core {
-  background: #fff;
+  background: {$page.content};
   padding: 0 6px 1px 6px;
 }
 

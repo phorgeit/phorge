@@ -108,7 +108,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  text-shadow: 1px 1px 0 rgba(0,0,0,.6);
 }
 
 .conpherence-durable-column-header .phabricator-application-menu
@@ -289,7 +288,6 @@ img {
   .conpherence-durable-column-header-text {
     width: 100px;
     color: {$darkbluetext};
-    text-shadow: none;
 }
 
 .minimize-column .conpherence-durable-column

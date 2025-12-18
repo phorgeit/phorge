@@ -3,7 +3,8 @@
 abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorFlagsApplication');
+    return PhabricatorApplication::getByClass(
+      PhabricatorFlagsApplication::class);
   }
 
   protected function attachHandleToFlag($flag, PhabricatorUser $user) {
@@ -14,6 +15,10 @@ abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
     $flag->attachHandle($handle);
   }
 
+  /**
+   * @param PhabricatorFlag $flag
+   * @return array<string,mixed>
+   */
   protected function buildFlagInfoDictionary($flag) {
     $color = $flag->getColor();
     $uri = PhabricatorEnv::getProductionURI($flag->getHandle()->getURI());

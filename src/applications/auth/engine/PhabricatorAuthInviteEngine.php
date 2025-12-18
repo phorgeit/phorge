@@ -32,6 +32,9 @@ final class PhabricatorAuthInviteEngine extends Phobject {
     return $this->userHasConfirmedVerify;
   }
 
+  /**
+   * @return PhabricatorAuthInvite
+   */
   public function processInviteCode($code) {
     $viewer = $this->getViewer();
 

@@ -14,8 +14,11 @@ final class PhabricatorCalendarICSWriter extends Phobject {
     return $this->viewer;
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   */
   public function setEvents(array $events) {
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, PhabricatorCalendarEvent::class);
     $this->events = $events;
     return $this;
   }

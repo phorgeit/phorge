@@ -7,8 +7,8 @@ final class DrydockAlmanacServiceHostBlueprintImplementation
   private $freeBindings;
 
   public function isEnabled() {
-    $almanac_app = 'PhabricatorAlmanacApplication';
-    return PhabricatorApplication::isClassInstalled($almanac_app);
+    return PhabricatorApplication::isClassInstalled(
+      PhabricatorAlmanacApplication::class);
   }
 
   public function getBlueprintName() {
@@ -242,8 +242,11 @@ final class DrydockAlmanacServiceHostBlueprintImplementation
     return $this->services;
   }
 
+  /**
+   * @param array<AlmanacService> $services
+   */
   private function getActiveBindings(array $services) {
-    assert_instances_of($services, 'AlmanacService');
+    assert_instances_of($services, AlmanacService::class);
     $bindings = array_mergev(mpull($services, 'getActiveBindings'));
     return mpull($bindings, null, 'getPHID');
   }

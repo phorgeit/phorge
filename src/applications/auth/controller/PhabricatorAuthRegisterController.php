@@ -293,7 +293,7 @@ final class PhabricatorAuthRegisterController
           $errors[] = pht('Username is required.');
         } else if (!PhabricatorUser::validateUsername($value_username)) {
           $e_username = pht('Invalid');
-          $errors[] = PhabricatorUser::describeValidUsername();
+          $errors[] = PhabricatorUser::describeValidUsername($value_username);
         } else {
           $e_username = null;
         }
@@ -495,7 +495,7 @@ final class PhabricatorAuthRegisterController
           }
 
           if ($same_email) {
-            // TODO: See T3340.
+            // We do not allow two user accounts with the same email address.
             $e_email = pht('Duplicate');
             $errors[] = pht('Another user already has that email.');
           }
@@ -710,7 +710,7 @@ final class PhabricatorAuthRegisterController
 
     $xform = PhabricatorFileTransform::getTransformByKey(
       PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
-    return $xform->executeTransform($file);
+    return $xform->executeTransformExplicit($file);
   }
 
   protected function renderError($message) {

@@ -88,7 +88,6 @@ final class PhabricatorMainMenuView extends AphrontView {
         'div',
         array(
           'class' => 'phabricator-main-menu-alerts',
-          'aural' => false,
         ),
         $alerts);
     }
@@ -355,7 +354,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
     $message_tag = '';
     $message_notification_dropdown = '';
-    $conpherence_app = 'PhabricatorConpherenceApplication';
+    $conpherence_app = PhabricatorConpherenceApplication::class;
     $conpherence_data = $dropdown_data[$conpherence_app];
     if ($conpherence_data['isInstalled']) {
       $message_id = celerity_generate_unique_node_id();
@@ -404,6 +403,7 @@ final class PhabricatorMainMenuView extends AphrontView {
           'href'  => '/conpherence/',
           'class' => implode(' ', $container_classes),
           'id'    => $message_id,
+          'aria-label' => pht('Chat Messages'),
         ),
         array(
           $message_icon_tag,
@@ -436,7 +436,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
     $bubble_tag = '';
     $notification_dropdown = '';
-    $notification_app = 'PhabricatorNotificationsApplication';
+    $notification_app = PhabricatorNotificationsApplication::class;
     $notification_data = $dropdown_data[$notification_app];
     if ($notification_data['isInstalled']) {
       $count_id = celerity_generate_unique_node_id();
@@ -485,6 +485,7 @@ final class PhabricatorMainMenuView extends AphrontView {
           'href'  => '/notification/',
           'class' => implode(' ', $container_classes),
           'id'    => $bubble_id,
+          'aria-label' => pht('Notifications'),
         ),
         array($icon_tag, $count_tag));
 
@@ -564,6 +565,7 @@ final class PhabricatorMainMenuView extends AphrontView {
             'href'  => '/config/issue/',
             'class' => implode(' ', $container_classes),
             'id'    => $setup_id,
+            'aria-label' => pht('Unresolved Setup Issues'),
           ),
           array(
             $setup_icon_tag,
@@ -630,6 +632,7 @@ final class PhabricatorMainMenuView extends AphrontView {
             'href' => $settings_uri,
             'class' => 'setup-unread',
             'id' => $bubble_id,
+            'aria-label' => pht('Account Setup Issues'),
           ),
           array(
             $user_icon,

@@ -61,7 +61,7 @@ final class PhabricatorSelectEditField
 
   private function getCanonicalValue($value) {
     $options = $this->getOptions();
-    if (!isset($options[$value])) {
+    if ($value !== null && !isset($options[$value])) {
       $aliases = $this->getOptionAliases();
       if (isset($aliases[$value])) {
         $value = $aliases[$value];
