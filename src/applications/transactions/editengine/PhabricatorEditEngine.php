@@ -1225,7 +1225,7 @@ abstract class PhabricatorEditEngine
           }
 
           $field_key = $field->getKey();
-          if (isset($copy_fields[$field_key])) {
+          if ($field_key && isset($copy_fields[$field_key])) {
             $field->readValueFromField($copy_fields[$field_key]);
           }
 
