@@ -6,13 +6,13 @@ require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage repositories'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **repository** __command__ [__options__]
     Manage and debug Diffusion repository configuration, tracking,
     discovery and import.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

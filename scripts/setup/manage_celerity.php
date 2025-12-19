@@ -6,12 +6,12 @@ require_once $root.'/scripts/init/init-setup.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage celerity'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **celerity** __command__ [__options__]
     Manage static resources.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

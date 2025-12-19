@@ -6,12 +6,12 @@ require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage feed'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **feed** __command__ [__options__]
     Test and debug feed events.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

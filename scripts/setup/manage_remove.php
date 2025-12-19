@@ -6,12 +6,12 @@ require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('remove objects'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **remove** __command__ [__options__]
     Administrative tool for destroying objects permanently.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

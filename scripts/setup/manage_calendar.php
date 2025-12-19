@@ -6,12 +6,12 @@ require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage Calendar'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **calendar** __command__ [__options__]
     Manage Calendar.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

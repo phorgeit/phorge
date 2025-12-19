@@ -6,12 +6,12 @@ require_once $root.'/scripts/init/init-script.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage webhooks'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **webhook** __command__ [__options__]
     Manage webhooks.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

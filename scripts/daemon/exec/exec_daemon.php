@@ -18,11 +18,11 @@ if (!posix_isatty(STDOUT)) {
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('daemon executor'));
-$args->setSynopsis(<<<EOHELP
+$args->setSynopsis(pht(<<<EOHELP
 **exec_daemon.php** [__options__] __daemon__ ...
     Run an instance of __daemon__.
 EOHELP
-  );
+  ));
 $args->parse(
   array(
     array(

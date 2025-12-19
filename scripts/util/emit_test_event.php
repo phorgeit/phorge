@@ -6,11 +6,11 @@ require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('emit a test event'));
-$args->setSynopsis(<<<EOHELP
+$args->setSynopsis(pht(<<<EOHELP
 **emit_test_event.php** [--listen listener] ...
   Emit a test event after installing any specified __listener__s.
 EOHELP
-);
+));
 $args->parseStandardArguments();
 $args->parse(
   array(

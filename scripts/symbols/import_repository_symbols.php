@@ -5,12 +5,12 @@ $root = dirname(dirname(dirname(__FILE__)));
 require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **import_repository_symbols.php** [__options__] __repository__ < symbols
 
   Import repository symbols (symbols are read from stdin).
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 $args->parse(
   array(

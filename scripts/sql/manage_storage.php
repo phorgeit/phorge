@@ -6,7 +6,7 @@ require_once $root.'/scripts/init/init-setup.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage storage and schemata'));
-$args->setSynopsis(<<<EOHELP
+$args->setSynopsis(pht(<<<EOHELP
 **storage** __workflow__ [__options__]
 Manage database storage and schema versioning.
 
@@ -16,7 +16,7 @@ Initialize or upgrade storage.
 **storage** upgrade --user __root__ --password __hunter2__
 Use administrative credentials for schema changes.
 EOHELP
-);
+));
 $args->parseStandardArguments();
 
 $default_namespace  = PhabricatorLiskDAO::getDefaultStorageNamespace();

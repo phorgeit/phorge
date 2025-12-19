@@ -3,12 +3,13 @@
 
 require_once dirname(__FILE__).'/../__init_script__.php';
 
-$synopsis = <<<EOT
+$synopsis = pht(<<<EOT
 **save_lint.php**
     Discover lint problems and save them to database so that they can
     be displayed in Diffusion.
 
-EOT;
+EOT
+);
 
 $args = id(new PhutilArgumentParser($argv))
   ->setTagline(pht('save lint errors to database'))

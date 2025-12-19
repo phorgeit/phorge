@@ -8,12 +8,12 @@ PhabricatorAphlictManagementWorkflow::requireExtensions();
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage Aphlict notification server'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **aphlict** __command__ [__options__]
     Manage the Aphlict server.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
