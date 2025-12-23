@@ -208,7 +208,19 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
   }
 
   private function loadLibraryFiles($root) {
-    $files = id(new FileFinder($root))
+    $files = $this->loadDirectoryFiles($root);
+    $extra_dirs = array('support', 'scripts');
+    foreach ($extra_dirs as $extra) {
+      $extra = '..'.DIRECTORY_SEPARATOR.$extra.DIRECTORY_SEPARATOR;
+      if (Filesystem::pathExists(Filesystem::resolvePath($root.$extra))) {
+        $files = array_merge($files, $this->loadDirectoryFiles($root, $extra));
+      }
+    }
+    return $files;
+  }
+
+  private function loadDirectoryFiles($root, $suffix = '') {
+    $files = id(new FileFinder($root.$suffix))
       ->withType('f')
       ->withSuffix('php')
       ->excludePath('*/.*')
@@ -229,7 +241,7 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
         continue;
       }
 
-      $map[$file] = md5($hash.$file);
+      $map[$suffix.$file] = md5($hash.$file);
     }
 
     return $map;
