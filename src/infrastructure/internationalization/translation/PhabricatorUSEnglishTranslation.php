@@ -2364,6 +2364,30 @@ final class PhabricatorUSEnglishTranslation
           '%s Read [%s bytes]',
         ),
       ),
+      'The locale `%s` defines a translation for the key `%s`, which has '.
+      'at least %s level(s) of arrays, however the source message has only '.
+      '%s parameter(s).' => array(
+        array(
+          array(
+            array(
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s level of arrays, however the source message '.
+              'has only %s parameter.',
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s level of arrays, however the source message '.
+              'has only %s parameters.',
+            ),
+            array(
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s levels of arrays, however the source message '.
+              'has only %s parameter.',
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s levels of arrays, however the source message '.
+              'has only %s parameters.',
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

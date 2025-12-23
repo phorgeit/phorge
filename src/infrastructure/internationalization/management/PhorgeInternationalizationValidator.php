@@ -1,0 +1,166 @@
+<?php
+
+final class PhorgeInternationalizationValidator extends Phobject {
+  private function validateTranslation($locale, $proto, $transl, $types, $n) {
+    $errors = array();
+    if ($n >= count($types)) {
+        if (is_array($transl)) {
+          $errors[] = pht(
+            'The locale `%s` defines a translation for the key `%s`, '.
+            'which has at least %s level(s) of arrays, '.
+            'however the source message has only %s parameter(s).',
+            $locale,
+            $proto,
+            new PhutilNumber($n + 1),
+            phutil_count($types));
+        }
+        $data = [];
+        foreach ($types as $type) {
+          $data[] = $type === 'number' ? 3: 'abc';
+        }
+        try {
+         $parsed = vsprintf($transl, $data);
+        } catch (ValueError $ex) {
+         // In PHP 8 vsprintf throws a ValueError for bad data;
+         // in PHP7 it returns false
+         $parsed = false;
+        }
+        if ($parsed === false) {
+          $errors[] = pht(
+            'The locale `%s` defines a translation for the key `%s` which '.
+            'failed to interpolate properly. Probably it defines too many '.
+            'parameters.',
+            $locale,
+            $proto);
+        }
+        return $errors;
+    }
+    if (!is_array($transl)) {
+      $transl = array($transl);
+    }
+    $type = $types[$n];
+    if ($type === null && count($transl) != 1) {
+      $errors[] = pht(
+        'The locale `%s` defines a translation for the key `%s`, which varies '.
+        'on the plurality or gender of parameter %d, however that parameter '.
+        'is not a number or person.',
+        $locale,
+        $proto,
+        $n + 1);
+    }
+    foreach ($transl as $subarray) {
+      $errors = array_merge(
+       $errors,
+       $this->validateTranslation($locale, $proto, $subarray, $types, $n + 1));
+    }
+    return $errors;
+  }
+  public function validateLibraries($loaded_json) {
+    $errors = [];
+    $all_translations = PhutilTranslation::getAllTranslations();
+    $locales = PhutilLocale::loadAllLocales();
+    $keyed_translations = [];
+    $override_key = 'translation.override';
+    try {
+      $trans_override = PhabricatorEnv::getEnvConfig($override_key);
+      $all_translations[$override_key] = $trans_override;
+    } catch (Throwable $ex) {
+      // If Phorge config is hosed then just don't check translation.override
+    }
+    foreach ($all_translations as $locale_code => $translations) {
+      if (!isset($locales[$locale_code]) && $locale_code != $override_key) {
+        $errors[] = pht(
+          'Translations are defined for the locale `%s`, '.
+          'which is not recognized.',
+          $locale_code);
+      }
+      foreach ($translations as $proto => $transl) {
+        if (!isset($keyed_translations[$proto])) {
+          $keyed_translations[$proto] = array();
+        }
+        $keyed_translations[$proto][$locale_code] = $transl;
+        // Check for unused translations
+        if (!isset($loaded_json[$proto])) {
+          $errors[] = pht(
+            'The locale `%s` defines a translation for the string "%s", '.
+            'however that string does not appear to be referenced '.
+            'by the codebase.',
+            $locale_code,
+            $proto);
+        }
+      }
+    }
+    foreach ($loaded_json as $string => $spec) {
+      // Check for wrong branches by parameter type
+      $translations = idx($keyed_translations, $string, array());
+      foreach ($translations as $locale => $translation) {
+        $errors = array_merge($errors, $this->validateTranslation(
+          $locale,
+          $string,
+          $translation,
+          $spec['types'],
+          0));
+      }
+      // Check for missing branches in US english
+      if (str_contains($string, '(s)')) {
+        if (!isset($keyed_translations[$string]['en_US'])) {
+          foreach ($spec['types'] as $type) {
+            if ($type === 'number') {
+              $errors[] = pht(
+                'The string "%s" contains the placeholder "(s)" and  '.
+                'a numeric parameter on which to vary the (s) by, '.
+                'however the builtin US English translation does not do so.',
+                $string);
+            }
+          }
+        }
+      }
+    }
+    return $errors;
+  }
+  public function loadExtractions($run_extractor) {
+    $libraries = PhutilBootloader::getInstance()->getAllLibraries();
+    $phorge_root = phutil_get_library_root('phorge');
+    $i18n_bin = $phorge_root.'/../bin/i18n';
+    $all_json = [];
+    foreach ($libraries as $lib) {
+      $root = phutil_get_library_root($lib);
+      $json = Filesystem::resolvePath($root.'/.cache/i18n_strings.json');
+      if ($run_extractor) {
+        $err = phutil_passthru(
+          '%R extract %s',
+          $i18n_bin,
+          $root);
+        if ($err) {
+          throw new Exception(pht(
+            'Failed to run i18n extractor: %s',
+            $err));
+        }
+      } else if (!Filesystem::pathExists($json)) {
+        throw new Exception(pht(
+          'Strings have not yet been extracted for library %s. '.
+          'Run `%s` for that library first to extract them or '.
+          're-run with `%s` to automatically extract missing strngs.',
+          $lib,
+          'bin/i18n extract',
+          '--extract'));
+      }
+      $all_json += phutil_json_decode(Filesystem::readFile($json));
+    }
+    // Add extra date elements from PhutilTranslator::translateDate
+    // which aren't in a static pht() call
+    $date = array('types' => array());
+    $all_json['Jan'] = $date;
+    $all_json['Feb'] = $date;
+    $all_json['Mar'] = $date;
+    $all_json['Apr'] = $date;
+    $all_json['Jun'] = $date;
+    $all_json['Jul'] = $date;
+    $all_json['Aug'] = $date;
+    $all_json['Sep'] = $date;
+    $all_json['Oct'] = $date;
+    $all_json['Nov'] = $date;
+    $all_json['Dec'] = $date;
+    return $all_json;
+  }
+}
