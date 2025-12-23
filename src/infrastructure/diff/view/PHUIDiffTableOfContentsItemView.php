@@ -140,7 +140,7 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
       return null;
     }
 
-    return pht('%d line(s)', $line_count);
+    return pht('%d line(s)', new PhutilNumber($line_count));
   }
 
   public function renderCoverage() {

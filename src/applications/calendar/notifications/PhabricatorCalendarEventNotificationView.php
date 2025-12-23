@@ -48,7 +48,7 @@ final class PhabricatorCalendarEventNotificationView
     $epoch = $this->getEpoch();
     $now = PhabricatorTime::getNow();
     $minutes = (int)ceil(($epoch - $now) / 60);
-    return new PhutilNumber($minutes);
+    return $minutes;
   }
 
   public function getDisplayTime() {
