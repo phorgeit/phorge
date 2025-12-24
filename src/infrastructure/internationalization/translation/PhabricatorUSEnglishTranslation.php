@@ -365,7 +365,7 @@ final class PhabricatorUSEnglishTranslation
 
       '%s removed %s unsubscriber(s): %s.' => array(
         array(
-          '%s removed a unsubscriber: %3$s.',
+          '%s removed an unsubscriber: %3$s.',
           '%s removed unsubscribers: %3$s.',
         ),
       ),
@@ -525,7 +525,7 @@ final class PhabricatorUSEnglishTranslation
 
       '%s edited parent revision(s) for %s, '.
       'added %s: %s; removed %s: %s.' =>
-        '%s edited parent revisions for %s, added: %3$s; removed: %5$s.',
+        '%s edited parent revisions for %s, added: %4$s; removed: %6$s.',
 
       '%s added %s child revision(s): %s.' => array(
         array(
@@ -555,14 +555,13 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited child revision(s), added %s: %s; removed %s: %s.' => array(
+      '%s edited child revision(s), added %s: %s; removed %s: %s.' =>
         '%s edited child revisions, added: %3$s; removed: %5$s.',
-      ),
 
       '%s edited child revision(s) for %s, '.
-      'added %s: %s; removed %s: %s.' => array(
-        '%s edited child revisions for %s, added: %3$s; removed: %5$s.',
-      ),
+      'added %s: %s; removed %s: %s.' =>
+        '%s edited child revisions for %s, added: %4$s; removed: %6$s.',
+
 
       '%s added %s commit(s): %s.' => array(
         array(
@@ -630,7 +629,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited reverted change(s) for %s, added %s: %s; removed %s: %s.' =>
-        '%s edited reverted changes for %2$s, added: %4$s; removed: %6$s.',
+        '%s edited reverted changes for %s, added: %4$s; removed: %6$s.',
 
       '%s added %s reverting change(s): %s.' => array(
         array(
@@ -1029,7 +1028,7 @@ final class PhabricatorUSEnglishTranslation
             '%s marked %s inline comments as done and an inline comment '.
             'as not done.',
             '%s marked %s inline comments as done and %s inline comments '.
-            'as done.',
+            'as not done.',
           ),
         ),
       ),
@@ -1282,8 +1281,8 @@ final class PhabricatorUSEnglishTranslation
 
       'Not enough process slots to schedule the other %s '.
       'repository(s) for updates yet.' => array(
-        'Not enough process slots to schedule the other '.'
-        repository for update yet.',
+        'Not enough process slots to schedule the other '.
+        'repository for update yet.',
         'Not enough process slots to schedule the other %s '.
         'repositories for updates yet.',
       ),
@@ -1734,7 +1733,7 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
       'Found %s modified file(s) (of %s total).' => array(
-          'Found %s modified file (of %2$s total).',
+          'Found %s modified file (of %s total).',
           'Found %s modified files (of %s total).',
       ),
      'Really delete these %s audit(s)? '.
@@ -2125,7 +2124,7 @@ final class PhabricatorUSEnglishTranslation
       '%s Lines' => array('%s Line', '%s Lines'),
       "# Client already read from service (%s bytes), ".
       "unable to retry.\n" => array(
-        "# Client already read from service (%s byte), unable to retry\n.",
+        "# Client already read from service (%s byte), unable to retry.\n",
         "# Client already read from service (%s bytes), unable to retry.\n",
       ),
       "# Client already wrote to service (%s bytes), ".
@@ -2177,7 +2176,7 @@ final class PhabricatorUSEnglishTranslation
       'Processed %s file(s), encountered %s error(s).' => array(
         array(
           'Processed %s file, encountered %s error.',
-          'Processed %s files, encountered %s errors.',
+          'Processed %s file, encountered %s errors.',
         ),
         array(
           'Processed %s files, encountered %s error.',
@@ -2220,12 +2219,12 @@ final class PhabricatorUSEnglishTranslation
       ),
       'Set API poll TTL to +%s second(s) (%s second(s) from now).' => array(
         array(
-          'Set API poll TTL to +%s second (%s second from now)',
-          'Set API poll TTL to +%s second (%s seconds from now)',
+          'Set API poll TTL to +%s second (%s second from now).',
+          'Set API poll TTL to +%s second (%s seconds from now).',
         ),
         array(
-          'Set API poll TTL to +%s seconds (%s second from now)',
-          'Set API poll TTL to +%s seconds (%s seconds from now)',
+          'Set API poll TTL to +%s seconds (%s second from now).',
+          'Set API poll TTL to +%s seconds (%s seconds from now).',
         ),
       ),
       '%s changed %s ignored attribute(s), added %s: %s; removed %s: %s.' =>
@@ -2295,12 +2294,12 @@ final class PhabricatorUSEnglishTranslation
       ),
       'Adjusted **%s** create statements and **%s** use statements.' => array(
         array(
-          'Adjusted %s create statement and %s use statement.',
-          'Adjusted %s create statement and %s use statements.',
+          'Adjusted **%s** create statement and **%s** use statement.',
+          'Adjusted **%s** create statement and **%s** use statements.',
         ),
         array(
-          'Adjusted %s create statements and %s use statement.',
-          'Adjusted %s create statements and %s use statements.',
+          'Adjusted **%s** create statements and **%s** use statement.',
+          'Adjusted **%s** create statements and **%s** use statements.',
         ),
       ),
       'Analyzed %d table(s).' => array(
