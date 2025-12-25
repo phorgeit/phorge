@@ -19,10 +19,11 @@ abstract class PhabricatorSQLPatchList extends Phobject {
 
     foreach ($patch_list as $patch) {
       $matches = null;
-      if (!preg_match('/\.(sql|php)$/', $patch, $matches)) {
+      if (!preg_match('/\.(sql|php|db)$/', $patch, $matches)) {
         throw new Exception(
           pht(
-            'Unknown patch "%s" in "%s", expected ".php" or ".sql" suffix.',
+            'Unknown patch "%s" in "%s", '.
+            'expected ".php" or ".sql" or ".db" suffix.',
             $patch,
             $directory));
       }
@@ -31,15 +32,30 @@ abstract class PhabricatorSQLPatchList extends Phobject {
       $patch_full_path = rtrim($directory, '/').'/'.$patch;
 
       $attributes = array();
-      if ($patch_type === 'php') {
-        $attributes = $this->getPHPPatchAttributes(
-          $patch,
-          $patch_full_path);
+      switch ($patch_type) {
+        case 'php':
+          $attributes = $this->getPHPPatchAttributes(
+            $patch,
+            $patch_full_path);
+          $patch_name = $patch_full_path;
+          break;
+
+        case 'db':
+          $attributes = $this->getDBPatchAttributes(
+            $patch,
+            $patch_full_path);
+          $patch_name = $attributes['name'];
+          break;
+
+        default:
+          $patch_name = $patch_full_path;
+          break;
       }
+
 
       $patches[$patch] = array(
         'type' => $patch_type,
-        'name' => $patch_full_path,
+        'name' => $patch_name,
       ) + $attributes;
     }
 
@@ -342,4 +358,11 @@ abstract class PhabricatorSQLPatchList extends Phobject {
     return $attributes;
   }
 
+  private function getDBPatchAttributes($patch_name, $full_path) {
+    $content = Filesystem::readFile($full_path);
+    // Should be a valid JSON
+    $data = phutil_json_decode($content);
+
+    return array_select_keys($data, array('name', 'after', 'dead'));
+  }
 }
