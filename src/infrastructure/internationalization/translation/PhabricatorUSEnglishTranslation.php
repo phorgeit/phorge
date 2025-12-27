@@ -1728,7 +1728,7 @@ final class PhabricatorUSEnglishTranslation
         array(
           array(
               '%s moved %s on a board: %4$s.',
-              '%s moved %s on %s boards: %4$s.',
+              '%s moved %s on %s boards: %s.',
           ),
         ),
       ),
@@ -1811,7 +1811,7 @@ final class PhabricatorUSEnglishTranslation
       'You may be able to retry later. (%s)' =>
       array(
           'Failed to acquire write lock after waiting %s second. '.
-          'You may be able to retry later. (%2$s)',
+          'You may be able to retry later. (%s)',
           'Failed to acquire write lock after waiting %s seconds. '.
           'You may be able to retry later. (%s)',
       ),
@@ -1908,7 +1908,7 @@ final class PhabricatorUSEnglishTranslation
       '%d merchant(s) it has a relationship with: %s.' =>
       array(
           'You can view this account because you control '.
-          'a merchant it has a relationship with: %s.',
+          'a merchant it has a relationship with: %2$s.',
           'You can view this account because you control '.
           '%d merchants it has a relationship with: %s.',
       ),
@@ -2023,12 +2023,12 @@ final class PhabricatorUSEnglishTranslation
       ),
       'Failed to write %d byte(s) to file "%s".' =>
       array(
-          'Failed to write %d byte to file "%2$s".',
+          'Failed to write %d byte to file "%s".',
           'Failed to write %d bytes to file "%s".',
       ),
       'Failed to write %d byte(s) to "%s".' =>
       array(
-          'Failed to write %d byte to "%2$s".',
+          'Failed to write %d byte to "%s".',
           'Failed to write %d bytes to "%s".',
       ),
       'This lock was most recently acquired by '.
