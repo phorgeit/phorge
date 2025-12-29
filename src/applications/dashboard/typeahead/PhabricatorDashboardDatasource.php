@@ -16,7 +16,7 @@ final class PhabricatorDashboardDatasource
   }
 
   public function loadResults() {
-    $query = id(new PhabricatorDashboardQuery());
+    $query = new PhabricatorDashboardQuery();
 
     $this->applyFerretConstraints(
       $query,

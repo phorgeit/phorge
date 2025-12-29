@@ -227,7 +227,7 @@ final class PhabricatorProjectTransactionEditor
           $member_type);
 
         if ($project_members) {
-          $editor = id(new PhabricatorEdgeEditor());
+          $editor = new PhabricatorEdgeEditor();
           foreach ($project_members as $phid) {
             $editor->addEdge($object->getPHID(), $member_type, $phid);
           }

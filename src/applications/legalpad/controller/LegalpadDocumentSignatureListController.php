@@ -26,7 +26,7 @@ final class LegalpadDocumentSignatureListController extends LegalpadController {
       $this->document = $document;
     }
 
-    $engine = id(new LegalpadDocumentSignatureSearchEngine());
+    $engine = new LegalpadDocumentSignatureSearchEngine();
 
     if ($this->document) {
       $engine->setDocument($this->document);

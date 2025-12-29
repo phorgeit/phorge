@@ -31,7 +31,7 @@ final class PhabricatorConduitSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorConduitMethodQuery());
+    $query = new PhabricatorConduitMethodQuery();
 
     $query->withIsStable($saved->getParameter('isStable'));
     $query->withIsUnstable($saved->getParameter('isUnstable'));
@@ -146,7 +146,7 @@ final class PhabricatorConduitSearchEngine
         if ($list) {
           $out[] = $list;
         }
-        $list = id(new PHUIObjectItemListView());
+        $list = new PHUIObjectItemListView();
         $list->setHeader($app);
 
         $app_object = $method->getApplication();

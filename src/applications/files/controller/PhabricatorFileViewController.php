@@ -221,7 +221,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
-    $tab_group = id(new PHUITabGroupView());
+    $tab_group = new PHUITabGroupView();
     $box->addTabGroup($tab_group);
 
     $finfo = new PHUIPropertyListView();

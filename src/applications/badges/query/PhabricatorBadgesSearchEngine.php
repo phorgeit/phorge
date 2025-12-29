@@ -108,7 +108,7 @@ final class PhabricatorBadgesSearchEngine
 
     $viewer = $this->requireViewer();
 
-    $list = id(new PHUIObjectItemListView());
+    $list = new PHUIObjectItemListView();
     foreach ($badges as $badge) {
       $quality_name = PhabricatorBadgesQuality::getQualityName(
         $badge->getQuality());

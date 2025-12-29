@@ -192,7 +192,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
     $showhide = null;
     if ($this->showAction !== null) {
       if (!$header) {
-        $header = id(new PHUIHeaderView());
+        $header = new PHUIHeaderView();
       }
 
       Javelin::initBehavior('phabricator-reveal-content');

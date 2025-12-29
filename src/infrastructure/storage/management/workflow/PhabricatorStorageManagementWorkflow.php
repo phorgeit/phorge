@@ -113,7 +113,7 @@ abstract class PhabricatorStorageManagementWorkflow
   public function didExecute(PhutilArgumentParser $args) {}
 
   private function loadSchemata(PhabricatorStorageManagementAPI $api) {
-    $query = id(new PhabricatorConfigSchemaQuery());
+    $query = new PhabricatorConfigSchemaQuery();
 
     $ref = $api->getRef();
     $ref_key = $ref->getRefKey();

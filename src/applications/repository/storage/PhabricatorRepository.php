@@ -1708,7 +1708,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
     $window_start = (PhabricatorTime::getNow() + $minimum);
 
-    $table = id(new PhabricatorRepositoryCommit());
+    $table = new PhabricatorRepositoryCommit();
     $last_commit = queryfx_one(
       $table->establishConnection('r'),
       'SELECT epoch FROM %T

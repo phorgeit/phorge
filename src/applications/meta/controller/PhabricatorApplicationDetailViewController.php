@@ -107,7 +107,7 @@ final class PhabricatorApplicationDetailViewController
     PhabricatorApplication $application) {
 
     $viewer = $this->getViewer();
-    $properties = id(new PHUIPropertyListView());
+    $properties = new PHUIPropertyListView();
 
     $properties->addProperty(
       pht('Description'),
@@ -173,7 +173,7 @@ final class PhabricatorApplicationDetailViewController
     PhabricatorApplication $application) {
 
     $viewer = $this->getViewer();
-    $properties = id(new PHUIPropertyListView());
+    $properties = new PHUIPropertyListView();
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Policies'));

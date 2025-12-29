@@ -19,7 +19,7 @@ final class PhabricatorAuthConduitTokenRevoker
   }
 
   public function revokeAllCredentials() {
-    $table = id(new PhabricatorConduitToken());
+    $table = new PhabricatorConduitToken();
     $conn = $table->establishConnection('w');
 
     queryfx(
@@ -31,7 +31,7 @@ final class PhabricatorAuthConduitTokenRevoker
   }
 
   public function revokeCredentialsFrom($object) {
-    $table = id(new PhabricatorConduitToken());
+    $table = new PhabricatorConduitToken();
     $conn = $table->establishConnection('w');
 
     queryfx(

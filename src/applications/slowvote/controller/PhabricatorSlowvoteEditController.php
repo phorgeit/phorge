@@ -83,7 +83,7 @@ final class PhabricatorSlowvoteEditController
         }
       }
 
-      $template = id(new PhabricatorSlowvoteTransaction());
+      $template = new PhabricatorSlowvoteTransaction();
       $xactions = array();
 
       if ($is_new) {

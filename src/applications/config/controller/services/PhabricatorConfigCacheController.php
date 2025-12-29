@@ -43,7 +43,7 @@ final class PhabricatorConfigCacheController
 
   private function renderCodeBox() {
     $cache = PhabricatorOpcodeCacheSpec::getActiveCacheSpec();
-    $properties = id(new PHUIPropertyListView());
+    $properties = new PHUIPropertyListView();
     $this->renderCommonProperties($properties, $cache);
     return $this->buildConfigBoxView(pht('Opcode Cache'), $properties);
   }
@@ -51,7 +51,7 @@ final class PhabricatorConfigCacheController
   private function renderDataBox() {
     $cache = PhabricatorDataCacheSpec::getActiveCacheSpec();
 
-    $properties = id(new PHUIPropertyListView());
+    $properties = new PHUIPropertyListView();
 
     $this->renderCommonProperties($properties, $cache);
 

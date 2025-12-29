@@ -3,7 +3,7 @@
 final class PhutilCalendarRecurrenceTestCase extends PhutilTestCase {
 
   public function testCalendarRecurrenceLists() {
-    $set = id(new PhutilCalendarRecurrenceSet());
+    $set = new PhutilCalendarRecurrenceSet();
     $result = $set->getEventsBetween(null, null, 0xFFFF);
     $this->assertEqual(
       array(),

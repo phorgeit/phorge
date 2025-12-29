@@ -16,7 +16,7 @@ final class PhabricatorPhurlURLDatasource
   }
 
   public function loadResults() {
-    $query = id(new PhabricatorPhurlURLQuery());
+    $query = new PhabricatorPhurlURLQuery();
     $urls = $this->executeQuery($query);
     $results = array();
     foreach ($urls as $url) {

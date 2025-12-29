@@ -14,7 +14,7 @@ final class PhabricatorTokenLeaderController
     $pager->setURI($request->getRequestURI(), 'page');
     $pager->setOffset($request->getInt('page'));
 
-    $query = id(new PhabricatorTokenReceiverQuery());
+    $query = new PhabricatorTokenReceiverQuery();
     $objects = $query->setViewer($viewer)->executeWithOffsetPager($pager);
     $counts = $query->getTokenCounts();
 
@@ -31,7 +31,7 @@ final class PhabricatorTokenLeaderController
     $list = new PHUIObjectItemListView();
     foreach ($phids as $object) {
       $count = idx($counts, $object, 0);
-      $item = id(new PHUIObjectItemView());
+      $item = new PHUIObjectItemView();
       $handle = $handles[$object];
 
       $item->setHeader($handle->getFullName());

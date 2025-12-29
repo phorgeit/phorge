@@ -104,7 +104,7 @@ final class DiffusionCommitGraphView
   }
 
   public function newObjectItemListView() {
-    $list_view = id(new PHUIObjectItemListView());
+    $list_view = new PHUIObjectItemListView();
 
     $item_views = $this->newObjectItemViews();
     foreach ($item_views as $item_view) {

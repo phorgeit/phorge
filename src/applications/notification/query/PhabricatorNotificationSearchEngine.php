@@ -107,7 +107,7 @@ final class PhabricatorNotificationSearchEngine
         break;
     }
 
-    $clear_uri = id(new PhutilURI('/notification/clear/'));
+    $clear_uri = new PhutilURI('/notification/clear/');
     if ($notifications) {
       $builder = id(new PhabricatorNotificationBuilder($notifications))
         ->setUser($viewer);

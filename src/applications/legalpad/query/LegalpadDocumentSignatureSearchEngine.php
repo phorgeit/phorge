@@ -114,7 +114,7 @@ final class LegalpadDocumentSignatureSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new LegalpadDocumentSignatureQuery());
+    $query = new LegalpadDocumentSignatureQuery();
 
     $signer_phids = $saved->getParameter('signerPHIDs', array());
     if ($signer_phids) {

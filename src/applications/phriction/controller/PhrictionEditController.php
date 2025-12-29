@@ -314,7 +314,7 @@ final class PhrictionEditController
           ->addCancelButton($cancel_uri)
           ->setValue(pht('Save Draft')));
     } else {
-      $submit = id(new AphrontFormSubmitControl());
+      $submit = new AphrontFormSubmitControl();
 
       if (!$is_new) {
         $draft_button = id(new PHUIButtonView())

@@ -44,7 +44,7 @@ final class PhortuneSubscriptionSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhortuneSubscriptionQuery());
+    $query = new PhortuneSubscriptionQuery();
 
     $viewer = $this->requireViewer();
 

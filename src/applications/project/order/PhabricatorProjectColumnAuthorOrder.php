@@ -112,7 +112,7 @@ final class PhabricatorProjectColumnAuthorOrder
       $author_icon = 'fa-user';
       $author_color = 'bluegrey';
 
-      $icon_view = id(new PHUIIconView());
+      $icon_view = new PHUIIconView();
 
       if ($author_image) {
         $icon_view->setImage($author_image);

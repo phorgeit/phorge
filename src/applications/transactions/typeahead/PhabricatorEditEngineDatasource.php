@@ -25,7 +25,7 @@ final class PhabricatorEditEngineDatasource
   }
 
   private function buildResults() {
-    $query = id(new PhabricatorEditEngineConfigurationQuery());
+    $query = new PhabricatorEditEngineConfigurationQuery();
 
     $forms = $this->executeQuery($query);
     $results = array();

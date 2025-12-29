@@ -210,7 +210,7 @@ final class PHUITimelineExample extends PhabricatorUIExample {
       }
     }
 
-    $timeline = id(new PHUITimelineView());
+    $timeline = new PHUITimelineView();
     $timeline->setViewer($user);
     foreach ($events as $event) {
       $timeline->addEvent($event);

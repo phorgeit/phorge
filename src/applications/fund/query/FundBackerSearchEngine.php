@@ -33,7 +33,7 @@ final class FundBackerSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new FundBackerQuery());
+    $query = new FundBackerQuery();
 
     $query->withStatuses(array(FundBacker::STATUS_PURCHASED));
 

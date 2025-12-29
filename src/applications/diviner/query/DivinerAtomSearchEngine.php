@@ -32,7 +32,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new DivinerAtomQuery());
+    $query = new DivinerAtomQuery();
 
     $books = $saved->getParameter('bookPHIDs');
     if ($books) {

@@ -582,7 +582,7 @@ final class PhabricatorAuthRegisterController
           ->setError($e_captcha));
     }
 
-    $submit = id(new AphrontFormSubmitControl());
+    $submit = new AphrontFormSubmitControl();
 
     if ($is_setup) {
       $submit

@@ -268,7 +268,7 @@ final class AphrontFormDateControlValue extends Phobject {
     $time) {
 
     $zone = $this->getTimezone();
-    $date_time = id(new DateTime("{$year}-{$month}-{$day} {$time}", $zone));
+    $date_time = new DateTime("{$year}-{$month}-{$day} {$time}", $zone);
 
     return array(
       $date_time->format($this->getDateFormat()),

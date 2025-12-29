@@ -124,7 +124,7 @@ final class PhabricatorConfigClusterSearchController
   }
 
   private function renderIndexStats($stats) {
-    $view = id(new PHUIPropertyListView());
+    $view = new PHUIPropertyListView();
     if ($stats !== false) {
       foreach ($stats as $label => $val) {
         $view->addProperty($label, $val);

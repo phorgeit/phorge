@@ -736,7 +736,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         $item,
         PhabricatorPolicyCapability::CAN_EDIT);
 
-      $view = id(new PHUIObjectItemView());
+      $view = new PHUIObjectItemView();
 
       $name = $item->getDisplayName();
       $type = $item->getMenuItemTypeName();

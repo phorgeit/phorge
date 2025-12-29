@@ -18,7 +18,7 @@ final class PhabricatorNotificationPanelController
     $stories = $query->execute();
 
     $clear_ui_class = 'phabricator-notification-clear-all';
-    $clear_uri = id(new PhutilURI('/notification/clear/'));
+    $clear_uri = new PhutilURI('/notification/clear/');
     if ($stories) {
       $builder = id(new PhabricatorNotificationBuilder($stories))
         ->setUser($viewer);

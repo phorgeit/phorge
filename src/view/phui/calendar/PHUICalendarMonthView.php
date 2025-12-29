@@ -430,7 +430,7 @@ final class PHUICalendarMonthView extends AphrontView {
 
     }
 
-    $header = id(new PHUIHeaderView());
+    $header = new PHUIHeaderView();
 
     if ($button_bar) {
       $header->setButtonBar($button_bar);

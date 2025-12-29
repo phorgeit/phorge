@@ -35,7 +35,7 @@ final class HeraldTranscriptSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new HeraldTranscriptQuery());
+    $query = new HeraldTranscriptQuery();
 
     $object_monograms = $saved->getParameter('objectMonograms');
     if ($object_monograms) {

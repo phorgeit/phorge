@@ -111,7 +111,7 @@ final class PhabricatorAuditManagementDeleteWorkflow
       $query->withPHIDs(mpull($commits, 'getPHID'));
     }
 
-    $commit_iterator = id(new PhabricatorQueryIterator($query));
+    $commit_iterator = new PhabricatorQueryIterator($query);
 
     // See T13457. We may be examining many commits; each commit is small so
     // we can safely increase the page size to improve performance a bit.

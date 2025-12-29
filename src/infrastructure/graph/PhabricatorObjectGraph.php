@@ -203,7 +203,7 @@ abstract class PhabricatorObjectGraph
 
     $ancestry = array_select_keys($ancestry, $order);
 
-    $graph_view = id(new PHUIDiffGraphView());
+    $graph_view = new PHUIDiffGraphView();
 
     $height = $this->getHeight();
     if ($height !== null) {
