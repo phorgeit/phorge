@@ -425,7 +425,7 @@ video.phabricator-media {
   box-shadow: 1px 1px 2px rgba({$alphablack}, 0.20);
 }
 
- .phabricator-remarkup-embed-image > img {
+ .phui-property-list-text-content .phabricator-remarkup-embed-image > img {
    /* TODO: Remove static image for old browsers some day; see D26155 */
    background: url('/rsrc/image/checker_light.png');
    background: repeating-conic-gradient(
@@ -433,7 +433,7 @@ video.phabricator-media {
      {$checker.light-two} 0% 50%) 0 0/20px 20px;
  }
 
- .device-desktop .phabricator-remarkup-embed-image > img:hover {
+ .device-desktop .phui-property-list-text-content .phabricator-remarkup-embed-image > img:hover {
    /* TODO: Remove static image for old browsers some day; see D26155 */
    background: url('/rsrc/image/checker_dark.png');
    background: repeating-conic-gradient(
