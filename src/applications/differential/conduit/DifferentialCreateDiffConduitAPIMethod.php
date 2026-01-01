@@ -52,9 +52,19 @@ final class DifferentialCreateDiffConduitAPIMethod
     return 'nonempty dict';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-NO-CONTENT' => pht('Diff may not be empty.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $viewer = $request->getUser();
     $change_data = $request->getValue('changes');
+
+    if (!$change_data) {
+      throw new ConduitException('ERR-NO-CONTENT');
+    }
 
     $changes = array();
     foreach ($change_data as $dict) {
