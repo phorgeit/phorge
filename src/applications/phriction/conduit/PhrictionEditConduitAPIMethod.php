@@ -23,21 +23,30 @@ final class PhrictionEditConduitAPIMethod extends PhrictionConduitAPIMethod {
     return 'nonempty dict';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-DOCUMENT' => pht('No such document exists.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $slug = $request->getValue('slug');
+    $document = null;
 
-    $doc = id(new PhrictionDocumentQuery())
-      ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
-      ->needContent(true)
-      ->requireCapabilities(
-        array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
-        ))
-      ->executeOne();
-    if (!$doc) {
-      throw new Exception(pht('No such document.'));
+    if ($slug !== null) {
+      $document = id(new PhrictionDocumentQuery())
+        ->setViewer($request->getUser())
+        ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+        ->needContent(true)
+        ->requireCapabilities(
+          array(
+            PhabricatorPolicyCapability::CAN_VIEW,
+            PhabricatorPolicyCapability::CAN_EDIT,
+          ))
+        ->executeOne();
+    }
+    if (!$document) {
+      throw new ConduitException('ERR-BAD-DOCUMENT');
     }
 
     $xactions = array();
@@ -62,13 +71,13 @@ final class PhrictionEditConduitAPIMethod extends PhrictionConduitAPIMethod {
       ->setDescription((string)$request->getValue('description'));
 
     try {
-      $editor->applyTransactions($doc, $xactions);
+      $editor->applyTransactions($document, $xactions);
     } catch (PhabricatorApplicationTransactionValidationException $ex) {
       // TODO - some magical hotness via T5873
       throw $ex;
     }
 
-    return $this->buildDocumentInfoDictionary($doc);
+    return $this->buildDocumentInfoDictionary($document);
   }
 
 }

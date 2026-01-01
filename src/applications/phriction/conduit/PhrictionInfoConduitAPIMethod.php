@@ -38,12 +38,15 @@ final class PhrictionInfoConduitAPIMethod extends PhrictionConduitAPIMethod {
 
   protected function execute(ConduitAPIRequest $request) {
     $slug = $request->getValue('slug');
+    $document = null;
 
-    $document = id(new PhrictionDocumentQuery())
-      ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
-      ->needContent(true)
-      ->executeOne();
+    if ($slug !== null) {
+      $document = id(new PhrictionDocumentQuery())
+        ->setViewer($request->getUser())
+        ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+        ->needContent(true)
+        ->executeOne();
+    }
     if (!$document) {
       throw new ConduitException('ERR-BAD-DOCUMENT');
     }
