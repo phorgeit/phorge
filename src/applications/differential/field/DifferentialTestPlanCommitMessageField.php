@@ -29,7 +29,7 @@ final class DifferentialTestPlanCommitMessageField
     $is_required = PhabricatorEnv::getEnvConfig(
       'differential.require-test-plan-field');
 
-    if ($is_required && !strlen($value)) {
+    if ($is_required && !phutil_nonempty_string($value)) {
       $this->raiseValidationException(
         pht(
           'You must provide a test plan. Describe the actions you performed '.
