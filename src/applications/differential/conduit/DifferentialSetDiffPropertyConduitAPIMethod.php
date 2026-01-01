@@ -26,14 +26,35 @@ final class DifferentialSetDiffPropertyConduitAPIMethod
   protected function defineErrorTypes() {
     return array(
       'ERR_NOT_FOUND' => pht('Diff was not found.'),
+      'ERR_NO_NAME' => pht('Name cannot be empty.'),
     );
   }
 
   protected function execute(ConduitAPIRequest $request) {
     $diff_id = $request->getValue('diff_id');
-    $name = $request->getValue('name');
-    $data = json_decode($request->getValue('data'), true);
+    if (!$diff_id) {
+      throw new ConduitException('ERR_NOT_FOUND');
+    }
+    $revision = id(new DifferentialDiffQuery())
+      ->setViewer($this->getViewer())
+      ->withIDs(array($diff_id))
+      ->requireCapabilities(
+        array(
+          PhabricatorPolicyCapability::CAN_VIEW,
+        ))
+      ->executeOne();
+    if (!$revision) {
+      throw new ConduitException('ERR_NOT_FOUND');
+    }
 
+    $name = $request->getValue('name');
+    if (!phutil_nonempty_string($name)) {
+      throw new ConduitException('ERR_NO_NAME');
+    }
+    $data = $request->getValue('data');
+    if ($data !== null) {
+      $data = json_decode($data, true);
+    }
     self::updateDiffProperty($diff_id, $name, $data);
   }
 
