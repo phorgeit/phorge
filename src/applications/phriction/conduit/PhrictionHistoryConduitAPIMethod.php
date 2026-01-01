@@ -38,22 +38,26 @@ final class PhrictionHistoryConduitAPIMethod extends PhrictionConduitAPIMethod {
 
   protected function execute(ConduitAPIRequest $request) {
     $slug = $request->getValue('slug');
-    $doc = id(new PhrictionDocumentQuery())
-      ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
-      ->executeOne();
-    if (!$doc) {
+    $document = null;
+
+    if ($slug !== null) {
+      $document = id(new PhrictionDocumentQuery())
+        ->setViewer($request->getUser())
+        ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+        ->executeOne();
+    }
+    if (!$document) {
       throw new ConduitException('ERR-BAD-DOCUMENT');
     }
 
     $content = id(new PhrictionContent())->loadAllWhere(
       'documentID = %d ORDER BY version DESC',
-      $doc->getID());
+      $document->getID());
 
     $results = array();
     foreach ($content as $version) {
       $results[] = $this->buildDocumentContentDictionary(
-        $doc,
+        $document,
         $version);
     }
 
