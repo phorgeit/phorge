@@ -42,11 +42,13 @@ final class PonderQuestionStatusController
 
     $radio = id(new AphrontFormRadioButtonControl())
       ->setLabel(pht('Status'))
-      ->setName('status')
-      ->setValue($v_status);
+      ->setName('status');
 
     foreach (PonderQuestionStatus::getQuestionStatusMap() as $value => $name) {
       $description = PonderQuestionStatus::getQuestionStatusDescription($value);
+      if ($value === $v_status) {
+        continue;
+      }
       $radio->addButton($value, $name, $description);
     }
 
