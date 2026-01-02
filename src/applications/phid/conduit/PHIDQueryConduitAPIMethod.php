@@ -20,8 +20,18 @@ final class PHIDQueryConduitAPIMethod extends PHIDConduitAPIMethod {
     return 'nonempty dict<string, wild>';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-PHID' => pht('Must pass PHIDs.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $phids = $request->getValue('phids');
+
+    if (!$phids) {
+      throw new ConduitException('ERR-BAD-PHID');
+    }
 
     $handles = id(new PhabricatorHandleQuery())
       ->setViewer($request->getUser())
