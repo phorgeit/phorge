@@ -20,8 +20,18 @@ final class PHIDLookupConduitAPIMethod extends PHIDConduitAPIMethod {
     return 'nonempty dict<string, wild>';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-INVALID-PARAMETER' => pht('Must pass names.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $names = $request->getValue('names');
+
+    if (!$names) {
+      throw new ConduitException('ERR-INVALID-PARAMETER');
+    }
 
     $query = id(new PhabricatorObjectQuery())
       ->setViewer($request->getUser())
