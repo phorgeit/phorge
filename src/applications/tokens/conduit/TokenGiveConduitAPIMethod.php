@@ -21,8 +21,21 @@ final class TokenGiveConduitAPIMethod extends TokenConduitAPIMethod {
     return 'void';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-PHID' => pht(
+        'Must pass a PHID for parameter "%s".',
+        'objectPHID'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $content_source = $request->newContentSource();
+    $phid = $request->getValue('objectPHID');
+
+    if ($phid === null) {
+      throw new ConduitException('ERR-BAD-PHID');
+    }
 
     $editor = id(new PhabricatorTokenGivenEditor())
       ->setActor($request->getUser())
@@ -30,10 +43,10 @@ final class TokenGiveConduitAPIMethod extends TokenConduitAPIMethod {
 
     if ($request->getValue('tokenPHID')) {
       $editor->addToken(
-        $request->getValue('objectPHID'),
+        $phid,
         $request->getValue('tokenPHID'));
     } else {
-      $editor->deleteToken($request->getValue('objectPHID'));
+      $editor->deleteToken($phid);
     }
   }
 
