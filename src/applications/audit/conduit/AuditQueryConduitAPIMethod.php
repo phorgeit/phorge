@@ -83,7 +83,7 @@ final class AuditQueryConduitAPIMethod extends AuditConduitAPIMethod {
     );
 
     $status = $request->getValue('status');
-    if (isset($status_map[$status])) {
+    if ($status !== null && isset($status_map[$status])) {
       $query->withStatuses($status_map[$status]);
     }
 
