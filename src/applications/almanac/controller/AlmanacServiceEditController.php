@@ -16,7 +16,7 @@ final class AlmanacServiceEditController
 
       $service_type = $request->getStr('serviceType');
       $service_types = AlmanacServiceType::getAllServiceTypes();
-      if (empty($service_types[$service_type])) {
+      if ($service_type === null || empty($service_types[$service_type])) {
         return $this->buildServiceTypeResponse($list_uri);
       }
 
