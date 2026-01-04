@@ -187,15 +187,16 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
           'line' => $string_info['line'],
         );
 
+        $stypes = $string_info['types'];
         if (!isset($map[$string]['types'])) {
-          $map[$string]['types'] = $string_info['types'];
-        } else if ($map[$string]['types'] !== $string_info['types']) {
-          echo tsprintf(
-            "**<bg:yellow> %s </bg>** %s\n",
-            pht('WARNING'),
-            pht(
-              'Inferred types for string "%s" vary across callsites.',
-              $string_info['string']));
+          $map[$string]['types'] = $stypes;
+        } else if ($map[$string]['types'] !== $stypes) {
+          foreach ($map[$string]['types'] as $i => $t) {
+            if ($t !== $stypes[$i]) {
+              // This type is not consistent, set it to null since we don't know
+              $map[$string]['types'][$i] = null;
+            }
+          }
         }
       }
     }
