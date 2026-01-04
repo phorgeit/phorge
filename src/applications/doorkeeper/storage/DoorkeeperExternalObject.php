@@ -60,7 +60,11 @@ final class DoorkeeperExternalObject extends DoorkeeperDAO
   }
 
   public function getObjectKey() {
-    return $this->getRef()->getObjectKey();
+    $key = parent::getObjectKey();
+    if ($key === null) {
+      $key = $this->getRef()->getObjectKey();
+    }
+    return $key;
   }
 
   public function getRef() {
