@@ -131,7 +131,7 @@ final class PhabricatorEditEngineConfigurationQuery
     if ($this->ids !== null) {
       $ids = array_fuse($this->ids);
       foreach ($page as $key => $config) {
-        if (empty($ids[$config->getID()])) {
+        if (!$config->getID() || empty($ids[$config->getID()])) {
           unset($page[$key]);
         }
       }
@@ -140,7 +140,7 @@ final class PhabricatorEditEngineConfigurationQuery
     if ($this->phids !== null) {
       $phids = array_fuse($this->phids);
       foreach ($page as $key => $config) {
-        if (empty($phids[$config->getPHID()])) {
+        if (!$config->getPHID() || empty($phids[$config->getPHID()])) {
           unset($page[$key]);
         }
       }
