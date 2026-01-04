@@ -70,7 +70,8 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
         pht('EXTRACT'),
         pht(
           'Extracting "%s"...',
-          Filesystem::readablePath($library)));
+          phutil_get_library_name_for_root($library) ??
+            Filesystem::readablePath($library)));
 
       $this->extractLibrary($library);
     }
