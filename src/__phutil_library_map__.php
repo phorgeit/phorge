@@ -5772,7 +5772,7 @@ phutil_register_library_map(array(
     'PhutilRemarkupDelRule' => 'infrastructure/markup/markuprule/PhutilRemarkupDelRule.php',
     'PhutilRemarkupDocumentLinkRule' => 'infrastructure/markup/markuprule/PhutilRemarkupDocumentLinkRule.php',
     'PhutilRemarkupEngine' => 'infrastructure/markup/remarkup/PhutilRemarkupEngine.php',
-    'PhutilRemarkupEngineTestCase' => 'infrastructure/markup/remarkup/__tests__/PhutilRemarkupEngineTestCase.php',
+    'PhutilRemarkupEngineTestCase' => 'infrastructure/markup/__tests__/PhutilRemarkupEngineTestCase.php',
     'PhutilRemarkupEscapeRemarkupRule' => 'infrastructure/markup/markuprule/PhutilRemarkupEscapeRemarkupRule.php',
     'PhutilRemarkupEvalRule' => 'infrastructure/markup/markuprule/PhutilRemarkupEvalRule.php',
     'PhutilRemarkupHeaderBlockRule' => 'infrastructure/markup/blockrule/PhutilRemarkupHeaderBlockRule.php',

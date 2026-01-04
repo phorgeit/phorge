@@ -2,8 +2,6 @@
 
 /**
  * Test cases for @{class:PhutilRemarkupEngine}.
- * @TODO: This unit is not always triggered when you need it.
- *        https://we.phorge.it/T15500
  */
 final class PhutilRemarkupEngineTestCase extends PhutilTestCase {
 

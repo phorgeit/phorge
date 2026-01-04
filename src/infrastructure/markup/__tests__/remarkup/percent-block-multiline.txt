@@ -10,7 +10,7 @@
 <br />- second
 <br />- third</p>
 
-<p><a href="http://hello" class="remarkup-link" target="_blank" rel="noreferrer">world</a></p>
+<p><a href="http://hello" class="remarkup-link remarkup-link-ext" target="_blank" rel="noreferrer">world</a></p>
 ~~~~~~~~~~
 **foo**
 

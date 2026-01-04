@@ -8,11 +8,11 @@
 
 [[#anchor | Anchors ]]
 ~~~~~~~~~~
-<p><a href="http://www.example.com/" class="remarkup-link" target="_blank" rel="noreferrer">http://www.example.com/</a></p>
+<p><a href="http://www.example.com/" class="remarkup-link remarkup-link-ext" target="_blank" rel="noreferrer">http://www.example.com/</a></p>
 
-<p><a href="http://www.example.com/" class="remarkup-link" target="_blank" rel="noreferrer">example.com</a></p>
+<p><a href="http://www.example.com/" class="remarkup-link remarkup-link-ext" target="_blank" rel="noreferrer">example.com</a></p>
 
-<p><a href="http://www.example.com/x/" class="remarkup-link" target="_blank" rel="noreferrer">http://www.example.com/x/</a></p>
+<p><a href="http://www.example.com/x/" class="remarkup-link" rel="noreferrer">http://www.example.com/x/</a></p>
 
 <p><a href="http://www.example.com/page/#anchor" class="remarkup-link" rel="noreferrer">http://www.example.com/page/#anchor</a></p>
 
