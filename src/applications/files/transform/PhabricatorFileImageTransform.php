@@ -372,7 +372,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
    * @return array<int> Maximum width and height
    */
   public function getMaxTransformDimensions() {
-    return array(4096, 4096);
+    return array(8160, 6144);
   }
 
   private function shouldUseImagemagick() {
