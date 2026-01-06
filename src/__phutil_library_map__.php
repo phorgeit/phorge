@@ -12700,7 +12700,7 @@ phutil_register_library_map(array(
     'PhutilRemarkupDelRule' => 'PhutilRemarkupRule',
     'PhutilRemarkupDocumentLinkRule' => 'PhutilRemarkupRule',
     'PhutilRemarkupEngine' => 'PhutilMarkupEngine',
-    'PhutilRemarkupEngineTestCase' => 'PhutilTestCase',
+    'PhutilRemarkupEngineTestCase' => 'PhabricatorTestCase',
     'PhutilRemarkupEscapeRemarkupRule' => 'PhutilRemarkupRule',
     'PhutilRemarkupEvalRule' => 'PhutilRemarkupRule',
     'PhutilRemarkupHeaderBlockRule' => 'PhutilRemarkupBlockRule',

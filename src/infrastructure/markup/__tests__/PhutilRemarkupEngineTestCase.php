@@ -3,7 +3,7 @@
 /**
  * Test cases for @{class:PhutilRemarkupEngine}.
  */
-final class PhutilRemarkupEngineTestCase extends PhutilTestCase {
+final class PhutilRemarkupEngineTestCase extends PhabricatorTestCase {
 
   public function testEngine() {
     $root = dirname(__FILE__).'/remarkup/';
