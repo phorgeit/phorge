@@ -43,7 +43,7 @@ final class PhabricatorApplicationUninstallController
       return id(new AphrontDialogResponse())->setDialog($dialog);
     }
 
-    if ($request->isDialogFormPost()) {
+    if ($request->isFormOrHisecPost()) {
       $xactions = array();
       $template = $application->getApplicationTransactionTemplate();
       $xactions[] = id(clone $template)
@@ -54,6 +54,7 @@ final class PhabricatorApplicationUninstallController
       $editor = id(new PhabricatorApplicationEditor())
         ->setActor($user)
         ->setContentSourceFromRequest($request)
+        ->setCancelURI($view_uri)
         ->setContinueOnNoEffect(true)
         ->setContinueOnMissingFields(true);
 

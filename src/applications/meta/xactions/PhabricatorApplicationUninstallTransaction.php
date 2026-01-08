@@ -81,4 +81,11 @@ final class PhabricatorApplicationUninstallTransaction
     }
   }
 
+  public function shouldTryMFA(
+    $object,
+    PhabricatorApplicationTransaction $xaction) {
+    // Installing or uninstalling applications is a big deal.
+    return true;
+  }
+
 }
