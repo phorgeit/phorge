@@ -4,6 +4,9 @@ final class PhabricatorPeopleInviteListController
   extends PhabricatorPeopleInviteController {
 
   public function handleRequest(AphrontRequest $request) {
+    $this->requireApplicationCapability(
+      PeopleCreateUsersCapability::CAPABILITY);
+
     $controller = id(new PhabricatorApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
       ->setSearchEngine(new PhabricatorAuthInviteSearchEngine())

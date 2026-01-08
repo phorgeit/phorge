@@ -22,6 +22,12 @@ abstract class PhabricatorPeopleController extends PhabricatorController {
     if ($viewer->getIsAdmin()) {
       $nav->addLabel(pht('User Administration'));
       $nav->addFilter('logs', pht('Activity Logs'));
+    }
+
+    $can_invite = $this->hasApplicationCapability(
+      PeopleCreateUsersCapability::CAPABILITY);
+
+    if ($can_invite) {
       $nav->addFilter('invite', pht('Email Invitations'));
     }
 
