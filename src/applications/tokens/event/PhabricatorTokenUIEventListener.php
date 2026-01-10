@@ -42,7 +42,7 @@ final class PhabricatorTokenUIEventListener
     }
 
     if (!$this->canUseApplication($event->getUser())) {
-      return null;
+      return;
     }
 
     $can_interact = PhabricatorPolicyFilter::canInteract($user, $object);
@@ -93,7 +93,7 @@ final class PhabricatorTokenUIEventListener
     }
 
     if (!$this->canUseApplication($event->getUser())) {
-      return null;
+      return;
     }
 
     $tokens_given = id(new PhabricatorTokenGivenQuery())

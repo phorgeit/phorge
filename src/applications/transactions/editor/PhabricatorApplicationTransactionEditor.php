@@ -4963,7 +4963,7 @@ abstract class PhabricatorApplicationTransactionEditor
       ->withProxyPHIDs($removed_phids)
       ->execute();
     if (!$proxy_columns) {
-      return array();
+      return;
     }
 
     $proxy_phids = mpull($proxy_columns, 'getPHID');

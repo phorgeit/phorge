@@ -29,7 +29,7 @@ final class PhabricatorFlagsUIEventListener extends PhabricatorEventListener {
     }
 
     if (!$this->canUseApplication($event->getUser())) {
-      return null;
+      return;
     }
 
     $flag = PhabricatorFlagQuery::loadUserFlag($user, $object->getPHID());

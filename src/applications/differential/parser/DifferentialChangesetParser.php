@@ -366,6 +366,9 @@ final class DifferentialChangesetParser extends Phobject {
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   private function loadCache() {
     $render_cache_key = $this->getRenderCacheKey();
     if (!$render_cache_key) {
