@@ -219,13 +219,13 @@ JX.$H = function(str) {
  *
  *   JX.$N(
  *     'a',
- *     {href: 'http://www.javelinjs.com'},
- *     'Visit the Javelin Homepage');
+ *     {href: 'https://example.com/'},
+ *     'Visit the Example Homepage');
  *
  * This is equivalent to:
  *
  *   LANG=HTML
- *   <a href="http://www.javelinjs.com">Visit the Javelin Homepage</a>
+ *   <a href="https://example.com/">Visit the Example Homepage</a>
  *
  * If you only want to specify content, you can omit the attribute parameter.
  * That is, these calls are equivalent:

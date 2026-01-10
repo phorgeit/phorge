@@ -31,7 +31,7 @@ Phorge includes a script which can identify symbols in PHP projects:
 
 Phorge also includes a script which can identify symbols in any
 programming language that has classes and/or functions, and is supported by
-Exuberant Ctags (http://ctags.sourceforge.net):
+Exuberant Ctags (https://ctags.sourceforge.net):
 
   ./scripts/symbols/generate_ctags_symbols.php
 

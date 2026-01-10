@@ -21,7 +21,7 @@ The documentation and various setup warnings will sometimes direct you to make
 configuration changes in `my.cnf`. In Amazon RDS, you don't have direct access
 to `my.cnf` and thus can not make these changes in the configuration file.
 
-Instead, you can use [[ http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html | DB Parameter Groups ]].
+Instead, you can use [[ https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html | DB Parameter Groups ]].
 You can access these from your AWS console and use the web interface to make
 necessary changes. The web UI will give you a user-friendly key-value table:
 just identify the option you need to change, then select a new value for it.

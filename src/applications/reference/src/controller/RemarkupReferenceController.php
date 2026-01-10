@@ -35,9 +35,9 @@ These are inline styles, and can be applied to most text:
   #project                  # Mention a Project
   [[wiki page]]             # Link to Phriction
   [[wiki page | name]]      # Named link to Phriction
-  http://xyz/               # Link to web
-  [[http://xyz/ | name]]    # Named link to web
-  [name](http://xyz/)       # Alternate Link
+  https://xyz/               # Link to web
+  [[https://xyz/ | name]]    # Named link to web
+  [name](https://xyz/)       # Alternate Link
 
 These are block styles, and must be separated from surrounding text by
 empty lines:
@@ -347,24 +347,24 @@ On an entirely different topic, ...
 
 = Linking URIs =
 
-URIs are automatically linked: http://phorge.it/
+URIs are automatically linked: https://phorge.it/
 
 If you have a URI with problematic characters in it, like
-"`http://comma.org/,`", you can surround it with angle brackets:
+"`https://example.com/,`", you can surround it with angle brackets:
 
-  <http://comma.org/,>
+  <https://example.com/,>
 
-This will force the parser to consume the whole URI: <http://comma.org/,>
+This will force the parser to consume the whole URI: <https://example.com/,>
 
 You can also use create named links, where you choose the displayed text. These
 work within Phorge or on the internet at large:
 
   [[/herald/transcript/ | Herald Transcripts]]
-  [[http://www.boring-legal-documents.com/ | exciting legal documents]]
+  [[https://boring.example.com/ | exciting example]]
 
 Markdown-style links are also supported:
 
-  [Toil](http://www.trouble.com)
+  [Example](https://www.example.com)
 
 = Linking to Objects =
 
@@ -595,7 +595,7 @@ review and adjust any relative links it contains.
 To place text in a literal block use `%%%`:
 
   %%%Text that won't be processed by remarkup
-  [[http://www.example.com | example]]
+  [[https://www.example.com | example]]
   %%%
 
 Remarkup will not process the text inside of literal blocks (other than to

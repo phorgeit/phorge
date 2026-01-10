@@ -9,7 +9,7 @@ Phorge includes an OAuth Server which supports the
 `Authorization Code Grant` flow as described in the OAuth 2.0
 specification:
 
-http://tools.ietf.org/html/draft-ietf-oauth-v2-23
+https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-23
 
 This functionality can allow clients to integrate with a given
 Phorge instance in a secure way with granular data access.

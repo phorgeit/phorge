@@ -79,7 +79,7 @@ EOREMARKUP
             'improves security by preventing cookies from being set on other '.
             'domains, and allows daemons to send emails with links that have '.
             'the correct domain.'))
-        ->addExample('http://devtools.example.com/', pht('Valid Setting')),
+        ->addExample('https://devtools.example.com/', pht('Valid Setting')),
       $this->newOption('phabricator.production-uri', 'string', null)
         ->setSummary(
           pht('Primary install URI, for multi-environment installs.'))
@@ -93,7 +93,7 @@ EOREMARKUP
             'installs do not need to set this option.',
             PlatformSymbols::getPlatformServerName(),
             'phabricator.base-uri'))
-        ->addExample('http://devtools.example.com/', pht('Valid Setting')),
+        ->addExample('https://devtools.example.com/', pht('Valid Setting')),
       $this->newOption('phabricator.allowed-uris', 'list<string>', array())
         ->setLocked(true)
         ->setSummary(pht('Alternative URIs that can access this service.'))
@@ -104,8 +104,8 @@ EOREMARKUP
             "won't work. The major use case for this is moving installs ".
             "across domains."))
         ->addExample(
-          "http://phabricator2.example.com/\n".
-          "http://phabricator3.example.com/",
+          "https://phorge2.example.com/\n".
+          "https://phorge3.example.com/",
           pht('Valid Setting')),
       $this->newOption('phabricator.timezone', 'string', null)
         ->setSummary(
@@ -297,8 +297,8 @@ EOREMARKUP
             'browsers will not set cookies on domains with no TLD.',
             $key,
             '.',
-            'http://example.com/',
-            'http://example/'));
+            'https://example.com/',
+            'https://example/'));
       }
 
       $path = $uri->getPath();
@@ -309,8 +309,8 @@ EOREMARKUP
             "e.g. '%s' is OK, but '%s' is not. This software must be '.
             'installed on an entire domain; it can not be installed on a path.",
             $key,
-            'http://devtools.example.com/',
-            'http://example.com/devtools/'));
+            'https://devtools.example.com/',
+            'https://example.com/devtools/'));
       }
     }
 

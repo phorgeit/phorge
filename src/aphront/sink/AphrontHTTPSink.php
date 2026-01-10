@@ -65,12 +65,12 @@ abstract class AphrontHTTPSink extends Phobject {
       // Attackers may perform an "HTTP response splitting" attack by making
       // the application emit certain types of headers containing newlines:
       //
-      //   http://en.wikipedia.org/wiki/HTTP_response_splitting
+      //   https://en.wikipedia.org/wiki/HTTP_response_splitting
       //
       // PHP has built-in protections against HTTP response-splitting, but they
       // are of dubious trustworthiness:
       //
-      //   http://news.php.net/php.internals/57655
+      //   https://news-web.php.net/php.internals/57655
 
       if (preg_match('/[\r\n\0]/', $name.$value)) {
         throw new Exception(

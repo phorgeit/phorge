@@ -795,7 +795,7 @@ final class AphrontRequest extends Phobject {
     $try_names[] = 'HTTP_'.$php_index;
     if ($php_index == 'CONTENT_TYPE' || $php_index == 'CONTENT_LENGTH') {
       // These headers may be available under alternate names. See
-      // http://www.php.net/manual/en/reserved.variables.server.php#110763
+      // https://www.php.net/manual/reserved.variables.server.php#110763
       $try_names[] = $php_index;
     }
 

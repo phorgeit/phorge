@@ -76,7 +76,7 @@ final class PhabricatorBaseURISetupCheck extends PhabricatorSetupCheck {
       'will not work properly until you configure it.'.
       "\n\n".
       'You should set the base URI to the URI you will use to access '.
-      'this server, like "http://devtools.example.com/".'.
+      'this server, like "https://devtools.example.com/".'.
       "\n\n".
       'Include the protocol (http or https), domain name, and port number if '.
       'you are using a port other than 80 (http) or 443 (https).'.

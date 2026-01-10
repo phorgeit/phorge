@@ -34,7 +34,7 @@ final class PhabricatorFilesConfigOptions
       'text/x-diff' => 'text/plain; charset=utf-8',
 
       // ".ico" favicon files, which have mime type diversity. See:
-      // http://en.wikipedia.org/wiki/ICO_(file_format)#MIME_type
+      // https://en.wikipedia.org/wiki/ICO_(file_format)#MIME_type
       'image/x-ico'               => 'image/x-icon',
       'image/x-icon'              => 'image/x-icon',
       'image/vnd.microsoft.icon'  => 'image/x-icon',
@@ -92,7 +92,7 @@ final class PhabricatorFilesConfigOptions
       'application/ogg' => true,
     );
 
-    // largely lifted from http://en.wikipedia.org/wiki/Internet_media_type
+    // largely lifted from https://en.wikipedia.org/wiki/Internet_media_type
     $icon_default = array(
       // audio file icon
       'audio/basic' => 'fa-file-audio-o',

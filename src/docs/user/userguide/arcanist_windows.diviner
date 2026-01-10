@@ -45,7 +45,7 @@ Some arc workflows prompt you to edit large blocks of text using a text editor.
 You can configure various programs for this purpose, depending on which text
 editor you prefer. Some editors that will work are:
 
-  - [[ http://notepad-plus-plus.org/ | Notepad++ ]], a good all-around editor.
+  - [[ https://notepad-plus-plus.org/ | Notepad++ ]], a good all-around editor.
   - **vim**, which comes with Git Bash.
   - [[ https://www.sublimetext.com/ | Sublime Text ]].
 
