@@ -1,10 +1,13 @@
 <?php
 
+/*
+ * This transaction type is deprecated. We keep it around for legacy installs
+ * so any transactions render correctly.
+ *
+ * @deprecated
+ */
 final class ManiphestTaskAttachTransaction
   extends ManiphestTaskTransactionType {
-
-  // NOTE: this type is deprecated. Keep it around for legacy installs
-  // so any transactions render correctly.
 
   const TRANSACTIONTYPE = 'attach';
 

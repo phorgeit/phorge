@@ -81,6 +81,10 @@ final class PHUIButtonView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Set the HTML tag for the button, e.g. 'button', 'input', 'a'.
+   * @param string $tag
+   */
   public function setTag($tag) {
     $this->tag = $tag;
     return $this;
@@ -147,6 +151,10 @@ final class PHUIButtonView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Get the HTML tag set for the button, e.g. 'button', 'input', 'a'.
+   * @return string
+   */
   protected function getTagName() {
     return $this->tag;
   }

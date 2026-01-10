@@ -168,6 +168,10 @@ final class PHUIHeaderView extends AphrontTagView {
     return $this->href;
   }
 
+  /**
+   * Get the HTML tag
+   * @return string
+   */
   protected function getTagName() {
     if ($this->collapsible) {
       return 'summary';

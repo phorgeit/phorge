@@ -673,7 +673,7 @@ final class DifferentialHunkParser extends Phobject {
   }
 
   /**
-   * @param array<DifferentialHunk> $new_hunks
+   * @param array<DifferentialHunk> $hunks
    * @param bool $is_new
    * @param int $line_number
    * @param int $line_length
@@ -766,7 +766,7 @@ final class DifferentialHunkParser extends Phobject {
   }
 
   /**
-   * @param array<DifferentialHunk> $new_hunks
+   * @param array<DifferentialHunk> $hunks
    */
   private function computeOffsets(array $hunks) {
     assert_instances_of($hunks, DifferentialHunk::class);
