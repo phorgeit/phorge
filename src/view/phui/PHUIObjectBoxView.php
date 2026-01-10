@@ -309,7 +309,6 @@ final class PHUIObjectBoxView extends AphrontTagView {
       ($this->showHideOpen == false ? $this->anchor : null),
       $header,
       $this->infoView,
-      $this->formErrors,
       $exception_errors,
       $this->form,
       $this->tabGroups,
@@ -318,6 +317,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
       $lists,
       $this->table,
       $pager,
+      $this->formErrors,
       $this->renderChildren(),
     );
 
