@@ -52,10 +52,10 @@ final class PhutilTranslatedHTMLTestCase extends PhutilTestCase {
       ));
 
     $this->assertEqual(
-      'Run the command <tt>ls</tt> 123 times.',
+      'Run the command <kbd>ls</kbd> 123 times.',
       (string)$translator->translate(
         'Run the command %s %d time(s).',
-        hsprintf('<tt>%s</tt>', 'ls'),
+        hsprintf('<kbd>%s</kbd>', 'ls'),
         123));
   }
 

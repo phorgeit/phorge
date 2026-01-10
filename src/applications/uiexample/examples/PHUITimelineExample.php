@@ -8,7 +8,7 @@ final class PHUITimelineExample extends PhabricatorUIExample {
   public function getDescription() {
     return pht(
       'Use %s to comments and transactions.',
-      hsprintf('<tt>PHUITimelineView</tt>'));
+      hsprintf('<code>PHUITimelineView</code>'));
   }
 
   public function renderExample() {

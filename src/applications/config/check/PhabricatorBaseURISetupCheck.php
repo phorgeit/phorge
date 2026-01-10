@@ -96,7 +96,8 @@ final class PhabricatorBaseURISetupCheck extends PhabricatorSetupCheck {
       ->setMessage($message)
       ->addCommand(
         hsprintf(
-          '<tt>%s $</tt>./bin/config set phabricator.base-uri %s',
+          '<samp>%s $</samp><kbd>./bin/config set phabricator.base-uri '.
+            '%s</kbd>',
           PlatformSymbols::getPlatformServerPath(),
           $base_uri_guess));
   }

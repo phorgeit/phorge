@@ -9,7 +9,7 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
   public function getDescription() {
     return pht(
       'Use %s to render lists of objects.',
-      hsprintf('<tt>PHUIObjectItemListView</tt>'));
+      hsprintf('<code>PHUIObjectItemListView</code>'));
   }
 
   public function renderExample() {

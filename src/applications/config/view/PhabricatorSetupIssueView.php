@@ -82,19 +82,19 @@ final class PhabricatorSetupIssueView extends AphrontView {
       $install_info = pht(
         'You can usually install a PHP extension using %s, %s, or %s. A '.
         'common package name is %s. Try commands like these:',
-        phutil_tag('tt', array(), 'apt-get'),
-        phutil_tag('tt', array(), 'dnf'),
-        phutil_tag('tt', array(), 'yum'),
-        hsprintf('<tt>php-<em>%s</em></tt>', pht('extname')));
+        phutil_tag('kbd', array(), 'apt-get'),
+        phutil_tag('kbd', array(), 'dnf'),
+        phutil_tag('kbd', array(), 'yum'),
+        hsprintf('<kbd>php-<em>%s</em></kbd>', pht('extname')));
 
       // TODO: We should do a better job of detecting how to install extensions
       // on the current system.
       $install_commands = hsprintf(
-        "<tt>$</tt>sudo apt-get install php-<em>extname</em>  ".
+        "<samp>$</samp><kbd>sudo apt-get install php-<em>extname</em></kbd>  ".
         "# Debian / Ubuntu\n".
-        "<tt>$</tt>sudo dnf install php-<em>extname</em>      ".
+        "<samp>$</samp><kbd>sudo dnf install php-<em>extname</em></kbd>      ".
         "# Red Hat / Derivatives\n".
-        "<tt>$</tt>sudo yum install php-<em>extname</em>      ".
+        "<samp>$</samp><kbd>sudo yum install php-<em>extname</em></kbd>      ".
         "# Older Red Hat versions");
 
       $fallback_info = pht(
@@ -293,7 +293,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
       $update = array();
       foreach ($configs as $key) {
         $update[] = hsprintf(
-          '<tt>%s $</tt>./bin/config set %s <em>value</em>',
+          '<samp>%s $</samp><kbd>./bin/config set %s <em>value</em></kbd>',
           PlatformSymbols::getPlatformServerPath(),
           $key);
       }
