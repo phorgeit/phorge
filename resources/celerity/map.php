@@ -17,7 +17,7 @@ return array(
     'diffusion.pkg.css' => '91e57dc1',
     'diffusion.pkg.js' => 'd06aa1f7',
     'maniphest.pkg.css' => '31ad4266',
-    'maniphest.pkg.js' => 'c9308721',
+    'maniphest.pkg.js' => 'f17ec1b3',
     'rsrc/audio/basic/alert.mp3' => '17889334',
     'rsrc/audio/basic/bing.mp3' => 'a817a0c3',
     'rsrc/audio/basic/coin.mp3' => '44ef365f',
@@ -340,7 +340,7 @@ return array(
     'rsrc/js/application/herald/HeraldRuleEditor.js' => '2633bef7',
     'rsrc/js/application/herald/PathTypeahead.js' => 'ad486db3',
     'rsrc/js/application/herald/herald-rule-editor.js' => '0922e81d',
-    'rsrc/js/application/maniphest/behavior-batch-selector.js' => '139ef688',
+    'rsrc/js/application/maniphest/behavior-batch-selector.js' => '1f5c3cb3',
     'rsrc/js/application/maniphest/behavior-line-chart.js' => 'ad258e28',
     'rsrc/js/application/maniphest/behavior-list-edit.js' => 'c687e867',
     'rsrc/js/application/owners/OwnersPathEditor.js' => '2a8b62d9',
@@ -571,7 +571,7 @@ return array(
     'javelin-behavior-lightbox-attachments' => '14c7ab36',
     'javelin-behavior-line-chart' => 'ad258e28',
     'javelin-behavior-linked-container' => '74446546',
-    'javelin-behavior-maniphest-batch-selector' => '139ef688',
+    'javelin-behavior-maniphest-batch-selector' => '1f5c3cb3',
     'javelin-behavior-maniphest-list-editor' => 'c687e867',
     'javelin-behavior-owners-path-editor' => 'ff688a7a',
     'javelin-behavior-passphrase-credential-control' => '48fe33d0',
@@ -959,12 +959,6 @@ return array(
       'javelin-uri',
       'phabricator-keyboard-shortcut',
     ),
-    '139ef688' => array(
-      'javelin-behavior',
-      'javelin-dom',
-      'javelin-stratcom',
-      'javelin-util',
-    ),
     '14c7ab36' => array(
       'javelin-behavior',
       'javelin-stratcom',
@@ -1000,6 +994,12 @@ return array(
     '1e413dc9' => array(
       'javelin-behavior',
       'javelin-dom',
+    ),
+    '1f5c3cb3' => array(
+      'javelin-behavior',
+      'javelin-dom',
+      'javelin-stratcom',
+      'javelin-util',
     ),
     '202a2e85' => array(
       'javelin-install',

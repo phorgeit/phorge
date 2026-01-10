@@ -171,7 +171,7 @@ abstract class AphrontResponse extends Phobject {
     // DarkConsole and PHPAST both use frames to render some content.
     $csp[] = $this->newContentSecurityPolicy('frame-src', "'self'");
 
-    // This is a more modern flavor of of "X-Frame-Options" and prevents
+    // This is a more modern flavor of "X-Frame-Options" and prevents
     // clickjacking attacks where the page is included in a tiny iframe and
     // the user is convinced to click a element on the page, which really
     // clicks a dangerous button hidden under a picture of a cat.

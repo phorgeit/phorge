@@ -87,7 +87,7 @@ JX.behavior('maniphest-batch-selector', function(config) {
     JX.DOM.alterClass(submit, 'disabled', disable);
   };
 
-  // When he user shift-clicks the task, update the rest of the application
+  // When the user shift-clicks the task, update the rest of the application
   // state.
 
   JX.Stratcom.listen(

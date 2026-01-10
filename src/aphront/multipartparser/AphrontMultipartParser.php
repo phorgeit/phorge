@@ -87,8 +87,8 @@ final class AphrontMultipartParser extends Phobject {
           }
 
           if (!strncmp($this->buffer, "\r\n", 2)) {
-            // This is "\r\n" after a boundary, so we're going to going to
-            // read the headers for a part.
+            // This is "\r\n" after a boundary, so we're going to read the
+            // headers for a part.
             $this->buffer = substr($this->buffer, 2);
             $this->state = 'header';
 
