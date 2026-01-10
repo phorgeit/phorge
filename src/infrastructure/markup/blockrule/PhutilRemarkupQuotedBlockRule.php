@@ -109,7 +109,7 @@ abstract class PhutilRemarkupQuotedBlockRule
       if (isset($line[0])) {
         $c = $line[0];
       } else {
-        $c = null;
+        $c = '';
       }
 
       if (isset($no_whitespace[$c])) {
