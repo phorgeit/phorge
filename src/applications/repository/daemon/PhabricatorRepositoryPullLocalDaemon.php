@@ -266,10 +266,12 @@ final class PhabricatorRepositoryPullLocalDaemon
             }
           }
 
-          $retry_after[$repository_id] = $this->resolveUpdateFuture(
-            $pullable[$repository_id],
-            $future,
-            $min_sleep);
+          if ($repository_id !== null) {
+            $retry_after[$repository_id] = $this->resolveUpdateFuture(
+              $pullable[$repository_id],
+              $future,
+              $min_sleep);
+          }
 
           // We have a free slot now, so go try to fill it.
           break;
