@@ -365,7 +365,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
 
   private function groupRelatedTransactions(array $xactions) {
     $last = null;
-    $last_key = null;
+    $last_key = '';
     $groups = array();
     foreach ($xactions as $key => $xaction) {
       if ($last && $this->shouldGroupTransactions($last, $xaction)) {
