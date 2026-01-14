@@ -27,7 +27,7 @@ final class CelerityDarkModePostprocessor
       'dropshadow' => '0 2px 12px rgba(0, 0, 0, .20)',
 
       // Anchors
-      'anchor' => '#3498db',
+      'anchor' => '#46b2ff',
 
       // Base Colors
       'red'           => '#c0392b',
