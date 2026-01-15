@@ -1386,7 +1386,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     if ($image_x && $image_y) {
       $stats[] = pht(
-        "%d\xC3\x97%d px",
+        "%s\xC3\x97%s px",
         new PhutilNumber($image_x),
         new PhutilNumber($image_y));
     }
