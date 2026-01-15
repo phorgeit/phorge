@@ -1381,8 +1381,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     $stats = array();
 
-    $image_x = $this->getImageHeight();
-    $image_y = $this->getImageWidth();
+    $image_x = $this->getImageWidth();
+    $image_y = $this->getImageHeight();
 
     if ($image_x && $image_y) {
       $stats[] = pht(
