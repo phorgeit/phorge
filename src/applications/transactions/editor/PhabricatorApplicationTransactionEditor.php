@@ -2260,7 +2260,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @param PhabricatorLiskDAO $object
    * @param array<PhabricatorApplicationTransaction> $xactions
    * @param array<PhabricatorTransactionRemarkupChange> $remarkup_changes
-   * @return PhabricatorApplicationTransaction
+   * @return PhabricatorApplicationTransaction|null
    */
   private function newFileTransaction(
     PhabricatorLiskDAO $object,

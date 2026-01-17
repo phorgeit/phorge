@@ -134,11 +134,11 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Internal. Use @{method:newFromDictionary}, not this method.
    *
-   * @param   string            $identifier  Repository identifier.
-   * @param   PhabricatorUser   $viewer  Viewing user.
-   * @param   bool              $need_edit (optional)
-   * @return  DiffusionRequest  New request object, or null if no repository is
-   *   found.
+   * @param   string                 $identifier  Repository identifier.
+   * @param   PhabricatorUser        $viewer  Viewing user.
+   * @param   bool                   $need_edit (optional)
+   * @return  DiffusionRequest|null  New request object, or null if no
+   *   repository is found.
    * @task new
    */
   private static function newFromIdentifier(

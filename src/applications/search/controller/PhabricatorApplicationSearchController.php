@@ -919,7 +919,7 @@ final class PhabricatorApplicationSearchController
   }
 
   /**
-   * @return PhabricatorActionView
+   * @return array<PhabricatorActionView>
    */
   private function newBuiltinUseActions() {
     $actions = array();

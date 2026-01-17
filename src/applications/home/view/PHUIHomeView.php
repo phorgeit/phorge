@@ -85,7 +85,7 @@ final class PHUIHomeView
   }
 
   /**
-   * @return PHUIObjectBoxView
+   * @return PHUIObjectBoxView|null
    */
   private function buildRevisionPanel() {
     $viewer = $this->getViewer();

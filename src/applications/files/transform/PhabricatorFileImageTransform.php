@@ -161,7 +161,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
    *
    * @param int $w Desired image width.
    * @param int $h Desired image height.
-   * @return resource New image resource.
+   * @return GdImage|resource New GD image resource.
    */
   protected function newEmptyImage($w, $h) {
     $w = (int)$w;
@@ -283,7 +283,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Get the GD image resource for the image being transformed.
    *
-   * @return resource GD image resource.
+   * @return GdImage|resource GD image resource.
    */
   protected function getImage() {
     if ($this->image !== null) {

@@ -454,7 +454,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
    *
    * @param   string        $message Message explaining why the diff is hidden.
    * @param   string|null   $force Force mode, see above.
-   * @return  string        Shield markup.
+   * @return  string|null   Shield markup.
    */
   abstract public function renderShield($message, $force = 'default');
 
