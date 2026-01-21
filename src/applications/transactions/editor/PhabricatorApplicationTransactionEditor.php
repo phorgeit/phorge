@@ -602,6 +602,20 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_COMMENT:
         return null;
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+        $new_value = $xaction->getNewValue();
+        foreach ($new_value as $subscribers) {
+          foreach ($subscribers as $key => $subscriber) {
+            if (phid_get_type($key) ===
+                PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+              throw new Exception(
+                pht(
+                  'Subscriber transactions must be existing PHIDs or '.
+                  'usernames (found key "%s" on transaction of type "%s").',
+                  $key,
+                  $type));
+            }
+          }
+        }
         return $this->getPHIDTransactionNewValue($xaction);
       case PhabricatorTransactions::TYPE_VIEW_POLICY:
       case PhabricatorTransactions::TYPE_EDIT_POLICY:
