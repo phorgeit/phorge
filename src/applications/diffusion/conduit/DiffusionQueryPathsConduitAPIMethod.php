@@ -82,7 +82,7 @@ final class DiffusionQueryPathsConduitAPIMethod
     $limit = (int)$request->getValue('limit');
     $offset = (int)$request->getValue('offset');
 
-    if (strlen($pattern)) {
+    if (phutil_nonempty_string($pattern)) {
       // Add delimiters to the regex pattern.
       $pattern = '('.$pattern.')';
     }
@@ -90,7 +90,7 @@ final class DiffusionQueryPathsConduitAPIMethod
     $results = array();
     $count = 0;
     foreach ($lines as $line) {
-      if (strlen($pattern) && !preg_match($pattern, $line)) {
+      if (phutil_nonempty_string($pattern) && !preg_match($pattern, $line)) {
         continue;
       }
 
