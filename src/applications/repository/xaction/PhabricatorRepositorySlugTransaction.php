@@ -25,11 +25,11 @@ final class PhabricatorRepositorySlugTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (strlen($old) && !strlen($new)) {
+    if (phutil_nonempty_string($old) && !phutil_nonempty_string($new)) {
       return pht(
         '%s removed the short name of this repository.',
         $this->renderAuthor());
-    } else if (strlen($new) && !strlen($old)) {
+    } else if (phutil_nonempty_string($new) && !phutil_nonempty_string($old)) {
       return pht(
         '%s set the short name of this repository to %s.',
         $this->renderAuthor(),
@@ -50,7 +50,7 @@ final class PhabricatorRepositorySlugTransaction
       $old = $xaction->getOldValue();
       $new = $xaction->getNewValue();
 
-      if (!strlen($new)) {
+      if (!phutil_nonempty_string($new)) {
         continue;
       }
 
