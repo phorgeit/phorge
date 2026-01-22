@@ -61,6 +61,10 @@ details > summary.phui-header-shell::marker {
   content: none;
 }
 
+details > summary.phui-header-shell::-webkit-details-marker {
+  display: none;
+}
+
 .device-phone details > summary.phui-header-shell::after,
 .device-tablet details > summary.phui-header-shell::after {
   font-family: FontAwesome;
