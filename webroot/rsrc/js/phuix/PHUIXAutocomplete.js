@@ -157,9 +157,9 @@ JX.install('PHUIXAutocomplete', {
           JX.bind(this, this._onresults, code));
 
         datasource.setTransformer(JX.bind(this, this._transformresult));
-        // List users first who are involved in the object
-        var involvedUsers = 'involvedUsers' in spec ? spec.involvedUsers : null;
-        if (involvedUsers !== null && involvedUsers.length !== 0) {
+        // List users first who are involved in the object.
+        var involvedUsers = spec.involvedUsers;
+        if (involvedUsers && involvedUsers.length !== 0) {
           datasource.setSortHandler(function(value, list) {
             list.sort(function(u,v){
             var usort = involvedUsers.includes(u.id) ? 0 : 1;
