@@ -60,10 +60,14 @@ final class ManiphestUpdateConduitAPIMethod extends ManiphestConduitAPIMethod {
     $task = $query->executeOne();
 
     $params = $request->getAllParameters();
+
+    // Strip non-actions for the next validation.
     unset($params['id']);
     unset($params['phid']);
 
-    if (call_user_func_array('coalesce', $params) === null) {
+    // Require at least one non-null action.
+    $param_values = array_values($params);
+    if (call_user_func_array('coalesce', $param_values) === null) {
       throw new ConduitException('ERR-NO-EFFECT');
     }
 
