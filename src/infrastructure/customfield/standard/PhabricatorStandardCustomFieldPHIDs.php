@@ -115,7 +115,7 @@ abstract class PhabricatorStandardCustomFieldPHIDs
 
     if ($add && !$rem) {
       return pht(
-        '%s updated %s, added %d: %s.',
+        '%s updated %s, added %s: %s.',
         $xaction->renderHandleLink($author_phid),
         $this->getFieldName(),
         phutil_count($add),
@@ -152,7 +152,7 @@ abstract class PhabricatorStandardCustomFieldPHIDs
 
     if ($add && !$rem) {
       return pht(
-        '%s updated %s for %s, added %d: %s.',
+        '%s updated %s for %s, added %s: %s.',
         $xaction->renderHandleLink($author_phid),
         $this->getFieldName(),
         $xaction->renderHandleLink($object_phid),

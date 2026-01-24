@@ -5423,6 +5423,7 @@ phutil_register_library_map(array(
     'PhorgePHPASTViewRunController' => 'applications/phpast/controller/PhorgePHPASTViewRunController.php',
     'PhorgePHPASTViewStreamController' => 'applications/phpast/controller/PhorgePHPASTViewStreamController.php',
     'PhorgePHPASTViewTreeController' => 'applications/phpast/controller/PhorgePHPASTViewTreeController.php',
+    'PhorgeStringablePlaceholder' => 'infrastructure/internationalization/management/PhorgeStringablePlaceholder.php',
     'PhorgeSystemDeprecationWarningListener' => 'applications/system/events/PhorgeSystemDeprecationWarningListener.php',
     'PhortuneAccount' => 'applications/phortune/storage/PhortuneAccount.php',
     'PhortuneAccountAddManagerController' => 'applications/phortune/controller/account/PhortuneAccountAddManagerController.php',
@@ -12297,6 +12298,7 @@ phutil_register_library_map(array(
     'PhorgePHPASTViewRunController' => 'PhabricatorXHPASTViewController',
     'PhorgePHPASTViewStreamController' => 'PhorgePHPASTViewPanelController',
     'PhorgePHPASTViewTreeController' => 'PhorgePHPASTViewPanelController',
+    'PhorgeStringablePlaceholder' => 'Phobject',
     'PhorgeSystemDeprecationWarningListener' => 'PhabricatorEventListener',
     'PhortuneAccount' => array(
       'PhortuneDAO',

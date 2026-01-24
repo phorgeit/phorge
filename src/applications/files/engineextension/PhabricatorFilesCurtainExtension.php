@@ -100,7 +100,7 @@ final class PhabricatorFilesCurtainExtension
       if ($loaded_count > $exact_limit) {
         $link_text = pht('View All Files');
       } else {
-        $link_text = pht('View All %d Files', new PhutilNumber($loaded_count));
+        $link_text = pht('View All %s Files', new PhutilNumber($loaded_count));
       }
 
       $ref_list->newTailLink()

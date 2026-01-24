@@ -169,8 +169,8 @@ abstract class PhabricatorPasswordHasher extends Phobject {
     if ($actual_len > $expect_len) {
       throw new Exception(
         pht(
-          "Password hash '%s' produced a hash of length %d, but a ".
-          "maximum length of %d was expected.",
+          "Password hash '%s' produced a hash of length %s, but a ".
+          "maximum length of %s was expected.",
           $name,
           new PhutilNumber($actual_len),
           new PhutilNumber($expect_len)));

@@ -960,7 +960,7 @@ final class DifferentialChangesetParser extends Phobject {
           $shield_text,
           ' ',
           pht(
-            'This file has %d collapsed inline comment(s).',
+            'This file has %s collapsed inline comment(s).',
             new PhutilNumber($collapsed_count)),
         );
       }

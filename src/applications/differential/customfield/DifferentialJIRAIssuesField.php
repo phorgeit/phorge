@@ -217,7 +217,7 @@ final class DifferentialJIRAIssuesField
     $author_phid = $xaction->getAuthorPHID();
     if ($add && $rem) {
       return pht(
-        '%s updated JIRA issue(s): added %d %s; removed %d %s.',
+        '%s updated JIRA issue(s): added %s: %s; removed %s: %s.',
         $xaction->renderHandleLink($author_phid),
         phutil_count($add),
         implode(', ', $add),
@@ -225,13 +225,13 @@ final class DifferentialJIRAIssuesField
         implode(', ', $rem));
     } else if ($add) {
       return pht(
-        '%s added %d JIRA issue(s): %s.',
+        '%s added %s JIRA issue(s): %s.',
         $xaction->renderHandleLink($author_phid),
         phutil_count($add),
         implode(', ', $add));
     } else if ($rem) {
       return pht(
-        '%s removed %d JIRA issue(s): %s.',
+        '%s removed %s JIRA issue(s): %s.',
         $xaction->renderHandleLink($author_phid),
         phutil_count($rem),
         implode(', ', $rem));

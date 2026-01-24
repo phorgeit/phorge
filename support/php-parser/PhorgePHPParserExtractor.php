@@ -3,25 +3,25 @@
 final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
   private static $knownTypes = array(
     'PhabricatorEdgeType' => array(
-      'getTransactionAddString' => array(null, 'number', null),
-      'getTransactionRemoveString' => array(null, 'number', null),
+      'getTransactionAddString' => array(null, 'phutilnumber', null),
+      'getTransactionRemoveString' => array(null, 'phutilnumber', null),
       'getTransactionEditString' => array(
          null,
-         'number',
-         'number',
+         'phutilnumber',
+         'phutilnumber',
          null,
-         'number',
+         'phutilnumber',
          null,
       ),
-      'getFeedAddString' => array(null, null, 'number', null),
-      'getFeedRemoveString' => array(null, null, 'number', null),
+      'getFeedAddString' => array(null, null, 'phutilnumber', null),
+      'getFeedRemoveString' => array(null, null, 'phutilnumber', null),
       'getFeedEditString' => array(
         null,
         null,
-        'number',
-        'number',
+        'phutilnumber',
+        'phutilnumber',
         null,
-        'number',
+        'phutilnumber',
         null,
       ),
     ),
@@ -73,6 +73,7 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
     } else if ($node instanceof PhpParser\Node\Expr\FuncCall) {
       switch ($this->getName($node)) {
         case 'phutil_count':
+          return 'phutilnumber';
         case 'count':
           return 'number';
         case 'phutil_person':
@@ -80,7 +81,7 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
       }
     } else if ($node instanceof PhpParser\Node\Expr\New_ ) {
       if ($this->getName($node->class) == 'PhutilNumber') {
-        return 'number';
+        return 'phutilnumber';
       }
     } else if ($node instanceof PhpParser\Node\Expr\Variable) {
       $name = $this->getName($node);

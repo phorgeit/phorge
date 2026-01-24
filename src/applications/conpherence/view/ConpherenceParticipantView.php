@@ -90,7 +90,7 @@ final class ConpherenceParticipantView extends AphrontView {
       ->addSigil('conpherence-widget-adder');
 
     $header = id(new PHUIHeaderView())
-      ->setHeader(pht('Participants (%d)', $count))
+      ->setHeader(pht('Participants (%s)', $count))
       ->addClass('widgets-header')
       ->addActionItem($new_icon);
 

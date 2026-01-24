@@ -564,7 +564,7 @@ final class PhabricatorUser
 
   public static function describeValidRealName() {
     return pht(
-      'Real Name must have no more than %d characters.',
+      'Real Name must have no more than %s characters.',
       new PhutilNumber(self::MAXIMUM_REALNAME_LENGTH));
   }
 

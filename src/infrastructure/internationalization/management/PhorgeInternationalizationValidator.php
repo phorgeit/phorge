@@ -16,14 +16,51 @@ final class PhorgeInternationalizationValidator extends Phobject {
         }
         $data = [];
         foreach ($types as $type) {
-          $data[] = $type === 'number' ? 3: 'abc';
+          if ($type === 'phutilnumber') {
+            // Make a class that can be converted into a string
+            // (to mimic the conversion pht() will do)
+            // but not to a number (the double-conversion loses data)
+            // See T16454
+            $data[] = new PhorgeStringablePlaceholder();
+          } else if ($type === 'number') {
+            // no good way to check numbers being converted to strings
+            // without parsing the format specifier ourself
+            // (remember xsprintf can't work with translated strings since
+            // they can use backreferences, format specifiers, etc)
+            $data[] = 3;
+          } else if ($type === null) {
+            // This could either be a string or a number, let PHP type
+            // conversions handle it
+            $data[] = 'abc';
+          } else {
+            throw new Exception(pht('Bogus type "%s" for "%s"', $type, $proto));
+          }
         }
         try {
-         $parsed = vsprintf($transl, $data);
+          $parsed = vsprintf($transl, $data);
         } catch (ValueError $ex) {
-         // In PHP 8 vsprintf throws a ValueError for bad data;
-         // in PHP7 it returns false
-         $parsed = false;
+          // In PHP 8 vsprintf throws a ValueError for bad data;
+          // in PHP7 it returns false
+          $parsed = false;
+        } catch (RuntimeException $ex) {
+          // The types of the args don't match (the RuntimeException comes
+          // from PhutilErrorHandler.php throwing what was originally a PHP
+          // warning)
+          $msg = $ex->getMessage();
+          if ($msg === 'Object of class PhorgeStringablePlaceholder '.
+          'could not be converted to int') {
+            $errors[] = pht(
+              'The locale `%s` defines a translation for the key `%s` which '.
+              'uses %%d to represent a PhutilNumber. This loses data if the  '.
+              'number ends up being formatted with thousands specifiers. '.
+              'See T16454',
+              $locale,
+              $proto);
+            return $errors;
+          }
+          // This shouldn't happen, but if something else goes wrong fall
+          // through to the generic `failed to interpolate properly` error
+          $parsed = false;
         }
         if ($parsed === false) {
           $errors[] = pht(
@@ -101,6 +138,15 @@ final class PhorgeInternationalizationValidator extends Phobject {
           $spec['types'],
           0));
       }
+      // Run it on the proto-English as a translation too
+      // since this also does some parameter type checking
+      // (some of which may belong better in a linter than here)
+      $errors = array_merge($errors, $this->validateTranslation(
+        id(new PhutilRawEnglishLocale())->getLocaleCode(),
+        $string,
+        $string,
+        $spec['types'],
+        0));
       // Check for missing branches in US english
       if (str_contains($string, '(s)')) {
         if (!isset($keyed_translations[$string]['en_US'])) {

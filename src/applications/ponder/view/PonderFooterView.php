@@ -38,7 +38,7 @@ final class PonderFooterView extends AphrontTagView {
     if ($this->count == 0) {
       $text = pht('Add a Comment');
     } else {
-      $text = pht('Show %d Comment(s)', new PhutilNumber($this->count));
+      $text = pht('Show %s Comment(s)', new PhutilNumber($this->count));
     }
 
     $actions = array();

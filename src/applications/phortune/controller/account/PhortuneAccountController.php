@@ -146,7 +146,7 @@ abstract class PhortuneAccountController
     $merchant_list = phutil_implode_html(', ', $merchant_list);
 
     $merchant_message = pht(
-      'You can view this account because you control %d merchant(s) it '.
+      'You can view this account because you control %s merchant(s) it '.
       'has a relationship with: %s.',
       phutil_count($merchants),
       $merchant_list);

@@ -14,7 +14,7 @@ final class PhabricatorUSEnglishTranslation
         'These configuration values are related:',
       ),
       '%s Answer(s)' => array('%s Answer', '%s Answers'),
-      'Show %d Comment(s)' => array('Show %d Comment', 'Show %d Comments'),
+      'Show %s Comment(s)' => array('Show %s Comment', 'Show %s Comments'),
 
       '%s DIFF LINK(S)' => array('DIFF LINK', 'DIFF LINKS'),
       'You successfully created %d diff(s).' => array(
@@ -1288,7 +1288,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
 
-      '%s updated %s, added %d: %s.' =>
+      '%s updated %s, added %s: %s.' =>
         '%s updated %s, added: %4$s.',
 
       '%s updated %s, removed %s: %s.' =>
@@ -1297,7 +1297,7 @@ final class PhabricatorUSEnglishTranslation
       '%s updated %s, added %s: %s; removed %s: %s.' =>
         '%s updated %s, added: %4$s; removed: %6$s.',
 
-      '%s updated %s for %s, added %d: %s.' =>
+      '%s updated %s for %s, added %s: %s.' =>
         '%s updated %s for %s, added: %5$s.',
 
       '%s updated %s for %s, removed %s: %s.' =>
@@ -1306,8 +1306,8 @@ final class PhabricatorUSEnglishTranslation
       '%s updated %s for %s, added %s: %s; removed %s: %s.' =>
         '%s updated %s for %s, added: %5$s; removed; %7$s.',
 
-      '%s updated JIRA issue(s): added %d %s; removed %d %s.' =>
-        '%s updated JIRA issues: added %3$s; removed: %5$s.',
+      '%s updated JIRA issue(s): added %s: %s; removed %s: %s.' =>
+        '%s updated JIRA issues: added: %3$s; removed: %5$s.',
 
       'Permanently destroyed %s object(s).' => array(
         'Permanently destroyed %s object.',
@@ -1633,14 +1633,14 @@ final class PhabricatorUSEnglishTranslation
       '%s updated %s attached file(s), removed %s: %s; modified %s: %s.' =>
         '%s updated attached files, removed %4$s; modified: %6$s.',
 
-      '%s added %d JIRA issue(s): %s.' =>
+      '%s added %s JIRA issue(s): %s.' =>
       array(
         array(
             '%s added a JIRA issue: %3$s.',
             '%s added JIRA issues: %3$s.',
         ),
       ),
-      '%s removed %d JIRA issue(s): %s.' =>
+      '%s removed %s JIRA issue(s): %s.' =>
       array(
         array(
             '%s removed a JIRA issue: %3$s.',
@@ -1755,9 +1755,9 @@ final class PhabricatorUSEnglishTranslation
           'Reset %s action.',
           'Reset %s actions.',
       ),
-      'Rebuilding %d resource source(s).' => array(
-          'Rebuilding %d resource source.',
-          'Rebuilding %d resource sources.',
+      'Rebuilding %s resource source(s).' => array(
+          'Rebuilding %s resource source.',
+          'Rebuilding %s resource sources.',
       ),
       'Detected %s serious issue(s) with the schemata.' => array(
           'Detected a serious issue with the schemata.',
@@ -1779,9 +1779,9 @@ final class PhabricatorUSEnglishTranslation
           'Rebuilding %s changeset for diff ID %d.',
           'Rebuilding %s changesets for diff ID %d.',
       ),
-      'This file has %d collapsed inline comment(s).' => array(
+      'This file has %s collapsed inline comment(s).' => array(
           'This file has one collapsed inline comment.',
-          'This file has %d collapsed inline comments.',
+          'This file has %s collapsed inline comments.',
       ),
       'This file took too long to load from the repository '.
       '(more than %s second(s)).' => array(
@@ -1905,12 +1905,12 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
       'You can view this account because you control '.
-      '%d merchant(s) it has a relationship with: %s.' =>
+      '%s merchant(s) it has a relationship with: %s.' =>
       array(
           'You can view this account because you control '.
           'a merchant it has a relationship with: %2$s.',
           'You can view this account because you control '.
-          '%d merchants it has a relationship with: %s.',
+          '%s merchants it has a relationship with: %s.',
       ),
       'Used on %s active column(s).' =>
       array(
@@ -2021,15 +2021,15 @@ final class PhabricatorUSEnglishTranslation
           'Query timed out after %s second!',
           'Query timed out after %s seconds!',
       ),
-      'Failed to write %d byte(s) to file "%s".' =>
+      'Failed to write %s byte(s) to file "%s".' =>
       array(
-          'Failed to write %d byte to file "%s".',
-          'Failed to write %d bytes to file "%s".',
+          'Failed to write %s byte to file "%s".',
+          'Failed to write %s bytes to file "%s".',
       ),
-      'Failed to write %d byte(s) to "%s".' =>
+      'Failed to write %s byte(s) to "%s".' =>
       array(
-          'Failed to write %d byte to "%s".',
-          'Failed to write %d bytes to "%s".',
+          'Failed to write %s byte to "%s".',
+          'Failed to write %s bytes to "%s".',
       ),
       'This lock was most recently acquired by '.
       'a process (%s) %s second(s) ago.' =>
@@ -2288,9 +2288,9 @@ final class PhabricatorUSEnglishTranslation
         'Done, compacted %s edge transaction.',
         'Done, compacted %s edge transactions.',
       ),
-      '%d line(s)' => array(
-        '%d line',
-        '%d line(s)',
+      '%s line(s)' => array(
+        '%s line',
+        '%s line(s)',
       ),
       'Adjusted **%s** create statements and **%s** use statements.' => array(
         array(
