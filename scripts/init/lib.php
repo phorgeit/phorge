@@ -28,5 +28,8 @@ function init_phabricator_script(array $options) {
   phutil_load_library(dirname(__FILE__).'/../../src/');
 
   $config_optional = $options['config.optional'];
-  PhabricatorEnv::initializeScriptEnvironment($config_optional);
+  $no_extensions = $options['no-extensions'] ?? false;
+  PhabricatorEnv::initializeScriptEnvironment(
+    $config_optional,
+    $no_extensions);
 }

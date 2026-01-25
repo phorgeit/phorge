@@ -57,9 +57,18 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     return $config;
   }
 
+  /** @phutil-external-symbol function init_phabricator_script */
   public function willRunTestCases(array $test_cases) {
     $root = dirname(phutil_get_library_root('phabricator'));
-    require_once $root.'/scripts/__init_script__.php';
+    if (!function_exists('init_phabricator_script')) {
+      // Run the initialization routines only if nothing else already did
+      require_once $root.'/scripts/init/lib.php';
+      init_phabricator_script(
+        array(
+        'config.optional' => false,
+        'no-extensions' => true,
+      ));
+    }
 
     $config = $this->getComputedConfiguration();
 

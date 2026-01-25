@@ -68,11 +68,13 @@ final class PhabricatorEnv extends Phobject {
    * @phutil-external-symbol class PhabricatorStartup
    */
   public static function initializeWebEnvironment() {
-    self::initializeCommonEnvironment(false);
+    self::initializeCommonEnvironment(false, false);
   }
 
-  public static function initializeScriptEnvironment($config_optional) {
-    self::initializeCommonEnvironment($config_optional);
+  public static function initializeScriptEnvironment(
+    $config_optional,
+    $no_extensions) {
+    self::initializeCommonEnvironment($config_optional, $no_extensions);
 
     // NOTE: This is dangerous in general, but we know we're in a script context
     // and are not vulnerable to CSRF.
@@ -88,11 +90,13 @@ final class PhabricatorEnv extends Phobject {
   }
 
 
-  private static function initializeCommonEnvironment($config_optional) {
+  private static function initializeCommonEnvironment(
+    $config_optional,
+    $no_extensions) {
     PhutilErrorHandler::initialize();
 
     self::resetUmask();
-    self::buildConfigurationSourceStack($config_optional);
+    self::buildConfigurationSourceStack($config_optional, $no_extensions);
 
     // Force a valid timezone. If both PHP and Phabricator configuration are
     // invalid, use UTC.
@@ -179,7 +183,8 @@ final class PhabricatorEnv extends Phobject {
     }
   }
 
-  private static function buildConfigurationSourceStack($config_optional) {
+  private static function buildConfigurationSourceStack(
+    $config_optional, $no_extensions) {
     self::dropConfigCache();
 
     $stack = new PhabricatorConfigStackSource();
@@ -203,8 +208,10 @@ final class PhabricatorEnv extends Phobject {
     // If the install overrides the database adapter, we might need to load
     // the database adapter class before we can push on the database config.
     // This config is locked and can't be edited from the web UI anyway.
-    foreach (self::getEnvConfig('load-libraries') as $library) {
-      phutil_load_library($library);
+    if (!$no_extensions) {
+      foreach (self::getEnvConfig('load-libraries') as $library) {
+        phutil_load_library($library);
+      }
     }
 
     // Drop any class map caches, since they will have generated without
