@@ -14,7 +14,7 @@ final class PhorgeInternationalizationValidator extends Phobject {
             new PhutilNumber($n + 1),
             phutil_count($types));
         }
-        $data = [];
+        $data = array();
         foreach ($types as $type) {
           if ($type === 'phutilnumber') {
             // Make a class that can be converted into a string
@@ -93,10 +93,10 @@ final class PhorgeInternationalizationValidator extends Phobject {
     return $errors;
   }
   public function validateLibraries($loaded_json) {
-    $errors = [];
+    $errors = array();
     $all_translations = PhutilTranslation::getAllTranslations();
     $locales = PhutilLocale::loadAllLocales();
-    $keyed_translations = [];
+    $keyed_translations = array();
     $override_key = 'translation.override';
     try {
       $trans_override = PhabricatorEnv::getEnvConfig($override_key);
@@ -164,23 +164,32 @@ final class PhorgeInternationalizationValidator extends Phobject {
     }
     return $errors;
   }
-  public function loadExtractions($run_extractor) {
+  public function loadExtractions($run_extractor, $quiet = false) {
     $libraries = PhutilBootloader::getInstance()->getAllLibraries();
     $phorge_root = phutil_get_library_root('phorge');
-    $i18n_bin = $phorge_root.'/../bin/i18n';
-    $all_json = [];
+    $i18n_bin = Filesystem::resolvePath('../bin/i18n', $phorge_root);
+    $all_json = array();
     foreach ($libraries as $lib) {
       $root = phutil_get_library_root($lib);
-      $json = Filesystem::resolvePath($root.'/.cache/i18n_strings.json');
+      $json = Filesystem::resolvePath('.cache/i18n_strings.json', $root);
       if ($run_extractor) {
-        $err = phutil_passthru(
-          '%R extract %s',
-          $i18n_bin,
-          $root);
-        if ($err) {
-          throw new Exception(pht(
-            'Failed to run i18n extractor: %s',
-            $err));
+        // The command needs to be stated twice to avoid the linter complaining
+        // about the arg not being a scalar string
+        if ($quiet) {
+          execx(
+            '%R extract %s',
+            $i18n_bin,
+            $root);
+        } else {
+          $err = phutil_passthru(
+            '%R extract %s',
+            $i18n_bin,
+            $root);
+          if ($err) {
+            throw new Exception(pht(
+              'Failed to run i18n extractor: %s',
+              $err));
+          }
         }
       } else if (!Filesystem::pathExists($json)) {
         throw new Exception(pht(
