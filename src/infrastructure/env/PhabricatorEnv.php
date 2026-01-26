@@ -69,12 +69,29 @@ final class PhabricatorEnv extends Phobject {
    */
   public static function initializeWebEnvironment() {
     self::initializeCommonEnvironment(false, false);
+
+    // Set up en_US locale for now so that, for instance, if you haven't
+    // set up your database at all it says "Run this command" rather than
+    // "Run these 1 command(s)"
+    // If there aren't any setup problems, then this will get overwritten with
+    // the logged-in user's locale or the locale specified in global default
+    // settings by PhabricatorAuthSessionEngine::willServeRequestForUser
+    // which is called from PhabricatorController:willBeginExecution
+    self::setLocaleCode('en_US');
+
   }
 
   public static function initializeScriptEnvironment(
     $config_optional,
     $no_extensions) {
     self::initializeCommonEnvironment($config_optional, $no_extensions);
+
+    // Set the default locale for command-line scripts
+    self::setLocaleCode(self::getEnvConfig('locale.command'));
+
+    // If a script has a --locale argument then go through our system for
+    // setting locales
+    PhutilArgumentParser::setLocaleCallback(array(__CLASS__, 'setLocaleCode'));
 
     // NOTE: This is dangerous in general, but we know we're in a script context
     // and are not vulnerable to CSRF.
@@ -135,10 +152,6 @@ final class PhabricatorEnv extends Phobject {
     }
 
     PhabricatorEventEngine::initialize();
-
-    // TODO: Add a "locale.default" config option once we have some reasonable
-    // defaults which aren't silly nonsense.
-    self::setLocaleCode('en_US');
 
     // Load the preamble utility library if we haven't already. On web
     // requests this loaded earlier, but we want to load it for non-web

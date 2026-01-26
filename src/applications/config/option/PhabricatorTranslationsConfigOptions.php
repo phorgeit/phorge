@@ -32,6 +32,16 @@ final class PhabricatorTranslationsConfigOptions
         ->addExample(
           '{"some string": "my alternative"}',
           pht('Valid Setting')),
+      // Ideally this would be an enum but it can't be because of bootstrapping
+      // problems - this code runs before extensions load, so if we load
+      // locales now to populate the enum then locales defined by extensions
+      // wouldn't load.
+      $this->newOption('locale.command', 'string', 'en_US')
+        ->setSummary(pht('Locale code of command-line locale.'))
+        ->setDescription(pht(
+          'What locale to use for command-line scripts that '.
+          'don\'t specify a `%s` argument.',
+          '--locale')),
     );
   }
 
