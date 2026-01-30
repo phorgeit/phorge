@@ -41,6 +41,13 @@ final class PhabricatorProjectBoardViewController
     if ($project->getHasWorkboard()) {
       $layout_engine = $state->getLayoutEngine();
       $columns = $layout_engine->getColumns($board_phid);
+    } else {
+      // Avoid setting up from scratch if board existed but got disabled
+      $columns = id(new PhabricatorProjectColumnQuery())
+        ->setViewer($viewer)
+        ->withProjectPHIDs(array($project->getPHID()))
+        ->withIsProxyColumn(false)
+        ->execute();
     }
 
     if (!$columns || !$project->getHasWorkboard()) {
@@ -941,18 +948,18 @@ final class PhabricatorProjectBoardViewController
           ->setProjectPHID($project->getPHID())
           ->save();
 
-          $xactions = array();
-          $xactions[] = id(new PhabricatorProjectTransaction())
-            ->setTransactionType(
-                PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
-            ->setNewValue(1);
+        $xactions = array();
+        $xactions[] = id(new PhabricatorProjectTransaction())
+          ->setTransactionType(
+              PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
+          ->setNewValue(1);
 
-          id(new PhabricatorProjectTransactionEditor())
-            ->setActor($viewer)
-            ->setContentSourceFromRequest($request)
-            ->setContinueOnNoEffect(true)
-            ->setContinueOnMissingFields(true)
-            ->applyTransactions($project, $xactions);
+        id(new PhabricatorProjectTransactionEditor())
+          ->setActor($viewer)
+          ->setContentSourceFromRequest($request)
+          ->setContinueOnNoEffect(true)
+          ->setContinueOnMissingFields(true)
+          ->applyTransactions($project, $xactions);
 
         return id(new AphrontRedirectResponse())
           ->setURI($board_uri);
