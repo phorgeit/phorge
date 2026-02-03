@@ -12,7 +12,7 @@ return array(
     'core.pkg.css' => '8755ddc1',
     'core.pkg.js' => '83c66b30',
     'dark-console.pkg.js' => '187792c2',
-    'differential.pkg.css' => 'abdb4fe9',
+    'differential.pkg.css' => '0dac8831',
     'differential.pkg.js' => '46fcb3af',
     'diffusion.pkg.css' => '91e57dc1',
     'diffusion.pkg.js' => 'd06aa1f7',
@@ -77,7 +77,7 @@ return array(
     'rsrc/css/application/herald/herald.css' => '648d39e2',
     'rsrc/css/application/maniphest/report.css' => '3d53188b',
     'rsrc/css/application/maniphest/task-summary.css' => 'dc5d8e1f',
-    'rsrc/css/application/objectselector/object-selector.css' => 'ee77366f',
+    'rsrc/css/application/objectselector/object-selector.css' => '80622c84',
     'rsrc/css/application/owners/owners-path-editor.css' => 'fa7c13ef',
     'rsrc/css/application/paste/paste.css' => 'b37bcd38',
     'rsrc/css/application/people/people-picture-menu-item.css' => 'fe8e07cf',
@@ -724,7 +724,7 @@ return array(
     'phabricator-notification' => 'a9b91e3f',
     'phabricator-notification-css' => '30240bd2',
     'phabricator-notification-menu-css' => '90e445b9',
-    'phabricator-object-selector-css' => 'ee77366f',
+    'phabricator-object-selector-css' => '80622c84',
     'phabricator-phtize' => '2f1db1ed',
     'phabricator-prefab' => '5793d835',
     'phabricator-remarkup-css' => '64bb2ced',
@@ -1533,6 +1533,9 @@ return array(
       'aphront-typeahead-control-css',
       'phui-tag-view-css',
     ),
+    '80622c84' => array(
+      'aphront-dialog-view-css',
+    ),
     '80bff3af' => array(
       'javelin-install',
       'javelin-typeahead-source',
@@ -2089,9 +2092,6 @@ return array(
     ),
     'ec4e31c0' => array(
       'phui-timeline-view-css',
-    ),
-    'ee77366f' => array(
-      'aphront-dialog-view-css',
     ),
     'f340a484' => array(
       'javelin-install',
