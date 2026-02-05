@@ -1216,6 +1216,11 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       $saved_query = new PhabricatorSavedQuery();
     } else if ($this->isBuiltinQuery($query_key)) {
       $saved_query = $this->buildSavedQueryFromBuiltin($query_key);
+    } else if (strlen($query_key) !== PhabricatorHash::INDEX_DIGEST_LENGTH) {
+        throw new Exception(
+          pht(
+            'Query key "%s" does not correspond to a valid query.',
+            $query_key));
     } else {
       $saved_query = id(new PhabricatorSavedQueryQuery())
         ->setViewer($viewer)
