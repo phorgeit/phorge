@@ -909,15 +909,8 @@ final class AphrontRequest extends Phobject {
       $key = ucwords($key);
       $key = str_replace(' ', '-', $key);
 
-      // By default, do not forward headers.
-      $should_forward = false;
-
-      // Forward "X-Hgarg-..." headers.
+      // Only forward "X-Hgarg-..." headers.
       if (preg_match('/^X-Hgarg-/', $key)) {
-        $should_forward = true;
-      }
-
-      if ($should_forward) {
         $headers[] = array($key, $value);
       }
     }
