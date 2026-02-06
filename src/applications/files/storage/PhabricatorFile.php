@@ -80,7 +80,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $view_policy = $app->getPolicy(
       FilesDefaultViewCapability::CAPABILITY);
 
-    return id(new PhabricatorFile())
+    return id(new self())
       ->setViewPolicy($view_policy)
       ->setIsPartial(0)
       ->attachOriginalFile(null)
@@ -396,7 +396,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
         // If an engine is outright misconfigured (or misimplemented), raise
         // that immediately since it probably needs attention.
         throw $ex;
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         phlog($ex);
 
         // If an engine doesn't work, keep trying all the other valid engines
@@ -432,7 +432,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     try {
       $file->updateDimensions(false);
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       // Do nothing.
     }
 
@@ -682,7 +682,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
           return self::newFromFileData($body, $params);
         }
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         if ($redirects) {
           throw new Exception(
             pht(
@@ -769,7 +769,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $handle) {
 
     // Check to see if any files are using storage.
-    $usage = id(new PhabricatorFile())->loadAllWhere(
+    $usage = id(new self())->loadAllWhere(
       'storageEngine = %s AND storageHandle = %s LIMIT 1',
       $engine_identifier,
       $handle);
@@ -778,7 +778,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     if (!$usage) {
       try {
         $engine->deleteFile($handle);
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         // In the worst case, we're leaving some data stranded in a storage
         // engine, which is not a big deal.
         phlog($ex);

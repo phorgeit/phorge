@@ -140,7 +140,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     } else {
       $curtain->addAction(
         id(new PhabricatorActionView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setDownload($can_download)
           ->setName(pht('Download File'))
           ->setIcon('fa-download')
@@ -390,15 +390,14 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
   }
 
   private function loadStorageEngine(PhabricatorFile $file) {
-    $engine = null;
 
     try {
-      $engine = $file->instantiateStorageEngine();
-    } catch (Exception $ex) {
+      return $file->instantiateStorageEngine();
+    } catch (Throwable $ex) {
       // Don't bother raising this anywhere for now.
     }
 
-    return $engine;
+    return null;
   }
 
   private function newFileContent(PhabricatorFile $file) {
@@ -426,7 +425,6 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     $rows = array();
 
     $mode_map = PhabricatorFileAttachment::getModeNameMap();
-    $mode_attach = PhabricatorFileAttachment::MODE_ATTACH;
 
     foreach ($attachments as $attachment) {
       $object_phid = $attachment->getObjectPHID();
@@ -454,16 +452,6 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
         ->setColor(PHUIButtonView::GREY)
         ->setSize(PHUIButtonView::SMALL)
         ->setText(pht('Detach File'));
-
-      javelin_tag(
-        'a',
-        array(
-          'href' => $detach_uri,
-          'sigil' => 'workflow',
-          'disabled' => true,
-          'class' => 'small button button-grey disabled',
-        ),
-        pht('Detach File'));
 
       $rows[] = array(
         $handle->renderLink(),

@@ -175,6 +175,9 @@ final class DifferentialDiff
     return self::buildChangesetsFromRawChanges($diff, $changes);
   }
 
+  /**
+   * @param array<ArcanistDiffChange> $changes
+   */
   private static function buildChangesetsFromRawChanges(
     DifferentialDiff $diff,
     array $changes) {

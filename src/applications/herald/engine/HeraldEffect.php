@@ -38,7 +38,7 @@ final class HeraldEffect extends Phobject {
   }
 
   /**
-   * @return array|null
+   * @return mixed
    */
   public function getTarget() {
     return $this->target;
