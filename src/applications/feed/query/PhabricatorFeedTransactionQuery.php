@@ -6,6 +6,7 @@ final class PhabricatorFeedTransactionQuery
   private $phids;
   private $authorPHIDs;
   private $objectTypes;
+  private $objectPHIDs;
   private $createdMin;
   private $createdMax;
 
@@ -24,6 +25,11 @@ final class PhabricatorFeedTransactionQuery
     return $this;
   }
 
+  public function withObjectPHIDs(array $object_phids) {
+    $this->objectPHIDs = $object_phids;
+    return $this;
+  }
+
   public function withDateCreatedBetween($min, $max) {
     $this->createdMin = $min;
     $this->createdMax = $max;
@@ -39,6 +45,7 @@ final class PhabricatorFeedTransactionQuery
   }
 
   protected function loadPage() {
+    $this->normalizeObjectPHIDs();
     $queries = $this->newTransactionQueries();
 
     $xactions = array();
@@ -80,6 +87,7 @@ final class PhabricatorFeedTransactionQuery
 
     $xaction_phids = $this->phids;
     $author_phids = $this->authorPHIDs;
+    $object_phids = $this->objectPHIDs;
 
     foreach ($queries as $query) {
       $query->withDateCreatedBetween($created_min, $created_max);
@@ -90,6 +98,10 @@ final class PhabricatorFeedTransactionQuery
 
       if ($author_phids !== null) {
         $query->withAuthorPHIDs($author_phids);
+      }
+
+      if ($object_phids !== null) {
+        $query->withObjectPHIDs($object_phids);
       }
 
       if ($limit !== null) {
@@ -162,8 +174,7 @@ final class PhabricatorFeedTransactionQuery
     foreach ($queries as $key => $query) {
       $app = $query->getQueryApplicationClass();
       if ($app !== null &&
-          PhabricatorApplication::isClassInstalledForViewerIfAny($app,
-            $viewer)) {
+          !PhabricatorApplication::isClassInstalledForViewer($app, $viewer)) {
         unset($queries[$key]);
       }
     }
@@ -222,7 +233,51 @@ final class PhabricatorFeedTransactionQuery
   protected function applyExternalCursorConstraintsToQuery(
     PhabricatorCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
+
     $subquery->withPHIDs(array($cursor));
+  }
+
+  private function normalizeObjectPHIDs() {
+    if (!$this->objectPHIDs) {
+      return;
+    }
+
+    $have_non_phids = false;
+    foreach ($this->objectPHIDs as $name) {
+      if (strncmp($name, 'PHID-', 5)) {
+        $have_non_phids = true;
+        break;
+      }
+    }
+
+    if ($have_non_phids) {
+
+      // "Names" field in ObjectQuery also handles PHIDs.
+      $objects = id(new PhabricatorObjectQuery())
+        ->setViewer($this->getViewer())
+        ->withNames($this->objectPHIDs)
+        ->execute();
+
+      if (!$objects) {
+        // nothing resolved to anything.
+        throw new PhabricatorSearchConstraintException(
+          pht("objectPHID inputs didn't match any known objects."));
+      }
+
+      $phids = mpull($objects, 'getPHID');
+
+    } else {
+      $phids = $this->objectPHIDs;
+    }
+
+    $phid_types = array();
+    foreach ($phids as $phid) {
+      $phid_type = phid_get_type($phid);
+      $phid_types[$phid_type] = $phid_type;
+    }
+
+    $this->objectPHIDs = $phids;
+    $this->objectTypes = $phid_types;
   }
 
 }

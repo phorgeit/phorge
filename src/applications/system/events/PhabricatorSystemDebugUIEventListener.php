@@ -44,6 +44,11 @@ final class PhabricatorSystemDebugUIEventListener
       ->setName(pht('View Hovercard'))
       ->setHref(urisprintf('/search/hovercard/?names=%s', $phid));
 
+    $submenu[] = id(new PhabricatorActionView())
+      ->setIcon('fa-list')
+      ->setName(pht('View full transaction history'))
+      ->setHref(urisprintf('/feed/transactions?objectPHIDs=%s', $phid));
+
     if ($object instanceof DifferentialRevision) {
       $submenu[] = id(new PhabricatorActionView())
         ->setIcon('fa-database')

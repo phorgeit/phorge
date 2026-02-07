@@ -33,7 +33,7 @@ final class PhabricatorFeedApplication extends PhabricatorApplication {
         '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorFeedListController',
         'transactions/' => array(
           $this->getQueryRoutePattern()
-            => 'PhabricatorFeedTransactionListController',
+            => PhabricatorFeedTransactionListController::class,
         ),
       ),
     );
