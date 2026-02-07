@@ -87,11 +87,18 @@ class AphrontFormTextAreaControl extends AphrontFormControl {
     // leading newlines if we don't do this. See T8707.
     $value = "\n".$value;
 
+    // Prefer the corresponding textarea "label" as "aria-label". If an element
+    // does not have one, fall back to element "name".
+    $aria_label = $this->getLabel();
+    if (!phutil_nonempty_string($aria_label)) {
+      $aria_label = $this->getName();
+    }
+
     return javelin_tag(
       'textarea',
       array(
         'name'        => $this->getName(),
-        'aria-label'  => $this->getName(),
+        'aria-label'  => $aria_label,
         'disabled'    => $this->getDisabled() ? 'disabled' : null,
         'readonly'    => $this->getReadOnly() ? 'readonly' : null,
         'class'       => $classes,
