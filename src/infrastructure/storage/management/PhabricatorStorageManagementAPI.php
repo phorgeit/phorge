@@ -368,7 +368,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
       // characters.
       //
       // With "sort", if we use binary we lose case insensitivity (for
-      // example, "ALincoln@logcabin.com" and "alincoln@logcabin.com" would no
+      // example, "ALincoln@example.com" and "alincoln@example.com" would no
       // longer be identified as the same email address). This can be very
       // confusing and is far worse overall than not supporting 4-byte unicode
       // characters, so we use 3-byte utf8 and accept limited 4-byte support as

@@ -23,7 +23,7 @@ final class PhabricatorMetaMTAConfigOptions
     $send_as_user_desc = $this->deformat(pht(<<<EODOC
 When a user takes an action which generates an email notification (like
 commenting on a Differential revision), the "From" address can either be set
-to the user's email address (like "alincoln@logcabin.com") or the
+to the user's email address (like "alincoln@example.com") or the
 "metamta.default-address" address.
 
 The user experience is generally better if the user's real address is used as
