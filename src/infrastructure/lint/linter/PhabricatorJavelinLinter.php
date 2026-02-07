@@ -110,7 +110,8 @@ final class PhabricatorJavelinLinter extends ArcanistLinter {
       if (!$this->haveWarnedAboutBinary) {
         $this->haveWarnedAboutBinary = true;
         // TODO: Write build documentation for the Javelin binaries and point
-        // the user at it.
+        // the user at it. See also https://we.phorge.it/T15123 and
+        // https://we.phorge.it/T15669
         $this->raiseLintAtLine(
           1,
           0,
