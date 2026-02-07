@@ -400,7 +400,7 @@ return array(
     'rsrc/js/core/TextAreaUtils.js' => 'f340a484',
     'rsrc/js/core/Title.js' => '43bc9360',
     'rsrc/js/core/ToolTip.js' => '83754533',
-    'rsrc/js/core/behavior-audio-source.js' => '3dc5ad43',
+    'rsrc/js/core/behavior-audio-source.js' => '6e815b50',
     'rsrc/js/core/behavior-autofocus.js' => '65bb0011',
     'rsrc/js/core/behavior-badge-view.js' => '92cdd7b6',
     'rsrc/js/core/behavior-bulk-editor.js' => 'aa6d2308',
@@ -524,7 +524,7 @@ return array(
     'javelin-behavior-aphront-drag-and-drop-textarea' => '6bc7ccf7',
     'javelin-behavior-aphront-form-disable-on-submit' => 'c60fb44a',
     'javelin-behavior-aphront-more' => '506aa3f4',
-    'javelin-behavior-audio-source' => '3dc5ad43',
+    'javelin-behavior-audio-source' => '6e815b50',
     'javelin-behavior-audit-preview' => 'b7b73831',
     'javelin-behavior-badge-view' => '92cdd7b6',
     'javelin-behavior-bulk-editor' => 'aa6d2308',
@@ -1156,12 +1156,6 @@ return array(
       'javelin-vector',
       'javelin-stratcom',
     ),
-    '3dc5ad43' => array(
-      'javelin-behavior',
-      'javelin-stratcom',
-      'javelin-vector',
-      'javelin-dom',
-    ),
     '3eed1f2b' => array(
       'javelin-behavior',
       'javelin-stratcom',
@@ -1471,6 +1465,12 @@ return array(
       'javelin-reactornode',
       'javelin-install',
       'javelin-util',
+    ),
+    '6e815b50' => array(
+      'javelin-behavior',
+      'javelin-stratcom',
+      'javelin-vector',
+      'javelin-dom',
     ),
     70245195 => array(
       'javelin-behavior',

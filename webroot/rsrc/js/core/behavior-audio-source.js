@@ -53,8 +53,18 @@ JX.behavior('audio-source', function(config, statics) {
         }
       }
 
-      var pos = JX.Vector.getPos(statics.items[ii].element);
-      var dim = JX.Vector.getDim(statics.items[ii].element);
+      // Macros may become invisible (no 'offsetParent') for multiple reasons:
+      // maybe you were looking at a preview but then you changed the content;
+      // or maybe you clicked a link and the page was refreshed thanks to ajax.
+      // Invisible memes should generally STFU.
+      if (!item.element.offsetParent) {
+        item.audio.pause();
+        item.playing = false;
+        continue;
+      }
+
+      var pos = JX.Vector.getPos(item.element);
+      var dim = JX.Vector.getDim(item.element);
 
       var item_mid = pos.y + (dim.y / 2);
       var item_distance = Math.abs(item_mid - view_mid);
