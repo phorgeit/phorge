@@ -136,7 +136,7 @@ final class PholioMockEditController extends PholioController {
 
         $existing_image = idx($mock_images, $file_phid);
 
-        $title = (string)$request->getStr('title_'.$file_phid);
+        $img_title = (string)$request->getStr('title_'.$file_phid);
         $description = (string)$request->getStr('description_'.$file_phid);
         $sequence = $sequence_map[$file_phid];
 
@@ -146,7 +146,7 @@ final class PholioMockEditController extends PholioController {
             ->setReplacesImagePHID($replaces_image_phid)
             ->setFilePHID($file_phid)
             ->attachFile($file)
-            ->setName(strlen($title) ? $title : $file->getName())
+            ->setName(strlen($img_title) ? $img_title : $file->getName())
             ->setDescription($description)
             ->setSequence($sequence)
             ->save();
@@ -161,7 +161,7 @@ final class PholioMockEditController extends PholioController {
             ->setAuthorPHID($viewer->getPHID())
             ->setFilePHID($file_phid)
             ->attachFile($file)
-            ->setName(strlen($title) ? $title : $file->getName())
+            ->setName(strlen($img_title) ? $img_title : $file->getName())
             ->setDescription($description)
             ->setSequence($sequence)
             ->save();
@@ -175,7 +175,7 @@ final class PholioMockEditController extends PholioController {
           $xactions[] = id(new PholioTransaction())
             ->setTransactionType(PholioImageNameTransaction::TRANSACTIONTYPE)
             ->setNewValue(
-              array($existing_image->getPHID() => $title));
+              array($existing_image->getPHID() => $img_title));
           $xactions[] = id(new PholioTransaction())
             ->setTransactionType(
               PholioImageDescriptionTransaction::TRANSACTIONTYPE)
