@@ -150,6 +150,7 @@ abstract class DiffusionRequest extends Phobject {
       ->setViewer($viewer)
       ->withIdentifiers(array($identifier))
       ->needProfileImage(true)
+      ->needProjectPHIDs(true)
       ->needURIs(true);
 
     if ($need_edit) {

@@ -312,6 +312,21 @@ final class DiffusionRepositoryController extends DiffusionController {
       }
     }
 
+    // Display associated projects as tags in repository browsing header
+    $project_phids = $repository->getProjectPHIDs();
+    if ($project_phids) {
+      $handles = id(new PhabricatorHandleQuery())
+        ->setViewer($viewer)
+        ->withPHIDs($project_phids)
+        ->execute();
+      $project_handles = array_select_keys(
+        $handles,
+        $project_phids);
+      foreach ($project_handles as $handle) {
+        $header->addTag($handle->renderTag());
+      }
+    }
+
     return $header;
   }
 
