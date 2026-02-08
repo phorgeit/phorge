@@ -1248,17 +1248,6 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return $uri;
   }
 
-  /**
-   * Determine if a protocol is SSH or SSH-like.
-   *
-   * @param string $protocol A protocol string, like "http" or "ssh".
-   * @return bool True if the protocol is SSH-like.
-   * @task uri
-   */
-  private function isSSHProtocol($protocol) {
-    return ($protocol == 'ssh' || $protocol == 'svn+ssh');
-  }
-
   public function delete() {
     $this->openTransaction();
 

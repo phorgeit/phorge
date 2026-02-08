@@ -33,11 +33,6 @@ final class PhrictionTransactionEditor
     return $this->oldContent;
   }
 
-  private function setNewContent(PhrictionContent $content) {
-    $this->newContent = $content;
-    return $this;
-  }
-
   public function getNewContent() {
     return $this->newContent;
   }
