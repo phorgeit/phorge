@@ -369,7 +369,15 @@ final class AphrontFormDateControlValue extends Phobject {
     if (isset($colloquial[$normalized])) {
       $time = $colloquial[$normalized];
     }
-
+    // Convert localized times to English
+    $am = pht('AM');
+    if ($am !== 'AM') {
+      $time = preg_replace('/'.preg_quote($am).'$/', 'AM', $time);
+    }
+    $pm = pht('PM');
+    if ($pm !== 'PM') {
+      $time = preg_replace('/'.preg_quote($pm).'$/', 'PM', $time);
+    }
     return $time;
   }
 
