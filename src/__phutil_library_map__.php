@@ -5961,6 +5961,7 @@ phutil_register_library_map(array(
     'phid_get_subtype' => 'applications/phid/utils.php',
     'phid_get_type' => 'applications/phid/utils.php',
     'phid_group_by_type' => 'applications/phid/utils.php',
+    'phorge_localize_time' => 'view/viewutils.php',
     'phutil_escape_html' => 'infrastructure/markup/render.php',
     'phutil_escape_html_newlines' => 'infrastructure/markup/render.php',
     'phutil_implode_html' => 'infrastructure/markup/render.php',

@@ -166,10 +166,14 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   private function formatTime($epoch, $format) {
-    return phabricator_format_local_time(
-      $epoch,
-      $this->viewer,
-      $format);
+    $date = phorge_localize_time($epoch, $this->viewer);
+    if (!$date) {
+      return '';
+    }
+    // Call DateTime->format directly (bypassing PhutilTranslator)
+    // so that getFormattedDateFromParts below can decode the parts
+    // back into a DateTime
+    return $date->format($format);
   }
 
   public function getEpoch() {
