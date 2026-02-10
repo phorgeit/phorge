@@ -118,7 +118,10 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
 
     $out = new TempFile();
 
-    $future = new ExecFuture('convert %s %Ls %s', $tmp, $argv, $out);
+    $binary = id(new PhabricatorImagemagickSetupCheck())
+      ->getImageMagickBinaryName();
+
+    $future = new ExecFuture('%s %s %Ls %s', $binary, $tmp, $argv, $out);
     // Don't spend more than 60 seconds resizing; just fail if it takes longer
     // than that.
     $future->setTimeout(60)->resolvex();

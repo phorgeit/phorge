@@ -215,8 +215,9 @@ final class PhabricatorFilesConfigOptions
           pht(
             'This option will use Imagemagick to rescale images, so animated '.
             'GIFs can be thumbnailed and set as profile pictures. Imagemagick '.
-            'must be installed and the "%s" binary must be available to '.
-            'the webserver for this to work.',
+            'must be installed and the "%s" or "%s" binary must be available '.
+            'to the webserver for this to work.',
+            'magick',
             'convert')),
 
     );

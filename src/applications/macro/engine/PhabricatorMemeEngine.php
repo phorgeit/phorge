@@ -211,11 +211,14 @@ final class PhabricatorMemeEngine extends Phobject {
       return null;
     }
 
+    $binary = id(new PhabricatorImagemagickSetupCheck())
+      ->getImageMagickBinaryName();
+
     // Test of the GIF is an animated GIF. If it's a flat GIF, we'll fall
     // back to GD.
     $input = new TempFile();
     Filesystem::writeFile($input, $template_data);
-    list($err, $out) = exec_manual('convert %s info:', $input);
+    list($err, $out) = exec_manual('%s %s info:', $binary, $input);
     if ($err) {
       return null;
     }
@@ -231,7 +234,8 @@ final class PhabricatorMemeEngine extends Phobject {
     $output = new TempFile();
 
     $future = new ExecFuture(
-      'convert %s -coalesce +adjoin %s_%s',
+      '%s %s -coalesce +adjoin %s_%s',
+      $binary,
       $input,
       $input,
       '%09d');
@@ -250,7 +254,8 @@ final class PhabricatorMemeEngine extends Phobject {
     }
 
     $future = new ExecFuture(
-      'convert -dispose background -loop 0 %Ls %s',
+      '%s -dispose background -loop 0 %Ls %s',
+      $binary,
       $output_files,
       $output);
     $future->setTimeout(10)->resolvex();
