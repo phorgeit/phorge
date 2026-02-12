@@ -496,7 +496,10 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $user2 = $this->createUser();
     $user2->save();
 
-    $project = PhabricatorProject::initializeNewProject($user1);
+    $project = PhabricatorProject::initializeNewProject($user1)
+      ->setName(pht('Test Project for %s', __FUNCTION__))
+      ->save();
+
     $name = pht('Test Project %d', mt_rand());
 
     $xactions = array();
@@ -596,6 +599,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $slug2 = 'QuErYSlUgExTrA';
 
     $project = PhabricatorProject::initializeNewProject($user);
+    $project->setPHID($project->generatePHID());
 
     $xactions = array();
 
@@ -1184,10 +1188,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $author = $this->generateNewTestUser();
 
     $proj_a = PhabricatorProject::initializeNewProject($author)
-      ->setName('Policy A')
+      ->setName('Policy A');
+    $proj_a->setPHID($proj_a->generatePHID())
       ->save();
+
     $proj_b = PhabricatorProject::initializeNewProject($author)
-      ->setName('Policy B')
+      ->setName('Policy B');
+    $proj_b->setPHID($proj_b->generatePHID())
       ->save();
 
     $user_none = $this->generateNewTestUser();
@@ -1671,6 +1678,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $is_milestone = false) {
 
     $project = PhabricatorProject::initializeNewProject($user, $parent);
+    $project->setPHID($project->generatePHID());
 
     $name = pht('Test Project %d', mt_rand());
 
