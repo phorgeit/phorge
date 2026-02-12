@@ -4,23 +4,23 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
 
   public function testLocalURIForLink() {
     $map = array(
-      '/'                     => true,
-      '/D123'                 => true,
-      '/path/to/something/'   => true,
-      "/path/to/\nHeader: x"  => false,
-      'http://evil.com/'      => false,
-      '//evil.com/evil/'      => false,
-      'javascript:lol'        => false,
-      ''                      => false,
-      null                    => false,
-      '/\\evil.com'           => false,
+      array('/', true),
+      array('/D123', true),
+      array('/path/to/something/', true),
+      array("/path/to/\nHeader: x", false),
+      array('http://evil.com/', false),
+      array('//evil.com/evil/', false),
+      array('javascript:lol', false),
+      array(null, false),
+      array('', false),
+      array('/\\evil.com', false),
     );
 
-    foreach ($map as $uri => $expect) {
+    foreach ($map as $entry) {
       $this->assertEqual(
-        $expect,
-        PhabricatorEnv::isValidLocalURIForLink($uri),
-        pht('Valid local resource: %s', $uri));
+        $entry[1],
+        PhabricatorEnv::isValidLocalURIForLink($entry[0]),
+        pht('Valid local resource: %s', $entry[0]));
     }
   }
 
