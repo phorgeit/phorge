@@ -231,7 +231,7 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
 
   protected function parseParamDoc(DivinerAtom $atom, $doc, $name) {
     $dict = array();
-    $split = preg_split('/\s+/', trim($doc), 2);
+    $split = preg_split('/(?<!,)\s+/', trim($doc), 2);
     if (!empty($split[0])) {
       $dict['doctype'] = $split[0];
     }
