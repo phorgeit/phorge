@@ -58,11 +58,6 @@ final class PholioImageNameTransaction
     return null;
   }
 
-  public function shouldHide() {
-    $old = $this->getOldValue();
-    return ($old === array(null => null));
-  }
-
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
@@ -73,8 +68,12 @@ final class PholioImageNameTransaction
       if ($new_length > $max_length) {
         $errors[] = $this->newInvalidError(
           pht(
-            'Mock image names must not be longer than %s character(s).',
+            'Mock image titles must not be longer than %s character(s).',
             new PhutilNumber($max_length)));
+      } else if ($new_length === 0) {
+        $errors[] = $this->newInvalidError(
+          pht(
+            'Mock images must have a title.'));
       }
     }
 

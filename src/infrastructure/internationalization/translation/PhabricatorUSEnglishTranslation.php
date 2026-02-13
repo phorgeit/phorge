@@ -2093,9 +2093,9 @@ final class PhabricatorUSEnglishTranslation
          'Source names must not be longer than %s character.',
          'Source names must not be longer than %s characters.',
       ),
-      'Mock image names must not be longer than %s character(s).' => array(
-         'Mock image names must not be longer than %s character.',
-         'Mock image names must not be longer than %s characters.',
+      'Mock image titles must not be longer than %s character(s).' => array(
+         'Mock image titles must not be longer than %s character.',
+         'Mock image titles must not be longer than %s characters.',
       ),
       'Mock names must not be longer than %s character(s).' => array(
          'Mock names must not be longer than %s character.',
