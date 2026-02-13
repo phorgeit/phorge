@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * @phutil-external-symbol class PhpParser\Node
+ * @phutil-external-symbol class PhpParser\NodeTraverser
+ * @phutil-external-symbol class PhpParser\Node\FunctionLike
+ * @phutil-external-symbol class PhpParser\NodeVisitor\FindingVisitor
+ * @phutil-external-symbol class PhpParser\NodeVisitor\NameResolver
+ * @phutil-external-symbol class PhpParser\Node\Stmt\Class_
+ * @phutil-external-symbol class PhpParser\Node\Stmt\ClassLike
+ * @phutil-external-symbol class PhpParser\Node\Stmt\Enum_
+ * @phutil-external-symbol class PhpParser\Node\Stmt\Function_
+ * @phutil-external-symbol class PhpParser\Node\Stmt\Interface_
+ * @phutil-external-symbol class PhpParser\Node\Stmt\Trait_
+ * @phutil-external-symbol class PhpParser\PrettyPrinter\Standard
+ */
 final class DivinerPHPAtomizer extends DivinerAtomizer {
 
   protected function newAtom($type) {
@@ -7,26 +21,31 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
   }
 
   protected function executeAtomize($file_name, $file_data) {
-    $future = PhutilXHPASTBinary::getParserFuture($file_data);
-    $tree = XHPASTTree::newFromDataAndResolvedExecFuture(
-      $file_data,
-      $future->resolve());
+    $parser = PhutilPHPParserLibrary::getParser();
+    $ast = $parser->parse($file_data);
+
+    $classlike_finder = new PhpParser\NodeVisitor\FindingVisitor(
+      function ($node) {
+        return $node instanceof PhpParser\Node\Stmt\ClassLike;
+      });
+    $function_finder = new PhpParser\NodeVisitor\FindingVisitor(
+      function ($node) {
+        return $node instanceof PhpParser\Node\Stmt\Function_;
+      });
+
+    $namespace_resolver = new PhpParser\NodeVisitor\NameResolver();
+    $traverser = new PhpParser\NodeTraverser();
+    $traverser->addVisitor($namespace_resolver);
+    $traverser->addVisitor($classlike_finder);
+    $traverser->addVisitor($function_finder);
+    $traverser->traverse($ast);
 
     $atoms = array();
-    $root = $tree->getRootNode();
 
-    $func_decl = $root->selectDescendantsOfType('n_FUNCTION_DECLARATION');
-    foreach ($func_decl as $func) {
-      $name = $func->getChildByIndex(2);
-
-      // Don't atomize closures
-      if ($name->getTypeName() === 'n_EMPTY') {
-        continue;
-      }
-
+    foreach ($function_finder->getFoundNodes() as $func) {
       $atom = $this->newAtom(DivinerAtom::TYPE_FUNCTION)
-        ->setName($name->getConcreteString())
-        ->setLine($func->getLineNumber())
+        ->setName($func->namespacedName->toString())
+        ->setLine($func->getStartLine())
         ->setFile($file_name);
 
       $this->findAtomDocblock($atom, $func);
@@ -37,99 +56,112 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
     }
 
     $class_types = array(
-      DivinerAtom::TYPE_CLASS => 'n_CLASS_DECLARATION',
-      DivinerAtom::TYPE_INTERFACE => 'n_INTERFACE_DECLARATION',
+      PhpParser\Node\Stmt\Class_::class => DivinerAtom::TYPE_CLASS,
+      PhpParser\Node\Stmt\Interface_::class => DivinerAtom::TYPE_INTERFACE,
+      PhpParser\Node\Stmt\Trait_::class => DivinerAtom::TYPE_TRAIT,
+      PhpParser\Node\Stmt\Enum_::class => DivinerAtom::TYPE_ENUM,
     );
-    foreach ($class_types as $atom_type => $node_type) {
-      $class_decls = $root->selectDescendantsOfType($node_type);
 
-      foreach ($class_decls as $class) {
-        $name = $class->getChildByIndex(1, 'n_CLASS_NAME');
+    foreach ($classlike_finder->getFoundNodes() as $class) {
+      $atom_type = $class_types[get_class($class)];
 
-        $atom = $this->newAtom($atom_type)
-          ->setName($name->getConcreteString())
-          ->setFile($file_name)
-          ->setLine($class->getLineNumber());
+      // Don't analyze anonymous classes.
+      if (!$class->name) {
+        continue;
+      }
 
-        // This parses `final` and `abstract`.
-        $attributes = $class->getChildByIndex(0, 'n_CLASS_ATTRIBUTES');
-        foreach ($attributes->selectDescendantsOfType('n_STRING') as $attr) {
-          $atom->setProperty($attr->getConcreteString(), true);
+      $atom = $this->newAtom($atom_type)
+        ->setName($class->namespacedName->toString())
+        ->setFile($file_name)
+        ->setLine($class->getStartLine());
+
+      if ($class instanceof PhpParser\Node\Stmt\Class_) {
+        if ($class->isAbstract()) {
+          $atom->setProperty('abstract', true);
+        } else if ($class->isFinal()) {
+          $atom->setProperty('final', true);
+        } else if ($class->isReadonly()) {
+          $atom->setProperty('readonly', true);
         }
 
-        // If this exists, it is `n_EXTENDS_LIST`.
-        $extends = $class->getChildByIndex(2);
-        $extends_class = $extends->selectDescendantsOfType('n_CLASS_NAME');
-        foreach ($extends_class as $parent_class) {
+        if ($class->extends) {
           $atom->addExtends(
             $this->newRef(
               DivinerAtom::TYPE_CLASS,
-              $parent_class->getConcreteString()));
+              $class->extends->toString()));
         }
 
-        // If this exists, it is `n_IMPLEMENTS_LIST`.
-        $implements = $class->getChildByIndex(3);
-        $iface_names = $implements->selectDescendantsOfType('n_CLASS_NAME');
-        foreach ($iface_names as $iface_name) {
+        foreach ($class->implements as $implement) {
           $atom->addExtends(
             $this->newRef(
               DivinerAtom::TYPE_INTERFACE,
-              $iface_name->getConcreteString()));
+              $implement->toString()));
         }
-
-        $this->findAtomDocblock($atom, $class);
-
-        $methods = $class->selectDescendantsOfType('n_METHOD_DECLARATION');
-        foreach ($methods as $method) {
-          $matom = $this->newAtom(DivinerAtom::TYPE_METHOD);
-
-          $this->findAtomDocblock($matom, $method);
-
-          $attribute_list = $method->getChildByIndex(0);
-          $attributes = $attribute_list->selectDescendantsOfType('n_STRING');
-          if ($attributes) {
-            foreach ($attributes as $attribute) {
-              $attr = strtolower($attribute->getConcreteString());
-              switch ($attr) {
-                case 'final':
-                case 'abstract':
-                case 'static':
-                  $matom->setProperty($attr, true);
-                  break;
-                case 'public':
-                case 'protected':
-                case 'private':
-                  $matom->setProperty('access', $attr);
-                  break;
-              }
-            }
-          } else {
-            $matom->setProperty('access', 'public');
-          }
-
-          $this->parseParams($matom, $method);
-
-          $matom->setName($method->getChildByIndex(2)->getConcreteString());
-          $matom->setLine($method->getLineNumber());
-          $matom->setFile($file_name);
-
-          $this->parseReturnType($matom, $method);
-          $atom->addChild($matom);
-
-          $atoms[] = $matom;
+      } else if ($class instanceof PhpParser\Node\Stmt\Interface_) {
+        foreach ($class->extends as $extend) {
+          $atom->addExtends(
+            $this->newRef(
+              DivinerAtom::TYPE_INTERFACE,
+              $extend->toString()));
         }
-
-        $atoms[] = $atom;
+      } else if ($class instanceof PhpParser\Node\Stmt\Enum_) {
+        foreach ($class->implements as $implement) {
+          $atom->addExtends(
+            $this->newRef(
+              DivinerAtom::TYPE_INTERFACE,
+              $implement->toString()));
+        }
       }
+
+      $this->findAtomDocblock($atom, $class);
+
+      foreach ($class->getMethods() as $method) {
+        $matom = $this->newAtom(DivinerAtom::TYPE_METHOD)
+          ->setName($method->name->toString())
+          ->setLine($method->getStartLine())
+          ->setFile($file_name);
+
+        $this->findAtomDocblock($matom, $method);
+
+        if ($method->isFinal()) {
+          $matom->setProperty('final', true);
+        }
+
+        if ($method->isAbstract()) {
+          $matom->setProperty('abstract', true);
+        }
+
+        if ($method->isStatic()) {
+          $matom->setProperty('static', true);
+        }
+
+        if ($method->isPrivate()) {
+            $matom->setProperty('access', 'private');
+        } else if ($method->isProtected()) {
+            $matom->setProperty('access', 'protected');
+        } else {
+            $matom->setProperty('access', 'public');
+        }
+
+        $this->parseParams($matom, $method);
+
+        $this->parseReturnType($matom, $method);
+        $atom->addChild($matom);
+
+        $atoms[] = $matom;
+      }
+
+      $atoms[] = $atom;
     }
 
     return $atoms;
   }
 
-  private function parseParams(DivinerAtom $atom, AASTNode $func) {
-    $params = $func
-      ->getChildOfType(3, 'n_DECLARATION_PARAMETER_LIST')
-      ->selectDescendantsOfType('n_DECLARATION_PARAMETER');
+  private function parseParams(
+    DivinerAtom $atom,
+    PhpParser\Node\FunctionLike $func) {
+
+    $params = $func->getParams();
 
     $param_spec = array();
 
@@ -158,10 +190,10 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
     }
 
     foreach ($params as $param) {
-      $name = $param->getChildByIndex(1)->getConcreteString();
+      $name = '$'.$param->var->name;
       $dict = array(
-        'type'    => $param->getChildByIndex(0)->getConcreteString(),
-        'default' => $param->getChildByIndex(2)->getConcreteString(),
+        'type'    => $this->stringify($param->type),
+        'default' => $this->stringify($param->default),
       );
 
       if ($docs) {
@@ -190,42 +222,32 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
     $atom->setProperty('parameters', $param_spec);
   }
 
-  private function findAtomDocblock(DivinerAtom $atom, XHPASTNode $node) {
-    $token = $node->getDocblockToken();
-    if ($token) {
-      $atom->setDocblockRaw($token->getValue());
-      return true;
-    } else {
-      $tokens = $node->getTokens();
-      if ($tokens) {
-        $prev = head($tokens);
-        while ($prev = $prev->getPrevToken()) {
-          if ($prev->isAnyWhitespace()) {
-            continue;
-          }
-          break;
-        }
+  private function findAtomDocblock(DivinerAtom $atom, PhpParser\Node $node) {
+    $doc_comment = $node->getDocComment();
 
-        if ($prev && $prev->isComment()) {
-          $value = $prev->getValue();
-          $matches = null;
-          if (preg_match('/@(return|param|task|author)/', $value, $matches)) {
-            $atom->addWarning(
-              pht(
-                'Atom "%s" is preceded by a comment containing `%s`, but '.
-                'the comment is not a documentation comment. Documentation '.
-                'comments must begin with `%s`, followed by a newline. Did '.
-                'you mean to use a documentation comment? (As the comment is '.
-                'not a documentation comment, it will be ignored.)',
-                $atom->getName(),
-                '@'.$matches[1],
-                '/**'));
-          }
+    if ($doc_comment) {
+      $atom->setDocblockRaw($doc_comment->getText());
+    } else {
+      $comments = $node->getComments();
+
+      foreach ($comments as $comment) {
+        $value = $comment->getText();
+        $matches = null;
+        if (preg_match('/@(return|param|task|author)/', $value, $matches)) {
+          $atom->addWarning(
+            pht(
+              'Atom "%s" is preceded by a comment containing `%s`, but '.
+              'the comment is not a documentation comment. Documentation '.
+              'comments must begin with `%s`, followed by a newline. Did '.
+              'you mean to use a documentation comment? (As the comment is '.
+              'not a documentation comment, it will be ignored.)',
+              $atom->getName(),
+              '@'.$matches[1],
+              '/**'));
         }
       }
 
       $atom->setDocblockRaw('');
-      return false;
     }
   }
 
@@ -263,7 +285,10 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
     return $dict;
   }
 
-  private function parseReturnType(DivinerAtom $atom, XHPASTNode $decl) {
+  private function parseReturnType(
+    DivinerAtom $atom,
+    PhpParser\Node\FunctionLike $decl) {
+
     $return_spec = array();
 
     $metadata = $atom->getDocblockMeta();
@@ -314,7 +339,7 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
         $type = $split[0];
       }
 
-      if ($decl->getChildByIndex(1)->getTypeName() == 'n_REFERENCE') {
+      if ($decl->returnsByRef()) {
         $type = $type.' &';
       }
 
@@ -333,6 +358,15 @@ final class DivinerPHPAtomizer extends DivinerAtomizer {
     }
 
     $atom->setProperty('return', $return_spec);
+  }
+
+  private function stringify(?PhpParser\Node $node) {
+    if (!$node) {
+      return '';
+    }
+
+    return id(new PhpParser\PrettyPrinter\Standard())
+      ->prettyPrint(array($node));
   }
 
 }

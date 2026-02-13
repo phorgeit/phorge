@@ -4,10 +4,12 @@ final class DivinerAtom extends Phobject {
 
   const TYPE_ARTICLE   = 'article';
   const TYPE_CLASS     = 'class';
+  const TYPE_ENUM      = 'enum';
   const TYPE_FILE      = 'file';
   const TYPE_FUNCTION  = 'function';
   const TYPE_INTERFACE = 'interface';
   const TYPE_METHOD    = 'method';
+  const TYPE_TRAIT     = 'trait';
 
   private $type;
   private $name;
@@ -396,6 +398,10 @@ final class DivinerAtom extends Phobject {
         return pht('This interface is not documented.');
       case self::TYPE_METHOD:
         return pht('This method is not documented.');
+      case self::TYPE_TRAIT:
+        return pht('This trait is not documented.');
+      case self::TYPE_ENUM:
+        return pht('This enum is not documented.');
       default:
         phlog(pht("Need translation for '%s'.", $type));
         return pht('This %s is not documented.', $type);
@@ -410,6 +416,8 @@ final class DivinerAtom extends Phobject {
       self::TYPE_FUNCTION,
       self::TYPE_INTERFACE,
       self::TYPE_METHOD,
+      self::TYPE_TRAIT,
+      self::TYPE_ENUM,
     );
   }
 
@@ -425,6 +433,10 @@ final class DivinerAtom extends Phobject {
         return pht('Function');
       case self::TYPE_INTERFACE:
         return pht('Interface');
+      case self::TYPE_TRAIT:
+        return pht('Trait');
+      case self::TYPE_ENUM:
+        return pht('Enum');
       case self::TYPE_METHOD:
         return pht('Method');
       default:
