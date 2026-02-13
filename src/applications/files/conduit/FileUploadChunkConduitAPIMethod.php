@@ -24,10 +24,19 @@ final class FileUploadChunkConduitAPIMethod
     return 'void';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-PHID' => pht('Must pass a PHID.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $viewer = $request->getUser();
 
     $file_phid = $request->getValue('filePHID');
+    if (!$file_phid) {
+      throw new ConduitException('ERR-BAD-PHID');
+    }
     $file = $this->loadFileByPHID($viewer, $file_phid);
 
     $start = $request->getValue('byteStart');
