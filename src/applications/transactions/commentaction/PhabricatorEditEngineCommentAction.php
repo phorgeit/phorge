@@ -11,7 +11,15 @@ abstract class PhabricatorEditEngineCommentAction extends Phobject {
   private $conflictKey;
   private $submitButtonText;
 
+  /**
+   * @return string Type of the control, for example 'checkboxes', 'points',
+   *   'remarkup', 'select', 'static', 'tokenizer', etc.
+   */
   abstract public function getPHUIXControlType();
+
+  /**
+   * @return array
+   */
   abstract public function getPHUIXControlSpecification();
 
   public function setKey($key) {

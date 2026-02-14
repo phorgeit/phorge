@@ -1090,6 +1090,9 @@ final class PhabricatorUser
     return $this->getPHID() && ($viewer->getPHID() === $this->getPHID());
   }
 
+  /**
+   * @return string|null
+   */
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
       case PhabricatorPolicyCapability::CAN_EDIT:
@@ -1191,6 +1194,9 @@ final class PhabricatorUser
 /* -(  PhabricatorSSHPublicKeyInterface  )----------------------------------- */
 
 
+  /**
+   * @return string
+   */
   public function getSSHPublicKeyManagementURI(PhabricatorUser $viewer) {
     if ($viewer->getPHID() == $this->getPHID()) {
       // If the viewer is managing their own keys, take them to the normal
@@ -1420,6 +1426,9 @@ final class PhabricatorUser
 /* -(  PhabricatorAuthPasswordHashInterface  )------------------------------- */
 
 
+  /**
+   * @return PhutilOpaqueEnvelope
+   */
   public function newPasswordDigest(
     PhutilOpaqueEnvelope $envelope,
     PhabricatorAuthPassword $password) {
@@ -1505,6 +1514,9 @@ final class PhabricatorUser
     return new PhutilOpaqueEnvelope($digest);
   }
 
+  /**
+   * @return array<string>
+   */
   public function newPasswordBlocklist(
     PhabricatorUser $viewer,
     PhabricatorAuthPasswordEngine $engine) {

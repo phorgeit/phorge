@@ -126,9 +126,9 @@ final class PhabricatorProjectBoardImportController
   /**
    * Starting from a milestone, get the previous milestone,
    * but only if it has at least one column that could be imported.
-   * @param  PhabricatorUser $viewer     Current user
-   * @param  PhabricatorProject $project Current milestone with no
-   *                                     workboard yet.
+   * @param  PhabricatorUser $viewer       Current user
+   * @param  PhabricatorProject $milestone Current milestone with no
+   *                                       workboard yet.
    *                                     Technically, this parameter
    *                                     could also be a project,
    *                                     and projects are silently

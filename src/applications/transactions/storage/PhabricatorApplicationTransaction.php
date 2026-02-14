@@ -470,6 +470,9 @@ abstract class PhabricatorApplicationTransaction
     return $output;
   }
 
+  /**
+   * @return string
+   */
   public function getIcon() {
     switch ($this->getTransactionType()) {
       case PhabricatorTransactions::TYPE_COMMENT:
@@ -534,6 +537,9 @@ abstract class PhabricatorApplicationTransaction
     return array(null, null);
   }
 
+  /**
+   * @return string|null
+   */
   public function getColor() {
     switch ($this->getTransactionType()) {
       case PhabricatorTransactions::TYPE_COMMENT:
@@ -1817,6 +1823,8 @@ abstract class PhabricatorApplicationTransaction
   /**
    * Test if this transaction is just a user subscribing or unsubscribing
    * themselves.
+   *
+   * @return bool
    */
   private function isSelfSubscription() {
     $type = $this->getTransactionType();

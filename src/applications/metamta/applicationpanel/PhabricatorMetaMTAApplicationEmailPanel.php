@@ -7,6 +7,12 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     return 'email';
   }
 
+  /**
+   * Whether to show this panel on the application configuration page,
+   * depending on whether the application supports inbound email
+   *
+   * @return bool
+   */
   public function shouldShowForApplication(
     PhabricatorApplication $application) {
     return $application->supportsEmailIntegration();

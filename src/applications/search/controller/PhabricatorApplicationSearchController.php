@@ -32,6 +32,9 @@ final class PhabricatorApplicationSearchController
     return $this;
   }
 
+  /**
+   * @return AphrontSideNavFilterView
+   */
   protected function getNavigation() {
     return $this->navigation;
   }

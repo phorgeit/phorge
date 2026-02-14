@@ -15,6 +15,9 @@ final class PhabricatorCalendarEventSearchEngine
     return PhabricatorCalendarApplication::class;
   }
 
+  /**
+   * @return PhabricatorCalendarEventQuery
+   */
   public function newQuery() {
     $viewer = $this->requireViewer();
 
@@ -103,6 +106,9 @@ final class PhabricatorCalendarEventSearchEngine
     return $query;
   }
 
+  /**
+   * @return PhabricatorCalendarEventQuery
+   */
   protected function buildQueryFromParameters(array $map) {
     $query = $this->newQuery();
     $viewer = $this->requireViewer();
@@ -279,6 +285,12 @@ final class PhabricatorCalendarEventSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   * @return PhabricatorApplicationSearchResultView
+   */
   protected function renderResultList(
     array $events,
     PhabricatorSavedQuery $query,
@@ -298,6 +310,7 @@ final class PhabricatorCalendarEventSearchEngine
   /**
    * @param array<PhabricatorCalendarEvent> $events
    * @param PhabricatorSavedQuery $query
+   * @return PhabricatorApplicationSearchResultView
    */
   private function buildCalendarListView(
     array $events,
@@ -351,6 +364,7 @@ final class PhabricatorCalendarEventSearchEngine
   /**
    * @param array<PhabricatorCalendarEvent> $events
    * @param PhabricatorSavedQuery $query
+   * @return PhabricatorApplicationSearchResultView
    */
   private function buildCalendarMonthView(
     array $events,
@@ -428,6 +442,11 @@ final class PhabricatorCalendarEventSearchEngine
       ->setHeader($header);
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   * @return PhabricatorApplicationSearchResultView
+   */
   private function buildCalendarDayView(
     array $events,
     PhabricatorSavedQuery $query) {
@@ -660,7 +679,9 @@ final class PhabricatorCalendarEventSearchEngine
     );
   }
 
-
+  /**
+   * @return PhabricatorApplicationSearchResultView
+   */
   private function newResultView($content = null) {
     // If we aren't rendering a dashboard panel, activate global drag-and-drop
     // so you can import ".ics" files by dropping them directly onto the

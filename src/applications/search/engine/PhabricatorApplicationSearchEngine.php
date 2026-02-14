@@ -408,16 +408,22 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Return a list of field keys which should be hidden from the viewer.
    *
-    * @return list<string> Fields to hide.
+   * @return list<string> Fields to hide.
    */
   protected function getHiddenFields() {
     return array();
   }
 
+  /**
+   * @return array<string>
+   */
   public function getErrors() {
     return $this->errors;
   }
 
+  /**
+   * @param string $error
+   */
   public function addError($error) {
     $this->errors[] = $error;
     return $this;
@@ -972,6 +978,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
   /**
    * @task dates
+   * @return void
    */
   protected function buildDateRange(
     AphrontFormView $form,

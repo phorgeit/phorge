@@ -31,19 +31,50 @@ abstract class PhabricatorObjectRelationship extends Phobject {
 
   abstract public function getEdgeConstant();
 
+  /**
+   * @return string
+   */
   abstract protected function getActionName();
+
+  /**
+   * @return string
+   */
   abstract protected function getActionIcon();
 
+  /**
+   * @return bool
+   */
   abstract public function canRelateObjects($src, $dst);
 
+  /**
+   * @return string
+   */
   abstract public function getDialogTitleText();
+
+  /**
+   * @return string
+   */
   abstract public function getDialogHeaderText();
+
+  /**
+   * @return string
+   */
   abstract public function getDialogButtonText();
 
+  /**
+   * Display additional instructions at the bottom of the dialog
+   * @return string|null
+   */
   public function getDialogInstructionsText() {
     return null;
   }
 
+  /**
+   * Whether to list the relationship action as a menu item in the
+   * "Edit Related Objects" menu in the object's side column
+   *
+   * @return bool
+   */
   public function shouldAppearInActionMenu() {
     return true;
   }

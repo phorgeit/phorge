@@ -293,6 +293,11 @@ abstract class PhabricatorApplication
 /* -(  Email Integration  )-------------------------------------------------- */
 
 
+  /**
+   * Whether the application supports inbound email
+   *
+   * @return bool
+   */
   public function supportsEmailIntegration() {
     return false;
   }

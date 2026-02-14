@@ -5314,6 +5314,11 @@ abstract class PhabricatorApplicationTransactionEditor
     }
   }
 
+  /**
+   * This can only apply to Differential Revisions which are drafts.
+   *
+   * @return bool
+   */
   private function hasWarnings($object, $xaction) {
     // TODO: For the moment, this is a very un-modular hack to support
     // a small number of warnings related to draft revisions. See PHI433.
