@@ -24,9 +24,6 @@ final class PhabricatorDaemonLogViewController
       ->setHeader($log->getDaemon())
       ->setHeaderIcon('fa-pied-piper-alt');
 
-    $tag = id(new PHUITagView())
-      ->setType(PHUITagView::TYPE_STATE);
-
     $status = $log->getStatus();
     switch ($status) {
       case PhabricatorDaemonLog::STATUS_UNKNOWN:
