@@ -214,10 +214,8 @@ details > summary.phui-header-shell::-webkit-details-marker {
 .phui-header-subheader .phui-tag-core {
   padding: 3px 9px;
   border-radius: 3px;
-  background: rgba({$alphablue}, 0.1);
   margin-right: 8px;
   margin-bottom: 8px;
-  border-color: transparent;
 }
 
 .phui-header-subheader .phui-tag-view,

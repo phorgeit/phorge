@@ -115,7 +115,7 @@ final class DifferentialRevisionStatus extends Phobject {
         'icon.timeline' => 'fa-undo',
         'closed' => false,
         'color.icon' => 'grey',
-        'color.tag' => 'bluegrey',
+        'color.tag' => 'grey',
         'color.ansi' => 'magenta',
         'color.timeline' => 'orange',
       ),
