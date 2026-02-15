@@ -67,7 +67,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     } else {
 
       $comments = $request->getValue('comments');
-      if (!$is_new && $comments !== null) {
+      if ($comments !== null) {
         $changes[PhabricatorTransactions::TYPE_COMMENT] = null;
       }
 

@@ -750,7 +750,7 @@ final class PHUITimelineEventView extends AphrontView {
           ));
 
       if (!$is_admin && !$can_interact) {
-        $remove_item->setDisabled(!$is_admin && !$can_interact);
+        $remove_item->setDisabled(true);
       } else {
         $remove_item->setColor(PhabricatorActionView::RED);
       }

@@ -158,21 +158,17 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
 
     if ($request->isFormPost()) {
       try {
-        if (phutil_nonempty_string($username) && $has_password) {
-          $adapter = $this->getAdapter();
-          $adapter->setLoginUsername($username);
-          $adapter->setLoginPassword($password);
+        $adapter = $this->getAdapter();
+        $adapter->setLoginUsername($username);
+        $adapter->setLoginPassword($password);
 
-          // TODO: This calls ldap_bind() eventually, which dumps cleartext
-          // passwords to the error log. See note in PhutilLDAPAuthAdapter.
-          // See T3351.
+        // TODO: This calls ldap_bind() eventually, which dumps cleartext
+        // passwords to the error log. See note in PhutilLDAPAuthAdapter.
+        // See T3351.
 
-          DarkConsoleErrorLogPluginAPI::enableDiscardMode();
-            $identifiers = $adapter->getAccountIdentifiers();
-          DarkConsoleErrorLogPluginAPI::disableDiscardMode();
-        } else {
-          throw new Exception(pht('Username and password are required!'));
-        }
+        DarkConsoleErrorLogPluginAPI::enableDiscardMode();
+          $identifiers = $adapter->getAccountIdentifiers();
+        DarkConsoleErrorLogPluginAPI::disableDiscardMode();
       } catch (PhutilAuthCredentialException $ex) {
         $response = $controller->buildProviderPageResponse(
           $this,

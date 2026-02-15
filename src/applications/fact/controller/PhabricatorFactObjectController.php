@@ -210,15 +210,13 @@ final class PhabricatorFactObjectController
           continue;
         }
 
-        if (!$has_any) {
-          $rows[] = array(
-            $icon_nodata,
-            $fact->getName(),
-            null,
-            null,
-            null,
-          );
-        }
+        $rows[] = array(
+          $icon_nodata,
+          $fact->getName(),
+          null,
+          null,
+          null,
+        );
       }
 
       $table = id(new AphrontTableView($rows))

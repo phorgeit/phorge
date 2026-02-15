@@ -174,15 +174,13 @@ final class PhabricatorStartup {
     }
 
     $msg = ">>> UNRECOVERABLE FATAL ERROR <<<\n\n";
-    if ($event) {
-      // Even though we should be emitting this as text-plain, escape things
-      // just to be sure since we can't really be sure what the program state
-      // is when we get here.
-      $msg .= htmlspecialchars(
-        $event['message']."\n\n".$event['file'].':'.$event['line'],
-        ENT_QUOTES,
-        'UTF-8');
-    }
+    // Even though we should be emitting this as text-plain, escape things
+    // just to be sure since we can't really be sure what the program state
+    // is when we get here.
+    $msg .= htmlspecialchars(
+      $event['message']."\n\n".$event['file'].':'.$event['line'],
+      ENT_QUOTES,
+      'UTF-8');
 
     // flip dem tables
     $msg .= "\n\n\n";

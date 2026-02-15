@@ -118,7 +118,7 @@ final class PhabricatorRepositoryManagementReparseWorkflow
       // OK.
     } else if ($importing) {
       // OK.
-    } else if (!$any_step && !$importing) {
+    } else {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify which steps to reparse with "--message", "--change", '.
