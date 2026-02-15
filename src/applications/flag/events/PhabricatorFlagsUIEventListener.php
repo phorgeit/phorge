@@ -49,7 +49,9 @@ final class PhabricatorFlagsUIEventListener extends PhabricatorEventListener {
         ->setName(pht('Flag For Later'))
         ->setIcon('fa-flag');
 
-      if (!$user->isLoggedIn()) {
+      if (!$user->isLoggedIn() ||
+          ($object instanceof PhorgeRestrictableInteractionInterface &&
+          $object->disallowInteractions())) {
         $flag_action->setDisabled(true);
       }
     }

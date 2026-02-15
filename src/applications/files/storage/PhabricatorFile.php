@@ -26,6 +26,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     PhabricatorTokenReceiverInterface,
     PhabricatorSubscribableInterface,
     PhabricatorFlaggableInterface,
+    PhorgeRestrictableInteractionInterface,
     PhabricatorPolicyInterface,
     PhabricatorDestructibleInterface,
     PhabricatorConduitResultInterface,
@@ -60,6 +61,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
   protected $storageFormat;
   protected $storageHandle;
 
+  /**
+   * @var int|null $ttl Temporary file lifetime
+   */
   protected $ttl;
   protected $isExplicitUpload = 1;
   protected $viewPolicy = PhabricatorPolicies::POLICY_USER;
@@ -182,6 +186,14 @@ final class PhabricatorFile extends PhabricatorFileDAO
    */
   public function getMonogram() {
     return 'F'.$this->getID();
+  }
+
+  /**
+   * Whether the file is temporary
+   * @return bool
+   */
+  public function isTemporary() {
+    return $this->getTTL() !== null;
   }
 
   public function scrambleSecret() {
@@ -1781,6 +1793,17 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return array(
       $this->getAuthorPHID(),
     );
+  }
+
+
+/* -(  PhorgeRestrictableInteractionInterface  )----------------------------- */
+
+
+  public function disallowInteractions() {
+    if ($this->isTemporary()) {
+      return true;
+    }
+    return false;
   }
 
 

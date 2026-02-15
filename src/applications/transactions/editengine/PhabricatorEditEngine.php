@@ -1656,9 +1656,12 @@ abstract class PhabricatorEditEngine
   final public function buildEditEngineCommentView($object) {
     $config = $this->loadDefaultEditConfiguration($object);
 
-    if (!$config) {
+    if (!$config ||
+        ($object instanceof PhorgeRestrictableInteractionInterface &&
+        $object->disallowInteractions())) {
       // TODO: This just nukes the entire comment form if you don't have access
-      // to any edit forms. We might want to tailor this UX a bit.
+      // to any edit forms, or if the object is temporary.
+      // We might want to tailor this UX a bit.
       return id(new PhabricatorApplicationTransactionCommentView())
         ->setNoPermission(true);
     }

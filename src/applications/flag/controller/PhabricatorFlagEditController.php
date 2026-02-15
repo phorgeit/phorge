@@ -15,6 +15,19 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
       return new Aphront404Response();
     }
 
+    $object = id(new PhabricatorObjectQuery())
+      ->setViewer($viewer)
+      ->withPHIDs(array($phid))
+      ->executeOne();
+
+    if ($object instanceof PhorgeRestrictableInteractionInterface &&
+        $object->disallowInteractions()) {
+      return $this->buildErrorResponse(
+        pht('Temporary Object'),
+        pht('This object is temporary and cannot be flagged.'),
+        $handle->getURI());
+    }
+
     $flag = PhabricatorFlagQuery::loadUserFlag($viewer, $phid);
 
     if (!$flag) {
@@ -79,6 +92,19 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
     $dialog->addCancelButton($handle->getURI());
     $dialog->addSubmitButton(
       $is_new ? pht('Create Flag') : pht('Save'));
+
+    return id(new AphrontDialogResponse())->setDialog($dialog);
+  }
+
+  private function buildErrorResponse($title, $message, $uri) {
+    $request = $this->getRequest();
+    $viewer = $request->getUser();
+
+    $dialog = id(new AphrontDialogView())
+      ->setUser($viewer)
+      ->setTitle($title)
+      ->appendChild($message)
+      ->addCancelButton($uri);
 
     return id(new AphrontDialogResponse())->setDialog($dialog);
   }

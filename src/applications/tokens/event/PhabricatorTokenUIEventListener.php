@@ -69,7 +69,9 @@ final class PhabricatorTokenUIEventListener
         ->setDisabled(!$can_interact);
     }
 
-    if (!$user->isLoggedIn()) {
+    if (!$user->isLoggedIn() ||
+        ($object instanceof PhorgeRestrictableInteractionInterface &&
+        $object->disallowInteractions())) {
       $token_action->setDisabled(true);
     }
 
