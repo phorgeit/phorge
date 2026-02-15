@@ -1,0 +1,183 @@
+@title Policies User Guide
+@group userguide
+
+Guide to using Policies.
+
+Overview
+========
+
+Policies are the objects used to control user's permissions to view, edit and
+interact with various objects.
+
+Policies can express complex rules, and each object may have its own custom
+policies.
+
+Capabilities and Policies
+=========================
+
+Each object type defines the various //Capabilities// users may have with
+regards to its instances; Most objects have "Visible To" and "Editable By"
+policies, and some have additional capabilities, such as "Can interact" for
+Phame posts and "Can Push" for Diffusion repositories.
+
+Each Application can also define Capabilities, such as "Can Create Objects", in
+addition to defining default values for new object's policies.
+
+A //Policy check// is applied for each capability of each object, against the
+acting user. For example, when a user tries to join a Project, the "Can Join"
+policy of the user is checked against the user to determine if they are allowed
+to perform the action.
+
+Object's pages will usually have a link to "Policy Details" in the tag list
+under the object's title.
+
+
+Policies and Rules
+==================
+
+Each Policy is made out of a list of Rules.
+
+
+A policy that has only one rule can be picked from the policy Selection
+dropdown, while more complex policies will be shown as "Custom Policy" and will
+show a dialog similar to this:
+
+
+```name=Custom Policy Editor
+
+Rules
+----------
+These rules are processed in order.                                 [New Rule]
+
+[Allow]  [users                 ] [Named users                ]       [Remove]
+[Deny ]  [members of any project] [Named projects             ]       [Remove]
+
+      If No Rules Match [Deny ] all other users.
+
+```
+
+
+There are 3 types of rules:
+
+- **Global** rules are 4 special-case policies - "No one", "Admins", "All Users"
+  and "Public (No Login Required)". These can be selected in the dropdown.
+  "Public" is only available if the config `policy.allow-public` is enabled
+  (default false).
+
+- **Object** rules are rules that are derived from the object being considered -
+  for example, policies that apply to a Task can have "Task Author" as a rule,
+  and policies that apply to project can have "members of project" rule.
+
+- **Custom** rules are all other rules, that only consider the actor (user), and
+  not the object.
+  Custom rules will usually accept some values to compare against the actor,
+  such as Legalpad document or list of Projects.
+
+Extensions can write new Custom and Object rules - see "Writing Rules" below.
+
+
+=== Automatic Capabilities
+
+Some objects can allow some users to bypass some policy checks; For example, a
+user that has a task assigned to them can always view and edit the task, even
+if the policy would otherwise preclude them. The owner of a Revision can always
+view and edit the Revision.
+
+These policies are described under "{icon unlock-alt, color=red} Special Rules"
+in the "Policy Details" screen.
+
+=== File Attachments
+
+File objects can be //Attached// to other objects. Files attached to objects are
+visible to users who can view those objects. Files can be detached from objects
+in the File's "Details" view under "File Metadata".
+
+
+== Caveats
+
+
+* @{article@phorge: users|Administrators} cannot bypass policy checks. There
+  are a few cases where a policy may be hard-coded to "admins", and several
+  cases where "admins" is the default policy, but admins are subjects to the
+  same policy checks as normal users.
+
+* Capabilities are very specific and only apply to their explicit description;
+  For example, a Project's "Can Join" capability is not checked when user A is
+  adding user B as a member; Instead, we check if user A is allowed to add
+  members (which is just "Can Edit").
+
+* The "Can Edit" capability generally allows the user to edit all policies on
+  an object, including "Can Edit".
+
+
+== Field manuals
+==== Lost Objects
+
+Objects that are not visible to anyone can be inspected and unlocked using the
+`bin/policy` script.
+
+    $ bin/policy view <object identifier>
+
+will explain the current policies of the object; Use short name such as `T123`
+or PHID to specify an object.
+
+    $ bin/policy unlock --view <username> --edit <username> <object identifier>
+
+will modify the specified policy to allow the user to view/edit the object.
+Further editing can be done via the UI.
+
+== Extensions guide
+
+==== Writing Rules
+
+Extensions can provide additional Custom and Object rules for use on all
+objects and capabilities.
+
+To implement a Custom Rule, extend @{class:PhabricatorPolicyRule}. To implement
+an Object Rule, extend the same class and implement `getObjectPolicyKey`.
+
+- Methods `getRuleDescription` and `getValueForDisplay`
+  are intended to describe the rule to users.
+- `getValueControlTemplate`, `getValueForStorage` allows providing values to
+  Custom rules; Object rules can not accept values.
+- implement `getObjectPolicyKey`, `canApplyToObject`, `getObjectPolicyName`,
+  `getObjectPolicyShortName`, etc. to define Object rules.
+- implement `willApplyRules` to pre-load any data that might be needed for
+  evaluating the rule on any of the objects/values provided.
+- implement `applyRule` to evaluate the result of the rule for `$viewer` on
+  `$object` with the `$value` provided.
+
+  `applyRule` should return `true` to pass and `false` to block the action.
+
+Example implementations:
+- Custom Rules:
+  - @{class:PhabricatorProjectsAllPolicyRule}
+  - @{class:PhabricatorLunarPhasePolicyRule}
+- Object Rules:
+  - @{class:ManiphestTaskAuthorPolicyRule}
+  - @{class:PhabricatorProjectMembersPolicyRule}
+
+==== Defining Capabilities
+
+Extensions can define Capabilities by implementing
+@{class:PhabricatorPolicyCapability}.
+
+Implementations are denoted by the string const `CAPABILITY`, and the
+implementation mostly consists of describing the capability.
+
+Objects can list their supported capabilities by implementing
+@{interface:PhabricatorPolicyInterface}. `getCapabilities` returns a list of
+capability constants that can be applied to the object.
+
+Objects that delegate their policies to other objects can implement
+@{interface:PhabricatorExtendedPolicyInterface}
+
+Example Implementations:
+- Capabilities: @{class:DiffusionPushCapability}
+- Policy Object: @{class:ConpherenceThread}
+- Extended Policy: @{class:DifferentialDiff}
+
+
+See Also
+========
+* @{article:  Spaces User Guide}
