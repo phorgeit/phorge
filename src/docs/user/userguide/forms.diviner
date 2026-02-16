@@ -309,6 +309,8 @@ field-level policy controls. These form customization features are generally
 aimed at helping well-intentioned but inexperienced users complete workflows
 quickly and correctly.
 
+For more details about policies in general, see @{article:Policies User Guide}.
+
 
 Disabling Form Configurations
 =============================
