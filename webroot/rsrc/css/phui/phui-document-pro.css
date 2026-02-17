@@ -306,6 +306,11 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
 }
 
 @media (min-width: 1792px) {
+  .device-desktop .phui-document-content-outer {
+    display: table;
+    width: calc(100% - 300px);
+  }
+
   div.phui-document-view.phui-document-view-pro.has-curtain {
     max-width: 1332px;
     left: 50px;
