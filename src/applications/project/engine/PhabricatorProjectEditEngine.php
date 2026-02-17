@@ -125,7 +125,7 @@ final class PhabricatorProjectEditEngine
     if ($is_milestone) {
       foreach ($fields as $key => $field) {
         $xaction_type = $field->getTransactionType();
-        if (isset($unavailable[$xaction_type])) {
+        if ($xaction_type !== null && isset($unavailable[$xaction_type])) {
           unset($fields[$key]);
         }
       }
