@@ -19,7 +19,7 @@ final class LegalpadDocumentTextTransaction
   public function getTitle() {
     $old = $this->getOldValue();
 
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s set the document text.',
         $this->renderAuthor());
