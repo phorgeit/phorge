@@ -2,7 +2,6 @@
 
 /**
  * Before a profile picture is destroyed, restore the builtin picture.
- * https://we.phorge.it/T16074
  */
 final class PeopleProfilePictureBeforeDestructionEngineExtension
   extends PhabricatorBeforeDestructionEngineExtension {
