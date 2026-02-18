@@ -2,9 +2,9 @@
  * @provides javelin-behavior-toggle-widget
  * @requires javelin-behavior
  *           javelin-dom
- *           javelin-util
- *           javelin-workflow
+ *           javelin-request
  *           javelin-stratcom
+ *           javelin-behavior-device
  */
 
 JX.behavior('toggle-widget', function(config) {

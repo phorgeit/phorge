@@ -4,6 +4,9 @@
  *           javelin-uri
  *           javelin-util
  * @provides javelin-history
+ *
+ * @javelin-installs JX.History
+ *
  * @javelin
  */
 

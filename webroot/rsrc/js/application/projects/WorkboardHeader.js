@@ -1,6 +1,10 @@
 /**
- * @provides javelin-workboard-header
  * @requires javelin-install
+ *           javelin-stratcom
+ * @provides javelin-workboard-header
+ *
+ * @javelin-installs JX.WorkboardHeader
+ *
  * @javelin
  */
 

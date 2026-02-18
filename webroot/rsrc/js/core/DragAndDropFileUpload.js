@@ -3,9 +3,14 @@
  *           javelin-util
  *           javelin-request
  *           javelin-dom
+ *           javelin-stratcom
  *           javelin-uri
+ *           javelin-workflow
  *           phabricator-file-upload
  * @provides phabricator-drag-and-drop-file-upload
+ *
+ * @javelin-installs JX.PhabricatorDragAndDropFileUpload
+ *
  * @javelin
  */
 

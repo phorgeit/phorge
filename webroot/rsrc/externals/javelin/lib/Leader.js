@@ -1,6 +1,12 @@
 /**
  * @requires javelin-install
+ *           javelin-json
+ *           javelin-stratcom
+ *           javelin-util
  * @provides javelin-leader
+ *
+ * @javelin-installs JX.Leader
+ *
  * @javelin
  */
 

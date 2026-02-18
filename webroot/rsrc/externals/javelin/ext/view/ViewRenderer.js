@@ -1,7 +1,9 @@
 /**
- * @provides javelin-view-renderer
  * @requires javelin-install
  *           javelin-util
+ * @provides javelin-view-renderer
+ *
+ * @javelin-installs JX.ViewRenderer
  */
 
 JX.install('ViewRenderer', {

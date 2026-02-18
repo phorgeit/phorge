@@ -1,6 +1,10 @@
 /**
  * @requires javelin-install
+ *           javelin-util
  * @provides javelin-websocket
+ *
+ * @javelin-installs JX.WebSocket
+ *
  * @javelin
  */
 

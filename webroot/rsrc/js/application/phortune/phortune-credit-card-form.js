@@ -1,10 +1,13 @@
 /**
- * @provides phortune-credit-card-form
  * @requires javelin-install
  *           javelin-dom
  *           javelin-json
  *           javelin-workflow
  *           javelin-util
+ * @provides phortune-credit-card-form
+ *
+ * @javelin-installs JX.PhortuneCreditCardForm
+ *
  * @javelin
  */
 

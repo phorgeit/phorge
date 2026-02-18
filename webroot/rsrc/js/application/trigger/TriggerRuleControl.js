@@ -1,6 +1,11 @@
 /**
  * @requires phuix-form-control-view
+ *           javelin-install
+ *           javelin-util
  * @provides trigger-rule-control
+ *
+ * @javelin-installs JX.TriggerRuleControl
+ *
  * @javelin
  */
 

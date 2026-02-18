@@ -1,5 +1,4 @@
 /**
- * @provides javelin-workboard-controller
  * @requires javelin-install
  *           javelin-dom
  *           javelin-util
@@ -8,6 +7,11 @@
  *           javelin-workflow
  *           phabricator-drag-and-drop-file-upload
  *           javelin-workboard-board
+ *           javelin-behavior-device
+ * @provides javelin-workboard-controller
+ *
+ * @javelin-installs JX.WorkboardController
+ *
  * @javelin
  */
 

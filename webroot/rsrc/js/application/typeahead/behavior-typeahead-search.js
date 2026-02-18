@@ -1,9 +1,9 @@
 /**
  * @provides javelin-behavior-typeahead-search
  * @requires javelin-behavior
- *           javelin-stratcom
  *           javelin-workflow
  *           javelin-dom
+ *           javelin-util
  */
 
 JX.behavior('typeahead-search', function(config) {

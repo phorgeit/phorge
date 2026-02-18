@@ -9,6 +9,9 @@
  *           javelin-uri
  *           javelin-routable
  * @provides javelin-workflow
+ *
+ * @javelin-installs JX.Workflow
+ *
  * @javelin
  */
 

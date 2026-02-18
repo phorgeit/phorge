@@ -1,5 +1,4 @@
 /**
- * @provides javelin-behavior-pholio-mock-edit
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
@@ -8,6 +7,8 @@
  *           phabricator-phtize
  *           phabricator-drag-and-drop-file-upload
  *           phabricator-draggable-list
+ *           phabricator-file-upload
+ * @provides javelin-behavior-pholio-mock-edit
  */
 JX.behavior('pholio-mock-edit', function(config, statics) {
   var pht = JX.phtize(config.pht);

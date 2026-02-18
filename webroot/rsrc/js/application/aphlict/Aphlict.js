@@ -1,10 +1,12 @@
 /**
- * @provides javelin-aphlict
  * @requires javelin-install
  *           javelin-util
  *           javelin-websocket
  *           javelin-leader
  *           javelin-json
+ * @provides javelin-aphlict
+ *
+ * @javelin-installs JX.Aphlict
  */
 
 /**

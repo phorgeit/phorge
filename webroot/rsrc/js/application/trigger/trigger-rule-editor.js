@@ -1,9 +1,11 @@
 /**
  * @requires javelin-behavior
+ *           javelin-dom
  *           trigger-rule-editor
  *           trigger-rule
  *           trigger-rule-type
  * @provides javelin-behavior-trigger-rule-editor
+ *
  * @javelin
  */
 

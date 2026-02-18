@@ -1,10 +1,13 @@
 /**
- * @provides phuix-dropdown-menu
  * @requires javelin-install
  *           javelin-util
  *           javelin-dom
  *           javelin-vector
  *           javelin-stratcom
+ * @provides phuix-dropdown-menu
+ *
+ * @javelin-installs JX.PHUIXDropdownMenu
+ *
  * @javelin
  */
 

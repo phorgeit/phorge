@@ -1,8 +1,14 @@
 /**
- * @provides javelin-workboard-column
  * @requires javelin-install
+ *           javelin-dom
+ *           javelin-stratcom
+ *           javelin-util
  *           javelin-workboard-card
  *           javelin-workboard-header
+ * @provides javelin-workboard-column
+ *
+ * @javelin-installs JX.WorkboardColumn
+ *
  * @javelin
  */
 

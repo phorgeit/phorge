@@ -1,6 +1,9 @@
 /**
- * @provides javelin-external-editor-link-engine
  * @requires javelin-install
+ * @provides javelin-external-editor-link-engine
+ *
+ * @javelin-installs JX.ExternalEditorLinkEngine
+ *
  * @javelin
  */
 

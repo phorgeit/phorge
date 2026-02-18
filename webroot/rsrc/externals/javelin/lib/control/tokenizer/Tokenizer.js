@@ -3,7 +3,11 @@
  *           javelin-util
  *           javelin-stratcom
  *           javelin-install
+ *           javelin-workflow
  * @provides javelin-tokenizer
+ *
+ * @javelin-installs JX.Tokenizer
+ *
  * @javelin
  */
 

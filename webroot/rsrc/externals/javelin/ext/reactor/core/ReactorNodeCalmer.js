@@ -1,8 +1,11 @@
 /**
- * @provides javelin-reactor-node-calmer
  * @requires javelin-install
  *           javelin-reactor
  *           javelin-util
+ * @provides javelin-reactor-node-calmer
+ *
+ * @javelin-installs JX.ReactorNodeCalmer
+ *
  * @javelin
  */
 

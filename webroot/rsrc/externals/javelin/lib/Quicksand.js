@@ -1,6 +1,15 @@
 /**
  * @requires javelin-install
+ *           javelin-dom
+ *           javelin-history
+ *           javelin-stratcom
+ *           javelin-uri
+ *           javelin-util
+ *           javelin-workflow
  * @provides javelin-quicksand
+ *
+ * @javelin-installs JX.Quicksand
+ *
  * @javelin
  */
 

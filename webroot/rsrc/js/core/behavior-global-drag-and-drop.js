@@ -1,10 +1,12 @@
 /**
- * @provides javelin-behavior-global-drag-and-drop
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-uri
  *           javelin-mask
+ *           javelin-stratcom
+ *           javelin-workflow
  *           phabricator-drag-and-drop-file-upload
+ * @provides javelin-behavior-global-drag-and-drop
  */
 
 JX.behavior('global-drag-and-drop', function(config, statics) {

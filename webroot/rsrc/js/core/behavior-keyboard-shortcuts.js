@@ -1,10 +1,11 @@
 /**
- * @provides javelin-behavior-phabricator-keyboard-shortcuts
  * @requires javelin-behavior
  *           javelin-workflow
  *           javelin-json
  *           javelin-dom
  *           phabricator-keyboard-shortcut
+ *           phabricator-phtize
+ * @provides javelin-behavior-phabricator-keyboard-shortcuts
  */
 
 /**

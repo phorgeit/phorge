@@ -7,10 +7,8 @@
  *           javelin-workflow
  *           javelin-behavior-device
  *           javelin-history
- *           javelin-vector
  *           javelin-scrollbar
  *           phabricator-title
- *           phabricator-shaped-request
  *           conpherence-thread-manager
  */
 

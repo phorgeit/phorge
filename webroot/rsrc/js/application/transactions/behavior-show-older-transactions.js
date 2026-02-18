@@ -1,9 +1,13 @@
 /**
- * @provides javelin-behavior-phabricator-show-older-transactions
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
- *           phabricator-busy
+ *           javelin-json
+ *           javelin-router
+ *           javelin-util
+ *           javelin-workflow
+ *           phabricator-keyboard-shortcut
+ * @provides javelin-behavior-phabricator-show-older-transactions
  */
 
 JX.behavior('phabricator-show-older-transactions', function(config) {

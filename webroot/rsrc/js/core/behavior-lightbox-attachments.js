@@ -1,12 +1,13 @@
 /**
- * @provides javelin-behavior-lightbox-attachments
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-mask
  *           javelin-util
+ *           javelin-workflow
  *           phuix-icon-view
  *           phabricator-busy
+ * @provides javelin-behavior-lightbox-attachments
  */
 
 JX.behavior('lightbox-attachments', function() {

@@ -39,10 +39,12 @@
  *
  * This view interpreter is meant to make it work.
  *
- * @provides javelin-view-interpreter
  * @requires javelin-view
  *           javelin-install
  *           javelin-dom
+ * @provides javelin-view-interpreter
+ *
+ * @javelin-installs JX.ViewInterpreter
  */
 
 JX.install('ViewInterpreter', {

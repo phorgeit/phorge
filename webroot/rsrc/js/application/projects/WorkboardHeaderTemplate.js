@@ -1,6 +1,10 @@
 /**
- * @provides javelin-workboard-header-template
  * @requires javelin-install
+ *           javelin-dom
+ * @provides javelin-workboard-header-template
+ *
+ * @javelin-installs JX.WorkboardHeaderTemplate
+ *
  * @javelin
  */
 

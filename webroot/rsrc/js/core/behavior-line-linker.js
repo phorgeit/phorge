@@ -1,10 +1,13 @@
 /**
- * @provides javelin-behavior-phabricator-line-linker
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-history
  *           javelin-external-editor-link-engine
+ *           javelin-uri
+ *           javelin-vector
+ *           phabricator-keyboard-shortcut
+ * @provides javelin-behavior-phabricator-line-linker
  */
 
 JX.behavior('phabricator-line-linker', function() {

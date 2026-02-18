@@ -1,0 +1,13 @@
+/**
+ * @requires javelin-install
+ * @provides javelin-test
+ *
+ * @javelin-installs JX.Test
+ * @javelin-installs JX.Test2
+ *
+ * @javelin
+ */
+
+JX.install('Test', {});
+~~~~~~~~~~
+error:6:0:JAVELIN7

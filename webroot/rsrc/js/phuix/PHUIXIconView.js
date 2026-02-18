@@ -1,7 +1,9 @@
 /**
- * @provides phuix-icon-view
  * @requires javelin-install
  *           javelin-dom
+ * @provides phuix-icon-view
+ *
+ * @javelin-installs JX.PHUIXIconView
  */
 
 JX.install('PHUIXIconView', {

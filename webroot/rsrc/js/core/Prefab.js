@@ -1,15 +1,18 @@
 /**
- * @provides phabricator-prefab
  * @requires javelin-install
  *           javelin-util
  *           javelin-dom
  *           javelin-typeahead
  *           javelin-tokenizer
+ *           javelin-typeahead-normalizer
  *           javelin-typeahead-preloaded-source
  *           javelin-typeahead-ondemand-source
  *           javelin-dom
  *           javelin-stratcom
- *           javelin-util
+ * @provides phabricator-prefab
+ *
+ * @javelin-installs JX.Prefab
+ *
  * @javelin
  */
 

@@ -4,6 +4,9 @@
  *           javelin-request
  *           javelin-typeahead-source
  * @provides javelin-typeahead-ondemand-source
+ *
+ * @javelin-installs JX.TypeaheadOnDemandSource
+ *
  * @javelin
  */
 

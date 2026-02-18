@@ -59,11 +59,13 @@
 
     var ii;
     var Stratcom = JX['Stratcom'];
+    var JSON = JX['JSON'];
+    var DOM = JX['DOM'];
 
     if (!loaded && what.type == 'domready') {
       var initializers = [];
 
-      var tags = JX.DOM.scry(document.body, 'data');
+      var tags = DOM.scry(document.body, 'data');
       for (ii = 0; ii < tags.length; ii++) {
 
         // Ignore tags which are not immediate children of the document
@@ -76,7 +78,7 @@
 
         var tag_kind = tags[ii].getAttribute('data-javelin-init-kind');
         var tag_data = tags[ii].getAttribute('data-javelin-init-data');
-        tag_data = JX.JSON.parse(tag_data);
+        tag_data = JSON.parse(tag_data);
 
         initializers.push({kind: tag_kind, data: tag_data});
       }

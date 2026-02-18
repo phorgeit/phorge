@@ -11,8 +11,9 @@
  * @javelin-installs JX.bind
  * @javelin-installs JX.bag
  * @javelin-installs JX.keys
- * @javelin-installs JX.log
  * @javelin-installs JX.id
+ * @javelin-installs JX.log
+ * @javelin-installs JX.sprintf
  * @javelin-installs JX.now
  *
  * @javelin

@@ -1,6 +1,13 @@
 /**
- * @requires javelin-install javelin-event javelin-util javelin-magical-init
+ * @requires javelin-install
+ *           javelin-event
+ *           javelin-util
+ *           javelin-magical-init
+ *           javelin-behavior
  * @provides javelin-stratcom
+ *
+ * @javelin-installs JX.Stratcom
+ *
  * @javelin
  */
 

@@ -1,11 +1,10 @@
 /**
- * @provides javelin-behavior-phui-hovercards
  * @requires javelin-behavior
  *           javelin-behavior-device
  *           javelin-stratcom
- *           javelin-vector
- *           phui-hovercard
  *           phui-hovercard-list
+ * @provides javelin-behavior-phui-hovercards
+ *
  * @javelin
  */
 

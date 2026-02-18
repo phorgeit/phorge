@@ -1,10 +1,11 @@
 /**
- * @provides javelin-uri
  * @requires javelin-install
  *           javelin-util
  *           javelin-stratcom
+ * @provides javelin-uri
  *
  * @javelin-installs JX.$U
+ * @javelin-installs JX.URI
  *
  * @javelin
  */

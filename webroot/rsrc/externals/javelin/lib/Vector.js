@@ -4,6 +4,7 @@
  * @provides javelin-vector
  *
  * @javelin-installs JX.$V
+ * @javelin-installs JX.Vector
  *
  * @javelin
  */

@@ -1,6 +1,11 @@
 /**
- * @provides javelin-behavior-harbormaster-log
  * @requires javelin-behavior
+ *           javelin-dom
+ *           javelin-stratcom
+ *           javelin-vector
+ *           javelin-uri
+ *           javelin-request
+ * @provides javelin-behavior-harbormaster-log
  */
 
 JX.behavior('harbormaster-log', function(config) {

@@ -1,6 +1,9 @@
 /**
- * @provides javelin-routable
  * @requires javelin-install
+ * @provides javelin-routable
+ *
+ * @javelin-installs JX.Routable
+ *
  * @javelin
  */
 

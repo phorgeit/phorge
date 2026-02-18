@@ -3,11 +3,13 @@
  * views works, as driven by validation. I'm not convinced it's actually a good
  * idea to do validation.
  *
- * @provides javelin-view-html
  * @requires javelin-install
  *           javelin-dom
  *           javelin-view-visitor
  *           javelin-util
+ * @provides javelin-view-html
+ *
+ * @javelin-installs JX.HTMLView
  */
 
 JX.install('HTMLView', {

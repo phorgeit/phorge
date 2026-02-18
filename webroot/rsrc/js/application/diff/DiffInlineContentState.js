@@ -1,6 +1,10 @@
 /**
- * @provides phabricator-diff-inline-content-state
  * @requires javelin-dom
+ *           javelin-install
+ * @provides phabricator-diff-inline-content-state
+ *
+ * @javelin-installs JX.DiffInlineContentState
+ *
  * @javelin
  */
 

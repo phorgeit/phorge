@@ -1,6 +1,11 @@
 /**
- * @provides javelin-workboard-card
  * @requires javelin-install
+ *           javelin-dom
+ *           javelin-stratcom
+ * @provides javelin-workboard-card
+ *
+ * @javelin-installs JX.WorkboardCard
+ *
  * @javelin
  */
 

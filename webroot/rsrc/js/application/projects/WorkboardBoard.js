@@ -1,15 +1,23 @@
 /**
- * @provides javelin-workboard-board
  * @requires javelin-install
  *           javelin-dom
  *           javelin-util
  *           javelin-stratcom
  *           javelin-workflow
+ *           javelin-sound
+ *           javelin-json
+ *           javelin-vector
+ *           javelin-request
  *           phabricator-draggable-list
  *           javelin-workboard-column
  *           javelin-workboard-header-template
  *           javelin-workboard-card-template
  *           javelin-workboard-order-template
+ *           phabricator-keyboard-shortcut
+ * @provides javelin-workboard-board
+ *
+ * @javelin-installs JX.WorkboardBoard
+ *
  * @javelin
  */
 

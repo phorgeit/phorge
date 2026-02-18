@@ -1,6 +1,9 @@
 /**
  * @requires javelin-install
  * @provides javelin-typeahead-normalizer
+ *
+ * @javelin-installs JX.TypeaheadNormalizer
+ *
  * @javelin
  */
 

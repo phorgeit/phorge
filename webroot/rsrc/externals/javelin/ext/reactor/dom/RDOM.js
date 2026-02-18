@@ -1,12 +1,15 @@
 /**
  * Javelin Reactive functions to work with the DOM.
- * @provides javelin-reactor-dom
  * @requires javelin-dom
  *           javelin-dynval
  *           javelin-reactor
  *           javelin-reactornode
  *           javelin-install
  *           javelin-util
+ * @provides javelin-reactor-dom
+ *
+ * @javelin-installs JX.RDOM
+ *
  * @javelin
  */
 JX.install('RDOM', {

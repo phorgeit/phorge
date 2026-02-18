@@ -1,6 +1,8 @@
 /**
- * @provides phabricator-title
  * @requires javelin-install
+ * @provides phabricator-title
+ *
+ * @javelin-installs JX.Title
  */
 
 /**

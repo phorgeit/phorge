@@ -1,11 +1,9 @@
 /**
- * @provides javelin-behavior-time-typeahead
  * @requires javelin-behavior
- *           javelin-util
  *           javelin-dom
- *           javelin-stratcom
- *           javelin-vector
+ *           javelin-typeahead
  *           javelin-typeahead-static-source
+ * @provides javelin-behavior-time-typeahead
  */
 
 JX.behavior('time-typeahead', function(config) {

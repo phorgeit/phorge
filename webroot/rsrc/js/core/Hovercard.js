@@ -1,10 +1,10 @@
 /**
  * @requires javelin-install
  *           javelin-dom
- *           javelin-vector
- *           javelin-request
- *           javelin-uri
  * @provides phui-hovercard
+ *
+ * @javelin-installs JX.Hovercard
+ *
  * @javelin
  */
 

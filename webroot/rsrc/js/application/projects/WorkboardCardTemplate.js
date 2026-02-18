@@ -1,6 +1,10 @@
 /**
- * @provides javelin-workboard-card-template
  * @requires javelin-install
+ *           javelin-dom
+ * @provides javelin-workboard-card-template
+ *
+ * @javelin-installs JX.WorkboardCardTemplate
+ *
  * @javelin
  */
 

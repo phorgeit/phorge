@@ -2,6 +2,9 @@
  * @requires javelin-install
  *           javelin-typeahead-source
  * @provides javelin-typeahead-static-source
+ *
+ * @javelin-installs JX.TypeaheadStaticSource
+ *
  * @javelin
  */
 

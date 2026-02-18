@@ -1,10 +1,13 @@
 /**
- * @provides javelin-behavior-fancy-datepicker
  * @requires javelin-behavior
+ *           javelin-behavior-device
+ *           javelin-mask
  *           javelin-util
  *           javelin-dom
  *           javelin-stratcom
  *           javelin-vector
+ *           phabricator-phtize
+ * @provides javelin-behavior-fancy-datepicker
  */
 
 JX.behavior('fancy-datepicker', function(config, statics) {

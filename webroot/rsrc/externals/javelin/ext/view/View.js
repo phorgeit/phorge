@@ -4,9 +4,11 @@
  * to be used either directly or as a building block for a syntactic sugar layer
  * for concise expression of markup patterns.
  *
- * @provides javelin-view
  * @requires javelin-install
  *           javelin-util
+ * @provides javelin-view
+ *
+ * @javelin-installs JX.View
  */
 JX.install('View', {
   construct : function(attrs, children) {

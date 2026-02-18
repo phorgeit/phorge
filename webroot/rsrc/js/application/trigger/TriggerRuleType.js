@@ -1,6 +1,10 @@
 /**
  * @requires trigger-rule-control
+ *           javelin-install
  * @provides trigger-rule-type
+ *
+ * @javelin-installs JX.TriggerRuleType
+ *
  * @javelin
  */
 

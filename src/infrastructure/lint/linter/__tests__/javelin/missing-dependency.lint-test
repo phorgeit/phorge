@@ -1,0 +1,22 @@
+/**
+ * @requires javelin-install
+ * @provides javelin-test
+ *
+ * @javelin-installs JX.Test
+ *
+ * @javelin
+ */
+
+JX.install('Test', {
+
+  statics : {
+
+    test: function (wild) {
+      alert(JX.JSON(wild));
+    }
+
+  }
+
+});
+~~~~~~~~~~
+error:15:0:JAVELIN2

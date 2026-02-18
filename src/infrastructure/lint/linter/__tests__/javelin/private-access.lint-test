@@ -1,0 +1,23 @@
+/**
+ * @requires javelin-install
+ *           javelin-history
+ * @provides javelin-test
+ *
+ * @javelin-installs JX.Test
+ *
+ * @javelin
+ */
+
+JX.install('Test', {
+
+  statics : {
+
+    test: function (wild) {
+      JX.History._fire('/', wild);
+    }
+
+  }
+
+});
+~~~~~~~~~~
+error:16:0:JAVELIN1

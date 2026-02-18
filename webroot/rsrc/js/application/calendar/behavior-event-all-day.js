@@ -1,4 +1,6 @@
 /**
+ * @requires javelin-behavior
+ *           javelin-dom
  * @provides javelin-behavior-event-all-day
  */
 

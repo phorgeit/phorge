@@ -1,6 +1,9 @@
 /**
  * @requires javelin-install
  * @provides javelin-event
+ *
+ * @javelin-installs JX.Event
+ *
  * @javelin
  */
 

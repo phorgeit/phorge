@@ -1,8 +1,10 @@
 /**
- * @provides javelin-resource
  * @requires javelin-util
  *           javelin-uri
  *           javelin-install
+ * @provides javelin-resource
+ *
+ * @javelin-installs JX.Resource
  *
  * @javelin
  */

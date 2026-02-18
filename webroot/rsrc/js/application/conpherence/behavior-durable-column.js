@@ -1,13 +1,14 @@
 /**
- * @provides javelin-behavior-durable-column
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-stratcom
- *           javelin-behavior-device
  *           javelin-scrollbar
  *           javelin-quicksand
- *           phabricator-keyboard-shortcut
+ *           javelin-uri
+ *           javelin-request
  *           conpherence-thread-manager
+ *           phabricator-title
+ * @provides javelin-behavior-durable-column
  */
 
 JX.behavior('durable-column', function(config, statics) {

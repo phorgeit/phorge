@@ -4,6 +4,9 @@
  *           javelin-vector
  *           javelin-util
  * @provides javelin-typeahead
+ *
+ * @javelin-installs JX.Typeahead
+ *
  * @javelin
  */
 

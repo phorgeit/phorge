@@ -1,9 +1,17 @@
 /**
- * @provides phuix-autocomplete
  * @requires javelin-install
+ *           javelin-behavior-device
  *           javelin-dom
+ *           javelin-stratcom
+ *           javelin-typeahead-ondemand-source
+ *           javelin-util
+ *           javelin-vector
  *           phuix-icon-view
  *           phabricator-prefab
+ *           phabricator-textareautils
+ * @provides phuix-autocomplete
+ *
+ * @javelin-installs JX.PHUIXAutocomplete
  */
 
 JX.install('PHUIXAutocomplete', {

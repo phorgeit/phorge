@@ -41,3 +41,8 @@
 # Places for users to add custom resources.
 /resources/cows/custom/*
 /resources/figlet/custom/*
+
+# Peast
+/support/peast/peast*.tar.gz
+/support/peast/peast*.zip
+/support/peast/lib/*

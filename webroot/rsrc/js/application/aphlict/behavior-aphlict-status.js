@@ -1,9 +1,11 @@
 /**
- * @provides javelin-behavior-aphlict-status
  * @requires javelin-behavior
  *           javelin-aphlict
  *           phabricator-phtize
  *           javelin-dom
+ *           phuix-icon-view
+ * @provides javelin-behavior-aphlict-status
+ *
  * @javelin
  */
 

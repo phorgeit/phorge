@@ -1,7 +1,10 @@
 /**
- * @provides phuix-button-view
  * @requires javelin-install
  *           javelin-dom
+ *           phuix-icon-view
+ * @provides phuix-button-view
+ *
+ * @javelin-installs JX.PHUIXButtonView
  */
 JX.install('PHUIXButtonView', {
 

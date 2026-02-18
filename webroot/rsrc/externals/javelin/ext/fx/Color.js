@@ -1,6 +1,9 @@
 /**
- * @provides javelin-color
  * @requires javelin-install
+ * @provides javelin-color
+ *
+ * @javelin-installs JX.Color
+ *
  * @javelin
  */
 

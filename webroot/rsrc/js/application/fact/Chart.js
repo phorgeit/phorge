@@ -1,9 +1,16 @@
 /**
- * @provides javelin-chart
- * @requires phui-chart-css
- *           d3
+ * @requires javelin-install
+ *           javelin-behavior-device
  *           javelin-chart-curtain-view
  *           javelin-chart-function-label
+ *           javelin-dom
+ *           javelin-stratcom
+ *           javelin-util
+ *           javelin-vector
+ *           phui-chart-css
+ * @provides javelin-chart
+ *
+ * @javelin-installs JX.Chart
  */
 JX.install('Chart', {
 

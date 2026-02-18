@@ -6,6 +6,9 @@
  *           javelin-typeahead-ondemand-source
  *           javelin-util
  * @provides path-typeahead
+ *
+ * @javelin-installs JX.PathTypeahead
+ *
  * @javelin
  */
 

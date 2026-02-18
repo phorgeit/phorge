@@ -3,6 +3,9 @@
  *
  * @requires javelin-install
  * @provides javelin-json
+ *
+ * @javelin-installs JX.JSON
+ *
  * @javelin
  */
 

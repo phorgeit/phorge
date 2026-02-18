@@ -4,6 +4,9 @@
  *           javelin-dom
  *           javelin-typeahead-normalizer
  * @provides javelin-typeahead-source
+ *
+ * @javelin-installs JX.TypeaheadSource
+ *
  * @javelin
  */
 

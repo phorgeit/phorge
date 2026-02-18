@@ -1,11 +1,8 @@
 /**
- * @provides javelin-behavior-conpherence-pontificate
  * @requires javelin-behavior
- *           javelin-dom
- *           javelin-util
- *           javelin-workflow
  *           javelin-stratcom
  *           conpherence-thread-manager
+ * @provides javelin-behavior-conpherence-pontificate
  */
 
 JX.behavior('conpherence-pontificate', function() {

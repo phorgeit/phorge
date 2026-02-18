@@ -1,7 +1,9 @@
 /**
- * @provides phuix-formation-flank-view
  * @requires javelin-install
- *           javelin-dom
+ *           javelin-vector
+ * @provides phuix-formation-flank-view
+ *
+ * @javelin-installs JX.PHUIXFormationFlankView
  */
 
 JX.install('PHUIXFormationFlankView', {

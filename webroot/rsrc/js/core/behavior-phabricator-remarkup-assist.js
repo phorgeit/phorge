@@ -1,8 +1,9 @@
 /**
- * @provides javelin-behavior-phabricator-remarkup-assist
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
+ *           phabricator-file-upload
+ *           phabricator-keyboard-shortcut
  *           phabricator-phtize
  *           phabricator-textareautils
  *           phabricator-remarkup-metadata
@@ -10,6 +11,7 @@
  *           javelin-vector
  *           phuix-autocomplete
  *           javelin-mask
+ * @provides javelin-behavior-phabricator-remarkup-assist
  */
 
 JX.behavior('phabricator-remarkup-assist', function(config) {

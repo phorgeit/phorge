@@ -8,6 +8,9 @@
  *           javelin-resource
  *           javelin-routable
  * @provides javelin-request
+ *
+ * @javelin-installs JX.Request
+ *
  * @javelin
  */
 

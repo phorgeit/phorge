@@ -1,9 +1,15 @@
 /**
- * @provides phuix-formation-view
  * @requires javelin-install
  *           javelin-dom
+ *           javelin-magical-init
+ *           javelin-util
+ *           javelin-stratcom
+ *           javelin-vector
  *           phuix-formation-column-view
  *           phuix-formation-flank-view
+ * @provides phuix-formation-view
+ *
+ * @javelin-installs JX.PHUIXFormationView
  */
 
 JX.install('PHUIXFormationView', {

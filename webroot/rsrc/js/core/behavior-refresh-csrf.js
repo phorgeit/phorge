@@ -1,11 +1,12 @@
 /**
- * @provides javelin-behavior-refresh-csrf
  * @requires javelin-request
  *           javelin-behavior
  *           javelin-dom
  *           javelin-router
+ *           javelin-uri
  *           javelin-util
  *           phabricator-busy
+ * @provides javelin-behavior-refresh-csrf
  */
 
 /**

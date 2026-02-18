@@ -1,8 +1,10 @@
 /**
- * @provides javelin-behavior-phuix-example
- * @requires javelin-install
+ * @requires javelin-behavior
  *           javelin-dom
+ *           javelin-util
  *           phuix-button-view
+ *           phuix-icon-view
+ * @provides javelin-behavior-phuix-example
  */
 
 JX.behavior('phuix-example', function(config) {

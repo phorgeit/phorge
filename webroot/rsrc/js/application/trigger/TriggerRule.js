@@ -1,5 +1,11 @@
 /**
  * @provides trigger-rule
+ * @requires javelin-install
+ *           javelin-dom
+ *           javelin-util
+ *
+ * @javelin-installs JX.TriggerRule
+ *
  * @javelin
  */
 

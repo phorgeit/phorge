@@ -1,6 +1,12 @@
 /**
- * @provides phabricator-diff-path-view
  * @requires javelin-dom
+ *           javelin-install
+ *           javelin-util
+ *           phuix-icon-view
+ * @provides phabricator-diff-path-view
+ *
+ * @javelin-installs JX.DiffPathView
+ *
  * @javelin
  */
 

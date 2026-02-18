@@ -1,8 +1,9 @@
 /**
- * @provides javelin-behavior-high-security-warning
  * @requires javelin-behavior
+ *           javelin-stratcom
  *           javelin-uri
  *           phabricator-notification
+ * @provides javelin-behavior-high-security-warning
  */
 
 JX.behavior('high-security-warning', function(config, statics) {

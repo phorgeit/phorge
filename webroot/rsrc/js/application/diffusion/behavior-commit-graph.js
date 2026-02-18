@@ -1,8 +1,9 @@
 /**
- * @provides javelin-behavior-diffusion-commit-graph
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-stratcom
+ *           javelin-vector
+ * @provides javelin-behavior-diffusion-commit-graph
  */
 
 JX.behavior('diffusion-commit-graph', function(config) {

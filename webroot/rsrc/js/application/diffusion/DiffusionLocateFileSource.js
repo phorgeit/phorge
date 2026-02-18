@@ -1,9 +1,12 @@
 /**
- * @provides javelin-diffusion-locate-file-source
  * @requires javelin-install
  *           javelin-dom
  *           javelin-typeahead-preloaded-source
  *           javelin-util
+ * @provides javelin-diffusion-locate-file-source
+ *
+ * @javelin-installs JX.DiffusionLocateFileSource
+ *
  * @javelin
  */
 

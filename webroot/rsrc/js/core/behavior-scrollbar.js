@@ -1,7 +1,8 @@
 /**
- * @provides javelin-behavior-scrollbar
  * @requires javelin-behavior
+ *           javelin-dom
  *           javelin-scrollbar
+ * @provides javelin-behavior-scrollbar
  */
 
 JX.behavior('scrollbar', function(config) {

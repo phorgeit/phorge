@@ -7,6 +7,9 @@
  *           javelin-json
  *           phabricator-prefab
  * @provides herald-rule-editor
+ *
+ * @javelin-installs JX.HeraldRuleEditor
+ *
  * @javelin
  */
 
