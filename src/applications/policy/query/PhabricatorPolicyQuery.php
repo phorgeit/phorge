@@ -109,6 +109,7 @@ final class PhabricatorPolicyQuery
       if ($handle_policies) {
         $handles = id(new PhabricatorHandleQuery())
           ->setViewer($this->getViewer())
+          ->setParentQuery($this)
           ->withPHIDs($handle_policies)
           ->execute();
         foreach ($handle_policies as $phid) {
@@ -163,6 +164,13 @@ final class PhabricatorPolicyQuery
         ->setPHID($constant)
         ->setName(self::getGlobalPolicyName($constant))
         ->setShortName(self::getGlobalPolicyShortName($constant))
+        ->setRules(array(
+          array(
+            'action' => 'allow',
+            'rule' => PhorgeGlobalPolicyRule::class,
+            'value' => $constant,
+          ),
+        ))
         ->makeEphemeral();
     }
 
@@ -214,6 +222,7 @@ final class PhabricatorPolicyQuery
       if ($favorite_phids) {
         $projects = id(new PhabricatorProjectQuery())
           ->setViewer($viewer)
+          ->setParentQuery($this)
           ->withPHIDs($favorite_phids)
           ->withIsMilestone(false)
           ->setLimit($favorite_limit)
@@ -230,6 +239,7 @@ final class PhabricatorPolicyQuery
       if (count($projects) < $default_limit) {
         $default_projects = id(new PhabricatorProjectQuery())
           ->setViewer($viewer)
+          ->setParentQuery($this)
           ->withMemberPHIDs(array($viewer->getPHID()))
           ->withIsMilestone(false)
           ->withStatuses(
@@ -346,6 +356,13 @@ final class PhabricatorPolicyQuery
         ->setIcon($rule->getObjectPolicyIcon())
         ->setName($rule->getObjectPolicyName())
         ->setShortName($rule->getObjectPolicyShortName())
+        ->setRules(array(
+          array(
+            'action' => 'allow',
+            'rule' => get_class($rule),
+            'value' => null,
+          ),
+        ))
         ->makeEphemeral();
     }
 

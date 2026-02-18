@@ -363,6 +363,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   private function getPolicyFilter() {
     $filter = new PhabricatorPolicyFilter();
     $filter->setViewer($this->viewer);
+    $filter->setParentQuery($this);
     $capabilities = $this->getRequiredCapabilities();
     $filter->requireCapabilities($capabilities);
     $filter->raisePolicyExceptions($this->shouldRaisePolicyExceptions());

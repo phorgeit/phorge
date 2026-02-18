@@ -227,6 +227,7 @@ final class PhabricatorPolicyEditController
       ),
       $form);
 
+    $rules = mfilter($rules, 'shouldHideFromUI', true);
     $rule_options = mpull($rules, 'getRuleDescription');
     $type_map = mpull($rules, 'getValueControlType');
     $templates = mpull($rules, 'getValueControlTemplate');
@@ -327,7 +328,7 @@ final class PhabricatorPolicyEditController
         ));
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Members Of'))

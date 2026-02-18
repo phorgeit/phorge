@@ -88,11 +88,26 @@ final class PhabricatorPolicy
         $policy
           ->setType(PhabricatorPolicyType::TYPE_PROJECT)
           ->setName($handle->getName())
-          ->setIcon($handle->getIcon());
+          ->setIcon($handle->getIcon())
+          ->setRules(array(
+            array(
+              'action' => 'allow',
+              'rule' => PhabricatorProjectsAllPolicyRule::class,
+              'value' => array($policy_identifier),
+            ),
+          ));
         break;
       case PhabricatorPeopleUserPHIDType::TYPECONST:
-        $policy->setType(PhabricatorPolicyType::TYPE_USER);
-        $policy->setName($handle->getFullName());
+        $policy
+          ->setType(PhabricatorPolicyType::TYPE_USER)
+          ->setName($handle->getFullName())
+          ->setRules(array(
+            array(
+              'action' => 'allow',
+              'rule' => PhabricatorUsersPolicyRule::class,
+              'value' => array($policy_identifier),
+            ),
+          ));
         break;
       case PhabricatorPolicyPHIDTypePolicy::TYPECONST:
         // TODO: This creates a weird handle-based version of a rule policy.
@@ -101,8 +116,9 @@ final class PhabricatorPolicy
         // cleanup.
         break;
       default:
-        $policy->setType(PhabricatorPolicyType::TYPE_MASKED);
-        $policy->setName($handle->getFullName());
+        $policy
+          ->setType(PhabricatorPolicyType::TYPE_MASKED)
+          ->setName($handle->getFullName());
         break;
     }
 
