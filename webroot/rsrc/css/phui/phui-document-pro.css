@@ -218,8 +218,7 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   }
 
 .device-phone .phui-document-view-pro .phui-header-subheader {
-  display: block;
-  padding: 8px 0 0 0;
+  display: flex;
 }
 
 .phui-document-view-pro .phui-info-view {

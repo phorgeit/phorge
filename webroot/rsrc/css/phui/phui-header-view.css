@@ -189,6 +189,9 @@ details > summary.phui-header-shell::-webkit-details-marker {
   font-weight: normal;
   font-size: {$biggerfontsize};
   margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .phui-header-subheader .phui-icon-view {
@@ -213,8 +216,8 @@ details > summary.phui-header-shell::-webkit-details-marker {
   border-radius: 3px;
   background: rgba({$alphablue}, 0.1);
   margin-right: 8px;
+  margin-bottom: 8px;
   border-color: transparent;
-  line-height: 28px;
 }
 
 

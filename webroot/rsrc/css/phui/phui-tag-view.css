@@ -185,6 +185,10 @@ a.phui-tag-view:hover.phui-tag-border-none .phui-tag-core {
   font-size: 12px;
 }
 
+.phui-header-subheader > .phui-tag-view.phui-tag-type-shade {
+  margin-bottom: 8px;
+}
+
 
 /* - Slim Tags -----------------------------------------------------------------
 
