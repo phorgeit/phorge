@@ -6,7 +6,7 @@ final class DifferentialTagsCommitMessageField
   const FIELDKEY = 'phabricator:projects';
 
   public function getFieldName() {
-    return pht('Tags');
+    return pht('Project Tags');
   }
 
   public function getFieldOrder() {
@@ -16,6 +16,7 @@ final class DifferentialTagsCommitMessageField
   public function getFieldAliases() {
     return array(
       'Tag',
+      'Tags',
       'Project',
       'Projects',
     );

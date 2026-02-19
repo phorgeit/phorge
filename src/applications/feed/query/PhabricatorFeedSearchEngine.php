@@ -114,7 +114,7 @@ final class PhabricatorFeedSearchEngine
     );
 
     if ($this->requireViewer()->isLoggedIn()) {
-      $names['projects'] = pht('Tags');
+      $names['projects'] = pht('Project Tags');
     }
 
     return $names;

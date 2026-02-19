@@ -33,13 +33,12 @@ final class PhabricatorProjectSearchEngine
             'is deprecated in favor of the more powerful "query" '.
             'constraint.')),
       id(new PhabricatorSearchStringListField())
-        ->setLabel(pht('Slugs'))
+        ->setLabel(pht('Project Tags'))
         ->setIsHidden(true)
         ->setKey('slugs')
         ->setDescription(
           pht(
-            'Search for projects with particular slugs. (Slugs are the same '.
-            'as project hashtags.)')),
+            'Search for projects with particular hashtags.)')),
       id(new PhabricatorUsersSearchField())
         ->setLabel(pht('Members'))
         ->setKey('memberPHIDs')
@@ -367,8 +366,8 @@ final class PhabricatorProjectSearchEngine
       ->setIcon($icon)
       ->setTitle(pht('Welcome to %s', $app_name))
       ->setDescription(
-        pht('Projects are flexible storage containers used as '.
-            'tags, teams, projects, or anything you need to group.'))
+        pht('Projects are labels are tags. You can use them for a codebase, '.
+            'a team, a sprint, or anything you need to group or categorize.'))
       ->addAction($create_button);
 
       return $view;

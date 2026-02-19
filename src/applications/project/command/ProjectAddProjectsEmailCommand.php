@@ -12,17 +12,17 @@ final class ProjectAddProjectsEmailCommand
   }
 
   public function getCommandSummary() {
-    return pht('Add related projects.');
+    return pht('Add project tags.');
   }
 
   public function getCommandDescription() {
     return pht(
-      'Add one or more projects to the object by listing their hashtags. '.
-      'Separate projects with spaces. For example, use `!projects #ios '.
-      '#feature` to add both related projects.'.
+      'Associate one or more projects to the object by listing their '.
+      'hashtags. Separate project tags with spaces. For example, use '.
+      '`!projects #ios #feature` to add both related projects.'.
       "\n\n".
       'Projects which are invalid or unrecognized will be ignored. This '.
-      'command has no effect if you do not specify any projects.');
+      'command has no effect if you do not specify any project tags.');
   }
 
   public function getCommandAliases() {

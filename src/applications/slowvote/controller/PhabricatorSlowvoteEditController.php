@@ -168,7 +168,7 @@ final class PhabricatorSlowvoteEditController
           ->setValue($v_description))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setLabel(pht('Tags'))
+          ->setLabel(pht('Project Tags'))
           ->setName('projects')
           ->setValue($v_projects)
           ->setDatasource(new PhabricatorProjectDatasource()));

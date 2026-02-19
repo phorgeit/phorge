@@ -75,7 +75,7 @@ final class DivinerBookEditController extends DivinerController {
         id(new AphrontFormTokenizerControl())
           ->setDatasource(new PhabricatorProjectDatasource())
           ->setName('projectPHIDs')
-          ->setLabel(pht('Tags'))
+          ->setLabel(pht('Project Tags'))
           ->setValue($book->getProjectPHIDs()))
       ->appendControl(
         id(new AphrontFormTokenizerControl())

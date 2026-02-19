@@ -97,12 +97,12 @@ abstract class PhabricatorProjectHeraldAction
       self::DO_ADD_PROJECTS => array(
         'icon' => 'fa-briefcase',
         'color' => 'green',
-        'name' => pht('Added Projects'),
+        'name' => pht('Added Project Tags'),
       ),
       self::DO_REMOVE_PROJECTS => array(
         'icon' => 'fa-minus-circle',
         'color' => 'green',
-        'name' => pht('Removed Projects'),
+        'name' => pht('Removed Project Tags'),
       ),
     );
   }

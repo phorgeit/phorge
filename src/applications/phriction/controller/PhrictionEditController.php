@@ -276,7 +276,7 @@ final class PhrictionEditController
           ->setUser($viewer))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setLabel(pht('Tags'))
+          ->setLabel(pht('Project Tags'))
           ->setName('projects')
           ->setValue($v_projects)
           ->setDatasource(new PhabricatorProjectDatasource()))

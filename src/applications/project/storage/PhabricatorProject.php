@@ -864,7 +864,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('slug')
         ->setType('string')
-        ->setDescription(pht('Primary slug/hashtag.')),
+        ->setDescription(pht('Primary hashtag.')),
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('subtype')
         ->setType('string')
