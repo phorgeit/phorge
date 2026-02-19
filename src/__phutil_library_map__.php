@@ -1114,6 +1114,7 @@ phutil_register_library_map(array(
     'DivinerFileAtomizer' => 'applications/diviner/atomizer/DivinerFileAtomizer.php',
     'DivinerFindController' => 'applications/diviner/controller/DivinerFindController.php',
     'DivinerGenerateWorkflow' => 'applications/diviner/workflow/DivinerGenerateWorkflow.php',
+    'DivinerJavelinAtomizer' => 'applications/diviner/atomizer/DivinerJavelinAtomizer.php',
     'DivinerLiveAtom' => 'applications/diviner/storage/DivinerLiveAtom.php',
     'DivinerLiveBook' => 'applications/diviner/storage/DivinerLiveBook.php',
     'DivinerLiveBookEditor' => 'applications/diviner/editor/DivinerLiveBookEditor.php',
@@ -7211,6 +7212,7 @@ phutil_register_library_map(array(
     'DivinerFileAtomizer' => 'DivinerAtomizer',
     'DivinerFindController' => 'DivinerController',
     'DivinerGenerateWorkflow' => 'DivinerWorkflow',
+    'DivinerJavelinAtomizer' => 'DivinerAtomizer',
     'DivinerLiveAtom' => 'DivinerDAO',
     'DivinerLiveBook' => array(
       'DivinerDAO',
