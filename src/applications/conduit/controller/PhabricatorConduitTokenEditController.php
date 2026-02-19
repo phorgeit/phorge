@@ -7,6 +7,9 @@ final class PhabricatorConduitTokenEditController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
+    $errors = array();
+    $e_name = true;
+
     if ($id) {
       $token = id(new PhabricatorConduitTokenQuery())
         ->setViewer($viewer)
@@ -25,7 +28,24 @@ final class PhabricatorConduitTokenEditController
       $object = $token->getObject();
 
       $is_new = false;
-      $title = pht('View API Token');
+      $title = pht('Edit API Token');
+
+      if ($request->isFormPost()) {
+        $new_name = $request->getStr('name');
+        $token_length = $token->getColumnMaximumByteLength('tokenName');
+        if (!phutil_nonempty_string($new_name)) {
+          $e_name = pht('Required');
+          $errors[] = pht(
+            'Tokens must have a name.');
+        } else if (strlen($new_name) > $token_length) {
+          $errors[] = pht(
+            'Maximum token name length is %d characters.',
+            $token_length);
+        }
+        if (!$errors) {
+          $token->setTokenName($new_name);
+        }
+      }
     } else {
       $object = id(new PhabricatorObjectQuery())
         ->setViewer($viewer)
@@ -59,7 +79,7 @@ final class PhabricatorConduitTokenEditController
       $request,
       $panel_uri);
 
-    if ($request->isFormPost()) {
+    if ($request->isFormPost() && !$errors) {
       $token->save();
 
       if ($is_new) {
@@ -73,6 +93,7 @@ final class PhabricatorConduitTokenEditController
 
     $dialog = $this->newDialog()
       ->setTitle($title)
+      ->setErrors($errors)
       ->addHiddenInput('objectPHID', $object->getPHID());
 
     if ($is_new) {
@@ -98,11 +119,19 @@ final class PhabricatorConduitTokenEditController
               ->setSigil('select-on-click')
               ->setHasCopyButton(true)
               ->setValue($token->getToken()));
+        $form->appendChild(
+          id(new AphrontFormTextControl())
+            ->setName('name')
+            ->setLabel(pht('Token Name'))
+            ->setValue($token->getTokenName())
+            ->setError($e_name));
 
         $dialog->appendForm($form);
+
+        $submit_button = pht('Done');
+        $dialog->addSubmitButton($submit_button);
       }
 
-      $dialog->addCancelButton($panel_uri, pht('Done'));
     }
 
     return $dialog;

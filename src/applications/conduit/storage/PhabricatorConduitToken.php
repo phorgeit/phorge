@@ -8,6 +8,7 @@ final class PhabricatorConduitToken
   protected $tokenType;
   protected $token;
   protected $expires;
+  protected $tokenName;
 
   private $object = self::ATTACHABLE;
 
@@ -21,6 +22,7 @@ final class PhabricatorConduitToken
         'tokenType' => 'text32',
         'token' => 'text32',
         'expires' => 'epoch?',
+        'tokenName' => 'text64',
       ),
       self::CONFIG_KEY_SCHEMA => array(
         'key_object' => array(
@@ -85,6 +87,7 @@ final class PhabricatorConduitToken
 
   public static function initializeNewToken($object_phid, $token_type) {
     $token = new PhabricatorConduitToken();
+    $token->setTokenName(self::getTokenTypeName($token_type));
     $token->objectPHID = $object_phid;
     $token->tokenType = $token_type;
     $token->expires = $token->getTokenExpires($token_type);
@@ -96,6 +99,10 @@ final class PhabricatorConduitToken
     return $token;
   }
 
+  /**
+   * @param string $type One of the PhabricatorConduitToken::TYPE_* constants
+   * @return string The human-readable name of the API Token type
+   */
   public static function getTokenTypeName($type) {
     $map = array(
       self::TYPE_STANDARD => pht('Standard API Token'),
@@ -106,6 +113,9 @@ final class PhabricatorConduitToken
     return idx($map, $type, $type);
   }
 
+  /**
+   * @return array<string> The PhabricatorConduitToken::TYPE_* constants
+   */
   public static function getAllTokenTypes() {
     return array(
       self::TYPE_STANDARD,
@@ -129,7 +139,32 @@ final class PhabricatorConduitToken
     }
   }
 
-  public function getPublicTokenName() {
+  /**
+   * Get the token name to display in the API Tokens overview.
+   *
+   * @return string Token name
+   */
+  public function getTokenName() {
+    return $this->tokenName;
+  }
+
+  /**
+   * Set a custom token name
+   *
+   * @param string $token_name Custom token name
+   */
+  public function setTokenName(string $token_name) {
+    $this->tokenName = $token_name;
+    return $this;
+  }
+
+  /**
+   * Get the shortened token to display in the API Tokens overview.
+   * Static string if the token is a Cluster API Token.
+   *
+   * @return string Shortened token
+   */
+  public function getShortenedToken() {
     switch ($this->getTokenType()) {
       case self::TYPE_CLUSTER:
         return pht('Cluster API Token');
