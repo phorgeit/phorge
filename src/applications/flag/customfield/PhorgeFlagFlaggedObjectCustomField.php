@@ -31,6 +31,7 @@ final class PhorgeFlagFlaggedObjectCustomField extends PhabricatorCustomField {
 
   public function setValueFromStorage($value) {
     $this->flag = $value;
+    return $this;
   }
 
   // The parent function is defined to return a PhabricatorCustomFieldStorage,
