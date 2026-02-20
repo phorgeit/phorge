@@ -62,7 +62,7 @@ final class DifferentialDiffCreateTransaction
       $diff = clone $object;
       $diff = $this->updateDiffFromDict($diff, $xaction->getNewValue());
 
-      $adapter = $this->buildHeraldAdapter($diff, $xactions);
+      $adapter = $this->buildHeraldAdapter($diff);
       $adapter->setContentSource($xaction->getContentSource());
       $adapter->setIsNewObject(true);
 
