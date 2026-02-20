@@ -272,6 +272,10 @@ final class ConpherenceThread extends ConpherenceDAO
         return false;
     }
 
+    if (!$user->getPHID()) {
+      return false;
+    }
+
     $participants = $this->getParticipants();
     return isset($participants[$user->getPHID()]);
   }
