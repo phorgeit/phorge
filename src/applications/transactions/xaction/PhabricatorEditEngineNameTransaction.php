@@ -14,7 +14,7 @@ final class PhabricatorEditEngineNameTransaction
   }
 
   public function getTitle() {
-    if (strlen($this->getOldValue())) {
+    if (phutil_nonempty_string($this->getOldValue())) {
       return pht(
         '%s renamed this form from %s to %s.',
         $this->renderAuthor(),
