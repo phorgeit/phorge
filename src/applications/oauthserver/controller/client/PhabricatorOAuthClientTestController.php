@@ -35,6 +35,7 @@ final class PhabricatorOAuthClientTestController
 
       $access_token = $server->generateAccessToken();
 
+      Javelin::initBehavior('select-on-click');
       $form = id(new AphrontFormView())
         ->setViewer($viewer)
         ->appendInstructions(
@@ -44,6 +45,8 @@ final class PhabricatorOAuthClientTestController
         ->appendChild(
           id(new AphrontFormTextControl())
             ->setLabel(pht('Token'))
+            ->setReadOnly(true)
+            ->setSigil('select-on-click')
             ->setValue($access_token->getToken()));
 
       return $this->newDialog()
