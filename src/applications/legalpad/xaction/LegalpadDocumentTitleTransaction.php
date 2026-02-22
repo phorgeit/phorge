@@ -19,7 +19,7 @@ final class LegalpadDocumentTitleTransaction
   public function getTitle() {
     $old = $this->getOldValue();
 
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s created this document.',
         $this->renderAuthor());
@@ -35,7 +35,7 @@ final class LegalpadDocumentTitleTransaction
   public function getTitleForFeed() {
     $old = $this->getOldValue();
 
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s created %s.',
         $this->renderAuthor(),
