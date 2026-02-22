@@ -24,39 +24,6 @@ final class JavelinPeastLibrary extends Phobject {
 
   private static $version;
 
-  private static function downloadPeast(string $path, string $extension) {
-    $path .= '/peast-'.self::EXPECTED_VERSION.$extension;
-
-    // Skip downloading if the file already exists and matches the hash.
-    if (
-      Filesystem::pathExists($path) &&
-      in_array(md5_file($path), self::$hashes, true)) {
-
-      return $path;
-    }
-
-    // HTTPSFuture::setDownloadPath refuses to overwrite.
-    Filesystem::remove($path);
-
-    $future = new HTTPSFuture(
-      self::REPO.'/archive/refs/tags/v'.self::EXPECTED_VERSION.$extension);
-    $future
-      ->setDownloadPath($path)
-      ->resolvex();
-
-    $actual_md5 = md5_file($path);
-
-    if (!in_array($actual_md5, self::$hashes, true)) {
-      $expected = implode(', ', self::$hashes);
-
-      throw new Exception(
-        "Peast hash does not match: expected any of {$expected}".
-        ", got {$actual_md5}.");
-    }
-
-    return $path;
-  }
-
   public static function build() {
     $root = phutil_get_library_root('phorge');
     $path = Filesystem::resolvePath($root.'/../support/peast');
@@ -64,15 +31,21 @@ final class JavelinPeastLibrary extends Phobject {
     $version = self::EXPECTED_VERSION;
 
     if (extension_loaded('zip')) {
-      $download_path = self::downloadPeast($path, '.zip');
+      $target_path = $path.'/peast-'.$version.'.zip';
+
+      id(new PhutilGitHubReleaseDownloader(self::REPO, $target_path))
+        ->setDownloadFormat('zip')
+        ->setVersion($version)
+        ->validateDownload(self::$hashes)
+        ->download();
 
       $zip = new ZipArchive();
-      $result = $zip->open($download_path);
+      $result = $zip->open($target_path);
       if (!$result) {
         throw new Exception(
           pht(
             'Opening %s failed! %s.',
-            $download_path,
+            $target_path,
             $result === false ? 'Unknown Error' : (string)$result));
       }
 
@@ -90,9 +63,15 @@ final class JavelinPeastLibrary extends Phobject {
       extension_loaded('phar') &&
       extension_loaded('zlib')) {
 
-      $download_path = self::downloadPeast($path, '.tar.gz');
+      $target_path = $path.'/peast-'.$version.'.tar.gz';
 
-      id(new PharData($download_path))->extractTo($target, null, true);
+      id(new PhutilGitHubReleaseDownloader(self::REPO, $target_path))
+        ->setDownloadFormat('tar.gz')
+        ->setVersion($version)
+        ->validateDownload(self::$hashes)
+        ->download();
+
+      id(new PharData($target_path))->extractTo($target, null, true);
 
       // Renames fail if the target directory exists.
       Filesystem::remove("{$target}/Peast");
