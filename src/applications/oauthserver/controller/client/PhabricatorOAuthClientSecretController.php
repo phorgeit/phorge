@@ -28,16 +28,17 @@ final class PhabricatorOAuthClientSecretController
     if ($request->isFormPost()) {
       $secret = $client->getSecret();
 
+      Javelin::initBehavior('select-on-click');
       $body = id(new PHUIFormLayoutView())
         ->appendChild(
-          id(new AphrontFormTextAreaControl())
+          id(new AphrontFormTextControl())
             ->setLabel(pht('Plaintext'))
             ->setReadOnly(true)
-            ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_SHORT)
+            ->setSigil('select-on-click')
+            ->setHasCopyButton(true)
             ->setValue($secret));
 
       return $this->newDialog()
-        ->setWidth(AphrontDialogView::WIDTH_FORM)
         ->setTitle(pht('Application Secret'))
         ->appendChild($body)
         ->addCancelButton($view_uri, pht('Done'));
