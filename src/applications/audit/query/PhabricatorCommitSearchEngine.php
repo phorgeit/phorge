@@ -12,8 +12,9 @@ final class PhabricatorCommitSearchEngine
   }
 
   public function newQuery() {
+    $include_audits = id(new PhabricatorAuditApplication())->isInstalled();
     return id(new DiffusionCommitQuery())
-      ->needAuditRequests(true)
+      ->needAuditRequests($include_audits)
       ->needCommitData(true)
       ->needIdentities(true)
       ->needDrafts(true);
