@@ -47,6 +47,7 @@ final class PhabricatorOAuthClientTestController
             ->setLabel(pht('Token'))
             ->setReadOnly(true)
             ->setSigil('select-on-click')
+            ->setHasCopyButton(true)
             ->setValue($access_token->getToken()));
 
       return $this->newDialog()
