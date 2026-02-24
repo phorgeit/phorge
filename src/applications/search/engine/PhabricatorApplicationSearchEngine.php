@@ -1302,6 +1302,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
           'Parameter "attachments" must be a map of attachments, got "%s".',
           phutil_describe_type($attachment_specs)));
     }
+    foreach ($attachment_specs as $key => $attachment) {
+      if (empty($attachments[$key])) {
+        throw new Exception(
+          pht(
+            'Attachment key "%s" is not a valid attachment for this query.',
+            $key));
+      }
+    }
 
     $attachments = array_select_keys(
       $attachments,
