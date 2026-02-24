@@ -67,7 +67,7 @@ final class DivinerJavelinAtomizer extends DivinerAtomizer {
     /** @var DivinerAtom $atom */
     foreach ($atoms as $atom) {
       $block_id = $block_map[$atom->getLine()];
-      if (isset($map[$block_id])) {
+      if ($block_id !== null && isset($map[$block_id])) {
         $atom->setDocblockRaw($map[$block_id]);
         unset($map[$block_id]);
       } else {
