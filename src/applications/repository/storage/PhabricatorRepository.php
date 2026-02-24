@@ -2782,7 +2782,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     $permanent_rules = $this->getStringListForConduit($permanent_rules);
 
     $default_branch = $this->getDefaultBranch();
-    if (!strlen($default_branch)) {
+    if (!phutil_nonempty_string($default_branch)) {
       $default_branch = null;
     }
 
