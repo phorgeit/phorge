@@ -127,7 +127,9 @@ final class PhabricatorFileSearchEngine
   protected function getRequiredHandlePHIDsForResultList(
     array $files,
     PhabricatorSavedQuery $query) {
-    return mpull($files, 'getAuthorPHID');
+
+    // Remove non-manually created files which do not have an author
+    return mpull(mfilter($files, 'getAuthorPHID'), 'getAuthorPHID');
   }
 
   /**
