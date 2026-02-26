@@ -270,7 +270,8 @@ final class HeraldRuleController extends HeraldController {
     // value so we didn't render a control, adjust the value to the first
     // valid policy value.
     $repetition_options = $this->getRepetitionOptionMap($adapter);
-    if (!isset($repetition_options[$repetition_policy])) {
+    if (!$repetition_policy ||
+        !isset($repetition_options[$repetition_policy])) {
       $repetition_policy = head_key($repetition_options);
     }
 
