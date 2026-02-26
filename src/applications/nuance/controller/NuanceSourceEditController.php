@@ -15,7 +15,7 @@ final class NuanceSourceEditController
       $cancel_uri = $this->getApplicationURI('source/');
       $map = NuanceSourceDefinition::getAllDefinitions();
       $source_type = $request->getStr('sourceType');
-      if (!isset($map[$source_type])) {
+      if (!$source_type || !isset($map[$source_type])) {
         return $this->buildSourceTypeResponse($cancel_uri);
       }
 
