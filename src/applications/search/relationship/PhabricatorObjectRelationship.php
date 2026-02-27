@@ -62,14 +62,6 @@ abstract class PhabricatorObjectRelationship extends Phobject {
   abstract public function getDialogButtonText();
 
   /**
-   * Display additional instructions at the bottom of the dialog
-   * @return string|null
-   */
-  public function getDialogInstructionsText() {
-    return null;
-  }
-
-  /**
    * Whether to list the relationship action as a menu item in the
    * "Edit Related Objects" menu in the object's side column
    *

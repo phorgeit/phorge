@@ -106,8 +106,3 @@ td.phabricator-object-selector-search-text {
   text-align: center;
 }
 
-.phabricator-object-selector-instructions {
-  font-size: {$smallestfontsize};
-  color: {$greytext};
-  margin-top: 1.25em;
-}

@@ -165,7 +165,6 @@ final class PhabricatorSearchRelationshipController
     $dialog_title = $relationship->getDialogTitleText();
     $dialog_header = $relationship->getDialogHeaderText();
     $dialog_button = $relationship->getDialogButtonText();
-    $dialog_instructions = $relationship->getDialogInstructionsText();
 
     $source_uri = $relationship->getSourceURI($object);
 
@@ -186,7 +185,6 @@ final class PhabricatorSearchRelationshipController
       ->setTitle($dialog_title)
       ->setHeader($dialog_header)
       ->setButtonText($dialog_button)
-      ->setInstructions($dialog_instructions)
       ->setMaximumSelectionSize($maximum)
       ->buildDialog();
   }
