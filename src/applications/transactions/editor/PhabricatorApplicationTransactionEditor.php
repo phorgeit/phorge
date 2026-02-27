@@ -1300,12 +1300,14 @@ abstract class PhabricatorApplicationTransactionEditor
 
       // TODO: Once everything is on EditEngine, just use getIsNewObject() to
       // figure this out instead.
-      $mark_as_create = false;
-      $create_type = PhabricatorTransactions::TYPE_CREATE;
-      foreach ($xactions as $xaction) {
-        if ($xaction->getTransactionType() == $create_type) {
-          $mark_as_create = true;
-          break;
+      $mark_as_create = $is_new;
+      if (!$mark_as_create) {
+        $create_type = PhabricatorTransactions::TYPE_CREATE;
+        foreach ($xactions as $xaction) {
+          if ($xaction->getTransactionType() == $create_type) {
+            $mark_as_create = true;
+            break;
+          }
         }
       }
 
