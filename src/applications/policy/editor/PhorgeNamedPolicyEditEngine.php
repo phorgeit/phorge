@@ -33,6 +33,11 @@ final class PhorgeNamedPolicyEditEngine
     return pht('Named Policy');
   }
 
+  protected function getCreateNewObjectPolicy() {
+    return $this->getApplication()->getPolicy(
+      PhorgePolicyCanCreateNamedPolicyCapability::CAPABILITY);
+  }
+
   protected function getObjectViewURI($object) {
     $id = $object->getID();
     return $this->getApplication()->getApplicationURI("named/{$id}");

@@ -44,4 +44,12 @@ final class PhabricatorPolicyApplication extends PhabricatorApplication {
     );
   }
 
+  protected function getCustomCapabilities() {
+    return array(
+      PhorgePolicyCanCreateNamedPolicyCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_ADMIN,
+      ),
+    );
+  }
+
 }
