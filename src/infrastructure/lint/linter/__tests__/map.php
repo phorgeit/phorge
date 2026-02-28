@@ -15,7 +15,7 @@ return array(
     'unnecessary-dependency.lint-test' => '1608e0c1',
   ),
   'symbols' => array(
-    'javelin-test' => 'e575f333',
+    'javelin-test' => '3f966f42',
   ),
   'requires' => array(
     '1608e0c1' => array(
