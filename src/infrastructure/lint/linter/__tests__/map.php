@@ -7,37 +7,42 @@
  */
 return array(
   'names' => array(
-    'missing-dependency.lint-test' => '3f966f42',
-    'private-access.lint-test' => 'fa831308',
-    'undocumented-install.lint-test' => 'e575f333',
-    'uninstalled-documentation.lint-test' => '9b61fd26',
-    'unknown-dependency.lint-test' => 'abc533df',
-    'unnecessary-dependency.lint-test' => '1608e0c1',
+    'missing-dependency.lint-test' => 'd9d7accf',
+    'private-access.lint-test' => 'c5a55aba',
+    'undocumented-install.lint-test' => 'b40b9df9',
+    'uninstalled-documentation.lint-test' => 'a7b7fab0',
+    'unknown-dependency.lint-test' => '70c6209f',
+    'unnecessary-dependency.lint-test' => 'f7db3a25',
   ),
   'symbols' => array(
-    'javelin-test' => '3f966f42',
+    'javelin-test-missing-dependency' => 'd9d7accf',
+    'javelin-test-private-access' => 'c5a55aba',
+    'javelin-test-undocumented-install' => 'b40b9df9',
+    'javelin-test-uninstalled-documentation' => 'a7b7fab0',
+    'javelin-test-unknown-dependency' => '70c6209f',
+    'javelin-test-unnecessary-dependency' => 'f7db3a25',
   ),
   'requires' => array(
-    '1608e0c1' => array(
-      'javelin-install',
-      'javelin-workflow',
-    ),
-    '3f966f42' => array(
-      'javelin-install',
-    ),
-    '9b61fd26' => array(
-      'javelin-install',
-    ),
-    'abc533df' => array(
+    '70c6209f' => array(
       'javelin-install',
       'javelin-does-not-exist',
     ),
-    'e575f333' => array(
+    'a7b7fab0' => array(
       'javelin-install',
     ),
-    'fa831308' => array(
+    'b40b9df9' => array(
+      'javelin-install',
+    ),
+    'c5a55aba' => array(
       'javelin-install',
       'javelin-history',
+    ),
+    'd9d7accf' => array(
+      'javelin-install',
+    ),
+    'f7db3a25' => array(
+      'javelin-install',
+      'javelin-workflow',
     ),
   ),
   'packages' => array(),

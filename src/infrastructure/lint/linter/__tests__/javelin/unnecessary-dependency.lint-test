@@ -1,7 +1,7 @@
 /**
  * @requires javelin-install
  *           javelin-workflow
- * @provides javelin-test
+ * @provides javelin-test-unnecessary-dependency
  *
  * @javelin-installs JX.Test
  *

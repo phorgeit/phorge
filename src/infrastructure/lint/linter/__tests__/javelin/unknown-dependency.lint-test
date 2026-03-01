@@ -1,7 +1,7 @@
 /**
  * @requires javelin-install
  *           javelin-does-not-exist
- * @provides javelin-test
+ * @provides javelin-test-unknown-dependency
  *
  * @javelin-installs JX.Test
  *

@@ -1,7 +1,7 @@
 /**
  * @requires javelin-install
  *           javelin-history
- * @provides javelin-test
+ * @provides javelin-test-private-access
  *
  * @javelin-installs JX.Test
  *
