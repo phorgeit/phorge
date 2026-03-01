@@ -70,14 +70,6 @@ try {
         'help'    => pht(
           'Do not actually change anything, just show what would be changed.'),
       ),
-      array(
-        'name'    => 'disable-utf8mb4',
-        'help'    => pht(
-          'Disable %s, even if the database supports it. This is an '.
-          'advanced feature used for testing internal changes; you '.
-          'should not normally use this flag.',
-          'utf8mb4'),
-      ),
     ));
 } catch (PhutilArgumentUsageException $ex) {
   $args->printUsageException($ex);
@@ -202,8 +194,7 @@ foreach ($refs as $ref) {
     ->setHost($default_host)
     ->setPort($default_port)
     ->setPassword($password)
-    ->setNamespace($args->getArg('namespace'))
-    ->setDisableUTF8MB4($args->getArg('disable-utf8mb4'));
+    ->setNamespace($args->getArg('namespace'));
   PhabricatorEnv::overrideConfig('mysql.user', $api->getUser());
 
   $ref->setUser($selected_user);

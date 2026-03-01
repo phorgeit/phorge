@@ -9,7 +9,6 @@ final class PhabricatorStorageManagementAPI extends Phobject {
   private $password;
   private $namespace;
   private $conns = array();
-  private $disableUTF8MB4;
 
   const CHARSET_DEFAULT = 'CHARSET';
   const CHARSET_SORT = 'CHARSET_SORT';
@@ -20,15 +19,6 @@ final class PhabricatorStorageManagementAPI extends Phobject {
 
   const TABLE_STATUS = 'patch_status';
   const TABLE_HOSTSTATE = 'hoststate';
-
-  public function setDisableUTF8MB4($disable_utf8_mb4) {
-    $this->disableUTF8MB4 = $disable_utf8_mb4;
-    return $this;
-  }
-
-  public function getDisableUTF8MB4() {
-    return $this->disableUTF8MB4;
-  }
 
   public function setNamespace($namespace) {
     $this->namespace = $namespace;
@@ -312,12 +302,6 @@ final class PhabricatorStorageManagementAPI extends Phobject {
   }
 
   public function isCharacterSetAvailable($character_set) {
-    if ($character_set == 'utf8mb4') {
-      if ($this->getDisableUTF8MB4()) {
-        return false;
-      }
-    }
-
     $conn = $this->getConn(null);
     return self::isCharacterSetAvailableOnConnection($character_set, $conn);
   }
