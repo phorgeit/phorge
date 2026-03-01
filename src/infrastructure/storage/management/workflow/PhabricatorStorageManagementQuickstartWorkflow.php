@@ -43,16 +43,6 @@ final class PhabricatorStorageManagementQuickstartWorkflow
     $ref = $api->getRef();
     $ref_key = $ref->getRefKey();
 
-    if (!$api->isCharacterSetAvailable('utf8mb4')) {
-      throw new PhutilArgumentUsageException(
-        pht(
-          'You can only generate a new quickstart file if MySQL supports '.
-          'the %s character set (available in MySQL 5.5 and newer). The '.
-          'configured server does not support %s.',
-          'utf8mb4',
-          'utf8mb4'));
-    }
-
     $err = phutil_passthru(
       '%s upgrade --force --no-quickstart --namespace %s --ref %s',
       $bin,

@@ -181,38 +181,6 @@ abstract class PhabricatorStorageManagementWorkflow
       return $this->printErrors($errors, 0);
     }
 
-    if (!$this->force && !$api->isCharacterSetAvailable('utf8mb4')) {
-      $message = pht(
-        "You have an old version of MySQL (older than 5.5) which does not ".
-        "support the utf8mb4 character set. We strongly recommend upgrading ".
-        "to 5.5 or newer.\n\n".
-        "If you apply adjustments now and later update MySQL to 5.5 or newer, ".
-        "you'll need to apply adjustments again (and they will take a long ".
-        "time).\n\n".
-        "You can exit this workflow, update MySQL now, and then run this ".
-        "workflow again. This is recommended, but may cause a lot of downtime ".
-        "right now.\n\n".
-        "You can exit this workflow, continue using this software without ".
-        "applying adjustments, update MySQL at a later date, and then run ".
-        "this workflow again. This is also a good approach, and will let you ".
-        "delay downtime until later.\n\n".
-        "You can proceed with this workflow, and then optionally update ".
-        "MySQL at a later date. After you do, you'll need to apply ".
-        "adjustments again.\n\n".
-        "For more information, see \"Managing Storage Adjustments\" in ".
-        "the documentation.");
-
-      $console->writeOut(
-        "\n**<bg:yellow> %s </bg>**\n\n%s\n",
-        pht('OLD MySQL VERSION'),
-        phutil_console_wrap($message));
-
-      $prompt = pht('Continue with old MySQL version?');
-      if (!phutil_console_confirm($prompt, $default_no = true)) {
-        return;
-      }
-    }
-
     $table = id(new PhutilConsoleTable())
       ->addColumn('database', array('title' => pht('Database')))
       ->addColumn('table', array('title' => pht('Table')))

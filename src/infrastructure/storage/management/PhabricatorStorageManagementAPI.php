@@ -301,80 +301,18 @@ final class PhabricatorStorageManagementAPI extends Phobject {
     require_once $script;
   }
 
-  public function isCharacterSetAvailable($character_set) {
-    $conn = $this->getConn(null);
-    return self::isCharacterSetAvailableOnConnection($character_set, $conn);
-  }
-
   public function getClientCharset() {
-    if ($this->isCharacterSetAvailable('utf8mb4')) {
       return 'utf8mb4';
-    } else {
-      return 'utf8';
-    }
-  }
-
-  public static function isCharacterSetAvailableOnConnection(
-    $character_set,
-    AphrontDatabaseConnection $conn) {
-    $result = queryfx_one(
-      $conn,
-      'SELECT CHARACTER_SET_NAME FROM INFORMATION_SCHEMA.CHARACTER_SETS
-        WHERE CHARACTER_SET_NAME = %s',
-      $character_set);
-
-    return (bool)$result;
   }
 
   public function getCharsetInfo() {
-    if ($this->isCharacterSetAvailable('utf8mb4')) {
-      // If utf8mb4 is available, we use it with the utf8mb4_unicode_ci
-      // collation. This is most correct, and will sort properly.
-
-      $charset = 'utf8mb4';
-      $charset_sort = 'utf8mb4';
-      $charset_full = 'utf8mb4';
-      $collate_text = 'utf8mb4_bin';
-      $collate_sort = 'utf8mb4_unicode_ci';
-      $collate_full = 'utf8mb4_unicode_ci';
-    } else {
-      // If utf8mb4 is not available, we use binary for most data. This allows
-      // us to store 4-byte unicode characters.
-      //
-      // It's possible that strings will be truncated in the middle of a
-      // character on insert. We encourage users to set STRICT_ALL_TABLES
-      // to prevent this.
-      //
-      // For "fulltext" and "sort" columns, we don't use binary.
-      //
-      // With "fulltext", we can not use binary because MySQL won't let us.
-      // We use 3-byte utf8 instead and accept being unable to index 4-byte
-      // characters.
-      //
-      // With "sort", if we use binary we lose case insensitivity (for
-      // example, "ALincoln@example.com" and "alincoln@example.com" would no
-      // longer be identified as the same email address). This can be very
-      // confusing and is far worse overall than not supporting 4-byte unicode
-      // characters, so we use 3-byte utf8 and accept limited 4-byte support as
-      // a tradeoff to get sensible collation behavior. Many columns where
-      // collation is important rarely contain 4-byte characters anyway, so we
-      // are not giving up too much.
-
-      $charset = 'binary';
-      $charset_sort = 'utf8';
-      $charset_full = 'utf8';
-      $collate_text = 'binary';
-      $collate_sort = 'utf8_general_ci';
-      $collate_full = 'utf8_general_ci';
-    }
-
     return array(
-      self::CHARSET_DEFAULT => $charset,
-      self::CHARSET_SORT => $charset_sort,
-      self::CHARSET_FULLTEXT => $charset_full,
-      self::COLLATE_TEXT => $collate_text,
-      self::COLLATE_SORT => $collate_sort,
-      self::COLLATE_FULLTEXT => $collate_full,
+      self::CHARSET_DEFAULT => 'utf8mb4',
+      self::CHARSET_SORT => 'utf8mb4',
+      self::CHARSET_FULLTEXT => 'utf8mb4',
+      self::COLLATE_TEXT => 'utf8mb4_bin',
+      self::COLLATE_SORT => 'utf8mb4_unicode_ci',
+      self::COLLATE_FULLTEXT => 'utf8mb4_unicode_ci',
     );
   }
 
