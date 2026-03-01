@@ -699,7 +699,6 @@ final class PhabricatorAuthRegisterController
     // do meaningful policy checks anyway since they have not registered yet.
     // Reaching this means the user holds the account secret key and the
     // registration secret key, and thus has permission to view the image.
-
     $file = id(new PhabricatorFileQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
       ->withPHIDs(array($phid))
@@ -710,7 +709,7 @@ final class PhabricatorAuthRegisterController
 
     $xform = PhabricatorFileTransform::getTransformByKey(
       PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
-    return $xform->executeTransformExplicit($file);
+    return $xform->getOrExecuteTransformExplicit($file);
   }
 
   protected function renderError($message) {
