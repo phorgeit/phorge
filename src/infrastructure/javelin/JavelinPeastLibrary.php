@@ -153,6 +153,8 @@ final class JavelinPeastLibrary extends Phobject {
         }
       }
 
+      $loaded = true;
+
       spl_autoload_register('JavelinPeastLibrary::peastAutoloader');
     }
   }
