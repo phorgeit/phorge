@@ -120,12 +120,23 @@ final class DivinerLiveSymbol extends DivinerDAO
     return $this;
   }
 
+  /**
+   * @return string|null
+   */
   public function getURI() {
+    $bookname = $this->getBook()->getName();
     $parts = array(
       'book',
-      $this->getBook()->getName(),
-      $this->getType(),
+      $bookname,
     );
+
+    // Special handle methods which require the URI path to include their class
+    $atom_type = $this->getType();
+    if ($atom_type === DivinerAtom::TYPE_METHOD) {
+      return $this->getMethodURI($parts, $bookname);
+    }
+
+    $parts[] = $atom_type;
 
     if ($this->getContext()) {
       $parts[] = $this->getContext();
@@ -138,6 +149,36 @@ final class DivinerLiveSymbol extends DivinerDAO
     }
 
     return '/'.implode('/', $parts).'/';
+  }
+
+  /**
+   * @return string|null
+   */
+  private function getMethodURI(array $parts, string $bookname) {
+    $atom = $this->getAtom();
+
+    // Ghost items do not have an atom and thus should not link to anything
+    if ($atom === null) {
+      return null;
+    }
+
+    if ($bookname === 'javelin') {
+      $method_class_name = 'JX.'.basename($atom->getFile(), '.js');
+    } else {
+      $method_class_name = basename($atom->getFile(), '.php');
+    }
+
+    if (substr($method_class_name, -9) === 'Interface') {
+      $parts[] = phutil_escape_uri_path_component(DivinerAtom::TYPE_INTERFACE);
+    } else {
+      $parts[] = phutil_escape_uri_path_component(DivinerAtom::TYPE_CLASS);
+    }
+
+    $parts[] = phutil_escape_uri_path_component($method_class_name);
+    $parts[] = '#'.DivinerAtom::TYPE_METHOD;
+    $parts[] = $this->getName();
+
+    return '/'.implode('/', $parts);
   }
 
   public function getSortKey() {

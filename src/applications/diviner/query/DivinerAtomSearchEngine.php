@@ -54,6 +54,8 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
       $query->withTypes($types);
     }
 
+    $query->needAtoms(true);
+
     return $query;
   }
 
@@ -148,14 +150,21 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
       // files as there is no good target URI for them, thus do not link them
       if ($type === DivinerAtom::TYPE_FILE) {
         $href = null;
+        $summary = $symbol->getSummary();
       } else {
+        // Set an explanatory summary for ghost items
         $href = $symbol->getURI();
+        if ($href === null) {
+          $summary = pht('This atom no longer exists.');
+        } else {
+          $summary = $symbol->getSummary();
+        }
       }
 
       $item = id(new PHUIObjectItemView())
         ->setHeader($symbol->getTitle())
         ->setHref($href)
-        ->addAttribute($symbol->getSummary())
+        ->addAttribute($summary)
         ->addIcon('none', $type_name);
 
       $list->addItem($item);
