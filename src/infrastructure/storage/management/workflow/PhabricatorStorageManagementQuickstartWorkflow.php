@@ -150,6 +150,20 @@ final class PhabricatorStorageManagementQuickstartWorkflow
       '',
       $dump);
 
+    // Remove commit statements. These are never relevant when
+    // performing a quickstart.
+    $dump = preg_replace(
+      '/^(COMMIT|SET (@OLD_)?AUTOCOMMIT=).*$/m',
+      '',
+      $dump);
+
+    // Newer versions of MariaDB output a directive to enable sandbox mode,
+    // but the syntax they chose for the directive is not backwards compatible.
+    $dump = preg_replace(
+      '(/\*M!\d+\\\-.+\*/\s*)m',
+      '',
+      $dump);
+
     // Collapse adjacent newlines.
     $dump = preg_replace('/\n\s*\n/', "\n", $dump);
 

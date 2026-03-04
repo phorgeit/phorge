@@ -23,7 +23,13 @@ ALTER TABLE {$NAMESPACE}_harbormaster.harbormaster_buildlog
 DROP COLUMN buildStepPHID;
 
 ALTER TABLE {$NAMESPACE}_harbormaster.harbormaster_buildartifact
+DROP INDEX key_artifact;
+
+ALTER TABLE {$NAMESPACE}_harbormaster.harbormaster_buildartifact
 DROP COLUMN buildablePHID;
+
+ALTER TABLE {$NAMESPACE}_harbormaster.harbormaster_buildartifact
+ADD UNIQUE KEY key_artifact (artifactType, artifactIndex);
 
 ALTER TABLE {$NAMESPACE}_harbormaster.harbormaster_buildlog
 ADD COLUMN buildTargetPHID VARCHAR(64) NOT NULL COLLATE utf8_bin;

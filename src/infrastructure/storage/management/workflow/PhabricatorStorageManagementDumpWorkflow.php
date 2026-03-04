@@ -189,13 +189,26 @@ final class PhabricatorStorageManagementDumpWorkflow
     $with_indexes = !$is_noindex;
 
     $targets = array();
-    foreach ($schemata->getDatabases() as $database_name => $database) {
+    $databases = $schemata->getDatabases();
+
+    // Sort databases alphabetically.
+    // For regular dumps this does not matter, but for quickstart.sql
+    // this significantly reduces the amount of superfluous changes
+    // when rebuilding quickstart.sql.
+    ksort($databases);
+
+    foreach ($databases as $database_name => $database) {
       if (!isset($dump_databases[$database_name])) {
         continue;
       }
 
       $expect_database = $expect->getDatabase($database_name);
-      foreach ($database->getTables() as $table_name => $table) {
+      $tables = $database->getTables();
+
+      // Sort tables alphabetically as well.
+      ksort($tables);
+
+      foreach ($tables as $table_name => $table) {
 
         // NOTE: It's possible for us to find tables in these database which
         // we don't expect to be there. For example, an older version of
