@@ -66,6 +66,11 @@
   color: {$darkbluetext};
 }
 
+.phabricator-action-view-disabled button.phabricator-action-view-item
+  .phui-icon-view {
+  color: rgba({$alphagrey},0.3);
+}
+
 .phabricator-action-view button.phabricator-action-view-item,
 .phabricator-action-view-item {
   padding: 4px 8px 6px 8px;
