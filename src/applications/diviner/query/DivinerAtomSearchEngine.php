@@ -144,9 +144,17 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
       $type = $symbol->getType();
       $type_name = DivinerAtom::getAtomTypeNameString($type);
 
+      // DivinerPublisher::shouldGenerateDocumentForAtom() returns false for
+      // files as there is no good target URI for them, thus do not link them
+      if ($type === DivinerAtom::TYPE_FILE) {
+        $href = null;
+      } else {
+        $href = $symbol->getURI();
+      }
+
       $item = id(new PHUIObjectItemView())
         ->setHeader($symbol->getTitle())
-        ->setHref($symbol->getURI())
+        ->setHref($href)
         ->addAttribute($symbol->getSummary())
         ->addIcon('none', $type_name);
 

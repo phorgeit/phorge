@@ -156,7 +156,6 @@ abstract class DivinerPublisher extends Phobject {
       case DivinerAtom::TYPE_METHOD:
       case DivinerAtom::TYPE_FILE:
         return false;
-      case DivinerAtom::TYPE_ARTICLE:
       default:
         break;
     }
