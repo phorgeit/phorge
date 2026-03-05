@@ -26,11 +26,16 @@ final class DifferentialGetCommitPathsConduitAPIMethod
   protected function defineErrorTypes() {
     return array(
       'ERR_NOT_FOUND' => pht('No such revision exists.'),
+      'ERR-BAD-ID' => pht('Revision ID must be an integer.'),
     );
   }
 
   protected function execute(ConduitAPIRequest $request) {
     $id = $request->getValue('revision_id');
+
+    if (!is_numeric($id)) {
+      throw new ConduitException('ERR-BAD-ID');
+    }
 
     $revision = id(new DifferentialRevisionQuery())
       ->setViewer($request->getUser())
