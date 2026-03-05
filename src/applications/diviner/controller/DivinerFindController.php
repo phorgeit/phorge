@@ -42,7 +42,6 @@ final class DivinerFindController extends DivinerController {
     }
 
     $query->withGhosts(false);
-    $query->withIsDocumentable(true);
 
     $name_query = clone $query;
 
@@ -80,7 +79,13 @@ final class DivinerFindController extends DivinerController {
     }
 
     if (count($atoms) == 1 && $request->getBool('jump')) {
-      $atom_uri = head($atoms)->getURI();
+      $atom = head($atoms);
+      $atom_data = id(new DivinerLiveAtom())->loadOneWhere(
+        'symbolPHID = %s',
+        $atom->getPHID());
+      $atom->attachAtom($atom_data);
+      $atom_uri = $atom->getURI();
+
       return id(new AphrontRedirectResponse())->setURI($atom_uri);
     }
 
