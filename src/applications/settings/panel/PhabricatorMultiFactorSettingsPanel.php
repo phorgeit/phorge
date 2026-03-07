@@ -199,7 +199,7 @@ final class PhabricatorMultiFactorSettingsPanel
       $cancel_uri);
 
     $selected_phid = $request->getStr('providerPHID');
-    if (empty($providers[$selected_phid])) {
+    if ($selected_phid === null || empty($providers[$selected_phid])) {
       $selected_provider = null;
     } else {
       $selected_provider = $providers[$selected_phid];
