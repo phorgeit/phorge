@@ -8,6 +8,7 @@
  *           javelin-util
  *           javelin-vector
  *           phui-chart-css
+ *           d3
  * @provides javelin-chart
  *
  * @javelin-installs JX.Chart
