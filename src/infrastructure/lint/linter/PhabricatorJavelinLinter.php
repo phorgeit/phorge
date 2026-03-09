@@ -196,6 +196,11 @@ final class PhabricatorJavelinLinter extends ArcanistLinter {
       if (preg_match('/\\.css$/', $requires_name)) {
         // If JS requires CSS, just assume everything is fine.
         unset($requires[$key]);
+      } else if ($requires_symbol === 'd3') {
+        // If JS requires the external library d3, assume everything is fine.
+        // We can't actually check for usage, as it is not a JX member,
+        // but a completely separate global.
+        unset($requires[$key]);
       } else {
         $symbol_path = 'webroot/'.$requires_name;
         list($_, $_, $req_install) = $this->getUsedAndInstalledSymbolsForPath(
