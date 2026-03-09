@@ -8,7 +8,6 @@ final class PhabricatorApplicationTransactionCommentView
 
   private $previewPanelID;
   private $previewTimelineID;
-  private $previewToggleID;
   private $formID;
   private $commentID;
   private $draft;
@@ -21,7 +20,6 @@ final class PhabricatorApplicationTransactionCommentView
   private $infoView;
   private $editEngine;
   private $editEngineLock;
-  private $noBorder;
   private $requiresMFA;
 
   private $currentVersion;

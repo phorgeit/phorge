@@ -4,7 +4,6 @@ final class PhabricatorFerretFulltextStorageEngine
   extends PhabricatorFulltextStorageEngine {
 
   private $fulltextTokens = array();
-  private $engineLimits;
 
   /**
    * @return string Engine identifier string: "mysql"

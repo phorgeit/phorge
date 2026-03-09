@@ -10,8 +10,6 @@ final class HarbormasterBuildArtifactQuery
   private $buildTargetPHIDs;
   private $artifactTypes;
   private $artifactIndexes;
-  private $keyBuildPHID;
-  private $keyBuildGeneration;
   private $isReleased;
 
   public function withIDs(array $ids) {

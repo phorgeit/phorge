@@ -6,8 +6,6 @@ final class PhabricatorApplicationPolicyChangeTransaction
   const TRANSACTIONTYPE = 'application.policy';
   const METADATA_ATTRIBUTE = 'capability.name';
 
-  private $policies;
-
   public function generateOldValue($object) {
     $application = $object;
     $capability = $this->getCapabilityName();

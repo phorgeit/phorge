@@ -3,8 +3,6 @@
 final class PhabricatorUserRolesField
   extends PhabricatorUserCustomField {
 
-  private $value;
-
   public function getFieldKey() {
     return 'user:roles';
   }

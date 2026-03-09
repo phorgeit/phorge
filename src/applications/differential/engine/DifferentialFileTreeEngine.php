@@ -6,7 +6,6 @@ final class DifferentialFileTreeEngine
   private $viewer;
   private $changesets;
   private $disabled;
-  private $ownedChangesets;
 
   public function setViewer($viewer) {
     $this->viewer = $viewer;

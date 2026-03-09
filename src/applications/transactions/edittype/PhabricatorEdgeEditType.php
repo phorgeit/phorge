@@ -4,7 +4,6 @@ final class PhabricatorEdgeEditType
   extends PhabricatorPHIDListEditType {
 
   private $edgeOperation;
-  private $valueDescription;
 
   public function setEdgeOperation($edge_operation) {
     $this->edgeOperation = $edge_operation;

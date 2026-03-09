@@ -4,7 +4,6 @@ final class PhutilICSParser extends Phobject {
 
   private $stack;
   private $node;
-  private $document;
   private $lines;
   private $cursor;
 

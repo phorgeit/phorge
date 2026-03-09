@@ -4,7 +4,6 @@ final class PonderAddAnswerView extends AphrontView {
 
   private $question;
   private $actionURI;
-  private $draft;
 
   public function setQuestion($question) {
     $this->question = $question;

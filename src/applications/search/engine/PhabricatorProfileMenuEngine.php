@@ -7,7 +7,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   private $customPHID;
   private $items;
   private $controller;
-  private $navigation;
   private $editMode;
   private $pageClasses = array();
   private $showContentCrumbs = true;

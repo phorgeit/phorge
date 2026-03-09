@@ -3,7 +3,6 @@
 final class PhabricatorApplicationTransactionValidationResponse
   extends AphrontProxyResponse {
 
-  private $viewer;
   private $exception;
   private $cancelURI;
 

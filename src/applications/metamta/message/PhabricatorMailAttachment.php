@@ -6,7 +6,6 @@ final class PhabricatorMailAttachment extends Phobject {
   private $filename;
   private $mimetype;
   private $file;
-  private $filePHID;
 
   public function __construct($data, $filename, $mimetype) {
     $this->setData($data);

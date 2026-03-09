@@ -3,8 +3,6 @@
 final class PhabricatorDashboardPanelListController
   extends PhabricatorDashboardController {
 
-  private $queryKey;
-
   public function shouldAllowPublic() {
     return true;
   }

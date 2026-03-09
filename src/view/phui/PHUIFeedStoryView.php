@@ -6,7 +6,6 @@ final class PHUIFeedStoryView extends AphrontView {
   private $image;
   private $imageHref;
   private $appIcon;
-  private $phid;
   private $epoch;
   private $viewed;
   private $href;

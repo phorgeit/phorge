@@ -2,8 +2,6 @@
 
 final class PhabricatorMemeRemarkupRule extends PhutilRemarkupRule {
 
-  private $images;
-
   public function getPriority() {
     return 200.0;
   }

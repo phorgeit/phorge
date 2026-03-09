@@ -27,7 +27,6 @@ final class DiffusionCommitHookEngine extends Phobject {
   private $remoteAddress;
   private $remoteProtocol;
   private $requestIdentifier;
-  private $transactionKey;
   private $mercurialHook;
   private $mercurialCommits = array();
   private $gitCommits = array();

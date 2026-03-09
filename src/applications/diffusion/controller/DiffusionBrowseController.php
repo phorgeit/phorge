@@ -2,8 +2,6 @@
 
 final class DiffusionBrowseController extends DiffusionController {
 
-  private $lintCommit;
-  private $lintMessages;
   private $corpusButtons = array();
 
   public function shouldAllowPublic() {

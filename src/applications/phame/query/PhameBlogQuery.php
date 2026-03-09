@@ -10,7 +10,6 @@ final class PhameBlogQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   private $domain;
   private $statuses;
 
-  private $needBloggers;
   private $needProfileImage;
   private $needHeaderImage;
 

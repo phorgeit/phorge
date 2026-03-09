@@ -9,7 +9,6 @@ final class PhabricatorConduitMethodQuery
   private $isDeprecated;
   private $isStable;
   private $isUnstable;
-  private $applicationNames;
   private $nameContains;
   private $methods;
   private $isInternal;

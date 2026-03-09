@@ -5,10 +5,8 @@ final class PhabricatorFileChunkIterator
   implements Iterator {
 
   private $chunks;
-  private $cursor;
   private $begin;
   private $end;
-  private $data;
 
   public function __construct(array $chunks, $begin = null, $end = null) {
     $chunks = msort($chunks, 'getByteStart');

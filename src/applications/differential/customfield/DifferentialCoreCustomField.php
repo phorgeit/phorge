@@ -10,7 +10,6 @@ abstract class DifferentialCoreCustomField
 
   private $value;
   private $fieldError;
-  private $fieldParser;
 
   abstract protected function readValueFromRevision(
     DifferentialRevision $revision);

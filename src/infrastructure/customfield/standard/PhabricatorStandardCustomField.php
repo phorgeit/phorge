@@ -14,7 +14,6 @@ abstract class PhabricatorStandardCustomField
   private $caption;
   private $fieldError;
   private $required;
-  private $default;
   private $isCopyable;
   private $hasStorageValue;
   private $isBuiltin;

@@ -31,8 +31,6 @@ final class DifferentialChangeset
 
   private $hasOldState;
   private $hasNewState;
-  private $oldStateMetadata;
-  private $newStateMetadata;
   private $oldFileType;
   private $newFileType;
 

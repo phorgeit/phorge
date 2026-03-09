@@ -31,7 +31,6 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
    */
   const PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES = 'storage-fixtures';
 
-  private $configuration;
   private $env;
 
   private static $storageFixtureReferences = 0;

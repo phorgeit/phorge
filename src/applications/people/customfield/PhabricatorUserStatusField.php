@@ -3,8 +3,6 @@
 final class PhabricatorUserStatusField
   extends PhabricatorUserCustomField {
 
-  private $value;
-
   public function getFieldKey() {
     return 'user:status';
   }

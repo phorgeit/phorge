@@ -6,7 +6,6 @@ final class AphrontMultipartParser extends Phobject {
   private $boundary;
 
   private $buffer;
-  private $body;
   private $state;
 
   private $part;

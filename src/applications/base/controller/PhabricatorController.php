@@ -2,8 +2,6 @@
 
 abstract class PhabricatorController extends AphrontController {
 
-  private $handles;
-
   public function shouldRequireLogin() {
     return true;
   }

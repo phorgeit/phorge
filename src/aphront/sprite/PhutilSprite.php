@@ -11,7 +11,6 @@ final class PhutilSprite extends Phobject {
   private $sourceW;
   private $sourceH;
   private $targetCSS;
-  private $spriteSheet;
   private $name;
 
   public function setName($name) {

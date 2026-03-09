@@ -19,7 +19,6 @@ final class PHUIHeaderView extends AphrontTagView {
   private $actionLinks = array();
   private $buttonBar = null;
   private $policyObject;
-  private $epoch;
   private $actionItems = array();
   private $href;
   private $actionList;

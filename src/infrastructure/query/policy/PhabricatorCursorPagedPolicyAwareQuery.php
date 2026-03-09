@@ -25,7 +25,6 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   private $rawCursorRow;
 
   private $applicationSearchConstraints = array();
-  private $internalPaging;
   private $orderVector;
   private $groupVector;
   private $builtinOrder;

@@ -4,7 +4,6 @@ final class AphrontRequestStream extends Phobject {
 
   private $encoding;
   private $stream;
-  private $closed;
   private $iterator;
 
   public function setEncoding($encoding) {

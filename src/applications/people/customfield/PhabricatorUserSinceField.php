@@ -3,8 +3,6 @@
 final class PhabricatorUserSinceField
   extends PhabricatorUserCustomField {
 
-  private $value;
-
   public function getFieldKey() {
     return 'user:since';
   }
