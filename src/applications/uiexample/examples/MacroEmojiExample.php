@@ -21,29 +21,27 @@ final class MacroEmojiExample extends PhabricatorUIExample {
 
     $json = phutil_json_decode($raw);
 
-    $content = array();
+    $ficons = array();
     foreach ($json as $shortname => $hex) {
-
-      $display_name = ' '.$hex.' '.$shortname;
-
-      $content[] = phutil_tag(
-        'div',
-        array(
-          'class' => 'ms grouped',
-          'style' => 'width: 240px; height: 24px; float: left;',
-        ),
-        $display_name);
-
+      $ficons[] = id(new PHUIIconView())
+        ->addClass('phui-example-icon-name')
+        ->setText($hex.' '.$shortname);
     }
+
+    $content = id(new PHUIBoxView())
+      ->appendChild($ficons)
+      ->addMargin(PHUI::MARGIN_LARGE);
+
 
     $wrap = id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Emojis'))
-      ->addClass('grouped')
       ->appendChild($content);
 
     return phutil_tag(
       'div',
-        array(),
+        array(
+          'class' => 'phui-icon-example',
+        ),
         array(
           $wrap,
         ));
