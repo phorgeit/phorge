@@ -22,19 +22,9 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
     $hashers = msort($hashers, 'getStrength');
     $hashers = array_reverse($hashers);
 
-    $yes = phutil_tag(
-      'strong',
-      array(
-        'style' => 'color: #009900',
-      ),
-      pht('Yes'));
+    $yes = pht('Yes');
 
-    $no = phutil_tag(
-      'strong',
-      array(
-        'style' => 'color: #990000',
-      ),
-      pht('Not Installed'));
+    $no = pht('Not Installed');
 
     $best_hasher_name = null;
     try {
