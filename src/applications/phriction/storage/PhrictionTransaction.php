@@ -25,28 +25,6 @@ final class PhrictionTransaction
     return PhrictionDocumentTransactionType::class;
   }
 
-  public function getRequiredHandlePHIDs() {
-    $phids = parent::getRequiredHandlePHIDs();
-    $new = $this->getNewValue();
-    switch ($this->getTransactionType()) {
-      case PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE:
-      case PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE:
-        $phids[] = $new['phid'];
-        break;
-    }
-
-    return $phids;
-  }
-
-  public function shouldHideForMail(array $xactions) {
-    switch ($this->getTransactionType()) {
-      case PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE:
-      case PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE:
-        return true;
-    }
-    return parent::shouldHideForMail($xactions);
-  }
-
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {
