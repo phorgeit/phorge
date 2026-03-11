@@ -33,11 +33,6 @@ final class PhrictionTransaction
       case PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE:
         $phids[] = $new['phid'];
         break;
-      case PhrictionDocumentTitleTransaction::TRANSACTIONTYPE:
-        if ($this->getMetadataValue('stub:create:phid')) {
-          $phids[] = $this->getMetadataValue('stub:create:phid');
-        }
-        break;
     }
 
     return $phids;
@@ -48,8 +43,6 @@ final class PhrictionTransaction
       case PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE:
       case PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE:
         return true;
-      case PhrictionDocumentTitleTransaction::TRANSACTIONTYPE:
-        return $this->getMetadataValue('stub:create:phid', false);
     }
     return parent::shouldHideForMail($xactions);
   }
