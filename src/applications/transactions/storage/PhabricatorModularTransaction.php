@@ -15,6 +15,9 @@ abstract class PhabricatorModularTransaction
     return $this->getTransactionImplementation();
   }
 
+  /**
+  * @return PhabricatorModularTransactionType
+  */
   final protected function getTransactionImplementation() {
     if (!$this->implementation) {
       $this->implementation = $this->newTransactionImplementation();
@@ -23,6 +26,9 @@ abstract class PhabricatorModularTransaction
     return $this->implementation;
   }
 
+  /**
+  * @return PhabricatorModularTransactionType[]
+  */
   public function newModularTransactionTypes() {
     $base_class = $this->getBaseTransactionClass();
 
@@ -67,16 +73,6 @@ abstract class PhabricatorModularTransaction
   final public function generateNewValue($object) {
     return $this->getTransactionImplementation()
       ->generateNewValue($object, $this->getNewValue());
-  }
-
-  final public function applyInternalEffects($object) {
-    return $this->getTransactionImplementation()
-      ->applyInternalEffects($object);
-  }
-
-  final public function applyExternalEffects($object) {
-    return $this->getTransactionImplementation()
-      ->applyExternalEffects($object);
   }
 
   /* final */ public function shouldHide() {
@@ -199,6 +195,7 @@ abstract class PhabricatorModularTransaction
   /* final */ public function newWarningForTransactions(
     $object,
     array $xactions) {
+
     throw new PhutilMethodNotImplementedException();
   }
 

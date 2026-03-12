@@ -700,6 +700,7 @@ abstract class PhabricatorApplicationTransaction
           case ManiphestTaskIsDuplicateOfTaskEdgeType::EDGECONST:
           case PhabricatorMutedEdgeType::EDGECONST:
           case PhabricatorMutedByEdgeType::EDGECONST:
+          case PhabricatorProjectSilencedEdgeType::EDGECONST:
             return true;
           case PhabricatorObjectMentionedByObjectEdgeType::EDGECONST:
             $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);

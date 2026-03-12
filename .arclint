@@ -88,6 +88,10 @@
       "include": "(\\.php$)",
       "standard": "phutil.xhpast",
       "xhpast.php-version": "7.2.25"
+    },
+    "phorge-modular-xact": {
+      "type": "phorge-modular-xact",
+      "include": "(\\.*Trans.*\\.php$)"
     }
   }
 }
