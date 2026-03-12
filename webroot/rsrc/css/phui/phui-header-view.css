@@ -220,11 +220,11 @@ details > summary.phui-header-shell::-webkit-details-marker {
   border-color: transparent;
 }
 
-
 .phui-header-subheader .phui-tag-view,
 .phui-header-subheader .phui-tag-type-shade .phui-tag-core {
   border: none;
   font-weight: normal;
+  margin-bottom: 8px;
 }
 
 .policy-header-callout.policy-adjusted-special {
