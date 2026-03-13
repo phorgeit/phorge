@@ -1,4 +1,10 @@
 <?php
 
 abstract class PhameBlogTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhabricatorModularTransactionType {
+
+  protected function renderObjectType() {
+    return 'blog';
+  }
+
+}
