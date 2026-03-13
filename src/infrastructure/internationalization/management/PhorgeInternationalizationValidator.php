@@ -148,7 +148,7 @@ final class PhorgeInternationalizationValidator extends Phobject {
         $spec['types'],
         0));
       // Check for missing branches in US english
-      if (str_contains($string, '(s)')) {
+      if (strpos($string, '(s)') !== false) {
         if (!isset($keyed_translations[$string]['en_US'])) {
           foreach ($spec['types'] as $type) {
             if ($type === 'number') {
