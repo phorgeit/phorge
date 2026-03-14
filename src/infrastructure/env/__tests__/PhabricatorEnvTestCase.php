@@ -160,15 +160,9 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
       $inner = PhabricatorEnv::beginScopedEnv();
         $inner->overrideEnvConfig('test.value', 2);
         $this->assertEqual(2, PhabricatorEnv::getEnvConfig('test.value'));
-      if (phutil_is_hiphop_runtime()) {
-        $inner->__destruct();
-      }
       unset($inner);
 
       $this->assertEqual(1, PhabricatorEnv::getEnvConfig('test.value'));
-    if (phutil_is_hiphop_runtime()) {
-      $outer->__destruct();
-    }
     unset($outer);
   }
 
@@ -189,14 +183,8 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
         'Destroying a scoped environment which is not on the top of the '.
         'stack should throw.'));
 
-    if (phutil_is_hiphop_runtime()) {
-      $inner->__destruct();
-    }
     unset($inner);
 
-    if (phutil_is_hiphop_runtime()) {
-      $outer->__destruct();
-    }
     unset($outer);
   }
 
