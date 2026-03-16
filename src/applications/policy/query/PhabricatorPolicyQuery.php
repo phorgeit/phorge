@@ -9,6 +9,8 @@ final class PhabricatorPolicyQuery
   private $object;
   private $phids;
 
+  private $needPolicyDetails;
+
   const OBJECT_POLICY_PREFIX = 'obj.';
 
   public function setObject(PhabricatorPolicyInterface $object) {
@@ -18,6 +20,17 @@ final class PhabricatorPolicyQuery
 
   public function withPHIDs(array $phids) {
     $this->phids = $phids;
+    return $this;
+  }
+
+  /**
+   * If we're only interested in policy checks, we don't need all the details
+   * that the user might not be able to see (e.g. the name of a project policy).
+   * If we're showing something to the user, load more data (including policy
+   * checks on each new data).
+   */
+  public function needPolicyDetails($need_details) {
+    $this->needPolicyDetails = $need_details;
     return $this;
   }
 
@@ -35,6 +48,7 @@ final class PhabricatorPolicyQuery
     $policies = id(new PhabricatorPolicyQuery())
       ->setViewer($viewer)
       ->withPHIDs($map)
+      ->needPolicyDetails(true)
       ->execute();
 
     foreach ($map as $capability => $phid) {
@@ -67,6 +81,11 @@ final class PhabricatorPolicyQuery
           'setPHIDs()'));
     } else if ($this->object) {
       $phids = $this->loadObjectPolicyPHIDs();
+      // When we're provided with an object, we almost always
+      // need to display something.
+      // OTOH, when provided with an object, we'll need at most 2-3 policies
+      // (only the ones that are directly on the object).
+      $this->needPolicyDetails(true);
     } else {
       $phids = $this->phids;
     }
@@ -107,11 +126,23 @@ final class PhabricatorPolicyQuery
       }
 
       if ($handle_policies) {
-        $handles = id(new PhabricatorHandleQuery())
-          ->setViewer($this->getViewer())
-          ->setParentQuery($this)
-          ->withPHIDs($handle_policies)
-          ->execute();
+        if ($this->needPolicyDetails) {
+          // We want these to display them later. Load anything the use can view
+          $handles = id(new PhabricatorHandleQuery())
+            ->setViewer($this->getViewer())
+            ->setParentQuery($this)
+            ->withPHIDs($handle_policies)
+            ->execute();
+        } else {
+          // For policy filtering, we only need the PHID - don't load anything
+          foreach ($handle_policies as $phid) {
+            $handles[$phid] = id(new PhabricatorObjectHandle())
+              ->setPHID($phid)
+              ->setType(phid_get_type($phid))
+              ->setPolicyFiltered(true);
+          }
+        }
+
         foreach ($handle_policies as $phid) {
           $results[$phid] = PhabricatorPolicy::newFromPolicyAndHandle(
             $phid,

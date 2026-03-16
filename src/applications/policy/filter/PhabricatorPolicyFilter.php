@@ -631,6 +631,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
     $policy_query = id(new PhabricatorPolicyQuery())
       ->setViewer($viewer)
+      ->needPolicyDetails(false)
       ->withPHIDs(array_keys($map));
     if ($this->parentQuery) {
       $policy_query->setParentQuery($this->parentQuery);
