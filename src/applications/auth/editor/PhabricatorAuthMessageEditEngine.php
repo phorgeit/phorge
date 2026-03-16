@@ -93,7 +93,24 @@ final class PhabricatorAuthMessageEditEngine
       AuthManageProvidersCapability::CAPABILITY);
   }
 
+  /**
+   * Build custom edit fields.
+   * @param PhabricatorAuthMessage $object
+   * @return array Custom edit fields
+   */
   protected function buildCustomEditFields($object) {
+    $message_type = $object->getMessageType();
+    $control_instructions = $message_type->getFullDescription();
+
+    // When the current $value is null, it means you are going
+    // to override the default message text.
+    // In this case, easily tune the default message text,
+    // instead of starting from scratch.
+    $value = $object->getMessageText();
+    if ($value === null) {
+      $value = $message_type->getDefaultMessageText();
+    }
+
     return array(
       id(new PhabricatorRemarkupEditField())
         ->setKey('messageText')
@@ -101,7 +118,8 @@ final class PhabricatorAuthMessageEditEngine
           PhabricatorAuthMessageTextTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Message Text'))
         ->setDescription(pht('Custom text for the message.'))
-        ->setValue($object->getMessageText()),
+        ->setControlInstructions($control_instructions)
+        ->setValue($value),
     );
   }
 

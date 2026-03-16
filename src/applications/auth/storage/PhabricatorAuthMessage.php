@@ -53,6 +53,9 @@ final class PhabricatorAuthMessage
     return $this;
   }
 
+  /**
+   * @return PhabricatorAuthMessageType
+   */
   public function getMessageType() {
     return $this->assertAttached($this->messageType);
   }
