@@ -243,9 +243,11 @@ final class PhabricatorPolicy
         ->withPHIDs(array($policy))
         ->executeOne();
 
-      return pht(
-        'Members of the project "%s" can take this action.',
-        $handle->getFullName());
+      if (!$handle->getPolicyFiltered()) {
+        return pht(
+          'Members of the project "%s" can take this action.',
+          $handle->getFullName());
+      }
     }
 
     return self::getOpaquePolicyExplanation($viewer, $policy);
@@ -272,10 +274,6 @@ final class PhabricatorPolicy
       case PhabricatorPolicies::POLICY_NOONE:
         return pht('By default, no one can take this action.');
       default:
-        $handle = id(new PhabricatorHandleQuery())
-          ->setViewer($viewer)
-          ->withPHIDs(array($policy))
-          ->executeOne();
 
         $type = phid_get_type($policy);
         if ($type == PhabricatorProjectProjectPHIDType::TYPECONST) {
@@ -284,6 +282,10 @@ final class PhabricatorPolicy
             'can not see this object, so the name of this project is '.
             'restricted.)');
         } else if ($type == PhabricatorPeopleUserPHIDType::TYPECONST) {
+          $handle = id(new PhabricatorHandleQuery())
+            ->setViewer($viewer)
+            ->withPHIDs(array($policy))
+            ->executeOne();
           return pht(
             '%s can take this action.',
             $handle->getFullName());

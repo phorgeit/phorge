@@ -7,16 +7,21 @@ final class PhabricatorPolicyApplication extends PhabricatorApplication {
   }
 
   public function isLaunchable() {
-    return false;
+    return true;
   }
 
   public function canUninstall() {
     return false;
   }
 
+  public function getBaseURI() {
+    return '/policy/';
+  }
+
   public function getRoutes() {
     return array(
       '/policy/' => array(
+        '' => PhorgePolicyHomeController::class,
         'explain/(?P<phid>[^/]+)/(?P<capability>[^/]+)/'
           => 'PhabricatorPolicyExplainController',
         'edit/'.
@@ -28,6 +33,13 @@ final class PhabricatorPolicyApplication extends PhabricatorApplication {
             'template/(?P<templateType>[^/]+)'.
           ')/'.
           '(?:(?P<phid>[^/]+)/)?' => 'PhabricatorPolicyEditController',
+        'named/' => array(
+          '(?:(?P<id>\d+)/)' => PhorgePolicyViewNamedPolicyController::class,
+          $this->getQueryRoutePattern() =>
+            PhorgePolicyNamedPolicyListController::class,
+          $this->getEditRoutePattern('edit/') =>
+            PhorgePolicyEditNamedPolicyController::class,
+          ),
       ),
     );
   }

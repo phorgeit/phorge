@@ -185,16 +185,16 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
    * @task config
    */
   public function getTableName() {
-    $str = 'phabricator';
-    $len = strlen($str);
-
-    $class = strtolower(get_class($this));
-    if (!strncmp($class, $str, $len)) {
-      $class = substr($class, $len);
-    }
     $app = $this->getApplicationName();
-    if (!strncmp($class, $app, strlen($app))) {
-      $class = substr($class, strlen($app));
+    $class = strtolower(get_class($this));
+
+    $prefixes = array('phabricator', 'phorge', $app);
+
+    foreach ($prefixes as $prefix) {
+      $len = strlen($prefix);
+      if (!strncmp($class, $prefix, $len)) {
+        $class = substr($class, $len);
+      }
     }
 
     if (strlen($class)) {

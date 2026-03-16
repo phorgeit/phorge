@@ -239,7 +239,7 @@ abstract class PhabricatorEditEngine
   final public function supportsSubtypes() {
     try {
       $object = $this->newEditableObject();
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       return false;
     }
 
@@ -257,13 +257,17 @@ abstract class PhabricatorEditEngine
   /**
    * @task text
    */
-  abstract public function getEngineName();
+  public function getEngineName() {
+    return $this->getObjectName();
+  }
 
 
   /**
    * @task text
    */
-  abstract protected function getObjectCreateTitleText($object);
+  protected function getObjectCreateTitleText($object) {
+    return $this->getObjectCreateShortText();
+  }
 
   /**
    * @task text
@@ -282,7 +286,10 @@ abstract class PhabricatorEditEngine
   /**
    * @task text
    */
-  abstract protected function getObjectCreateShortText();
+  protected function getObjectCreateShortText() {
+    $object_name = $this->getObjectName();
+    return pht('Create %s', $object_name);
+  }
 
 
   /**
@@ -294,7 +301,10 @@ abstract class PhabricatorEditEngine
   /**
    * @task text
    */
-  abstract protected function getObjectEditShortText($object);
+  protected function getObjectEditShortText($object) {
+    $object_name = $this->getObjectName();
+    return pht('Edit %s', $object_name);
+  }
 
 
   /**
@@ -371,7 +381,10 @@ abstract class PhabricatorEditEngine
    * @return string Human-readable description of the engine.
    * @task text
    */
-  abstract public function getSummaryHeader();
+  public function getSummaryHeader() {
+    $object_name = $this->getObjectName();
+    return pht('Edit %s', $object_name);
+  }
 
 
   /**
@@ -380,7 +393,9 @@ abstract class PhabricatorEditEngine
    * @return string Human-readable description of the engine.
    * @task text
    */
-  abstract public function getSummaryText();
+  public function getSummaryText() {
+    return $this->getSummaryHeader();
+  }
 
 
 
@@ -599,7 +614,7 @@ abstract class PhabricatorEditEngine
   public function getCreateURI($form_key) {
     try {
       $create_uri = $this->getEditURI(null, "form/{$form_key}/");
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       $create_uri = null;
     }
 
@@ -1555,7 +1570,7 @@ abstract class PhabricatorEditEngine
       $disabled = false;
 
       $dropdown = id(new PhabricatorActionListView())
-        ->setUser($viewer);
+        ->setViewer($viewer);
 
       foreach ($specs as $spec) {
         $dropdown->addAction(
@@ -1798,7 +1813,6 @@ abstract class PhabricatorEditEngine
   private function buildParametersResponse($object) {
     $controller = $this->getController();
     $viewer = $this->getViewer();
-    $request = $controller->getRequest();
     $fields = $this->buildEditFields($object);
 
     $crumbs = $this->buildCrumbs($object);
@@ -1813,11 +1827,11 @@ abstract class PhabricatorEditEngine
       ->setHeader($header_text);
 
     $help_view = id(new PhabricatorApplicationEditHTTPParameterHelpView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setFields($fields);
 
     $document = id(new PHUIDocumentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($header)
       ->appendChild($help_view);
 
@@ -2099,7 +2113,7 @@ abstract class PhabricatorEditEngine
       $raw_view_data = $request->getStr('viewData');
       try {
         $view_data = phutil_json_decode($raw_view_data);
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         $view_data = array();
       }
 
@@ -2319,7 +2333,7 @@ abstract class PhabricatorEditEngine
         $value = $parameter_type->getValue($xaction, 'value', $is_strict);
         $value = $type->getTransactionValueFromConduit($value);
         $xaction['value'] = $value;
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         throw new Exception(
           pht(
             'Exception when processing transaction of type "%s": %s',
@@ -2343,7 +2357,7 @@ abstract class PhabricatorEditEngine
 
 
   /**
-   * @return map<string, PhabricatorEditType>
+   * @return array<string, PhabricatorEditType>
    * @task conduit
    */
   private function getConduitEditTypesFromFields(array $fields) {
