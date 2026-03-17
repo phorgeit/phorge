@@ -367,6 +367,10 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
     margin-left: 175px;
   }
 
+  .printable div.has-curtain div.phui-list-sidenav.phui-document-toc-list {
+    display: none;
+  }
+
   .device-desktop .has-curtain div.phui-document-content-view {
     display: block;
   }
