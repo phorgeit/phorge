@@ -181,19 +181,20 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
 
     $handles = $viewer->loadHandles($phids);
 
-    if ($author_phid) {
-      $author_refs = id(new PHUICurtainObjectRefListView())
-        ->setViewer($viewer);
+    $author_refs = id(new PHUICurtainObjectRefListView())
+      ->setViewer($viewer)
+      ->setEmptyMessage(pht('Unknown'));
 
+    if ($author_phid) {
       $author_ref = $author_refs->newObjectRefView()
         ->setHandle($handles[$author_phid])
         ->setEpoch($file->getDateCreated())
         ->setHighlighted($author_phid === $viewer_phid);
-
-      $curtain->newPanel()
-        ->setHeaderText(pht('Authored By'))
-        ->appendChild($author_refs);
     }
+
+    $curtain->newPanel()
+      ->setHeaderText(pht('Authored By'))
+      ->appendChild($author_refs);
 
     $curtain->newPanel()
       ->setHeaderText(pht('Size'))
