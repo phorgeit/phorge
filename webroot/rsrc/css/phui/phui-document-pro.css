@@ -396,4 +396,8 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   span.visual-only.phui-icon-view.phui-font-fa {
     text-indent: 0px;
   }
+
+  div.phui-document-view-pro .phui-info-view {
+    margin-left: 300px;
+  }
 }
