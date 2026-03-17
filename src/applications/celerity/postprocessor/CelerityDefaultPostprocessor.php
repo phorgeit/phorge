@@ -252,7 +252,8 @@ final class CelerityDefaultPostprocessor
 
       'navigation-menu-selection-background' => 'rgba(0, 0, 0,.05)',
       'navigation-menu-hover-background' => 'rgba(0, 0, 0,.07)',
-      'workboard-column-background' => 'rgba(234, 230, 247, 0.85)',
+      'workboard-column-background-milestone' => 'rgba(234, 230, 247, 0.85)',
+      'workboard-column-disabled-card' => 'rgba(255,255,255,.67)',
       'form-inset-background' => '#f7f9fd',
 
       // Buttons

@@ -43,7 +43,7 @@
 }
 
 .phui-oi-disabled.phui-workcard {
-  background-color: rgba({$alphawhite},.67);
+  background: {$workboard-column-disabled-card};
 }
 
 .phui-oi-disabled.phui-workcard .phui-oi-link {

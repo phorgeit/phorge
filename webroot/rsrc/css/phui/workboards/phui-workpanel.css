@@ -37,7 +37,7 @@
 }
 
 .phui-workpanel-view.phui-workboard-column-milestone .phui-box-grey {
-  background-color: {$workboard-column-background};
+  background-color: {$workboard-column-background-milestone};
 }
 
 .phui-workpanel-view .phui-header-col2 .phui-icon-view {
@@ -116,7 +116,7 @@
 }
 
 .project-panel-empty .phui-oi-list-view {
-  background: {$workboard-column-background};
+  background: {$workboard-column-background-milestone};
   border-radius: 3px;
   margin-bottom: 4px;
   border: 1px dashed {$sh-indigoborder};

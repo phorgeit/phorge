@@ -414,7 +414,7 @@ ul.phui-oi-icons {
 }
 
 .phui-oi.phui-oi-disabled .phui-oi-frame {
-  border-color: #d7d7d7;
+  border-color: rgba({$alphablue},0.1);
 }
 
 .phui-oi.phui-oi-disabled .phui-oi-objname {
