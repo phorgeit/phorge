@@ -35,10 +35,10 @@ under the object's title.
 Policies and Rules
 ==================
 
-Each Policy is made out of a list of Rules.
+Each Policy is made out of a list of //Rules//.
 
 
-A policy that has only one rule can be picked from the policy Selection
+A policy that has only one rule can be picked from the Policy Selection
 dropdown, while more complex policies will be shown as "Custom Policy" and will
 show a dialog similar to this:
 
@@ -91,6 +91,22 @@ in the "Policy Details" screen.
 File objects can be //Attached// to other objects. Files attached to objects are
 visible to users who can view those objects. Files can be detached from objects
 in the File's "Details" view under "File Metadata".
+
+== Named Policies
+
+//Named Policies// can be used to share a policy between multiple objects. These
+can be selected in the Policy Selection dropdown of applicable objects, and are
+then used normally. Changes made to a Named Policy immediately effect all
+objects that use this policy; Audit trail for these changes is only found in the
+Named Entity's details view.
+
+Named Policies are especially useful as the default values in object creation
+forms, so that all objects created with said form will share a policy.
+
+Named Entities have their own View and Edit policies; These apply to the Named
+Policy itself, not to objects that are using it.
+Note that it's possible for a user to pass the Effective policy, but not be able
+to view the policy's name and details - that's intentional.
 
 
 == Caveats

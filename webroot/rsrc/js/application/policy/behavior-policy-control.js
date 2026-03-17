@@ -44,7 +44,7 @@ JX.behavior('policy-control', function(config) {
         var phid = config.order[group][jj];
 
         var onselect;
-        if (group == 'custom') {
+        if (phid == config.customKey) {
           onselect = JX.bind(null, function(phid) {
             var uri = get_custom_uri(phid, config.capability);
 
@@ -60,7 +60,7 @@ JX.behavior('policy-control', function(config) {
               .start();
 
           }, phid);
-        } else if (phid == config.projectKey) {
+        } else if (phid.startsWith(config.selectPrefix)) {
           onselect = JX.bind(null, function(phid) {
             var uri = get_custom_uri(phid, config.capability);
 

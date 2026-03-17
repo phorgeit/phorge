@@ -115,6 +115,13 @@ final class PhabricatorPolicy
         // any rules. It is used to render transactions, and might need some
         // cleanup.
         break;
+      case PhorgePolicyPHIDTypeNamedPolicy::TYPECONST:
+        // this is probably wrong, because we don't load any rules. Still might
+        // be useful for displays.
+        $policy
+          ->setType(PhabricatorPolicyType::TYPE_NAMED)
+          ->setName($handle->getFullName());
+        break;
       default:
         $policy
           ->setType(PhabricatorPolicyType::TYPE_MASKED)
@@ -206,6 +213,7 @@ final class PhabricatorPolicy
         return 'fa-briefcase';
       case PhabricatorPolicyType::TYPE_CUSTOM:
       case PhabricatorPolicyType::TYPE_MASKED:
+      case PhabricatorPolicyType::TYPE_NAMED:
         return 'fa-certificate';
       default:
         return 'fa-question-circle';
@@ -328,6 +336,10 @@ final class PhabricatorPolicy
     return ($this->getType() === PhabricatorPolicyType::TYPE_CUSTOM);
   }
 
+  public function isNamedPolicy() {
+    return ($this->getType() === PhabricatorPolicyType::TYPE_NAMED);
+  }
+
   public function isMaskedPolicy() {
     return ($this->getType() === PhabricatorPolicyType::TYPE_MASKED);
   }
@@ -353,7 +365,7 @@ final class PhabricatorPolicy
         if (class_exists($class)) {
           $classes[$class] = $class;
         }
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         continue;
       }
     }

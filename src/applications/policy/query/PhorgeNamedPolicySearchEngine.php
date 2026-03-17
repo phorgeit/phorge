@@ -57,6 +57,8 @@ final class PhorgeNamedPolicySearchEngine
         ->setHref($policy->getHref())
         ->setObject($policy);
 
+      $item->addAttribute(
+        $this->renderApplicableTo($policy));
 
       $item->addByline(
         $this->renderPolicy(
@@ -130,6 +132,17 @@ final class PhorgeNamedPolicySearchEngine
     }
 
     return $identifier;
+  }
+
+  private function renderApplicableTo($policy) {
+    $applicable_to = $policy->getReferenceObjectPHIDType();
+    if (!$applicable_to) {
+      return pht('All object types');
+    } else {
+      return id(new PHUIIconView())
+        ->setIcon($applicable_to->getTypeIcon())
+        ->setText($applicable_to->getTypeName());
+    }
   }
 
 }

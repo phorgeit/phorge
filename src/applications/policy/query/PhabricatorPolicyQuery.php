@@ -14,6 +14,7 @@ final class PhabricatorPolicyQuery
   const OBJECT_POLICY_PREFIX = 'obj.';
 
   public function setObject(PhabricatorPolicyInterface $object) {
+    // setObject() is used (probably) only for populating a Policy Selection UI
     $this->object = $object;
     return $this;
   }
@@ -91,39 +92,77 @@ final class PhabricatorPolicyQuery
     }
 
     $phids = array_fuse($phids);
+    // I don't want to return results that weren't requested;
+    // This clones the list:
+    $requested = $phids;
 
+    // Map of phid -> policy object. Also used as cache for the query.
     $results = array();
 
     // First, load global policies.
     foreach (self::getGlobalPolicies() as $phid => $policy) {
-      if (isset($phids[$phid])) {
-        $results[$phid] = $policy;
-        unset($phids[$phid]);
-      }
+      $results[$phid] = $policy;
+      unset($phids[$phid]);
     }
 
     // Now, load object policies.
     foreach (self::getObjectPolicies($this->object) as $phid => $policy) {
-      if (isset($phids[$phid])) {
-        $results[$phid] = $policy;
-        unset($phids[$phid]);
+      $results[$phid] = $policy;
+      unset($phids[$phid]);
+    }
+
+    foreach ($this->getObjectsFromWorkspace($phids) as $phid => $policy) {
+      if (get_class($policy) != PhabricatorPolicy::class) {
+        // We break the convention where the phid type in the key matches the
+        // object in the value.
+        continue;
       }
+      $results[$phid] = $policy;
+      unset($phids[$phid]);
     }
 
     // If we still need policies, we're going to have to fetch data. Bucket
     // the remaining policies into rule-based policies and handle-based
     // policies.
     if ($phids) {
+      $named_policies = array();
       $rule_policies = array();
       $handle_policies = array();
       foreach ($phids as $phid) {
         $phid_type = phid_get_type($phid);
-        if ($phid_type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
-          $rule_policies[$phid] = $phid;
-        } else {
-          $handle_policies[$phid] = $phid;
+        switch ($phid_type) {
+          case PhorgePolicyPHIDTypeNamedPolicy::TYPECONST:
+            $named_policies[$phid] = $phid;
+            break;
+          case PhabricatorPolicyPHIDTypePolicy::TYPECONST:
+            $rule_policies[$phid] = $phid;
+            break;
+          default:
+            $handle_policies[$phid] = $phid;
+            break;
         }
       }
+
+      if ($named_policies) {
+        // The user might not be allowed to see the Named Policy object, but
+        // allowed to see the object it applies to.
+        // We're loading everything, and we'll filter and hide them later.
+        $named_policy_query = id(new PhorgeNamedPolicyQuery())
+          ->setViewer(PhabricatorUser::getOmnipotentUser())
+          ->withPHIDs(array_keys($named_policies))
+          ->withCanApplyToObject($this->object);
+
+        $loaded_named_policies = $named_policy_query->execute();
+        $loaded_named_policies = mpull($loaded_named_policies, null, 'getPHID');
+
+        list($_, $_, $named_rule, $named_handle) =
+          $this->splitNamedPoliciesByEffectiveType($loaded_named_policies);
+
+        // We already have all Global and Object rules in the cache.
+        $rule_policies += array_fuse($named_rule);
+        $handle_policies += array_fuse($named_handle);
+      }
+
 
       if ($handle_policies) {
         if ($this->needPolicyDetails) {
@@ -156,10 +195,56 @@ final class PhabricatorPolicyQuery
           $rule_policies);
         $results += mpull($rules, null, 'getPHID');
       }
+
+      if ($named_policies) {
+
+        // as good a fallback as any?
+        $noone = self::getGlobalPolicy(PhabricatorPolicies::POLICY_NOONE);
+        $for_workspace = array();
+
+        foreach ($loaded_named_policies as $named_phid => $named_policy) {
+          $policy = idx($results, $named_policy->getEffectivePolicy(), $noone);
+
+          $cloned_policy = id(clone($policy))
+            ->makeEphemeral()
+            ->setPHID($named_phid)
+            ->setType(PhabricatorPolicyType::TYPE_MASKED)
+            ->setShortName(null)
+            ->setName(null)
+            ->setHref(null);
+
+          $results[$named_phid] = $cloned_policy;
+          $for_workspace[$named_phid] = $cloned_policy;
+        }
+
+        // We're about the make a sub-query, so make sure we have copies
+        // of everything we've loaded so far, to avoid cycles.
+        // But don't add everything here, because we accept project phids and
+        // user phids and return PhabricatorPolicy instead.
+        // The objects we're adding here are Masked, so users can always see
+        // them. We'll enrich the same objects later, if they pass the filter
+        // for this viewer.
+        $this->putObjectsInWorkspace($for_workspace);
+
+        $visible_named_policies = id(new PhabricatorPolicyFilter())
+          ->setViewer($this->getViewer())
+          ->setParentQuery($this)
+          ->requireCapabilities(array(PhabricatorPolicyCapability::CAN_VIEW))
+          ->apply($loaded_named_policies);
+
+        foreach ($visible_named_policies as $named_phid => $named_policy) {
+          $results[$named_phid]
+              ->setType(PhabricatorPolicyType::TYPE_NAMED)
+              ->setHref($named_policy->getHref())
+              ->setName($named_policy->getName())
+              ->setIcon($named_policy->getIcon());
+        }
+      }
+
     }
 
+    $results = array_select_keys($results, $requested);
     $results = msort($results, 'getSortKey');
-
     return $results;
   }
 
@@ -237,56 +322,8 @@ final class PhabricatorPolicyQuery
     $viewer = $this->getViewer();
 
     if ($viewer->getPHID()) {
-      $pref_key = PhabricatorPolicyFavoritesSetting::SETTINGKEY;
-
-      $favorite_limit = 10;
-      $default_limit = 5;
-
-      // If possible, show the user's 10 most recently used projects.
-      $favorites = $viewer->getUserSetting($pref_key);
-      if (!is_array($favorites)) {
-        $favorites = array();
-      }
-      $favorite_phids = array_keys($favorites);
-      $favorite_phids = array_slice($favorite_phids, -$favorite_limit);
-
-      if ($favorite_phids) {
-        $projects = id(new PhabricatorProjectQuery())
-          ->setViewer($viewer)
-          ->setParentQuery($this)
-          ->withPHIDs($favorite_phids)
-          ->withIsMilestone(false)
-          ->setLimit($favorite_limit)
-          ->execute();
-        $projects = mpull($projects, null, 'getPHID');
-      } else {
-        $projects = array();
-      }
-
-      // If we didn't find enough favorites, add some default projects. These
-      // are just arbitrary projects that the viewer is a member of, but may
-      // be useful on smaller installs and for new users until they can use
-      // the control enough time to establish useful favorites.
-      if (count($projects) < $default_limit) {
-        $default_projects = id(new PhabricatorProjectQuery())
-          ->setViewer($viewer)
-          ->setParentQuery($this)
-          ->withMemberPHIDs(array($viewer->getPHID()))
-          ->withIsMilestone(false)
-          ->withStatuses(
-            array(
-              PhabricatorProjectStatus::STATUS_ACTIVE,
-            ))
-          ->setLimit($default_limit)
-          ->execute();
-        $default_projects = mpull($default_projects, null, 'getPHID');
-        $projects = $projects + $default_projects;
-        $projects = array_slice($projects, 0, $default_limit);
-      }
-
-      foreach ($projects as $project) {
-        $phids[] = $project->getPHID();
-      }
+      $phids += $this->loadProjectPoliciesForViewer($viewer);
+      $phids += $this->loadNamedPoliciesForViewer($viewer);
 
       // Include the "current viewer" policy. This improves consistency, but
       // is also useful for creating private instances of normally-shared object
@@ -321,6 +358,110 @@ final class PhabricatorPolicyQuery
     }
 
     return $phids;
+  }
+
+  private function splitNamedPoliciesByEffectiveType($named_policies) {
+
+    // these map named_policy_phid to the effective_policy_identifier,
+    // split by the type of the effective policy.
+    $global = array();
+    $object = array();
+    $custom = array();
+    $handle = array();
+
+    foreach ($named_policies as $phid => $named) {
+      $effective = $named->getEffectivePolicy();
+      if (self::isGlobalPolicy($effective)) {
+        $global[$phid] = $effective;
+        continue;
+      }
+      if (self::isObjectPolicy($effective)) {
+        $object[$phid] = $effective;
+        continue;
+      }
+      $phid_type = phid_get_type($effective);
+      switch ($phid_type) {
+        case PhorgePolicyPHIDTypeNamedPolicy::TYPECONST:
+          phlog(
+            pht(
+              'Named Policy has invalid effective policy: %s -> %s',
+              $phid,
+              $effective));
+          break;
+        case PhabricatorPolicyPHIDTypePolicy::TYPECONST:
+          $custom[$phid] = $effective;
+          break;
+        default:
+          $handle[$phid] = $effective;
+          break;
+      }
+
+    }
+
+    return array($global, $object, $custom, $handle);
+  }
+
+  private function loadProjectPoliciesForViewer(PhabricatorUser $viewer) {
+    $pref_key = PhabricatorPolicyFavoritesSetting::SETTINGKEY;
+
+    $favorite_limit = 10;
+    $default_limit = 5;
+
+    // If possible, show the user's 10 most recently used projects.
+    $favorites = $viewer->getUserSetting($pref_key);
+    if (!is_array($favorites)) {
+      $favorites = array();
+    }
+    $favorite_phids = array_keys($favorites);
+    $favorite_phids = array_slice($favorite_phids, -$favorite_limit);
+
+    if ($favorite_phids) {
+      $projects = id(new PhabricatorProjectQuery())
+        ->setViewer($viewer)
+        ->setParentQuery($this)
+        ->withPHIDs($favorite_phids)
+        ->withIsMilestone(false)
+        ->setLimit($favorite_limit)
+        ->execute();
+      $projects = mpull($projects, null, 'getPHID');
+    } else {
+      $projects = array();
+    }
+
+    // If we didn't find enough favorites, add some default projects. These
+    // are just arbitrary projects that the viewer is a member of, but may
+    // be useful on smaller installs and for new users until they can use
+    // the control enough time to establish useful favorites.
+    if (count($projects) < $default_limit) {
+      $default_projects = id(new PhabricatorProjectQuery())
+        ->setViewer($viewer)
+        ->setParentQuery($this)
+        ->withMemberPHIDs(array($viewer->getPHID()))
+        ->withIsMilestone(false)
+        ->withStatuses(
+          array(
+            PhabricatorProjectStatus::STATUS_ACTIVE,
+          ))
+        ->setLimit($default_limit)
+        ->execute();
+      $default_projects = mpull($default_projects, null, 'getPHID');
+      $projects = $projects + $default_projects;
+      $projects = array_slice($projects, 0, $default_limit);
+    }
+
+    return mpull($projects, 'getPHID', 'getPHID');
+  }
+
+  private function loadNamedPoliciesForViewer(PhabricatorUser $viewer) {
+    // TODO add Named policies to Favorites
+
+    $policies = id(new PhorgeNamedPolicyQuery())
+      ->setViewer($viewer)
+      ->setParentQuery($this)
+      ->setLimit(4)
+      ->execute();
+
+    return mpull($policies, 'getPHID', 'getPHID');
   }
 
   protected function shouldDisablePolicyFiltering() {

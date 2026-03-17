@@ -9,6 +9,7 @@ final class PhorgeNamedPolicyQuery
   private $phids;
   private $ids;
 
+  private $applyToObject;
 
   public function withPHIDs(array $phids) {
     $this->phids = $phids;
@@ -17,6 +18,11 @@ final class PhorgeNamedPolicyQuery
 
   public function withIDs(array $ids) {
     $this->ids = $ids;
+    return $this;
+  }
+
+  public function withCanApplyToObject(?PhabricatorPolicyInterface $object) {
+    $this->applyToObject = $object;
     return $this;
   }
 
@@ -51,6 +57,18 @@ final class PhorgeNamedPolicyQuery
 
   protected function getPrimaryTableAlias() {
     return 'named';
+  }
+
+  protected function willFilterPage(array $page) {
+    if ($this->applyToObject !== null) {
+      foreach ($page as $key => $policy) {
+        if (!$policy->canApplyToObject($this->applyToObject)) {
+          unset($page[$key]);
+        }
+      }
+    }
+
+    return $page;
   }
 
 }

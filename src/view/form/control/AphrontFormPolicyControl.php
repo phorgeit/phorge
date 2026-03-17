@@ -105,8 +105,11 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
 
   protected function getOptions() {
     $capability = $this->capability;
+    /**
+    * @var array<PhabricatorPolicy> $policies
+    */
     $policies = $this->policies;
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     // Check if we're missing the policy for the current control value. This
     // is unusual, but can occur if the user is submitting a form and selected
@@ -146,7 +149,10 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
       }
     }
 
-    $options = array();
+    $options = array(
+      PhabricatorPolicyType::TYPE_NAMED => array(),
+      PhabricatorPolicyType::TYPE_PROJECT => array(),
+    );
     foreach ($policies as $policy) {
       if ($policy->getPHID() == PhabricatorPolicies::POLICY_PUBLIC) {
         // Never expose "Public" for capabilities which don't support it.
@@ -164,23 +170,31 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
       );
     }
 
-    $type_project = PhabricatorPolicyType::TYPE_PROJECT;
+    // TODO hide "named policy" section if the feature isn't used at all (never
+    // created any).
+    // For now, hiding this if there are no visible, applicable policies.
+    // This is against our general policy of consistency in the UI, but it's
+    // much easier to implement.
+    $type_named = PhabricatorPolicyType::TYPE_NAMED;
 
-    // Make sure we have a "Projects" group before we adjust it.
-    if (empty($options[$type_project])) {
-      $options[$type_project] = array();
+    if ($options[$type_named]) {
+      $options[$type_named] = isort($options[$type_named], 'sort');
+      $options[$type_named][$this->getSelectNamedKey()] = array(
+        'name' => pht('Other Named Policy...'),
+        'full' => pht('Other Named Policy...'),
+        'icon' => 'fa-search',
+      );
     }
+
+
+    $type_project = PhabricatorPolicyType::TYPE_PROJECT;
 
     $options[$type_project] = isort($options[$type_project], 'sort');
 
-    $placeholder = id(new PhabricatorPolicy())
-      ->setName(pht('Other Project...'))
-      ->setIcon('fa-search');
-
     $options[$type_project][$this->getSelectProjectKey()] = array(
-      'name' => $placeholder->getName(),
-      'full' => $placeholder->getName(),
-      'icon' => $placeholder->getIcon(),
+      'name' => pht('Other Project...'),
+      'full' => pht('Other Project...'),
+      'icon' => 'fa-search',
     );
 
     // If we were passed several custom policy options, throw away the ones
@@ -223,6 +237,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
         PhabricatorPolicyType::TYPE_OBJECT,
         PhabricatorPolicyType::TYPE_USER,
         PhabricatorPolicyType::TYPE_CUSTOM,
+        PhabricatorPolicyType::TYPE_NAMED,
         PhabricatorPolicyType::TYPE_PROJECT,
       ));
 
@@ -311,7 +326,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
         'capability' => $this->capability,
         'editURI' => '/policy/edit/'.$context_path,
         'customKey' => $this->getSelectCustomKey(),
-        'projectKey' => $this->getSelectProjectKey(),
+        'selectPrefix' => $this->getSelectKeyPrefix(),
         'disabled' => $this->getDisabled(),
       ));
 
@@ -354,12 +369,20 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
       ));
   }
 
+  private static function getSelectKeyPrefix() {
+    return 'select_';
+  }
+
   public static function getSelectCustomKey() {
-    return 'select:custom';
+    return self::getSelectKeyPrefix().'custom';
   }
 
   public static function getSelectProjectKey() {
-    return 'select:project';
+    return self::getSelectKeyPrefix().'project';
+  }
+
+  public static function getSelectNamedKey() {
+    return self::getSelectKeyPrefix().'named';
   }
 
   private function buildSpacesControl() {
@@ -371,7 +394,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
       return null;
     }
 
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     if (!PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
       return null;
     }

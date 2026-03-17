@@ -9,9 +9,9 @@ final class PhorgeNamedPolicy
 
     PhabricatorDestructibleInterface {
 
-  protected $effectivePolicy;
+  protected $effectivePolicy = '';
   protected $name;
-  protected $description;
+  protected $description = '';
   protected $viewPolicy = PhabricatorPolicies::POLICY_USER;
   protected $editPolicy = PhabricatorPolicies::POLICY_USER;
   protected $targetObjectType;

@@ -34,6 +34,7 @@ final class PhabricatorApplicationTransactionValueController
       case PhabricatorTransactions::TYPE_JOIN_POLICY:
       case PhabricatorRepositoryPushPolicyTransaction::TRANSACTIONTYPE:
       case PhabricatorApplicationPolicyChangeTransaction::TRANSACTIONTYPE:
+      case PhorgePolicyNamedPolicyEffectivePolicyTransaction::TRANSACTIONTYPE:
         break;
       default:
         return new Aphront404Response();

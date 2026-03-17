@@ -107,14 +107,15 @@ final class PhabricatorApplicationPolicyChangeTransaction
           $capability);
         if (!$capobj || !$capobj->shouldAllowPublicPolicySetting()) {
           $errors[] = $this->newInvalidError(
-            pht('Can\'t set non-public policies to public.'));
+            pht('Can\'t set non-public capabilities to public.'));
           continue;
         }
       }
 
       if (!$application->isCapabilityEditable($capability)) {
         $errors[] = $this->newInvalidError(
-          pht('Capability "%s" is not editable for this application.',
+          pht(
+            'Capability "%s" is not editable for this application.',
             $capability));
         continue;
       }

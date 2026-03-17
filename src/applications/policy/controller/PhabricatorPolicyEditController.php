@@ -8,13 +8,11 @@ final class PhabricatorPolicyEditController
 
     $object_phid = $request->getURIData('objectPHID');
     if ($object_phid) {
+      $object_type = phid_get_type($object_phid);
       $object = id(new PhabricatorObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($object_phid))
         ->executeOne();
-      if (!$object) {
-        return new Aphront404Response();
-      }
     } else {
       $object_type = $request->getURIData('objectType');
       if (!$object_type) {
@@ -26,15 +24,18 @@ final class PhabricatorPolicyEditController
         return new Aphront404Response();
       }
       $object = $phid_types[$object_type]->newObject();
-      if (!$object) {
-        return new Aphront404Response();
-      }
+    }
+    if (!$object) {
+      return new Aphront404Response();
     }
 
     $phid = $request->getURIData('phid');
+
     switch ($phid) {
       case AphrontFormPolicyControl::getSelectProjectKey():
         return $this->handleProjectRequest($request);
+      case AphrontFormPolicyControl::getSelectNamedKey():
+        return $this->handleNamedPolicyRequest($request, $object_type);
       case AphrontFormPolicyControl::getSelectCustomKey():
         $phid = null;
         break;
@@ -255,7 +256,7 @@ final class PhabricatorPolicyEditController
 
     $dialog = id(new AphrontDialogView())
       ->setWidth(AphrontDialogView::WIDTH_FULL)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle($title)
       ->appendChild($form)
       ->addSubmitButton(pht('Save Policy'))
@@ -341,6 +342,68 @@ final class PhabricatorPolicyEditController
       ->setWidth(AphrontDialogView::WIDTH_FORM)
       ->setErrors($errors)
       ->setTitle(pht('Select Project'))
+      ->appendForm($form)
+      ->addSubmitButton(pht('Done'))
+      ->addCancelButton('#');
+  }
+
+  private function handleNamedPolicyRequest(
+    AphrontRequest $request,
+    $object_type) {
+
+    $viewer = $this->getViewer();
+
+    $errors = array();
+    $e_policy = true;
+
+    if ($request->isFormPost()) {
+      $policy_phids = $request->getArr('namedPHIDs');
+      $policy_phid = head($policy_phids);
+
+      /** @var PhorgeNamedPolicy */
+      $policy = id(new PhabricatorObjectQuery())
+        ->setViewer($viewer)
+        ->withPHIDs(array($policy_phid))
+        ->executeOne();
+
+      if ($policy) {
+        // TODO add to favorites
+
+        $data = array(
+          'phid' => $policy->getPHID(),
+          'info' => array(
+            'name' => $policy->getName(),
+            'full' => $policy->getName(),
+            'icon' => $policy->getIcon(),
+          ),
+        );
+
+        return id(new AphrontAjaxResponse())->setContent($data);
+      } else {
+        $errors[] = pht('You must choose a policy.');
+        $e_policy = pht('Required');
+      }
+    }
+
+    $policy_datasource = id(new PhorgeNamedPolicyDatasource())
+      ->setParameters(
+        array(
+          'targetObjectType' => $object_type,
+        ));
+
+    $form = id(new AphrontFormView())
+      ->setViewer($viewer)
+      ->appendControl(
+        id(new AphrontFormTokenizerControl())
+          ->setName('namedPHIDs')
+          ->setLimit(1)
+          ->setError($e_policy)
+          ->setDatasource($policy_datasource));
+
+    return $this->newDialog()
+      ->setWidth(AphrontDialogView::WIDTH_FORM)
+      ->setErrors($errors)
+      ->setTitle(pht('Select Named Policy'))
       ->appendForm($form)
       ->addSubmitButton(pht('Done'))
       ->addCancelButton('#');

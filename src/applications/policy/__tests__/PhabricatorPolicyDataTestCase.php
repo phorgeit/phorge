@@ -30,6 +30,35 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $this->assertEqual(0, count($results));
   }
 
+
+  public function testNamedPolicyCycle() {
+
+    $policy_a = id(new PhorgeNamedPolicy())
+      ->setName('A')
+      ->setEffectivePolicy(PhabricatorPolicies::POLICY_PUBLIC)
+      ->save();
+    $policy_b = id(new PhorgeNamedPolicy())
+      ->setName('B')
+      ->setEffectivePolicy(PhabricatorPolicies::POLICY_PUBLIC)
+      ->save();
+
+    $policy_a
+      ->setViewPolicy($policy_b->getPHID())
+      ->save();
+    $policy_b
+      ->setViewPolicy($policy_a->getPHID())
+      ->save();
+
+    $user = new PhabricatorUser();
+
+    $results = id(new PhorgeNamedPolicyQuery())
+      ->setViewer($user)
+      ->execute();
+
+    $this->assertEqual(2, count($results));
+  }
+
+
   public function testCustomPolicyRuleUser() {
     $user_a = $this->generateNewTestUser();
     $user_b = $this->generateNewTestUser();

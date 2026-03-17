@@ -339,7 +339,7 @@ final class PhabricatorTypeaheadModularDatasourceController
     asort($options);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setAction('/typeahead/class/')
       ->appendChild(
         id(new AphrontFormSelectControl())
@@ -357,6 +357,11 @@ final class PhabricatorTypeaheadModularDatasourceController
           ->setLabel(pht('Raw Query'))
           ->setName('raw')
           ->setValue($request->getStr('raw')))
+      ->appendChild(
+        id(new AphrontFormTextControl())
+          ->setLabel(pht('Parameters (JSON)'))
+          ->setName('parameters')
+          ->setValue($request->getStr('parameters')))
       ->appendChild(
         id(new AphrontFormSubmitControl())
           ->setValue(pht('Query')));
