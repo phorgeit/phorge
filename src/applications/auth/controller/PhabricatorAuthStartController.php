@@ -164,7 +164,9 @@ final class PhabricatorAuthStartController
 
       $button_columns = id(new AphrontMultiColumnView())
         ->setFluidLayout(true);
-      $are_buttons = array_chunk($are_buttons, ceil(count($are_buttons) / 2));
+      $are_buttons = array_chunk(
+        $are_buttons,
+        (int)ceil(count($are_buttons) / 2));
       foreach ($are_buttons as $column) {
         $button_columns->addColumn($column);
       }
