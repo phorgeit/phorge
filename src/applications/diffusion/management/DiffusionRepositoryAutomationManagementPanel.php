@@ -19,7 +19,13 @@ final class DiffusionRepositoryAutomationManagementPanel
 
   public function shouldEnableForRepository(
     PhabricatorRepository $repository) {
-    return $repository->isGit();
+
+    $viewer = $this->getViewer();
+    $have_drydock = PhabricatorApplication::isClassInstalledForViewer(
+      PhabricatorDrydockApplication::class,
+      $viewer);
+
+    return $repository->isGit() && $have_drydock;
   }
 
   protected function getEditEngineFieldKeys() {
