@@ -38,7 +38,7 @@ final class DrydockBlueprintEditController extends DrydockBlueprintController {
 
     if ($request->isFormPost()) {
       $class = $request->getStr('blueprintType');
-      if (!isset($implementations[$class])) {
+      if (!$class || !isset($implementations[$class])) {
         $e_blueprint = pht('Required');
         $errors[] = pht('You must choose a blueprint type.');
       }
