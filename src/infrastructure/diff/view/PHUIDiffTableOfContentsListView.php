@@ -426,27 +426,17 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
     $last_new_key = null;
 
     foreach ($items as $key => $component) {
-      if (!is_array($component)) {
+      if ($component[0] !== null) {
         $last_old_key = $key;
+      }
+      if ($component[1] !== null) {
         $last_new_key = $key;
-      } else {
-        if ($component[0] !== null) {
-          $last_old_key = $key;
-        }
-        if ($component[1] !== null) {
-          $last_new_key = $key;
-        }
       }
     }
 
     foreach ($items as $key => $component) {
-      if (!is_array($component)) {
-        $old = $component;
-        $new = $component;
-      } else {
-        $old = $component[0];
-        $new = $component[1];
-      }
+      $old = $component[0];
+      $new = $component[1];
 
       $old_classes = array();
       $new_classes = array();
