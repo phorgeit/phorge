@@ -196,11 +196,7 @@ final class DivinerJavelinAtomizer extends DivinerAtomizer {
           $this->expectNode($value, Peast\Syntax\Node\ObjectExpression::class);
 
           foreach ($this->parseInstallationEntries($value) as $atom) {
-            $atom
-              ->setProperty(
-                'static',
-                $name === 'statics')
-              ->setLine($start_line);
+            $atom->setProperty('static', $name === 'statics');
             $class->addChild($atom);
             $methods[] = $atom;
           }
@@ -214,18 +210,14 @@ final class DivinerJavelinAtomizer extends DivinerAtomizer {
           $atom = $this->parseFunction($value, true)
             ->setName($name)
             ->setLine($start_line)
-            ->setProperty(
-              'static',
-              $name === 'initialize');
+            ->setProperty('static', $name === 'initialize');
           $class->addChild($atom);
           $methods[] = $atom;
           break;
         case 'extend':
           $this->expectNode($value, Peast\Syntax\Node\StringLiteral::class);
           $class->addExtends(
-            $this->newRef(
-              DivinerAtom::TYPE_CLASS,
-              $value->getValue()));
+            $this->newRef(DivinerAtom::TYPE_CLASS, $value->getValue()));
           break;
         case 'properties':
           // Diviner doesn't document these yet.
