@@ -98,8 +98,8 @@ final class PhabricatorGlobalUploadTargetView extends AphrontView {
       'div',
       array(
         'id'    => $instructions_id,
-        'class' => 'phabricator-global-upload-instructions',
-        'style' => 'display: none;',
+        'class' => 'phabricator-global-upload-instructions
+                    global-upload-instructions-hidden',
       ),
       $hint_text);
   }

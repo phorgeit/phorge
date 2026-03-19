@@ -709,6 +709,14 @@ JX.install('DOM', {
       return node.getAttribute('id');
     },
 
+    /**
+     * Add or remove a class from a node.
+     *
+     * @param Node        The node to alter.
+     * @param string      The node's CSS class to add or remove.
+     * @param bool        true to add a class; false to remove a class.
+     * @return void
+     */
     alterClass : function(node, className, add) {
       if (__DEV__) {
         if (add !== false && add !== true) {

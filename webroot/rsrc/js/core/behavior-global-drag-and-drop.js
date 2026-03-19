@@ -43,7 +43,8 @@ JX.behavior('global-drag-and-drop', function(config, statics) {
         return;
       }
       JX.Mask.show('global-upload-mask');
-      JX.DOM.show(JX.$(config.instructions));
+      var node = JX.$(config.instructions);
+      JX.DOM.alterClass(node, 'global-upload-instructions-hidden', false);
     });
 
     statics.drop.listen('didEndDrag', function() {
@@ -51,7 +52,8 @@ JX.behavior('global-drag-and-drop', function(config, statics) {
         return;
       }
       JX.Mask.hide('global-upload-mask');
-      JX.DOM.hide(JX.$(config.instructions));
+      var node = JX.$(config.instructions);
+      JX.DOM.alterClass(node, 'global-upload-instructions-hidden', true);
     });
 
     statics.drop.listen('willUpload', function() {
