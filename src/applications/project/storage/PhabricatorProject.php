@@ -610,7 +610,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function getDisplayColor() {
-    if ($this->isMilestone()) {
+    if ($this->isMilestone() && !$this->isArchived()) {
       return $this->getParentProject()->getColor();
     }
 
