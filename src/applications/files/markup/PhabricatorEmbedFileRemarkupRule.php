@@ -11,6 +11,9 @@ final class PhabricatorEmbedFileRemarkupRule
     return 'F';
   }
 
+  /**
+   * @array<PhabricatorFile>
+   */
   protected function loadObjects(array $ids) {
     $engine = $this->getEngine();
 

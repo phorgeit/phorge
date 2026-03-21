@@ -162,6 +162,14 @@ abstract class ConduitAPIMethod
     return idx($this->getErrorTypes(), $error_code, pht('Unknown Error'));
   }
 
+  /**
+   * Whether the Conduit method can called by an OAuth client. This may require
+   * to first grant the client access to the specific OAuth scope.
+   *
+   * @return string One of the SCOPE_* consts defined in ConduitAPIMethod (or
+   * in theory a string representing an OAuth scope if the Phorge OAuthServer
+   * implements that)
+   */
   public function getRequiredScope() {
     return self::SCOPE_NEVER;
   }

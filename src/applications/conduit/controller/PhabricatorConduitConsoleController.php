@@ -162,6 +162,7 @@ final class PhabricatorConduitConsoleController
   /**
    * @param ConduitAPIMethod $method
    * @param array<ConduitAPIDocumentationPage> $documentation_pages
+   * @return AphrontSideNavFilterView
    */
   private function newNavigationView(
     ConduitAPIMethod $method,
@@ -212,6 +213,9 @@ final class PhabricatorConduitConsoleController
     return $nav;
   }
 
+  /**
+   * @return PHUIPropertyListView
+   */
   private function buildMethodProperties(ConduitAPIMethod $method) {
     $viewer = $this->getViewer();
 

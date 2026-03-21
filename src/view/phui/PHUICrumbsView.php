@@ -56,7 +56,7 @@ final class PHUICrumbsView extends AphrontView {
       // TODO: This block of code takes "PHUIListItemView" objects and turns
       // them into some weird abomination by reading most of their properties
       // out. Some day, this workflow should render the items and CSS should
-      // resytle them in place without needing a wholly separate set of
+      // restyle them in place without needing a wholly separate set of
       // DOM nodes.
 
       $actions = array();

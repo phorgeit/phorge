@@ -1,8 +1,5 @@
 <?php
 
-/**
- * NOTE: This is very new and unstable.
- */
 final class PhutilSprite extends Phobject {
 
   private $sourceFiles = array();
@@ -22,11 +19,17 @@ final class PhutilSprite extends Phobject {
     return $this->name;
   }
 
+  /**
+   * @param string $target_css CSS class name
+   */
   public function setTargetCSS($target_css) {
     $this->targetCSS = $target_css;
     return $this;
   }
 
+  /**
+   * @return string CSS class name
+   */
   public function getTargetCSS() {
     return $this->targetCSS;
   }
@@ -37,16 +40,26 @@ final class PhutilSprite extends Phobject {
     return $this;
   }
 
+  /**
+   * @param int $w width in pixels
+   * @param int $h height in pixels
+   */
   public function setSourceSize($w, $h) {
     $this->sourceW = $w;
     $this->sourceH = $h;
     return $this;
   }
 
+  /**
+   * @return int Height in pixels
+   */
   public function getSourceH() {
     return $this->sourceH;
   }
 
+  /**
+   * @return int Width in pixels
+   */
   public function getSourceW() {
     return $this->sourceW;
   }
@@ -59,6 +72,10 @@ final class PhutilSprite extends Phobject {
     return $this->sourceX;
   }
 
+  /**
+   * @param string $source_file
+   * @param int $scale
+   */
   public function setSourceFile($source_file, $scale = 1) {
     $this->sourceFiles[$scale] = $source_file;
     return $this;

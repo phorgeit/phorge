@@ -1119,7 +1119,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   /**
    * Whether the file is listed as a viewable MIME type
-   * @return bool True if MIME type of the file is listed in the
+   * @return string|null MIME type of the file if it is listed in the
    * files.viewable-mime-types setting
    */
   public function getViewableMimeType() {

@@ -98,7 +98,7 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
   }
 
   /**
-   * @return PHUITagView
+   * @return PhutilSafeHTML|string|array
    */
   protected function renderObjectRef(
     $object,
