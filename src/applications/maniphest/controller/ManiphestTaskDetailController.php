@@ -539,7 +539,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
       ->setViewer($this->getViewer())
       ->getMentionsView();
 
-    if (!$view ) {
+    if (!$view) {
       return null;
     }
 

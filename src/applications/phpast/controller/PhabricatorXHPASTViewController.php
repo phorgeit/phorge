@@ -1,4 +1,3 @@
 <?php
 
-abstract class PhabricatorXHPASTViewController extends PhabricatorController {
-}
+abstract class PhabricatorXHPASTViewController extends PhabricatorController {}

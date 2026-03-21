@@ -79,7 +79,7 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
         case 'phutil_person':
           return 'person';
       }
-    } else if ($node instanceof PhpParser\Node\Expr\New_ ) {
+    } else if ($node instanceof PhpParser\Node\Expr\New_) {
       if ($this->getName($node->class) == 'PhutilNumber') {
         return 'phutilnumber';
       }

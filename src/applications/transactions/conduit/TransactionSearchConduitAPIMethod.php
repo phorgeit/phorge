@@ -473,7 +473,7 @@ EOREMARKUP
     $all_types = PhabricatorPHIDType::getAllTypes();
     ksort($all_types);
 
-    $supporteds = [];
+    $supporteds = array();
     foreach ($all_types as $key => $type) {
       if ($this->isObjectTypeSupported($type)) {
         $supporteds[$key] = $type->getTypeName();

@@ -204,7 +204,7 @@ class PhabricatorElasticFulltextStorageEngine
     }
 
     if (!$q->getClauseCount('must')) {
-      $q->addMustClause(array('match_all' => array('boost' => 1 )));
+      $q->addMustClause(array('match_all' => array('boost' => 1)));
     }
 
     $spec = array(

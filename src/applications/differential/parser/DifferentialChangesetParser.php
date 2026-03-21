@@ -1847,7 +1847,8 @@ final class DifferentialChangesetParser extends Phobject {
       return array(
         $document_engine,
         $old_ref,
-        $new_ref);
+        $new_ref,
+      );
     }
 
     return null;

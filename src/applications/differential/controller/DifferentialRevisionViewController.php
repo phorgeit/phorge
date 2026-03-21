@@ -62,7 +62,7 @@ final class DifferentialRevisionViewController
       ->setViewer($this->getViewer())
       ->getMentionsView();
 
-    if (!$view ) {
+    if (!$view) {
       return null;
     }
 
