@@ -120,7 +120,8 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
   }
 
   /**
-   * @param array<PhabricatorFactIntDatapoint> $map
+   * @param array<string,array<PhabricatorFactIntDatapoint>> $map Mapping of
+   *   PHID to an array of datapoints
    */
   private function updateDatapoints(array $map) {
     foreach ($map as $phid => $facts) {
