@@ -264,8 +264,14 @@ final class PhabricatorApplicationTransactionCommentEditor
       $xaction->getComment()->getID());
 
     $hisec_token = id(new PhabricatorAuthSessionEngine())
-      ->setWorkflowKey($workflow_key)
-      ->requireHighSecurityToken($actor, $request, $cancel_uri);
+      ->setWorkflowKey($workflow_key);
+    // For comment removal, start a high security session instead of requiring
+    // per-action MFA with waiting time, to not make vandalism cleanup a PITA.
+    if ($comment->getIsRemoved()) {
+      $hisec_token->requireHighSecuritySession($actor, $request, $cancel_uri);
+    } else {
+      $hisec_token->requireHighSecurityToken($actor, $request, $cancel_uri);
+    }
   }
 
 }
