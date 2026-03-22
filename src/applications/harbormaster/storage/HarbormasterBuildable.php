@@ -19,7 +19,7 @@ final class HarbormasterBuildable
   private $builds = self::ATTACHABLE;
 
   public static function initializeNewBuildable(PhabricatorUser $actor) {
-    return id(new HarbormasterBuildable())
+    return id(new self())
       ->setIsManualBuildable(0)
       ->setBuildableStatus(HarbormasterBuildableStatus::STATUS_PREPARING);
   }

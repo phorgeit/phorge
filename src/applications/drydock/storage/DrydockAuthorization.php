@@ -159,7 +159,7 @@ final class DrydockAuthorization extends DrydockDAO
 
       $authorization = idx($authorizations, $add_phid);
       if (!$authorization) {
-        $authorization = id(new DrydockAuthorization())
+        $authorization = id(new self())
           ->setObjectPHID($object_phid)
           ->setObjectAuthorizationState($state_active)
           ->setBlueprintPHID($add_phid)

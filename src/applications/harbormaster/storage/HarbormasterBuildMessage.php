@@ -25,7 +25,7 @@ final class HarbormasterBuildMessage
       $actor_phid = id(new PhabricatorHarbormasterApplication())->getPHID();
     }
 
-    return id(new HarbormasterBuildMessage())
+    return id(new self())
       ->setAuthorPHID($actor_phid)
       ->setIsConsumed(0);
   }

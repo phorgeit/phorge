@@ -39,7 +39,7 @@ final class LegalpadDocument extends LegalpadDAO
     $view_policy = $app->getPolicy(LegalpadDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(LegalpadDefaultEditCapability::CAPABILITY);
 
-    return id(new LegalpadDocument())
+    return id(new self())
       ->setVersions(0)
       ->setCreatorPHID($actor->getPHID())
       ->setContributorCount(0)

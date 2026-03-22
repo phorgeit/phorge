@@ -66,7 +66,7 @@ final class PhabricatorFlagQuery
 
   public static function loadUserFlag(PhabricatorUser $user, $object_phid) {
     // Specifying the type in the query allows us to use a key.
-    return id(new PhabricatorFlagQuery())
+    return id(new self())
       ->setViewer($user)
       ->withOwnerPHIDs(array($user->getPHID()))
       ->withTypes(array(phid_get_type($object_phid)))

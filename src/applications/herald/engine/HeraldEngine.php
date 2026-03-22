@@ -45,7 +45,7 @@ final class HeraldEngine extends Phobject {
   }
 
   public static function loadAndApplyRules(HeraldAdapter $adapter) {
-    $engine = new HeraldEngine();
+    $engine = new self();
 
     $rules = $engine->loadRulesForAdapter($adapter);
     $effects = $engine->applyRules($rules, $adapter);

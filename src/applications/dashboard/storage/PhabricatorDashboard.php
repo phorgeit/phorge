@@ -28,7 +28,7 @@ final class PhabricatorDashboard extends PhabricatorDashboardDAO
   private $panelRefList;
 
   public static function initializeNewDashboard(PhabricatorUser $actor) {
-    return id(new PhabricatorDashboard())
+    return id(new self())
       ->setName('')
       ->setIcon('fa-tachometer')
       ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())

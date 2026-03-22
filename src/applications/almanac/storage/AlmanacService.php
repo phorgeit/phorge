@@ -34,7 +34,7 @@ final class AlmanacService
           $type));
     }
 
-    return id(new AlmanacService())
+    return id(new self())
       ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
       ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN)
       ->attachAlmanacProperties(array())

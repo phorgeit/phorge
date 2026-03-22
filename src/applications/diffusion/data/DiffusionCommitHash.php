@@ -28,7 +28,7 @@ final class DiffusionCommitHash extends Phobject {
     foreach ($hashes as $hash) {
       $type = $hash[0];
       $hash = $hash[1];
-      $hash_objects[] = id(new DiffusionCommitHash())
+      $hash_objects[] = id(new self())
         ->setHashType($type)
         ->setHashValue($hash);
     }

@@ -20,7 +20,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   private $implementation;
 
   public static function initializeNewStep(PhabricatorUser $actor) {
-    return id(new HarbormasterBuildStep())
+    return id(new self())
       ->setName('')
       ->setDescription('');
   }

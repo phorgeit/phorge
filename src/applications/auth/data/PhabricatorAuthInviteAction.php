@@ -97,7 +97,7 @@ final class PhabricatorAuthInviteAction extends Phobject {
 
     $results = array();
     foreach ($addresses as $address) {
-      $result = new PhabricatorAuthInviteAction();
+      $result = new self();
       $result->rawInput = $address;
 
       $email = new PhutilEmailAddress($address);

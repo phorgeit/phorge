@@ -25,7 +25,7 @@ final class PhabricatorShortSite extends PhabricatorSite {
     }
 
     if ($this->isHostMatch($host, array($uri))) {
-      return new PhabricatorShortSite();
+      return new self();
     }
 
     return null;

@@ -20,7 +20,7 @@ final class HarbormasterBuildArtifact
   public static function initializeNewBuildArtifact(
     HarbormasterBuildTarget $build_target) {
 
-    return id(new HarbormasterBuildArtifact())
+    return id(new self())
       ->attachBuildTarget($build_target)
       ->setBuildTargetPHID($build_target->getPHID());
   }

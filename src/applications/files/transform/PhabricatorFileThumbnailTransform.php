@@ -57,20 +57,20 @@ final class PhabricatorFileThumbnailTransform
 
   public function generateTransforms() {
     return array(
-      id(new PhabricatorFileThumbnailTransform())
+      id(new self())
         ->setName(pht("Profile (400px \xC3\x97 400px) (Image will be Public)"))
         ->setKey(self::TRANSFORM_PROFILE)
         ->setDimensions(400, 400)
         ->setScaleUp(true),
-      id(new PhabricatorFileThumbnailTransform())
+      id(new self())
         ->setName(pht("Pinboard (280px \xC3\x97 210px)"))
         ->setKey(self::TRANSFORM_PINBOARD)
         ->setDimensions(280, 210),
-      id(new PhabricatorFileThumbnailTransform())
+      id(new self())
         ->setName(pht('Thumbgrid (100px)'))
         ->setKey(self::TRANSFORM_THUMBGRID)
         ->setDimensions(100, null),
-      id(new PhabricatorFileThumbnailTransform())
+      id(new self())
         ->setName(pht('Preview (220px)'))
         ->setKey(self::TRANSFORM_PREVIEW)
         ->setDimensions(220, null),

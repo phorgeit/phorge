@@ -25,7 +25,7 @@ final class ConpherenceThread extends ConpherenceDAO
   public static function initializeNewRoom(PhabricatorUser $sender) {
     $default_policy = id(new ConpherenceThreadMembersPolicyRule())
       ->getObjectPolicyFullKey();
-    return id(new ConpherenceThread())
+    return id(new self())
       ->setMessageCount(0)
       ->setTitle('')
       ->setTopic('')

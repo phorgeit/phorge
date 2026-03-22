@@ -84,7 +84,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       $host_phid = $app->getPHID();
     }
 
-    return id(new PhabricatorCalendarEvent())
+    return id(new self())
       ->setDescription('')
       ->setHostPHID($host_phid)
       ->setIsCancelled(0)

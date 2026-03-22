@@ -76,7 +76,7 @@ final class DifferentialRevision extends DifferentialDAO
     $initial_state = DifferentialRevisionStatus::DRAFT;
     $should_broadcast = false;
 
-    return id(new DifferentialRevision())
+    return id(new self())
       ->setViewPolicy($view_policy)
       ->setAuthorPHID($actor->getPHID())
       ->attachRepository(null)

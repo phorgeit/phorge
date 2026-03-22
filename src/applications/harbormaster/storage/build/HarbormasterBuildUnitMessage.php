@@ -20,7 +20,8 @@ final class HarbormasterBuildUnitMessage
 
   public static function initializeNewUnitMessage(
     HarbormasterBuildTarget $build_target) {
-    return id(new HarbormasterBuildUnitMessage())
+
+    return id(new self())
       ->setBuildTargetPHID($build_target->getPHID());
   }
 

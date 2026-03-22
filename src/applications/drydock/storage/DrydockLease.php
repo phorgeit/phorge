@@ -25,7 +25,7 @@ final class DrydockLease extends DrydockDAO
   private $slotLocks = array();
 
   public static function initializeNewLease() {
-    $lease = new DrydockLease();
+    $lease = new self();
 
     // Pregenerate a PHID so that the caller can set something up to release
     // this lease before queueing it for activation.

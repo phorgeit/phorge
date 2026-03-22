@@ -141,7 +141,7 @@ final class DivinerAtomRef extends Phobject {
   }
 
   public static function newFromDictionary(array $dict) {
-    return id(new DivinerAtomRef())
+    return id(new self())
       ->setBook(idx($dict, 'book'))
       ->setContext(idx($dict, 'context'))
       ->setType(idx($dict, 'type'))

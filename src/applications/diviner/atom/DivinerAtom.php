@@ -337,7 +337,7 @@ final class DivinerAtom extends Phobject {
   }
 
   public static function newFromDictionary(array $dictionary) {
-    $atom = id(new DivinerAtom())
+    $atom = id(new self())
       ->setBook(idx($dictionary, 'book'))
       ->setType(idx($dictionary, 'type'))
       ->setName(idx($dictionary, 'name'))

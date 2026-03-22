@@ -70,7 +70,7 @@ final class DiffusionRepositoryRef extends Phobject {
   }
 
   public static function newFromDictionary(array $dict) {
-    return id(new DiffusionRepositoryRef())
+    return id(new self())
       ->setShortName($dict['shortName'])
       ->setCommitIdentifier($dict['commitIdentifier'])
       ->setRefType($dict['refType'])

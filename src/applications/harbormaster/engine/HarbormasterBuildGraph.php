@@ -22,7 +22,7 @@ final class HarbormasterBuildGraph extends AbstractDirectedGraph {
       return array();
     }
 
-    $graph = id(new HarbormasterBuildGraph($steps_by_phid))
+    $graph = id(new self($steps_by_phid))
       ->addNodes($step_phids);
 
     $raw_results = $graph->getNodesInRoughTopologicalOrder();

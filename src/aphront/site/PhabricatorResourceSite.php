@@ -19,7 +19,7 @@ final class PhabricatorResourceSite extends PhabricatorSite {
     }
 
     if ($this->isHostMatch($host, array($uri))) {
-      return new PhabricatorResourceSite();
+      return new self();
     }
 
     return null;

@@ -86,7 +86,7 @@ final class PhabricatorConduitToken
   }
 
   public static function initializeNewToken($object_phid, $token_type) {
-    $token = new PhabricatorConduitToken();
+    $token = new self();
     $token->setTokenName(self::getTokenTypeName($token_type));
     $token->objectPHID = $object_phid;
     $token->tokenType = $token_type;

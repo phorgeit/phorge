@@ -156,7 +156,7 @@ final class DiffusionBrowseResultSet extends Phobject {
     foreach ($path_dicts as $dict) {
       $paths[] = DiffusionRepositoryPath::newFromDictionary($dict);
     }
-    return id(new DiffusionBrowseResultSet())
+    return id(new self())
       ->setPaths($paths)
       ->setIsValidResults($data['isValidResults'])
       ->setReasonForEmptyResultSet($data['reasonForEmptyResultSet'])

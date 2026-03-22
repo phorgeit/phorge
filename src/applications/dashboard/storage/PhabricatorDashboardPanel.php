@@ -23,7 +23,7 @@ final class PhabricatorDashboardPanel
   protected $properties = array();
 
   public static function initializeNewPanel(PhabricatorUser $actor) {
-    return id(new PhabricatorDashboardPanel())
+    return id(new self())
       ->setName('')
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())

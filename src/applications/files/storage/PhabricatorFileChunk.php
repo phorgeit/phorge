@@ -38,7 +38,7 @@ final class PhabricatorFileChunk extends PhabricatorFileDAO
   }
 
   public static function initializeNewChunk($handle, $start, $end) {
-    return id(new PhabricatorFileChunk())
+    return id(new self())
       ->setChunkHandle($handle)
       ->setByteStart($start)
       ->setByteEnd($end);

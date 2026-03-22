@@ -14,7 +14,7 @@ final class AlmanacNetwork
   protected $editPolicy;
 
   public static function initializeNewNetwork() {
-    return id(new AlmanacNetwork())
+    return id(new self())
       ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
       ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN);
   }

@@ -258,7 +258,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
 
     // Check to see if a file with same hash already exists.
-    $file = id(new PhabricatorFile())->loadOneWhere(
+    $file = id(new self())->loadOneWhere(
       'contentHash = %s LIMIT 1',
       $hash);
     if (!$file) {

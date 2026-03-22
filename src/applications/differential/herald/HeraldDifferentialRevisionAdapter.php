@@ -72,7 +72,8 @@ final class HeraldDifferentialRevisionAdapter
   public static function newLegacyAdapter(
     DifferentialRevision $revision,
     DifferentialDiff $diff) {
-    $object = new HeraldDifferentialRevisionAdapter();
+
+    $object = new self();
 
     // Reload the revision to pick up relationship information.
     $revision = id(new DifferentialRevisionQuery())

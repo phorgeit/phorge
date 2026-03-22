@@ -193,7 +193,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       }
 
       if ($names) {
-        $xatoms = id(new DivinerAtomQuery())
+        $xatoms = id(new self())
           ->setViewer($this->getViewer())
           ->withNames($names)
           ->withGhosts(false)
@@ -263,7 +263,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       $child_hashes = $this->getAllChildHashes($atoms, $this->needExtends);
 
       if ($child_hashes) {
-        $children = id(new DivinerAtomQuery())
+        $children = id(new self())
           ->setViewer($this->getViewer())
           ->withNodeHashes($child_hashes)
           ->needAtoms($this->needAtoms)

@@ -43,7 +43,7 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
     $edit_policy =
       $app->getPolicy(PhabricatorBadgesDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorBadgesBadge())
+    return id(new self())
       ->setIcon(self::DEFAULT_ICON)
       ->setQuality(PhabricatorBadgesQuality::DEFAULT_QUALITY)
       ->setCreatorPHID($actor->getPHID())

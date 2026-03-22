@@ -21,7 +21,8 @@ final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
 
   public static function initializeNewCalendarEventInvitee(
     PhabricatorUser $actor, $event) {
-    return id(new PhabricatorCalendarEventInvitee())
+
+    return id(new self())
       ->setInviterPHID($actor->getPHID())
       ->setStatus(self::STATUS_INVITED)
       ->setEventPHID($event->getPHID());

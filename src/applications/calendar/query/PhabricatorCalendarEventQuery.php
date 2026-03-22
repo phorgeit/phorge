@@ -574,7 +574,7 @@ final class PhabricatorCalendarEventQuery
     }
 
     if (count($instance_of_event_phids) > 0) {
-      $recurring_events = id(new PhabricatorCalendarEventQuery())
+      $recurring_events = id(new self())
         ->setViewer($viewer)
         ->withPHIDs($instance_of_event_phids)
         ->withEventsWithNoParent(true)

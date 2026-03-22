@@ -86,7 +86,8 @@ final class HarbormasterBuildTarget
     HarbormasterBuild $build,
     HarbormasterBuildStep $build_step,
     array $variables) {
-    return id(new HarbormasterBuildTarget())
+
+    return id(new self())
       ->setName($build_step->getName())
       ->setBuildPHID($build->getPHID())
       ->setBuildStepPHID($build_step->getPHID())
