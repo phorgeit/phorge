@@ -32,7 +32,7 @@ final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
     if (!$packages) {
       return array();
     }
-    return id(new PhabricatorOwnersOwner())->loadAllWhere(
+    return id(new self())->loadAllWhere(
       'packageID IN (%Ls)',
       mpull($packages, 'getID'));
   }
@@ -44,7 +44,7 @@ final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
       return array();
     }
 
-    $owners = id(new PhabricatorOwnersOwner())->loadAllWhere(
+    $owners = id(new self())->loadAllWhere(
       'packageID IN (%Ls)',
       $package_ids);
 

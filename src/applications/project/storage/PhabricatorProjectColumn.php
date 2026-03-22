@@ -25,7 +25,7 @@ final class PhabricatorProjectColumn
   private $trigger = self::ATTACHABLE;
 
   public static function initializeNewColumn(PhabricatorUser $user) {
-    return id(new PhabricatorProjectColumn())
+    return id(new self())
       ->setName('')
       ->setStatus(self::STATUS_ACTIVE)
       ->attachProxy(null);

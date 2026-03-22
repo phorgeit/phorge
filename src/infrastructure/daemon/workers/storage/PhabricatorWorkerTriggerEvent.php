@@ -27,7 +27,7 @@ final class PhabricatorWorkerTriggerEvent
   }
 
   public static function initializeNewEvent(PhabricatorWorkerTrigger $trigger) {
-    $event = new PhabricatorWorkerTriggerEvent();
+    $event = new self();
     $event->setTriggerID($trigger->getID());
     return $event;
   }

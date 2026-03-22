@@ -39,7 +39,7 @@ final class PhabricatorSlowvotePoll
     $default_responses = SlowvotePollResponseVisibility::RESPONSES_VISIBLE;
     $default_method = SlowvotePollVotingMethod::METHOD_PLURALITY;
 
-    return id(new PhabricatorSlowvotePoll())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy($view_policy)
       ->setSpacePHID($actor->getDefaultSpacePHID())

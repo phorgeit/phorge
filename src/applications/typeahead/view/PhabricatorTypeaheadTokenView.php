@@ -19,7 +19,7 @@ final class PhabricatorTypeaheadTokenView
   public static function newFromTypeaheadResult(
     PhabricatorTypeaheadResult $result) {
 
-    return id(new PhabricatorTypeaheadTokenView())
+    return id(new self())
       ->setKey($result->getPHID())
       ->setIcon($result->getIcon())
       ->setColor($result->getColor())
@@ -30,7 +30,7 @@ final class PhabricatorTypeaheadTokenView
   public static function newFromHandle(
     PhabricatorObjectHandle $handle) {
 
-    $token = id(new PhabricatorTypeaheadTokenView())
+    $token = id(new self())
       ->setKey($handle->getPHID())
       ->setValue($handle->getFullName())
       ->setIcon($handle->getTokenIcon());

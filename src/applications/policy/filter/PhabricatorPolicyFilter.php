@@ -28,7 +28,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     PhabricatorPolicyInterface $object,
     $capability) {
 
-    $filter = id(new PhabricatorPolicyFilter())
+    $filter = id(new self())
       ->setViewer($user)
       ->requireCapabilities(array($capability))
       ->raisePolicyExceptions(true)
@@ -66,7 +66,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     $capability,
     $forced_policy) {
 
-    id(new PhabricatorPolicyFilter())
+    id(new self())
       ->setViewer($viewer)
       ->requireCapabilities(array($capability))
       ->raisePolicyExceptions(true)
@@ -79,7 +79,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     PhabricatorPolicyInterface $object,
     $capability) {
 
-    $filter = new PhabricatorPolicyFilter();
+    $filter = new self();
     $filter->setViewer($user);
     $filter->requireCapabilities(array($capability));
     $result = $filter->apply(array($object));
@@ -431,7 +431,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
     $caught = null;
     try {
-      $result = id(new PhabricatorPolicyFilter())
+      $result = id(new self())
         ->setViewer($viewer)
         ->requireCapabilities($capabilities)
         ->apply($objects);

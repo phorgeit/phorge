@@ -163,7 +163,7 @@ final class PhrictionTransactionEditor
         ->setTransactionType(
           PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE)
         ->setNewValue($object);
-      $sub_editor = id(new PhrictionTransactionEditor())
+      $sub_editor = id(new self())
         ->setActor($this->getActor())
         ->setContentSource($this->getContentSource())
         ->setContinueOnNoEffect($this->getContinueOnNoEffect())

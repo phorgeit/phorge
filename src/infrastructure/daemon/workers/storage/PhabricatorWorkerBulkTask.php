@@ -37,7 +37,7 @@ final class PhabricatorWorkerBulkTask
     PhabricatorWorkerBulkJob $job,
     $object_phid) {
 
-    return id(new PhabricatorWorkerBulkTask())
+    return id(new self())
       ->setBulkJobPHID($job->getPHID())
       ->setStatus(self::STATUS_WAITING)
       ->setObjectPHID($object_phid);

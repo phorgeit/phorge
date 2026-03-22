@@ -641,7 +641,7 @@ final class PhabricatorRepositoryCommit
   }
 
   public static function newFromDictionary(array $dict) {
-    return id(new PhabricatorRepositoryCommit())
+    return id(new self())
       ->loadFromArray($dict);
   }
 

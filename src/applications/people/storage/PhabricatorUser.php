@@ -692,7 +692,7 @@ final class PhabricatorUser
     if (!$email) {
       return null;
     }
-    return id(new PhabricatorUser())->loadOneWhere(
+    return id(new self())->loadOneWhere(
       'phid = %s',
       $email->getUserPHID());
   }
@@ -922,7 +922,7 @@ final class PhabricatorUser
   public static function getOmnipotentUser() {
     static $user = null;
     if (!$user) {
-      $user = new PhabricatorUser();
+      $user = new self();
       $user->omnipotent = true;
       $user->makeEphemeral();
     }

@@ -78,7 +78,7 @@ final class PhabricatorQueryOrderVector
       $items[$item->getOrderKey()] = $item;
     }
 
-    $obj = new PhabricatorQueryOrderVector();
+    $obj = new self();
     $obj->items = $items;
     $obj->keys = array_keys($items);
     return $obj;

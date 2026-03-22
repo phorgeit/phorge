@@ -92,7 +92,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     $default_icon = PhabricatorProjectIconSet::getDefaultIconKey();
     $default_color = PhabricatorProjectIconSet::getDefaultColorKey();
 
-    return id(new PhabricatorProject())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setIcon($default_icon)
       ->setColor($default_color)

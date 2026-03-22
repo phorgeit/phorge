@@ -32,7 +32,7 @@ final class PhabricatorEditEngineConfiguration
     PhabricatorUser $actor,
     PhabricatorEditEngine $engine) {
 
-    return id(new PhabricatorEditEngineConfiguration())
+    return id(new self())
       ->setSubtype(PhabricatorEditEngine::SUBTYPE_DEFAULT)
       ->setEngineKey($engine->getEngineKey())
       ->attachEngine($engine)

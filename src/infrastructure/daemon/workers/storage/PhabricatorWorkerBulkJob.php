@@ -56,7 +56,7 @@ final class PhabricatorWorkerBulkJob
     PhabricatorWorkerBulkJobType $type,
     array $parameters) {
 
-    $job = id(new PhabricatorWorkerBulkJob())
+    $job = id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setJobTypeKey($type->getBulkJobTypeKey())
       ->setParameters($parameters)

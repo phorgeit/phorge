@@ -17,7 +17,7 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
     $object_phid = null,
     $action = null) {
 
-    $log = new PhabricatorUserLog();
+    $log = new self();
 
     if ($actor) {
       $log->setActorPHID($actor->getPHID());
@@ -49,7 +49,7 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
       return array();
     }
 
-    return id(new PhabricatorUserLog())->loadAllWhere(
+    return id(new self())->loadAllWhere(
       'action = %s AND remoteAddr = %s AND dateCreated > %d
         ORDER BY dateCreated DESC',
       $action,

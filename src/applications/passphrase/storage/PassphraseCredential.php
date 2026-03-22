@@ -38,7 +38,7 @@ final class PassphraseCredential extends PassphraseDAO
     $view_policy = $app->getPolicy(PassphraseDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(PassphraseDefaultEditCapability::CAPABILITY);
 
-    return id(new PassphraseCredential())
+    return id(new self())
       ->setName('')
       ->setUsername('')
       ->setDescription('')

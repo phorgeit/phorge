@@ -27,7 +27,7 @@ final class PhutilSafeHTML extends Phobject {
     $args = func_get_args();
     array_shift($args);
     $args = array_map('phutil_escape_html', $args);
-    return new PhutilSafeHTML(call_user_func_array($function, $args));
+    return new self(call_user_func_array($function, $args));
   }
 
 // Requires http://pecl.php.net/operator.

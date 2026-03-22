@@ -44,7 +44,7 @@ final class PonderQuestion extends PonderDAO
     $view_policy = $app->getPolicy(
       PonderDefaultViewCapability::CAPABILITY);
 
-    return id(new PonderQuestion())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy($view_policy)
       ->setStatus(PonderQuestionStatus::STATUS_OPEN)

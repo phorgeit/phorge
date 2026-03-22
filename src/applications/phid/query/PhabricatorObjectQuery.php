@@ -208,7 +208,7 @@ final class PhabricatorObjectQuery
       return array();
     }
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new self())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->execute();

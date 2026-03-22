@@ -60,7 +60,7 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   public static function newFromRequest(AphrontRequest $request, $key) {
-    $value = new AphrontFormDateControlValue();
+    $value = new self();
     $value->viewer = $request->getViewer();
 
     $date = $request->getStr($key.'_d', '');
@@ -90,7 +90,7 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   public static function newFromEpoch(PhabricatorUser $viewer, $epoch) {
-    $value = new AphrontFormDateControlValue();
+    $value = new self();
     $value->viewer = $viewer;
 
     if (!$epoch) {
@@ -118,7 +118,8 @@ final class AphrontFormDateControlValue extends Phobject {
   public static function newFromDictionary(
     PhabricatorUser $viewer,
     array $dictionary) {
-    $value = new AphrontFormDateControlValue();
+
+    $value = new self();
     $value->viewer = $viewer;
 
     $value->valueDate = idx($dictionary, 'd');

@@ -30,7 +30,7 @@ final class NuanceItem
 
     // TODO: Validate that the type is valid, and construct and attach it.
 
-    return id(new NuanceItem())
+    return id(new self())
       ->setItemType($item_type)
       ->setStatus(self::STATUS_OPEN);
   }

@@ -64,7 +64,7 @@ final class ManiphestTask extends ManiphestDAO
     $view_policy = $app->getPolicy(ManiphestDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(ManiphestDefaultEditCapability::CAPABILITY);
 
-    return id(new ManiphestTask())
+    return id(new self())
       ->setStatus(ManiphestTaskStatus::getDefaultStatus())
       ->setPriority(ManiphestTaskPriority::getDefaultPriority())
       ->setAuthorPHID($actor->getPHID())

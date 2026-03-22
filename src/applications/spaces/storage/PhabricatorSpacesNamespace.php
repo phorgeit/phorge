@@ -25,7 +25,7 @@ final class PhabricatorSpacesNamespace
     $edit_policy = $app->getPolicy(
       PhabricatorSpacesCapabilityDefaultEdit::CAPABILITY);
 
-    return id(new PhabricatorSpacesNamespace())
+    return id(new self())
       ->setIsDefaultNamespace(null)
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)

@@ -37,7 +37,7 @@ final class PhamePost extends PhameDAO
     PhabricatorUser $blogger,
     PhameBlog $blog) {
 
-    $post = id(new PhamePost())
+    $post = id(new self())
       ->setBloggerPHID($blogger->getPHID())
       ->setBlogPHID($blog->getPHID())
       ->attachBlog($blog)

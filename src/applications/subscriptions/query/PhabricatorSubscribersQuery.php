@@ -10,7 +10,7 @@ final class PhabricatorSubscribersQuery extends PhabricatorQuery {
       return array();
     }
 
-    $subscribers = id(new PhabricatorSubscribersQuery())
+    $subscribers = id(new self())
       ->withObjectPHIDs(array($phid))
       ->execute();
     return $subscribers[$phid];

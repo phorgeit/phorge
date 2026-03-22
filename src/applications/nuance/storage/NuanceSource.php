@@ -65,7 +65,7 @@ final class NuanceSource extends NuanceDAO
     $edit_policy = $app->getPolicy(
       NuanceSourceDefaultEditCapability::CAPABILITY);
 
-    return id(new NuanceSource())
+    return id(new self())
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
       ->setType($definition->getSourceTypeConstant())

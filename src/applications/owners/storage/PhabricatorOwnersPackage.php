@@ -58,7 +58,7 @@ final class PhabricatorOwnersPackage
     $edit_policy = $app->getPolicy(
       PhabricatorOwnersDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorOwnersPackage())
+    return id(new self())
       ->setAuditingState(PhabricatorOwnersAuditRule::AUDITING_NONE)
       ->setAutoReview(self::AUTOREVIEW_NONE)
       ->setDominion(self::DOMINION_STRONG)
@@ -313,7 +313,7 @@ final class PhabricatorOwnersPackage
       }
     }
 
-    $package = new PhabricatorOwnersPackage();
+    $package = new self();
     $path = new PhabricatorOwnersPath();
     $conn = $package->establishConnection('r');
 
@@ -368,7 +368,7 @@ final class PhabricatorOwnersPackage
   }
 
   public static function loadPackagesForRepository($repository) {
-    $package = new PhabricatorOwnersPackage();
+    $package = new self();
     $ids = ipull(
       queryfx_all(
         $package->establishConnection('r'),

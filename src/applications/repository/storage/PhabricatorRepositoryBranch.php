@@ -22,7 +22,7 @@ final class PhabricatorRepositoryBranch extends PhabricatorRepositoryDAO {
   }
 
   public static function loadBranch($repository_id, $branch_name) {
-    return id(new PhabricatorRepositoryBranch())->loadOneWhere(
+    return id(new self())->loadOneWhere(
       'repositoryID = %d AND name = %s',
       $repository_id,
       $branch_name);
@@ -34,7 +34,7 @@ final class PhabricatorRepositoryBranch extends PhabricatorRepositoryDAO {
       return $branch;
     }
 
-    return id(new PhabricatorRepositoryBranch())
+    return id(new self())
       ->setRepositoryID($repository_id)
       ->setName($branch_name)
       ->save();

@@ -112,7 +112,7 @@ final class PhabricatorSpacesNamespaceQuery
 
     $spaces = $cache->getKey($cache_key);
     if ($spaces === null) {
-      $spaces = id(new PhabricatorSpacesNamespaceQuery())
+      $spaces = id(new self())
         ->setViewer(PhabricatorUser::getOmnipotentUser())
         ->execute();
       $spaces = mpull($spaces, null, 'getPHID');

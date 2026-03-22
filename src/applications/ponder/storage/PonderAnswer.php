@@ -30,7 +30,7 @@ final class PonderAnswer extends PonderDAO
       ->withClasses(array(PhabricatorPonderApplication::class))
       ->executeOne();
 
-    return id(new PonderAnswer())
+    return id(new self())
       ->setQuestionID($question->getID())
       ->setContent('')
       ->attachQuestion($question)

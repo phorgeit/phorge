@@ -45,7 +45,7 @@ final class PhabricatorPolicyQuery
       $map[$capability] = $object->getPolicy($capability);
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new self())
       ->setViewer($viewer)
       ->withPHIDs($map)
       ->needPolicyDetails(true)
@@ -458,7 +458,7 @@ final class PhabricatorPolicyQuery
 
     $policy_phid = $map[$type][$capability];
 
-    return id(new PhabricatorPolicyQuery())
+    return id(new self())
       ->setViewer($viewer)
       ->withPHIDs(array($policy_phid))
       ->executeOne();

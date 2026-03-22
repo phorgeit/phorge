@@ -78,7 +78,7 @@ final class PhabricatorPolicy
           $handle_phid));
     }
 
-    $policy = id(new PhabricatorPolicy())
+    $policy = id(new self())
       ->setPHID($policy_identifier)
       ->setHref($handle->getURI());
 

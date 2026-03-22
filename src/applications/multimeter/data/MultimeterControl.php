@@ -16,7 +16,7 @@ final class MultimeterControl extends Phobject {
   }
 
   public static function newInstance() {
-    $instance = new MultimeterControl();
+    $instance = new self();
 
     // NOTE: We don't set the sample rate yet. This allows the multimeter to
     // be initialized and begin recording events, then make a decision about

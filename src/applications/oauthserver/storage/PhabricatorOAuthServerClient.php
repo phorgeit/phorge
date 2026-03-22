@@ -27,7 +27,7 @@ final class PhabricatorOAuthServerClient
   }
 
   public static function initializeNewClient(PhabricatorUser $actor) {
-    return id(new PhabricatorOAuthServerClient())
+    return id(new self())
       ->setCreatorPHID($actor->getPHID())
       ->setSecret(Filesystem::readRandomCharacters(32))
       ->setViewPolicy(PhabricatorPolicies::POLICY_USER)

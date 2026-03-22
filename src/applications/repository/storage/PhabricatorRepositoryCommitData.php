@@ -65,7 +65,7 @@ final class PhabricatorRepositoryCommitData extends PhabricatorRepositoryDAO {
   }
 
   public static function newFromDictionary(array $dict) {
-    return id(new PhabricatorRepositoryCommitData())
+    return id(new self())
       ->loadFromArray($dict);
   }
 

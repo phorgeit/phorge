@@ -80,7 +80,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     $edit_policy = $app->getPolicy(DiffusionDefaultEditCapability::CAPABILITY);
     $push_policy = $app->getPolicy(DiffusionDefaultPushCapability::CAPABILITY);
 
-    $repository = id(new PhabricatorRepository())
+    $repository = id(new self())
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
       ->setPushPolicy($push_policy)

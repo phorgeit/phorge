@@ -15,7 +15,7 @@ final class PhabricatorEditEngineConfigurationEditEngine
   public function getTargetEngine() {
     if (!$this->targetEngine) {
       // If we don't have a target engine, assume we're editing ourselves.
-      return new PhabricatorEditEngineConfigurationEditEngine();
+      return new self();
     }
     return $this->targetEngine;
   }
