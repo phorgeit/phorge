@@ -101,13 +101,17 @@ final class PhabricatorWorkboardViewState
       ->setIsBoardView(true);
   }
 
+  /**
+   * @return string An URI like '/project/board/1/someaction/123/' or
+   *   '/project/board/2/?order=priority&filter=assigned&hidden=true'
+   */
   public function newWorkboardURI($path = null) {
     $project = $this->getProject();
     $uri = urisprintf('%s%s', $project->getWorkboardURI(), $path);
     return $this->newURI($uri);
   }
 
-  public function newURI($path) {
+  private function newURI($path) {
     $project = $this->getProject();
     $uri = new PhutilURI($path);
 
