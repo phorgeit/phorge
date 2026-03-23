@@ -16,7 +16,7 @@ final class RemarkupProcessConduitAPIMethod extends ConduitAPIMethod {
 
   protected function defineErrorTypes() {
     return array(
-      'ERR-NO-CONTENT' => pht('Content may not be empty.'),
+      'ERR-INVALID-CONTENTS' => pht('Contents must be a list of strings.'),
       'ERR-INVALID-ENGINE' => pht('Invalid markup engine.'),
     );
   }
@@ -33,8 +33,11 @@ final class RemarkupProcessConduitAPIMethod extends ConduitAPIMethod {
 
   protected function execute(ConduitAPIRequest $request) {
     $contents = $request->getValue('contents');
-    $context = $request->getValue('context');
+    if (!is_array($contents)) {
+      throw new ConduitException('ERR-INVALID-CONTENTS');
+    }
 
+    $context = $request->getValue('context');
     $engine_class = idx($this->getEngineContexts(), $context);
     if (!$engine_class) {
       throw new ConduitException('ERR-INVALID-ENGINE');
