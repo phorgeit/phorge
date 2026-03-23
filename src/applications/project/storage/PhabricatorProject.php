@@ -642,26 +642,44 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     return $this;
   }
 
+  /**
+   * @return string Workboard default sort, e.g. 'natural'
+   */
   public function getDefaultWorkboardSort() {
     return $this->getProperty('workboard.sort.default');
   }
 
+  /**
+   * @param string $sort Workboard default sort
+   */
   public function setDefaultWorkboardSort($sort) {
     return $this->setProperty('workboard.sort.default', $sort);
   }
 
+  /**
+   * @return string Workboard default filter, e.g. 'assigned'
+   */
   public function getDefaultWorkboardFilter() {
     return $this->getProperty('workboard.filter.default');
   }
 
+  /**
+   * @param string $filter Workboard default filter
+   */
   public function setDefaultWorkboardFilter($filter) {
     return $this->setProperty('workboard.filter.default', $filter);
   }
 
+  /**
+   * @return string Workboard background color, e.g. 'pink'
+   */
   public function getWorkboardBackgroundColor() {
     return $this->getProperty('workboard.background');
   }
 
+  /**
+   * @param string $color Workboard background color
+   */
   public function setWorkboardBackgroundColor($color) {
     return $this->setProperty('workboard.background', $color);
   }
