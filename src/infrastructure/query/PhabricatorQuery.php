@@ -94,4 +94,10 @@ abstract class PhabricatorQuery extends Phobject {
     return $result;
   }
 
+
+  public function getIsOverheated() {
+    // Only Policy-Aware queries can overheat.
+    return false;
+  }
+
 }

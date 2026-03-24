@@ -156,7 +156,7 @@ abstract class PhabricatorApplication
    */
   final public function isFirstParty() {
     $where = id(new ReflectionClass($this))->getFileName();
-    $root = phutil_get_library_root('phabricator');
+    $root = phutil_get_library_root('phorge');
 
     if (!Filesystem::isDescendant($where, $root)) {
       return false;

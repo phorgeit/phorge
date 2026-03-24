@@ -26,7 +26,8 @@ abstract class ConduitAPIMethod
    * @task info
    */
   public function getMethodSummary() {
-    return $this->getMethodDescription();
+    return PhabricatorMarkupEngine::summarize(
+      $this->getMethodDescription());
   }
 
 

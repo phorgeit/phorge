@@ -99,6 +99,9 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
     return strtolower(get_class($this));
   }
 
+  /**
+   * @return PhabricatorConfigOption
+   */
   final protected function newOption($key, $type, $default) {
     return id(new PhabricatorConfigOption())
       ->setKey($key)
