@@ -69,7 +69,7 @@ at the project root. This file should be in JSON format, and look like this:
 {
   "linters": {
     "sample": {
-      "type": "pep8"
+      "type": "pylint"
     }
   }
 }
@@ -84,14 +84,14 @@ the available linters.
 
 **Including and Excluding Files**: By default, a linter will run on every file.
 This is appropriate for some linters (like the Filename linter), but normally
-you only want to run a linter like **pep8** on Python files. To include or
+you only want to run a linter like **pylint** on Python files. To include or
 exclude files, use `include` and `exclude`:
 
 ```lang=js
 {
   "linters": {
     "sample": {
-      "type": "pep8",
+      "type": "pylint",
       "include": "(\\.py$)",
       "exclude": "(^third-party/)"
     }
@@ -104,7 +104,7 @@ identifying paths the linter should be run on, while `exclude` is a regular
 expression (or list of regular expressions) identifying paths which it should
 not run on.
 
-Thus, this configures a **pep8** linter named "sample" which will run on files
+Thus, this configures a **pylint** linter named "sample" which will run on files
 ending in ".py", unless they are inside the "third-party/" directory.
 
 In these examples, regular expressions are written in this style:
@@ -127,7 +127,7 @@ by specifying `exclude` at top level:
   "exclude": "(^tests/data/)",
   "linters": {
     "sample": {
-      "type": "pep8",
+      "type": "pylint",
       "include": "(\\.py$)",
       "exclude": "(^third-party/)"
     }
@@ -194,18 +194,18 @@ For many linters, you can do this by providing a `severity` map:
 {
   "linters": {
     "sample": {
-      "type": "pep8",
+      "type": "pylint",
       "severity": {
-        "E221": "disabled",
-        "E401": "warning"
+        "W0511": "disabled",
+        "C0410": "warning"
       }
     }
   }
 }
 ```
 
-Here, the lint message `E221` (which is "multiple spaces before operator") is
-disabled, so it won't be shown. The message `E401` (which is "multiple imports
+Here, the lint message `W0511` (which is "a warning note as FIXME or XXX") is
+disabled, so it won't be shown. The message `C0410` (which is "multiple imports
 on one line") is set to "warning" severity.
 
 If you want to remap a large number of messages, you can use `severity.rules`
@@ -215,7 +215,7 @@ and specify regular expressions:
 {
   "linters": {
     "sample": {
-      "type": "pep8",
+      "type": "pylint",
       "severity.rules": {
         "(^E)": "warning",
         "(^W)": "advice"
@@ -229,10 +229,10 @@ This adjusts the severity of all "E" codes to "warning", and all "W" codes to
 "advice".
 
 **Locating Binaries and Interpreters**: Normally, Arcanist expects to find
-external linters (like `pep8`) in `$PATH`, and be able to run them without any
+external linters (like `pylint`) in `$PATH`, and be able to run them without any
 special qualifiers. That is, it will run a command similar to:
 
-  $ pep8 example.py
+  $ pylint example.py
 
 If you want to use a different copy of a linter binary, or invoke it in an
 explicit way, you can use `interpreter` and `bin`. These accept strings (or
@@ -243,9 +243,9 @@ lists of strings) identifying places to look for linters. For example:
 {
   "linters": {
     "sample": {
-      "type": "pep8",
-      "interpreter": ["python2.6", "python"],
-      "bin": ["/usr/local/bin/pep8-1.5.6", "/usr/local/bin/pep8"]
+      "type": "pylint",
+      "interpreter": ["python3.12", "python"],
+      "bin": ["/usr/local/bin/pylint-4.1.0", "/usr/local/bin/pylint"]
     }
   }
 }
@@ -257,7 +257,7 @@ If it can locate an appropriate interpreter and binary, it will execute those
 instead of the defaults. For example, this might cause it to execute a command
 similar to:
 
-  $ python2.6 /usr/local/bin/pep8-1.5.6 example.py
+  $ python3.12 /usr/local/bin/pylint-4.1.0 example.py
 
 **Additional Options**: Some linters support additional options to configure
 their behavior. You can run this command get a list of these options and
@@ -275,15 +275,15 @@ create two copies of the linter and just give them different keys in the
 ```lang=js
 {
   "linters": {
-    "pep8-relaxed": {
-      "type": "pep8",
+    "pylint-relaxed": {
+      "type": "pylint",
       "include": "(^legacy/.*\\.py$)",
       "severity.rules": {
         "(.*)": "advice"
       }
     },
-    "pep8-normal": {
-      "type": "pep8",
+    "pylint-normal": {
+      "type": "pylint",
       "include": "(\\.py$)",
       "exclude": "(^legacy/)"
     }
@@ -313,16 +313,16 @@ The lint pipeline has two major components: linters and lint engines.
 
 **Linters** are programs which detect problems in a source file. Usually a
 linter is an external script, which Arcanist runs and passes a path to, like
-`jshint` or `pep8`.
+`jshint` or `pylint`.
 
 The script emits some messages, and Arcanist parses the output into structured
 errors. A piece of glue code (like @{class@arcanist:ArcanistJSHintLinter} or
-@{class@arcanist:ArcanistPEP8Linter}) handles calling the external script and
+@{class@arcanist:ArcanistPyLintLinter}) handles calling the external script and
 interpreting its output.
 
 **Lint engines** coordinate linters, and decide which linters should run on
 which files. For instance, you might want to run `jshint` on all your `.js`
-files, and `pep8.py` on all your `.py` files. And you might not want to lint
+files, and `pylint.py` on all your `.py` files. And you might not want to lint
 anything in `externals/` or `third-party/`, and maybe there are other files
 which you want to exclude or apply special rules for.
 
