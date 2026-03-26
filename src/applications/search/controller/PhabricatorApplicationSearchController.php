@@ -173,10 +173,12 @@ final class PhabricatorApplicationSearchController
       }
     } else {
       $saved_query = $engine->buildSavedQueryFromRequest($request);
-
-      // Save the query to generate a query key, so "Save Custom Query..." and
-      // other features like "Bulk Edit" and "Export Data" work correctly.
-      $engine->saveQuery($saved_query);
+      // If the query key is null, there are no query parameters to save.
+      if ($query_key !== null) {
+        // Save the query to generate a query key, so "Save Custom Query..." and
+        // other features like "Bulk Edit" and "Export Data" work correctly.
+        $engine->saveQuery($saved_query);
+      }
     }
 
     $this->activeQuery = $saved_query;
