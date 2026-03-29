@@ -231,6 +231,7 @@ final class PhamePost extends PhameDAO
       case PhabricatorPolicyCapability::CAN_INTERACT:
         return $this->getInteractPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {

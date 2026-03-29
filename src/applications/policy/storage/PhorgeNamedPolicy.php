@@ -115,6 +115,7 @@ final class PhorgeNamedPolicy
       case PhorgeNamedPolicyEffectivePolicyCapability::CAPABILITY:
         return $this->getEffectivePolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

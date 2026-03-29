@@ -627,6 +627,7 @@ final class PhabricatorRepositoryURI
       case PhabricatorPolicyCapability::CAN_EDIT:
         return PhabricatorPolicies::getMostOpenPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

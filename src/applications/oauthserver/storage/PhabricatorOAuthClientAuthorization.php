@@ -68,6 +68,7 @@ final class PhabricatorOAuthClientAuthorization
       case PhabricatorPolicyCapability::CAN_VIEW:
         return PhabricatorPolicies::POLICY_NOONE;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

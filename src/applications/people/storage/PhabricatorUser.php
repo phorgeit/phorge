@@ -1090,6 +1090,7 @@ final class PhabricatorUser
           return PhabricatorPolicies::POLICY_NOONE;
         }
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

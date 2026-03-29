@@ -63,6 +63,7 @@ final class PhluxVariable extends PhluxDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->editPolicy;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

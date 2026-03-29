@@ -135,6 +135,7 @@ final class PhabricatorAuthProviderConfig
       case PhabricatorPolicyCapability::CAN_EDIT:
         return PhabricatorPolicies::POLICY_ADMIN;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

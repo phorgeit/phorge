@@ -2619,6 +2619,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       case DiffusionPushCapability::CAPABILITY:
         return $this->getPushPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {

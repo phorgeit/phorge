@@ -317,6 +317,7 @@ final class PhabricatorEditEngineConfiguration
           ->getApplication()
           ->getPolicy($capability);
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

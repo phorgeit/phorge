@@ -600,6 +600,7 @@ final class PhabricatorRepositoryCommit
       case PhabricatorPolicyCapability::CAN_EDIT:
         return PhabricatorPolicies::POLICY_USER;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

@@ -202,6 +202,7 @@ final class PhabricatorWorkerBulkJob
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getAuthorPHID();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

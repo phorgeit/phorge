@@ -112,6 +112,7 @@ final class PhabricatorFileAttachment
       case PhabricatorPolicyCapability::CAN_VIEW:
         return PhabricatorPolicies::getMostOpenPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

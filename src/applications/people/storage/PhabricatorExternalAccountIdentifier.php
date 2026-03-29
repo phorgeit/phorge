@@ -63,6 +63,7 @@ final class PhabricatorExternalAccountIdentifier
       case PhabricatorPolicyCapability::CAN_EDIT:
         return PhabricatorPolicies::POLICY_NOONE;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

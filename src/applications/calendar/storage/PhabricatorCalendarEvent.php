@@ -1229,6 +1229,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
           return $this->getEditPolicy();
         }
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

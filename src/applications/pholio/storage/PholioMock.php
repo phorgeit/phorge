@@ -186,6 +186,7 @@ final class PholioMock extends PholioDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

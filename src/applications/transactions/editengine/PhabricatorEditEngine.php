@@ -2801,6 +2801,7 @@ abstract class PhabricatorEditEngine
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getCreateNewObjectPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

@@ -342,6 +342,7 @@ final class ManiphestTask extends ManiphestDAO
           return $this->getEditPolicy();
         }
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {

@@ -168,6 +168,7 @@ final class LegalpadDocumentSignature
         return $this->getDocument()->getPolicy(
           PhabricatorPolicyCapability::CAN_EDIT);
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

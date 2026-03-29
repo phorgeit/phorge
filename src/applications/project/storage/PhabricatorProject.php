@@ -131,6 +131,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
       case PhabricatorPolicyCapability::CAN_JOIN:
         return $this->getJoinPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

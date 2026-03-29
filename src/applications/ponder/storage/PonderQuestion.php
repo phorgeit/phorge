@@ -219,6 +219,7 @@ final class PonderQuestion extends PonderDAO
           PhabricatorPonderApplication::class);
         return $app->getPolicy(PonderModerateCapability::CAPABILITY);
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

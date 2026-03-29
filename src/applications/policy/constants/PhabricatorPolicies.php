@@ -21,5 +21,19 @@ final class PhabricatorPolicies extends PhabricatorPolicyConstants {
     }
   }
 
+  /**
+   * Throw an exception if no condition in a getPolicy() implementation in a
+   * subclass matched.
+   *
+   * @param PhabricatorPolicyCapability $capability Unmatched capability
+   * @return never
+   */
+  public static function getFallbackPolicy($capability) {
+    throw id(new PhabricatorPolicyException())
+      ->setTitle(pht('Access Denied'))
+      ->setRejection(pht('No such capability exists. This is a logic error '.
+        'which should be reported as a bug.'))
+      ->setCapability($capability);
+  }
 
 }
