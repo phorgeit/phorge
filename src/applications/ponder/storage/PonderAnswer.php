@@ -182,6 +182,8 @@ final class PonderAnswer extends PonderDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return ($this->getAuthorPHID() == $viewer->getPHID());
     }
+
+    return false;
   }
 
 
