@@ -134,10 +134,6 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
 
     $commands = $this->loadCommands($lease->getPHID());
     foreach ($commands as $command) {
-      if (!$lease->canReceiveCommands()) {
-        break;
-      }
-
       $this->processLeaseCommand($lease, $command);
 
       $command

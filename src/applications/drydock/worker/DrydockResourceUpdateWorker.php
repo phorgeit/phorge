@@ -120,10 +120,6 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
 
     $commands = $this->loadCommands($resource->getPHID());
     foreach ($commands as $command) {
-      if (!$resource->canReceiveCommands()) {
-        break;
-      }
-
       $this->processResourceCommand($resource, $command);
 
       $command
