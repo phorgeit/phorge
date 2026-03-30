@@ -41,7 +41,8 @@ final class DivinerFindController extends DivinerController {
       $query->withTypes(array($type));
     }
 
-    $query->withGhosts(false);
+    $query->withGhosts(false)
+          ->needAtoms(true);
 
     $name_query = clone $query;
 
