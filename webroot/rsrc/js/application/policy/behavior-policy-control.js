@@ -44,7 +44,7 @@ JX.behavior('policy-control', function(config) {
         var phid = config.order[group][jj];
 
         var onselect;
-        if (phid == config.customKey) {
+        if (group == 'custom' || phid == config.customKey) {
           onselect = JX.bind(null, function(phid) {
             var uri = get_custom_uri(phid, config.capability);
 
