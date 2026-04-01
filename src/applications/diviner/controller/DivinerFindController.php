@@ -79,8 +79,9 @@ final class DivinerFindController extends DivinerController {
       return id(new AphrontDialogResponse())->setDialog($dialog);
     }
 
+    $atom = head($atoms);
+
     if (count($atoms) == 1 && $request->getBool('jump')) {
-      $atom = head($atoms);
       $atom_data = id(new DivinerLiveAtom())->loadOneWhere(
         'symbolPHID = %s',
         $atom->getPHID());
@@ -92,11 +93,13 @@ final class DivinerFindController extends DivinerController {
 
     $list = $this->renderAtomList($atoms);
 
+    $box = id(new PHUIObjectBoxView())
+      ->setHeaderText(pht('Search Results for %s', $atom->getName()))
+      ->setObjectList($list);
+
     return $this->newPage()
       ->setTitle(array(pht('Find'), pht('"%s"', $query_text)))
-      ->appendChild(array(
-        $list,
-      ));
+      ->appendChild($box);
 
   }
 
