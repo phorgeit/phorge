@@ -251,7 +251,7 @@ final class PhrictionEditController
     $edit_capability = PhabricatorPolicyCapability::CAN_EDIT;
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('slug', $document->getSlug())
       ->addHiddenInput('contentVersion', $max_version)
       ->addHiddenInput('overwrite', $overwrite)
@@ -273,7 +273,7 @@ final class PhrictionEditController
           ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_TALL)
           ->setName('content')
           ->setID('document-textarea')
-          ->setUser($viewer))
+          ->setViewer($viewer))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Project Tags'))
@@ -285,7 +285,7 @@ final class PhrictionEditController
           ->setLabel(pht('Subscribers'))
           ->setName('cc')
           ->setValue($v_cc)
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setDatasource(new PhabricatorMetaMTAMailableDatasource()))
       ->appendChild(
         id(new AphrontFormPolicyControl())
@@ -297,6 +297,7 @@ final class PhrictionEditController
           ->setPolicies($policies))
       ->appendChild(
         id(new AphrontFormPolicyControl())
+          ->setViewer($viewer)
           ->setName('editPolicy')
           ->setPolicyObject($document)
           ->setCapability($edit_capability)
