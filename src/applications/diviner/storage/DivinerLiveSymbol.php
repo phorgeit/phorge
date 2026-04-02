@@ -162,12 +162,7 @@ final class DivinerLiveSymbol extends DivinerDAO
       return null;
     }
 
-    if ($bookname === 'javelin') {
-      $method_class_name = 'JX.'.basename($atom->getFile(), '.js');
-    } else {
-      $method_class_name = basename($atom->getFile(), '.php');
-    }
-
+    $method_class_name = $this->getMethodClassname();
     if (substr($method_class_name, -9) === 'Interface') {
       $parts[] = phutil_escape_uri_path_component(DivinerAtom::TYPE_INTERFACE);
     } else {
@@ -179,6 +174,22 @@ final class DivinerLiveSymbol extends DivinerDAO
     $parts[] = $this->getName();
 
     return '/'.implode('/', $parts);
+  }
+
+  /**
+   * Get the name of the class in which the method is defined
+   * @return string
+   */
+  public function getMethodClassname() {
+    if (!$this->getType() === DivinerAtom::TYPE_METHOD) {
+      throw new Exception(
+        pht("Symbol '%s' is not a method!", $this->getName()));
+    }
+    $atom_file = $this->getAtom()->getFile();
+    if ($this->getBook()->getName() === 'javelin') {
+      return 'JX.'.basename($atom_file, '.js');
+    }
+    return basename($atom_file, '.php');
   }
 
   public function getSortKey() {

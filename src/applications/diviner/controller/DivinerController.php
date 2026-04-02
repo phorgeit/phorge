@@ -19,6 +19,9 @@ abstract class DivinerController extends PhabricatorController {
         case DivinerAtom::TYPE_FUNCTION:
           $title = $symbol->getTitle().'()';
           break;
+        case DivinerAtom::TYPE_METHOD:
+          $title = $symbol->getMethodClassname().'::'.$symbol->getTitle().'()';
+          break;
         default:
           $title = $symbol->getTitle();
           break;
