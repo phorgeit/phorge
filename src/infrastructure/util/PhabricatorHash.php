@@ -239,14 +239,16 @@ final class PhabricatorHash extends Phobject {
       $cache->setKey($cache_key, $hmac_key);
     }
 
-    // The "hex2bin()" function doesn't exist until PHP 5.4.0 so just
-    // implement it inline.
-    $result = '';
-    for ($ii = 0; $ii < strlen($hmac_key); $ii += 2) {
-      $result .= pack('H*', substr($hmac_key, $ii, 2));
+    try {
+      return hex2bin($hmac_key);
+    } catch (Throwable $ex) {
+      throw new Exception(
+        pht(
+          'Invalid Named HMAC Key %s',
+          $hmac_name),
+        0,
+        $ex);
     }
-
-    return $result;
   }
 
   private static function newHMACKey($hmac_name) {
