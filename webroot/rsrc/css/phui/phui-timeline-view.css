@@ -4,7 +4,7 @@
 
 .phui-timeline-view {
   padding: 0 16px;
-  background: linear-gradient(to right, #d5d8e1 1px, transparent 1px);
+  background: linear-gradient(to right, {$timeline} 1px, transparent 1px);
   background-position: 96px;
 }
 
