@@ -69,16 +69,13 @@ final class FuelHandleListItemView
       if ($icon_color === null) {
         $icon_color = 'bluegrey';
       }
+      $view->setColor($icon_color);
 
       if ($icon_icon !== null) {
         $view->setIcon($icon_icon);
       }
 
-      if ($icon_color !== null) {
-        $view->setColor($icon_color);
-      }
     }
-
 
     return $view;
   }

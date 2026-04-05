@@ -98,13 +98,6 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     $errors = $trap->getErrorsAsString();
     $trap->destroy();
 
-    if ($ok === false) {
-      throw new Exception(
-        pht(
-          'Failed to imagecopyresampled() image: %s',
-          $errors));
-    }
-
     $data = PhabricatorImageTransformer::saveImageDataInAnyFormat(
       $dst,
       $this->file->getMimeType());
@@ -190,12 +183,6 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     $ok = @imagesavealpha($img, true);
     $errors = $trap->getErrorsAsString();
     $trap->destroy();
-    if ($ok === false) {
-      throw new Exception(
-        pht(
-          'Unable to imagesavealpha() a new empty image: %s',
-          $errors));
-    }
 
     $trap = new PhutilErrorTrap();
     $color = @imagecolorallocatealpha($img, 255, 255, 255, 127);
@@ -212,12 +199,6 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     $ok = @imagefill($img, 0, 0, $color);
     $errors = $trap->getErrorsAsString();
     $trap->destroy();
-    if ($ok === false) {
-      throw new Exception(
-        pht(
-          'Unable to imagefill() a new empty image: %s',
-          $errors));
-    }
 
     return $img;
   }
@@ -238,7 +219,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
       $errors = $trap->getErrorsAsString();
       $trap->destroy();
 
-      if (($x === false) || ($y === false) || ($x <= 0) || ($y <= 0)) {
+      if (($x <= 0) || ($y <= 0)) {
         throw new Exception(
           pht(
             'Unable to determine image dimensions with '.
