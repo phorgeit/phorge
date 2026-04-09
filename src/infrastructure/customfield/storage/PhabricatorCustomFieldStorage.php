@@ -44,8 +44,8 @@ abstract class PhabricatorCustomFieldStorage
    * The keys in the result should correspond to the keys in the input. The
    * fields in the list may belong to different objects.
    *
-   * @param map<string, PhabricatorCustomField> $fields Map of fields.
-   * @return map<String, PhabricatorCustomField> Map of available field data.
+   * @param array<string, PhabricatorCustomField> $fields Map of fields.
+   * @return array<String, PhabricatorCustomField> Map of available field data.
    */
   final public function loadStorageSourceData(array $fields) {
     $map = array();

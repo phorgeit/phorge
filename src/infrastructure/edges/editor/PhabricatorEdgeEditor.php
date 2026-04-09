@@ -49,7 +49,7 @@ final class PhabricatorEdgeEditor extends Phobject {
    * @param int     $edge_type Edge type constant
    *                (SomeClassEdgeType::EDGECONST).
    * @param string  $dst Destination object PHID.
-   * @param map     $options (optional) Options map (see documentation).
+   * @param array   $options (optional) Options map (see documentation).
    * @return $this
    *
    * @task edit

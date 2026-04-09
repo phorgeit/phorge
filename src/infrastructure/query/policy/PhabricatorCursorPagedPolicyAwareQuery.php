@@ -724,8 +724,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * This method will then return a composable clause for inclusion in WHERE.
    *
    * @param AphrontDatabaseConnection $conn Connection query will execute on.
-   * @param list<map> $columns Column description dictionaries.
-   * @param map $options Additional construction options.
+   * @param list<array> $columns Column description dictionaries.
+   * @param array $options Map of additional construction options.
    * @return string Query clause.
    * @task paging
    */
@@ -956,7 +956,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @phpstan-type BuiltinOrder array{name: string, vector: string[],
    *                                  aliases?: string[]}
-   * @return map<string,BuiltinOrder> Map from builtin order keys to
+   * @return array<string,BuiltinOrder> Map from builtin order keys to
    *                                    specification.
    *
    * @task order

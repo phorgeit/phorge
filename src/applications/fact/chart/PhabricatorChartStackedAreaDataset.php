@@ -247,7 +247,7 @@ final class PhabricatorChartStackedAreaDataset
 
   /**
    * @param PhabricatorChartDataQuery $data_query
-   * @param array<string<int<array<string,int>,array<string,int>>>> $point_lists
+   * @param array<string, array<int, array{x: int, y: int}>> $point_lists
    *   The key is the stack (the PhabricatorChartFunctionLabel name of the
    *   PhabricatorChartFunction (e.g. "created" or "moved-in")) and its value
    *   is an array of keys which are date epochs and their values are another

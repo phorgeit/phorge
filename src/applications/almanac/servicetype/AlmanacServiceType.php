@@ -67,7 +67,8 @@ abstract class AlmanacServiceType extends Phobject {
   /**
    * List all available service type implementations.
    *
-   * @return map<string, object> Dictionary of available service types.
+   * @return array<string, AlmanacServiceType> Class map of all available
+   *   service types.
    */
   public static function getAllServiceTypes() {
     return id(new PhutilClassMapQuery())

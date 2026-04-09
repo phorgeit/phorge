@@ -1793,7 +1793,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * services, returning raw URIs.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @param map<string, mixed> $options Constraints on selectable services.
+   * @param array<string, mixed> $options Map of constraints on selectable
+   *   services.
    * @return string|null URI, or `null` for local repositories.
    */
   public function getAlmanacServiceURI(

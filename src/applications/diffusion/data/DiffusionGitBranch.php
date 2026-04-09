@@ -22,7 +22,7 @@ final class DiffusionGitBranch extends Phobject {
    * @param string $stdout stdout of git branch command.
    * @param string $only_this_remote (optional) Filter branches to those on a
    *   specific remote.
-   * @return map Map of 'branch' or 'remote/branch' to hash at HEAD.
+   * @return array Map of 'branch' or 'remote/branch' to hash at HEAD.
    */
   public static function parseRemoteBranchOutput(
     $stdout,
@@ -83,7 +83,7 @@ final class DiffusionGitBranch extends Phobject {
    * Parse the output of 'git branch --verbose --no-abbrev' or similar into a
    * map. As parseRemoteBranchOutput but no `-r`. Used for bare repositories.
    *
-   * @return map Map of branch name (string or int) and its hash (string).
+   * @return array Map of branch name (string or int) and its hash (string).
    */
   public static function parseLocalBranchOutput($stdout) {
     $map = array();

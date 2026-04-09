@@ -139,7 +139,8 @@ abstract class PhabricatorChartFunction
   /**
    * Return arrays of x,y data points for a two-dimensional chart
    * @param PhabricatorChartDataQuery $query
-   * @return array<array<int,int>> x => epoch value; y => incremental number
+   * @return array<array-key, array{x: int, y: int}> x => epoch value;
+   *   y => incremental number
    */
   public function newDatapoints(PhabricatorChartDataQuery $query) {
     $xv = $this->newInputValues($query);

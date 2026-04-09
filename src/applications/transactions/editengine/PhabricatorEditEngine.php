@@ -2285,7 +2285,7 @@ abstract class PhabricatorEditEngine
    * @param ConduitAPIRequest $request The request.
    * @param array<array{type:string,value:mixed}> $xactions Raw conduit
    *                                              transactions.
-   * @param list<PhabricatorEditType> $types Supported edit types.
+   * @param array<string, PhabricatorEditType> $types Supported edit types.
    * @param PhabricatorApplicationTransaction $template Template transaction.
    * @return list<PhabricatorApplicationTransaction> Generated transactions.
    * @task conduit

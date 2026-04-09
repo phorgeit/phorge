@@ -277,7 +277,7 @@ abstract class PhabricatorWorker extends Phobject {
    * this method to force the queue to flush before failing (for example, if
    * you are using queues to improve locking behavior).
    *
-   * @param map<string, mixed> $defaults (optional) Default options.
+   * @param array<string, mixed> $defaults (optional) Map of default options.
    */
   final public function flushTaskQueue($defaults = array()) {
     foreach ($this->getQueuedTasks() as $task) {

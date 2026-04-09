@@ -184,7 +184,8 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * Parse a storage hash into its components, like the hash type and hash
    * data.
    *
-   * @return map  Dictionary of information about the hash.
+   * @return array{name: string, hash: PhutilOpaqueEnvelope} Dictionary of
+   *   information about the hash.
    * @task hashing
    */
   private static function parseHashFromStorage(PhutilOpaqueEnvelope $hash) {
@@ -208,7 +209,8 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * Get all available password hashers. This may include hashers which can not
    * actually be used (for example, a required extension is missing).
    *
-   * @return list<PhabricatorPasswordHasher> Hasher objects.
+   * @return array<string, PhabricatorPasswordHasher> Class map of all
+   *   available hasher objects.
    * @task hashing
    */
   public static function getAllHashers() {
@@ -243,7 +245,8 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * Get all usable password hashers. This may include hashers which are
    * not desirable or advisable.
    *
-   * @return list<PhabricatorPasswordHasher> Hasher objects.
+   * @return array<string, PhabricatorPasswordHasher> Class map of hasher
+   *   objects.
    * @task hashing
    */
   public static function getAllUsableHashers() {

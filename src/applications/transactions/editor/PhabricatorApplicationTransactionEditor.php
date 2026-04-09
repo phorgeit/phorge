@@ -4686,9 +4686,9 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string,mixed> $state Map of values to encode.
-   * @param map<string,string> $encodings Map of encodings to apply.
-   * @return map<string,mixed> Map of encoded values.
+   * @param array<string,mixed> $state Map of values to encode.
+   * @param array<string,string> $encodings Map of encodings to apply.
+   * @return array<string,mixed> Map of encoded values.
    *
    * @task workers
    */
@@ -4733,9 +4733,9 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string, mixed> $state Map of encoded values.
-   * @param map<string, string> $encodings Map of encodings.
-   * @return map<string, mixed> Map of decoded values.
+   * @param array<string, mixed> $state Map of encoded values.
+   * @param array<string, string> $encodings Map of encodings.
+   * @return array<string, mixed> Map of decoded values.
    *
    * @task workers
    */

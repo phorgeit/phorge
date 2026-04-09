@@ -47,7 +47,8 @@ abstract class PhabricatorChartEngine
 
   /**
    * Load all available chart engines.
-   * @return list<PhabricatorChartEngine> All available chart engines.
+   * @return array<string, PhabricatorChartEngine> Class map of all available
+   *   chart engines.
    */
   final public static function getAllChartEngines() {
     return id(new PhutilClassMapQuery())

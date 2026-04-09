@@ -696,7 +696,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Load all available application search engines.
    *
-   * @return list<PhabricatorApplicationSearchEngine> All available engines.
+   * @return array<string, PhabricatorApplicationSearchEngine> Class map of all
+   *   available engines.
    * @task construct
    */
   public static function getAllEngines() {

@@ -436,7 +436,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * between objects which do not exist (or, at least, were filtered at the
    * content level) and objects which exist but aren't visible.
    *
-   * @return map<string, string> Map of object PHIDs which were filtered
+   * @return array<string, string> Map of object PHIDs which were filtered
    *   by policies.
    * @task exec
    */

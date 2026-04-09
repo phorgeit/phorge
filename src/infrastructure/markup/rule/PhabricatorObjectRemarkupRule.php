@@ -294,8 +294,8 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
    * @phpstan-type RemarkupReference array{offset: string,
    *                                       id: string, tail: string}
    * @param   string  $text Text to match rules against.
-   * @return  map<string, RemarkupReference[]>  Matches, suitable for writing
-   *          unit tests against.
+   * @return  array<string, RemarkupReference[]> Map of matches, suitable for
+   *          writing unit tests against.
    */
   public function extractReferences($text) {
     $embed_matches = null;
