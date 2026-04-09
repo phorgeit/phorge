@@ -4,6 +4,7 @@ final class PhabricatorPolicyEditField
   extends PhabricatorEditField {
 
   private $templateObject;
+  private $templatePHIDType;
   private $policies;
   private $capability;
   private $spaceField;
@@ -47,11 +48,21 @@ final class PhabricatorPolicyEditField
     return $this->templateObject;
   }
 
+  public function setTemplatePHIDType($template) {
+    $this->templatePHIDType = $template;
+    return $this;
+  }
+
+  public function getTemplatePHIDType() {
+    return $this->templatePHIDType;
+  }
+
   protected function newControl() {
     $control = id(new AphrontFormPolicyControl())
       ->setCapability($this->getCapability())
       ->setPolicyObject($this->getObject())
       ->setTemplateObject($this->getTemplateObject())
+      ->setTemplatePHIDType($this->getTemplatePHIDType())
       ->setPolicies($this->getPolicies());
 
     $space_field = $this->getSpaceField();

@@ -105,6 +105,7 @@ final class PhorgeNamedPolicyEditEngine
       ->setControlInstructions($effective_policy_instructions)
       ->setCapability(PhorgeNamedPolicyEffectivePolicyCapability::CAPABILITY)
       ->setTemplateObject($reference_object)
+      ->setTemplatePHIDType($object->getReferenceObjectPHIDType())
       ->setPolicies($policies)
       ->setTransactionType(
         PhorgePolicyNamedPolicyEffectivePolicyTransaction::TRANSACTIONTYPE)

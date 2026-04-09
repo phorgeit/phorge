@@ -212,6 +212,15 @@ abstract class PhabricatorPHIDType extends Phobject {
   }
 
 
+  final public function __toString() {
+    try {
+      return $this->getTypeConstant();
+    } catch (Throwable $ex) {
+      // Throwing from __toString before php 7.4 didn't provide a stack-trace.
+      return '????';
+    }
+  }
+
   /**
    * Get all PHID types of an application.
    *
