@@ -63,16 +63,20 @@ final class PhabricatorExternalEditorSettingsPanel
 
   public function newSettingsPanelEditFormTailContent(
     PhabricatorEditEnginePageState $state) {
+
     $viewer = $this->getViewer();
 
     $variables = PhabricatorEditorURIEngine::getVariableDefinitions();
+    $optional_text = phutil_tag('i', array(), pht('Might not exist'));
 
     $rows = array();
     foreach ($variables as $key => $variable) {
+      $optional = idx($variable, 'optional', false);
       $rows[] = array(
         phutil_tag('tt', array(), '%'.$key),
         $variable['name'],
         $variable['example'],
+        $optional ? $optional_text : '',
       );
     }
 
@@ -82,12 +86,14 @@ final class PhabricatorExternalEditorSettingsPanel
           pht('Variable'),
           pht('Replaced With'),
           pht('Example'),
+          '',
         ))
       ->setColumnClasses(
         array(
           'center',
           'pri',
           'wide',
+          'right',
         ));
 
     $variables_box = id(new PHUIObjectBoxView())
