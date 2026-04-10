@@ -9,7 +9,7 @@ final class ExtensionInstallGit extends PhorgeExtensionInstallerStrategy {
     $future = id(new ExecFuture('git clone -- %s', $source))
       ->setCWD($extension_dir);
 
-    if ($this->isDryRun) {
+    if ($this->isDryRun()) {
       $console = PhutilConsole::getConsole();
       $console->writeOut(
         pht(
