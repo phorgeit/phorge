@@ -72,11 +72,17 @@ abstract class PhabricatorInlineCommentController
     return $this->isNewFile;
   }
 
+  /**
+   * @param DifferentialChangesetRenderer $renderer
+   */
   public function setRenderer($renderer) {
     $this->renderer = $renderer;
     return $this;
   }
 
+  /**
+   * @return DifferentialChangesetRenderer
+   */
   public function getRenderer() {
     return $this->renderer;
   }

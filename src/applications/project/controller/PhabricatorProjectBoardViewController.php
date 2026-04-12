@@ -596,6 +596,9 @@ final class PhabricatorProjectBoardViewController
     return $filter_button;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildManageMenu(
     PhabricatorProject $project,
     $show_hidden) {
@@ -686,8 +689,10 @@ final class PhabricatorProjectBoardViewController
     return $manage_button;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildFullscreenMenu() {
-
     $up = id(new PHUIListItemView())
       ->setIcon('fa-arrows-alt')
       ->setHref('#')
@@ -704,6 +709,9 @@ final class PhabricatorProjectBoardViewController
     return $up;
   }
 
+  /**
+   * @return PHUIIconView
+   */
   private function buildColumnMenu(
     PhabricatorProject $project,
     PhabricatorProjectColumn $column) {

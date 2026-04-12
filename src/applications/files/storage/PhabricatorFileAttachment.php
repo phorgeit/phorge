@@ -53,6 +53,10 @@ final class PhabricatorFileAttachment
     );
   }
 
+  /**
+   * Whether the file is attached to a given object.
+   * @return bool
+   */
   public function isPolicyAttachment() {
     switch ($this->getAttachmentMode()) {
       case self::MODE_ATTACH:
@@ -80,6 +84,10 @@ final class PhabricatorFileAttachment
     return $this->assertAttached($this->file);
   }
 
+  /**
+   * Whether the file is attached to a given object and thus can get detached.
+   * @return bool
+   */
   public function canDetach() {
     switch ($this->getAttachmentMode()) {
       case self::MODE_ATTACH:

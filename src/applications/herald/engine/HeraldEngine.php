@@ -263,7 +263,7 @@ final class HeraldEngine extends Phobject {
    * @param array<HeraldEffect> $effects
    * @param HeraldAdapter $adapter
    * @param array<HeraldRule> $rules
-   * @return array
+   * @return void
    */
   public function applyEffects(
     array $effects,

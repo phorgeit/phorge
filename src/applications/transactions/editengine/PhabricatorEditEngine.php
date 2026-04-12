@@ -417,6 +417,11 @@ abstract class PhabricatorEditEngine
       ->withEngineKeys(array($this->getEngineKey()));
   }
 
+  /**
+   * @param PhabricatorEditEngineConfigurationQuery $query
+   * @param string|null $sort_method
+   * @return PhabricatorEditEngineConfiguration|null
+   */
   private function loadEditEngineConfigurationWithQuery(
     PhabricatorEditEngineConfigurationQuery $query,
     $sort_method) {

@@ -133,7 +133,7 @@ final class PHUIHeaderView extends AphrontTagView {
    * @param string $name Text displayed in the tag
    * @param string $icon Icon in the tag
    * @param string $color Tag color
-   * @return this
+   * @return $this
    */
   public function setStatus($icon, $color, $name) {
 
@@ -155,8 +155,8 @@ final class PHUIHeaderView extends AphrontTagView {
   /**
    * Add a PHUITagView to this header showing "Updated..." with a timestamp
    *
-   * @param string $int Epoch value of current timestamp
-   * @return this
+   * @param int $epoch Epoch value of current timestamp
+   * @return $this
    */
   public function setEpoch($epoch) {
     $age = time() - $epoch;

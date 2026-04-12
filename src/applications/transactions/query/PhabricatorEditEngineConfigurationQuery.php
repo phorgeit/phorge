@@ -27,6 +27,11 @@ final class PhabricatorEditEngineConfigurationQuery
     return $this;
   }
 
+  /**
+   * @param array<string> EditEngine keys, e.g. 'maniphest.task' or
+   *   'calendar.event'
+   * @return $this
+   */
   public function withEngineKeys(array $engine_keys) {
     $this->engineKeys = $engine_keys;
     return $this;
@@ -37,21 +42,37 @@ final class PhabricatorEditEngineConfigurationQuery
     return $this;
   }
 
+  /**
+   * @param array<string> Form identifiers, e.g. 'default' or '10'
+   * @return $this
+   */
   public function withIdentifiers(array $identifiers) {
     $this->identifiers = $identifiers;
     return $this;
   }
 
+  /**
+   * @param bool $default Whether to query Create Forms
+   * @return $this
+   */
   public function withIsDefault($default) {
     $this->default = $default;
     return $this;
   }
 
+  /**
+   * @param bool $edit Whether to query Edit Forms
+   * @return $this
+   */
   public function withIsEdit($edit) {
     $this->isEdit = $edit;
     return $this;
   }
 
+  /**
+   * @param bool $disabled Whether to query disabled Forms
+   * @return $this
+   */
   public function withIsDisabled($disabled) {
     $this->disabled = $disabled;
     return $this;

@@ -510,7 +510,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * queries.
    *
    * @param list<string> $phids List of PHIDs to retrieve.
-   * @return $this
+   * @return array
    * @task workspace
    */
   public function getObjectsFromWorkspace(array $phids) {
