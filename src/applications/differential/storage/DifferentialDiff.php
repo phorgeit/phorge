@@ -271,10 +271,8 @@ final class DifferentialDiff
       'description' => $this->getDescription(),
       'unitStatus' => $this->getUnitStatus(),
       'lintStatus' => $this->getLintStatus(),
-      'changes' => array(),
+      'changes' => $this->buildChangesList(),
     );
-
-    $dict['changes'] = $this->buildChangesList();
 
     return $dict + $this->getDiffAuthorshipDict();
   }
