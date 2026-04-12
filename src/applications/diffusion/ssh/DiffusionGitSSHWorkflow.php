@@ -204,8 +204,6 @@ abstract class DiffusionGitSSHWorkflow
       // If we haven't bailed out yet, we'll retry the request with the next
       // service.
     }
-
-    throw new Exception(pht('Reached an unreachable place.'));
   }
 
   private function didBeginRequest() {

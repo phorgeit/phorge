@@ -78,7 +78,6 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
       case DrydockResourceStatus::STATUS_BROKEN:
         $this->destroyResource($resource);
         break;
-        break;
     }
 
     $this->yieldIfExpiringResource($resource);
