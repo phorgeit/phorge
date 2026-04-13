@@ -644,7 +644,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
-   * @return array<PhabricatorTypeaheadTokenView>
+   * @return string|null
    * @task functions
    */
   protected function getCurrentFunction() {
