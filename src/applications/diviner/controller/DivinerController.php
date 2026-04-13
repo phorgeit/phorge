@@ -36,7 +36,9 @@ abstract class DivinerController extends PhabricatorController {
       $list[] = $item;
     }
 
-    return $list;
+    $sorted_list = msort($list, 'getTitle');
+
+    return $sorted_list;
   }
 
 }
