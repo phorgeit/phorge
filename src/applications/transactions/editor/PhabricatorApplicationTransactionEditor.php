@@ -4703,22 +4703,8 @@ abstract class PhabricatorApplicationTransactionEditor
           // The mechanics of this encoding (serialize + base64) are a little
           // awkward, but it allows us encode arrays and still be JSON-safe
           // with binary data.
-
           $value = @serialize($value);
-          if ($value === false) {
-            throw new Exception(
-              pht(
-                'Failed to serialize() value for key "%s".',
-                $key));
-          }
-
           $value = base64_encode($value);
-          if ($value === false) {
-            throw new Exception(
-              pht(
-                'Failed to base64 encode value for key "%s".',
-                $key));
-          }
           break;
       }
       $state[$key] = $value;

@@ -805,7 +805,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // instead of being able to deduplicate it.
 
     $hash = hash('sha256', $data, $raw_output = false);
-    if ($hash === false) {
+    // TODO: Remove condition check below once Phorge requires PHP 7.4.0, per
+    // https://www.php.net/manual/en/hash.installation.php
+    if (!$hash) {
       return null;
     }
 
