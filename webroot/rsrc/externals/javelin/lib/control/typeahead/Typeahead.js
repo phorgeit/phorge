@@ -17,12 +17,12 @@
  * include Google Suggest, the Facebook search box, and OS X's Spotlight
  * feature.
  *
- * To build a @{JX.Typeahead}, you need to do four things:
+ * To build a @{class:JX.Typeahead}, you need to do four things:
  *
  *  1. Construct it, passing some DOM nodes for it to attach to. See the
  *     constructor for more information.
  *  2. Attach a datasource by calling setDatasource() with a valid datasource,
- *     often a @{JX.TypeaheadPreloadedSource}.
+ *     often a @{class:JX.TypeaheadPreloadedSource}.
  *  3. Configure any special options that you want.
  *  4. Call start().
  *
@@ -162,7 +162,7 @@ JX.install('Typeahead', {
 
     /**
      * Configure a datasource, which is where the Typeahead gets suggestions
-     * from. See @{JX.TypeaheadDatasource} for more information. You must
+     * from. See @{class:JX.TypeaheadDatasource} for more information. You must
      * provide exactly one datasource.
      *
      * @task datasource
@@ -199,7 +199,7 @@ JX.install('Typeahead', {
     /**
      * Override the <input /> selected in the constructor with some other input.
      * This is primarily useful when building a control on top of the typeahead,
-     * like @{JX.Tokenizer}.
+     * like @{class:JX.Tokenizer}.
      *
      * @task config
      * @param node An <input /> node to use as the primary control.
@@ -485,9 +485,9 @@ JX.install('Typeahead', {
     },
 
     /**
-     * This method is pretty much internal but @{JX.Tokenizer} needs access to
-     * it for delegation. You might also need to delegate events here if you
-     * build some kind of meta-control.
+     * This method is pretty much internal but @{class:JX.Tokenizer} needs
+     * access to it for delegation. You might also need to delegate events here
+     * if you build some kind of meta-control.
      *
      * Reacts to user events in accordance to configuration.
      *

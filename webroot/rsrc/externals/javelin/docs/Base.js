@@ -22,7 +22,7 @@ JX.install('Base', {
      *                      installed.
      * @param   ...         Zero or more arguments.
      *
-     * @return  @{JX.Event} Event object which was dispatched.
+     * @return  JX.Event    Event object which was dispatched.
      * @task events
      */
     invoke : function(type, more) {

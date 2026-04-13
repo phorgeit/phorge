@@ -20,7 +20,7 @@
  * @param number|Node         If a node, returns the node's position vector.
  *                            If numeric, the x-coordinate for the new vector.
  * @param number?             The y-coordinate for the new vector.
- * @return @{class:JX.Vector} New vector.
+ * @return JX.Vector          New vector.
  */
 JX.$V = function(x, y) {
   return new JX.Vector(x, y);
@@ -110,7 +110,7 @@ JX.install('Vector', {
    *                  Node.
    * @param Number?   If providing an 'x' component, the 'y' component of the
    *                  vector.
-   * @return @{class:JX.Vector} Specified vector.
+   * @return JX.Vector Specified vector.
    * @task query
    */
   construct : function(x, y) {
@@ -182,10 +182,10 @@ JX.install('Vector', {
      * Note that this method returns a new vector. It does not modify the
      * 'this' vector.
      *
-     * @param wild      Value to add to the vector's x component, or another
-     *                  vector.
-     * @param Number?   Value to add to the vector's y component.
-     * @return @{class:JX.Vector} New vector, with summed components.
+     * @param wild       Value to add to the vector's x component, or another
+     *                   vector.
+     * @param Number?    Value to add to the vector's y component.
+     * @return JX.Vector New vector, with summed components.
      * @task manip
      */
     add : function(x, y) {
@@ -212,9 +212,8 @@ JX.install('Vector', {
      *
      * See also @{method:getDim}, used to determine an element's dimensions.
      *
-     * @param  Node|@{class:JX.Event}  Node or event to determine the position
-     *                                 of.
-     * @return @{class:JX.Vector}      New vector with the argument's position.
+     * @param  Node|JX.Event  Node or event to determine the position of.
+     * @return JX.Vector      New vector with the argument's position.
      * @task query
      */
     getPos : function(node) {
@@ -267,7 +266,7 @@ JX.install('Vector', {
      * See also @{method:getPos}, used to determine an element's position.
      *
      * @param  Node      Node to determine the display size of.
-     * @return @{JX.$V}  New vector with the node's dimensions.
+     * @return JX.$V     New vector with the node's dimensions.
      * @task query
      */
     getDim : function(node) {
@@ -283,7 +282,7 @@ JX.install('Vector', {
      * See also @{method:getViewport}, used to determine the size of the
      * viewport.
      *
-     * @return @{JX.$V}  New vector with the document scroll position.
+     * @return JX.$V  New vector with the document scroll position.
      * @task query
      */
     getScroll : function() {
@@ -349,7 +348,7 @@ JX.install('Vector', {
      * viewport, and @{method:getDocument}, used to determine the size of the
      * entire document.
      *
-     * @return @{class:JX.Vector}  New vector with the viewport dimensions.
+     * @return JX.Vector  New vector with the viewport dimensions.
      * @task query
      */
     getViewport : function() {
@@ -367,7 +366,7 @@ JX.install('Vector', {
      * width in pixels and the 'y' component corresponds to the document height
      * in pixels.
      *
-     * @return @{class:JX.Vector} New vector with the document dimensions.
+     * @return JX.Vector  New vector with the document dimensions.
      * @task query
      */
     getDocument : function() {

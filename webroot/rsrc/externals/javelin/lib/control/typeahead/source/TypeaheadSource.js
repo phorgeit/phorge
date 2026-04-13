@@ -26,8 +26,8 @@ JX.install('TypeaheadSource', {
      * Strings are normalized before being tokenized, and before being sent to
      * the server. The purpose of normalization is to strip out irrelevant data,
      * like uppercase/lowercase, extra spaces, or punctuation. By default,
-     * the @{JX.TypeaheadNormalizer} is used to normalize strings, but you may
-     * want to provide a different normalizer, particularly if there are
+     * the @{class:JX.TypeaheadNormalizer} is used to normalize strings, but you
+     * may want to provide a different normalizer, particularly if there are
      * special characters with semantic meaning in your object names.
      *
      * @param function

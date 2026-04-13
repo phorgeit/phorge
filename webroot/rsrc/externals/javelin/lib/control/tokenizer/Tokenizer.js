@@ -18,14 +18,14 @@
  * email clients, where the control autocompletes addresses from the user's
  * address book.
  *
- * @{JX.Tokenizer} is built on top of @{JX.Typeahead}, and primarily adds the
- * ability to choose multiple items.
+ * @{class:JX.Tokenizer} is built on top of @{class:JX.Typeahead}, and primarily
+ * adds the ability to choose multiple items.
  *
- * To build a @{JX.Tokenizer}, you need to do four things:
+ * To build a @{class:JX.Tokenizer}, you need to do four things:
  *
  *  1. Construct it, padding a DOM node for it to attach to. See the constructor
  *     for more information.
- *  2. Build a {@JX.Typeahead} and configure it with setTypeahead().
+ *  2. Build a @{class:JX.Typeahead} and configure it with setTypeahead().
  *  3. Configure any special options you want.
  *  4. Call start().
  *

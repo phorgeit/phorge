@@ -67,10 +67,11 @@
  *   - ##constructor.__events__## //DEV ONLY!// List of events supported by
  *       this class.
  *   - ##constructor.listen()## Listen to all instances of this class. See
- *       @{JX.Base}.
+ *       @{class:JX.Base}.
  *   - ##instance.listen()## Listen to one instance of this class. See
- *       @{JX.Base}.
- *   - ##instance.invoke()## Invoke an event from an instance. See @{JX.Base}.
+ *       @{class:JX.Base}.
+ *   - ##instance.invoke()## Invoke an event from an instance. See
+ *       @{class:JX.Base}.
  *
  *
  * @param  string  Name of the class to install. It will appear in the JX

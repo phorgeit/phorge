@@ -87,7 +87,7 @@ JX.install('Stratcom', {
      * @param  string|list? Optionally, a sigil path to attach to the event.
      *                      This is rarely meaningful for simple events.
      * @param  object?      Optionally, arbitrary data to send with the event.
-     * @return @{JX.Event}  The event object which was dispatched to listeners.
+     * @return JX.Event     The event object which was dispatched to listeners.
      *                      The main use of this is to test whether any
      *                      listeners prevented the event.
      * @task invoke

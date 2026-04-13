@@ -14,7 +14,7 @@
  * Simple datasource that loads all possible results from a single call to a
  * URI. This is appropriate if the total data size is small (up to perhaps a
  * few thousand items). If you have more items so you can't ship them down to
- * the client in one repsonse, use @{JX.TypeaheadOnDemandSource}.
+ * the client in one response, use @{class:JX.TypeaheadOnDemandSource}.
  */
 JX.install('TypeaheadPreloadedSource', {
 

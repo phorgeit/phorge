@@ -63,9 +63,9 @@ JX.$ = function(id) {
 
 /**
  * Upcast a string into an HTML object so it is treated as markup instead of
- * plain text. See @{JX.$N} for discussion of Javelin's security model. Every
- * time you call this function you potentially open up a security hole. Avoid
- * its use wherever possible.
+ * plain text. See @{class:JX.$N} for discussion of Javelin's security model.
+ * Every time you call this function you potentially open up a security hole.
+ * Avoid its use wherever possible.
  *
  * This class intentionally supports only a subset of HTML because many browsers
  * named "Internet Explorer" have awkward restrictions around what they'll
@@ -74,7 +74,7 @@ JX.$ = function(id) {
  * the edge cases are crazy and you should always be reasonably able to emit
  * a cohesive tag instead of an unappendable fragment.
  *
- * You may use @{JX.$H} as a shortcut for creating new JX.HTML instances:
+ * You may use @{class:JX.$H} as a shortcut for creating new JX.HTML instances:
  *
  *   JX.$N('div', {}, some_html_blob); // Treat as string (safe)
  *   JX.$N('div', {}, JX.$H(some_html_blob)); // Treat as HTML (unsafe!)
@@ -190,7 +190,7 @@ JX.install('HTML', {
  * @param string A string which you want to be treated as HTML, because you
  *               know it is from a trusted source and any data in it has been
  *               properly escaped.
- * @return JX.HTML HTML object, suitable for use with @{JX.$N}.
+ * @return JX.HTML HTML object, suitable for use with @{class:JX.$N}.
  */
 JX.$H = function(str) {
   return new JX.HTML(str);
@@ -251,23 +251,23 @@ JX.$H = function(str) {
  *   <div>&lt;script src="evil.com" /&gt;</div>
  *
  * That is, the content will be properly escaped and will not create a
- * vulnerability. If you want to set HTML content, you can use @{JX.HTML}:
+ * vulnerability. If you want to set HTML content, you can use @{class:JX.HTML}:
  *
  *   JX.$N('div', JX.$H(some_html));
  *
  * **This is potentially unsafe**, so make sure you understand what you're
  * doing. You should usually avoid passing HTML around in string form. See
- * @{JX.HTML} for discussion.
+ * @{class:JX.HTML} for discussion.
  *
  * You can create new nodes with a Javelin sigil (and, optionally, metadata) by
  * providing "sigil" and "meta" keys in the attribute dictionary.
  *
  * @param string                  Tag name, like 'a' or 'div'.
- * @param dict|string|@{JX.HTML}? Property dictionary, or content if you don't
+ * @param dict|string|JX.HTML?    Property dictionary, or content if you don't
  *                                want to specify any properties.
- * @param string|@{JX.HTML}?      Content string (interpreted as plain text)
- *                                or @{JX.HTML} object (interpreted as HTML,
- *                                which may be dangerous).
+ * @param string|JX.HTML?         Content string (interpreted as plain text)
+ *                                or @{class:JX.HTML} object (interpreted as
+ *                                HTML, which may be dangerous).
  * @return Node                   New node with whatever attributes and
  *                                content were specified.
  */
