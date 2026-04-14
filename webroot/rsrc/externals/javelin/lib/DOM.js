@@ -27,10 +27,11 @@
  *   LANG=HTML
  *   <div id="some_id">...</div>
  *
- * If the specified node does not exist, @{JX.$()} will throw an exception.
+ * If the specified node does not exist, @{function:JX.$} will throw an
+ * exception.
  *
- * For other ways to select nodes from the document, see @{JX.DOM.scry()} and
- * @{JX.DOM.find()}.
+ * For other ways to select nodes from the document, see @{method:scry} in
+ * @{class:JX.DOM} and @{method:find} in @{class:JX.DOM}.
  *
  * @param  string  "id" attribute to select from the document.
  * @return Node    Node with the specified "id" attribute.
@@ -63,7 +64,7 @@ JX.$ = function(id) {
 
 /**
  * Upcast a string into an HTML object so it is treated as markup instead of
- * plain text. See @{class:JX.$N} for discussion of Javelin's security model.
+ * plain text. See @{function:JX.$N} for discussion of Javelin's security model.
  * Every time you call this function you potentially open up a security hole.
  * Avoid its use wherever possible.
  *
@@ -74,7 +75,8 @@ JX.$ = function(id) {
  * the edge cases are crazy and you should always be reasonably able to emit
  * a cohesive tag instead of an unappendable fragment.
  *
- * You may use @{class:JX.$H} as a shortcut for creating new JX.HTML instances:
+ * You may use @{function:JX.$H} as a shortcut for creating new JX.HTML
+ * instances:
  *
  *   JX.$N('div', {}, some_html_blob); // Treat as string (safe)
  *   JX.$N('div', {}, JX.$H(some_html_blob)); // Treat as HTML (unsafe!)
@@ -190,7 +192,7 @@ JX.install('HTML', {
  * @param string A string which you want to be treated as HTML, because you
  *               know it is from a trusted source and any data in it has been
  *               properly escaped.
- * @return JX.HTML HTML object, suitable for use with @{class:JX.$N}.
+ * @return JX.HTML HTML object, suitable for use with @{function:JX.$N}.
  */
 JX.$H = function(str) {
   return new JX.HTML(str);
@@ -640,11 +642,11 @@ JX.install('DOM', {
 
     /**
      * Listen for events occuring beneath a specific node in the DOM. This is
-     * similar to @{JX.Stratcom.listen()}, but allows you to specify some node
-     * which serves as a scope instead of the default scope (the whole document)
-     * which you get if you install using @{JX.Stratcom.listen()} directly. For
-     * example, to listen for clicks on nodes with the sigil 'menu-item' below
-     * the root menu node:
+     * similar to @{method:listen} in @{class:JX.Stratcom}, but allows you to
+     * specify some node which serves as a scope instead of the default scope
+     * (the whole document) which you get if you install using @{method:listen}
+     * in @{class:JX.Stratcom} directly. For example, to listen for clicks on
+     * on nodes with the sigil 'menu-item' below the root menu node:
      *
      *   var the_menu = getReferenceToTheMenuNodeSomehow();
      *   JX.DOM.listen(the_menu, 'click', 'menu-item', function(e) { ... });
@@ -674,8 +676,9 @@ JX.install('DOM', {
 
     /**
      * Invoke a custom event on a node. This method is a companion to
-     * @{method:JX.DOM.listen} and parallels @{method:JX.Stratcom.invoke} in
-     * the same way that method parallels @{method:JX.Stratcom.listen}.
+     * @{method:listen} in @{class:JX.DOM} and parallels @{method:invoke} in
+     * @{class:JX.Stratcom} in the same way that method parallels
+     * @{method:listen} in @{class:JX.Stratcom}.
      *
      * This method can not be used to invoke native events (like 'click').
      *

@@ -34,7 +34,7 @@ JX.install('Base', {
      * the static flavor of this method to listen to events emitted by any
      * instance of this object.
      *
-     * See also @{method:JX.Stratcom.listen}.
+     * See also @{method:listen} in @{class:JX.Stratcom}.
      *
      * @param  string   Type of event to listen for.
      * @param  function Function to call when this event occurs.

@@ -150,9 +150,9 @@ JX.copy = function(copy_dst, copy_src) {
  *   JX.Stratcom.listen('click', 'bark', dog.barkNow); // Does not work!
  *
  * This doesn't work because ##this## is ##window## when the function is
- * later invoked; @{method:JX.Stratcom.listen} does not know about the context
- * object ##dog##. The solution is to pass a function with a bound context
- * object:
+ * later invoked; @{method:listen} in @{class:JX.Stratcom} does not know about
+ * the context object ##dog##. The solution is to pass a function with a bound
+ * context object:
  *
  *   var dog = new JX.Dog();
  *   var bound_function = JX.bind(dog, dog.barkNow);

@@ -81,7 +81,7 @@ JX.install('Stratcom', {
      * Dispatch a simple event that does not have a corresponding native event
      * object. It is unusual to call this directly. Generally, you will instead
      * dispatch events from an object using the invoke() method present on all
-     * objects. See @{JX.Base.invoke()} for documentation.
+     * objects. See @{method:invoke} in @{class:JX.Base} for documentation.
      *
      * @param  string       Event type.
      * @param  string|list? Optionally, a sigil path to attach to the event.
