@@ -85,4 +85,37 @@ final class PhabricatorIconRemarkupRule extends PhutilRemarkupRule {
     return $this->getEngine()->storeText($icon_view);
   }
 
+  public function getRemarkupDocumentationObject() {
+    $content = <<<EOTEXT
+You can add icons to comments using the `{icon ...}` syntax. For example:
+
+  {icon camera}
+
+This renders: {icon camera}
+
+You can select a color for icons:
+
+  {icon camera color=blue}
+
+This renders: {icon camera color=blue}
+
+For a list of available icons and colors, check the
+[[ /uiexample/view/PHUIIconExample/ | UIExamples application]]. (The icons are
+sourced from [[ https://fontawesome.com/v4.7.0/icons/ | FontAwesome ]], so you
+can also browse the collection there.)
+
+You can add `spin` to make the icon spin{icon asterisk spin}!
+EOTEXT;
+
+    return id(new PhorgeRemarkupSimpleDocumentation())
+      ->setRuleInstance($this)
+      ->setTitle(pht('Icons'))
+      ->setContent($content)
+      ->addExample('{icon cog spin}')
+      ->addExample('{icon battery-3 color=green}')
+      ->addExample('{icon camera color=red, spin}')
+      // Counter-example: doesn't spin.
+      ->addExample('{icon camera color=red spin}');
+  }
+
 }

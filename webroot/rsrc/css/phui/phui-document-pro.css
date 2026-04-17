@@ -245,6 +245,15 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   .phui-document-view-pro .phabricator-remarkup-embed-image-wide img {
     max-width: inherit;
   }
+
+  .phui-document-view-pro .phui-document-toc {
+    position: sticky;
+  }
+
+  .phui-document-view-pro .phui-document-toc-list {
+    left: 20px;
+    top: 34px;
+  }
 }
 
 .phui-document-view-pro-box {

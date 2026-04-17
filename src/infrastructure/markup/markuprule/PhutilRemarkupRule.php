@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @task documentation  Documentation in the Reference App
+ */
 abstract class PhutilRemarkupRule extends Phobject {
 
   private $engine;
@@ -127,6 +130,15 @@ abstract class PhutilRemarkupRule extends Phobject {
       $classes[] = 'remarkup-link-ext';
     }
     return implode(' ', $classes);
+  }
+
+
+  /**
+   * @task documentation
+   * @return PhorgeRemarkupDocumentation|null
+   */
+  public function getRemarkupDocumentationObject() {
+    return null;
   }
 
 }

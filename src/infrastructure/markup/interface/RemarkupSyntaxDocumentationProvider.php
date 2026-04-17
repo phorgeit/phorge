@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @deprecated replaced with PhorgeReferenceModule and
+ * PhorgeRemarkupDocumentation
+ */
 interface RemarkupSyntaxDocumentationProvider {
-    public function getDocumentation();
+
+  public function getDocumentation();
+
 }

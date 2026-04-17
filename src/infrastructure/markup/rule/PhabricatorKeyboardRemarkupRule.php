@@ -270,4 +270,36 @@ final class PhabricatorKeyboardRemarkupRule extends PhutilRemarkupRule {
     return $this->getEngine()->storeText($parts);
   }
 
+  public function getRemarkupDocumentationObject() {
+    $doc = <<<EOT
+You can use `{key ...}` to render a stylized keystroke. For example, this:
+
+```
+Press {key M} to view the starmap.
+```
+
+...renders this:
+
+> Press {key M} to view the starmap.
+
+You can also render sequences with modifier keys. This:
+
+```
+Use {key command option shift 3} to take a screenshot.
+Press {key down down-right right LP} to activate the hadoken technique.
+```
+
+...renders this:
+
+> Use {key command option shift 3} to take a screenshot.
+> Press {key down down-right right LP} to activate the hadoken technique.
+
+EOT;
+
+    return id(new PhorgeRemarkupSimpleDocumentation())
+      ->setRuleInstance($this)
+      ->setTitle(pht('Keystrokes'))
+      ->setContent($doc);
+  }
+
 }

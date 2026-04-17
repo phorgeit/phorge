@@ -293,7 +293,7 @@ final class PhabricatorRemarkupControl
     $actions['fa-book'] = array(
       'tip' => pht('Help'),
       'align' => 'right',
-      'href'  => '/reference/remarkup/',
+      'href'  => '/remarkup/',
     );
 
     $mode_actions = array();

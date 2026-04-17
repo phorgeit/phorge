@@ -1,8 +1,17 @@
 <?php
 
-final class RemarkupReferenceController extends ReferenceController {
+final class RemarkupReferenceBasicModule extends PhorgeRemarkupReferenceModule {
+
+  public function getModuleKey() {
+    return 'remarkup';
+  }
+
+  public function getModuleOrder() {
+    return 1000;
+  }
+
   public function getTitle() {
-    return 'Remarkup reference';
+    return 'Basic Syntax';
   }
 
   public function getContent() {
@@ -366,119 +375,6 @@ Markdown-style links are also supported:
 
   [Example](https://www.example.com)
 
-= Linking to Objects =
-
-You can link to Phorge objects, such as Differential revisions, Diffusion
-commits and Maniphest tasks, by mentioning the name of an object:
-
-  D123          # Link to Differential revision D123
-  rX123         # Link to SVN commit 123 from the "X" repository
-  rXaf3192cd5   # Link to Git commit "af3192cd5..." from the "X" repository.
-                # You must specify at least 7 characters of the hash.
-  T123          # Link to Maniphest task T123
-
-You can also link directly to a comment in Maniphest and Differential (these
-can be found on the date stamp of any transaction/comment):
-
-  T123#412       # Link to comment id #412 of task T123
-
-See the Phorge configuration setting `remarkup.ignored-object-names` to
-modify this behavior.
-
-= Embedding Objects
-
-You can also generate full-name references to some objects by using braces:
-
-  {D123}        # Link to Differential revision D123 with the full name
-  {T123}        # Link to Maniphest task T123 with the full name
-
-These references will also show when an object changes state (for instance, a
-task or revision is closed). Some types of objects support rich embedding.
-
-== Linking to Project Tags
-
-Projects can be linked to with the use of a hashtag `#`. This works by default
-using the name of the Project (lowercase, underscored). Additionally you
-can set multiple additional hashtags by editing the Project details.
-
-  #qa, #quality_assurance
-
-== Embedding Mocks (Pholio)
-
-You can embed a Pholio mock by using braces to refer to it:
-
-  {M123}
-
-By default the first four images from the mock set are displayed. This behavior
-can be overridden with the **image** option. With the **image** option you can
-provide one or more image IDs to display.
-
-You can set the image (or images) to display like this:
-
-  {M123, image=12345}
-  {M123, image=12345 & 6789}
-
-== Embedding Pastes
-
-You can embed a Paste using braces:
-
-  {P123}
-
-You can adjust the embed height with the `lines` option:
-
-  {P123, lines=15}
-
-You can highlight specific lines with the `highlight` option:
-
-  {P123, highlight=15}
-  {P123, highlight="23-25, 31"}
-
-== Embedding Images
-
-You can embed an image or other file by using braces to refer to it:
-
-  {F123}
-
-In most interfaces, you can drag-and-drop an image from your computer into the
-text area to upload and reference it.
-
-Some browsers (e.g. Chrome) support uploading an image data just by pasting them
-from clipboard into the text area.
-
-You can set file display options like this:
-
-  {F123, layout=left, float, size=full, alt="a duckling"}
-
-Valid options for all files are:
-
-  - **layout** left (default), center, right, inline, link (render a link
-    instead of a thumbnail for images)
-  - **name** with `layout=link` or for non-images, use this name for the link
-    text
-  - **alt** Provide alternate text for assistive technologies.
-
-Image files support these options:
-
-  - **float** If layout is set to left or right, the image will be floated so
-    text wraps around it.
-  - **size** thumb (default), full
-  - **width** Scale image to a specific width.
-  - **height** Scale image to a specific height.
-
-Audio and video files support these options:
-
-  - **media**: Specify the media type as `audio` or `video`. This allows you
-    to disambiguate how file format which may contain either audio or video
-    should be rendered.
-  - **loop**: Loop this media.
-  - **autoplay**: Automatically begin playing this media.
-
-== Embedding Countdowns
-
-You can embed a countdown by using braces:
-
-  {C123}
-
 = Quoting Text =
 
 To quote text, preface it with an `>`:
@@ -519,41 +415,6 @@ By default, the font used to create the text for the meme is `tuffy.ttf`. For
 the more authentic feel of `impact.ttf`, you simply have to place the Impact
 TrueType font in the Phorge subfolder `/resources/font/`. If Remarkup
 detects the presence of `impact.ttf`, it will automatically use it.
-
-= Mentioning Users =
-
-In Differential and Maniphest, you can mention another user by writing:
-
-  @username
-
-When you submit your comment, this will add them as a CC on the revision or task
-if they aren't already CC'd.
-
-Icons
-=====
-
-You can add icons to comments using the `{icon ...}` syntax. For example:
-
-  {icon camera}
-
-This renders: {icon camera}
-
-You can select a color for icons:
-
-  {icon camera color=blue}
-
-This renders: {icon camera color=blue}
-
-For a list of available icons and colors, check the UIExamples application.
-(The icons are sourced from
-[[ https://fontawesome.com/v4.7.0/icons/ | FontAwesome ]], so you can also
-browse the collection there.)
-
-You can add `spin` to make the icon spin:
-
-  {icon cog spin}
-
-This renders: {icon cog spin}
 
 
 = Phriction Documents =
@@ -705,31 +566,6 @@ In general:
   - The `type` option can be set to `instructions` to indicate that an element
     is asking the user to make a choice or follow specific instructions.
 
-Keystrokes
-==========
-
-You can use `{key ...}` to render a stylized keystroke. For example, this:
-
-```
-Press {key M} to view the starmap.
-```
-
-...renders this:
-
-> Press {key M} to view the starmap.
-
-You can also render sequences with modifier keys. This:
-
-```
-Use {key command option shift 3} to take a screenshot.
-Press {key down down-right right LP} to activate the hadoken technique.
-```
-
-...renders this:
-
-> Use {key command option shift 3} to take a screenshot.
-> Press {key down down-right right LP} to activate the hadoken technique.
-
 
 Anchors
 ========
@@ -750,6 +586,8 @@ to edit large blocks of text, or improve focus by removing distractions. You can
 exit **Fullscreen** mode by clicking the button again or by pressing escape.
 EOTEXT;
 
+    // TODO move this to own page, or remove completely. It's relatively fresh.
+
     $remarkup_syntax_documentation_providers = id(new PhutilClassMapQuery())
       ->setAncestorClass(RemarkupSyntaxDocumentationProvider::class)
       ->execute();
@@ -762,4 +600,5 @@ EOTEXT;
 
     return $content;
   }
+
 }

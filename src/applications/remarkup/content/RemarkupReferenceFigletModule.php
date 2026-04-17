@@ -1,14 +1,36 @@
 <?php
 
-final class FigletReferenceController extends ReferenceController {
+final class RemarkupReferenceFigletModule
+  extends PhorgeRemarkupReferenceModule {
+
+  // TODO when PhutilRemarkupBlockInterpreter are supported by the reference
+  // app, this class should be replaced by that.
+
+  public function getModuleKey() {
+    return 'figlet';
+  }
+
+  public function getModuleOrder() {
+    return 5300;
+  }
+
   public function getTitle() {
-    return 'Figlet reference';
+    return 'Figlet';
   }
 
   public function getContent() {
     $content = <<<EOTEXT
-= Figlet reference
-== Fonts
+= Figlet
+The `figlet` interpreter allows you to write some large text.
+For example, this:
+
+```figlet{{{Some big text!}}}```
+
+...produces this:
+
+figlet{{{Some big text!}}}
+
+== Available Fonts
 EOTEXT;
 
     $root = dirname(phutil_get_library_root('phorge'));
@@ -36,4 +58,5 @@ EOTEXT;
 
     return $content;
   }
+
 }

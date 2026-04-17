@@ -1,6 +1,23 @@
 <?php
 
-final class CowsayReferenceController extends ReferenceController {
+final class RemarkupReferenceCowsayModule
+  extends PhorgeRemarkupReferenceModule {
+
+  // TODO when PhutilRemarkupBlockInterpreter are supported by the reference
+  // app, this class should be replaced by that.
+
+  public function getModuleKey() {
+    return 'cowsay';
+  }
+
+  public function getTitle() {
+    return pht('Cowsay');
+  }
+
+  public function getModuleOrder() {
+    return 5200;
+  }
+
   private function getJokes() {
     $jokes = array();
     $jokes[] =
@@ -208,14 +225,21 @@ final class CowsayReferenceController extends ReferenceController {
     return $jokes;
   }
 
-  public function getTitle() {
-    return 'Cowsay reference';
-  }
-
   public function getContent() {
     $content = <<<EOTEXT
-= Cowsay reference
-== Templates
+= Cowsay
+
+Cowsay is an application by Tony Monroe which has been ported over to
+Phabricator/Phorge to allow your comments to be voiced by
+a cow.
+
+A basic example of using cowsay would be to add a comment
+  cowsay{{{Why don't they play poker in the jungle? Too many cheetahs}}}
+which generates:
+
+cowsay{{{Why don't they play poker in the jungle? Too many cheetahs}}}
+
+== More examples
 EOTEXT;
 
     $root = dirname(phutil_get_library_root('phorge'));
@@ -288,4 +312,5 @@ EOTEXT;
 
     return $content;
   }
+
 }
