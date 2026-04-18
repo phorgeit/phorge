@@ -52,7 +52,8 @@ final class PhabricatorTranslationSetting
 
     // Omit limited and test translations if Phabricator is not in developer
     // mode.
-    $is_dev = PhabricatorEnv::getEnvConfig('phabricator.developer-mode');
+    $is_dev = $this->getViewer()
+      ->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
     if (!$is_dev) {
       unset($groups['limited']);
       unset($groups['test']);
@@ -164,4 +165,5 @@ final class PhabricatorTranslationSetting
     }
     return $groups;
   }
+
 }

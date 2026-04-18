@@ -933,7 +933,7 @@ final class PhabricatorApplicationSearchController
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
-    $is_dev = PhabricatorEnv::getEnvConfig('phabricator.developer-mode');
+    $is_dev = $viewer->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
 
     $engine = $this->getSearchEngine();
     $engine_class = get_class($engine);

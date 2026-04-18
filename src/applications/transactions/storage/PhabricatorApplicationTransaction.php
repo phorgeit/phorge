@@ -196,6 +196,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function attachComment(
     PhabricatorApplicationTransactionComment $comment) {
+
     $this->comment = $comment;
     $this->commentNotLoaded = false;
     return $this;
@@ -322,6 +323,9 @@ abstract class PhabricatorApplicationTransaction
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   */
   public function getViewer() {
     return $this->assertAttached($this->viewer);
   }
@@ -837,7 +841,7 @@ abstract class PhabricatorApplicationTransaction
     try {
       $this->setRenderingTarget($new_target);
       $result = $this->getTitleForMail();
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       $this->setRenderingTarget($old_target);
       throw $ex;
     }
@@ -1192,7 +1196,7 @@ abstract class PhabricatorApplicationTransaction
 
         try {
           $type_obj = PhabricatorEdgeType::getByConstant($type);
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
           // Recover somewhat gracefully from edge transactions which
           // we don't have the classes for.
           return pht(
@@ -1228,8 +1232,8 @@ abstract class PhabricatorApplicationTransaction
         if ($field) {
           return $field->getApplicationTransactionTitle($this);
         } else {
-          $developer_mode = 'phabricator.developer-mode';
-          $is_developer = PhabricatorEnv::getEnvConfig($developer_mode);
+          $is_developer = $this->getViewer()
+            ->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
           if ($is_developer) {
             return pht(
               '%s edited a custom field (with key "%s").',
@@ -1325,8 +1329,9 @@ abstract class PhabricatorApplicationTransaction
       default:
         // In developer mode, provide a better hint here about which string
         // we're missing.
-        $developer_mode = 'phabricator.developer-mode';
-        $is_developer = PhabricatorEnv::getEnvConfig($developer_mode);
+        $is_developer = $this->getViewer()
+          ->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
+
         if ($is_developer) {
           return pht(
             '%s edited this object (transaction type "%s").',
@@ -1527,7 +1532,7 @@ abstract class PhabricatorApplicationTransaction
     $remarkup = $this->getRemarkupBodyForFeed($story);
     if ($remarkup !== null) {
       $remarkup = PhabricatorMarkupEngine::summarize($remarkup);
-      return new PHUIRemarkupView($this->viewer, $remarkup);
+      return new PHUIRemarkupView($this->getViewer(), $remarkup);
     }
 
     $old = $this->getOldValue();
@@ -1674,8 +1679,9 @@ abstract class PhabricatorApplicationTransaction
     PhabricatorUser $viewer,
     $old,
     $new) {
+
     return id(new PhabricatorApplicationTransactionTextDiffDetailView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setOldText($old)
       ->setNewText($new);
   }

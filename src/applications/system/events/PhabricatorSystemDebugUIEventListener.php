@@ -19,9 +19,11 @@ final class PhabricatorSystemDebugUIEventListener
     $viewer = $event->getUser();
     $object = $event->getValue('object');
 
-    if (!PhabricatorEnv::getEnvConfig('phabricator.developer-mode')) {
+    $is_dev = $viewer->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
+    if (!$is_dev) {
       return;
     }
+
 
     if (!$object || !$object->getPHID()) {
       // If we have no object, or the object doesn't have a PHID, we can't
