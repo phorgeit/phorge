@@ -8,7 +8,7 @@ final class CelerityDarkModePostprocessor
   }
 
   public function getPostprocessorName() {
-    return pht('Dark Mode (Experimental)');
+    return pht('Dark Mode');
   }
 
   public function buildVariables() {
