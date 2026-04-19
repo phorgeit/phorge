@@ -26,8 +26,8 @@ final class DifferentialCreateCommentConduitAPIMethod
       'revision_id'    => 'required revisionid',
       'message'        => 'optional string',
       'action'         => 'optional string',
-      'silent'         => 'optional bool',
-      'attach_inlines' => 'optional bool',
+      'silent'         => 'unsupported',
+      'attach_inlines' => 'unsupported',
     );
   }
 
