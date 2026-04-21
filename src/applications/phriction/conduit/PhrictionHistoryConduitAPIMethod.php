@@ -51,8 +51,8 @@ final class PhrictionHistoryConduitAPIMethod extends PhrictionConduitAPIMethod {
     }
 
     $content = id(new PhrictionContent())->loadAllWhere(
-      'documentID = %d ORDER BY version DESC',
-      $document->getID());
+      'documentPHID = %s ORDER BY version DESC',
+      $document->getPHID());
 
     $results = array();
     foreach ($content as $version) {
