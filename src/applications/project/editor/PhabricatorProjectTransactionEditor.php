@@ -4,7 +4,7 @@ final class PhabricatorProjectTransactionEditor
   extends PhabricatorApplicationTransactionEditor {
 
   private $isMilestone;
-  private $newParentPHID;
+  private $parentPHID;
 
   private function setIsMilestone($is_milestone) {
     $this->isMilestone = $is_milestone;
@@ -15,13 +15,13 @@ final class PhabricatorProjectTransactionEditor
     return $this->isMilestone;
   }
 
-  private function setNewParentPHID($phid) {
-    $this->newParentPHID = $phid;
+  private function setParentPHID($phid) {
+    $this->parentPHID = $phid;
     return $this;
   }
 
-  private function getNewParentPHID() {
-    return $this->newParentPHID;
+  private function getParentPHID() {
+    return $this->parentPHID;
   }
 
   public function getEditorApplicationClass() {
@@ -369,7 +369,7 @@ final class PhabricatorProjectTransactionEditor
 
       $parent = id(new PhabricatorProjectQuery())
         ->setViewer($this->getActor())
-        ->withPHIDs(array($this->getNewParentPHID()))
+        ->withPHIDs(array($this->getParentPHID()))
         ->needMembers(true)
         ->executeOne();
       $members = $parent->getMemberPHIDs();
@@ -432,20 +432,20 @@ final class PhabricatorProjectTransactionEditor
     $results = parent::expandTransactions($object, $xactions);
 
     $is_milestone = $object->isMilestone();
-    $new_parent = null;
+    $parent_phid = $object->getParentProjectPHID();
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
         case PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE:
           if ($xaction->getNewValue() !== null) {
             $is_milestone = true;
-            $new_parent = $xaction->getNewValue();
+            $parent_phid = $xaction->getNewValue();
           }
           break;
       }
     }
 
     $this->setIsMilestone($is_milestone);
-    $this->setNewParentPHID($new_parent);
+    $this->setParentPHID($parent_phid);
 
     return $results;
   }
