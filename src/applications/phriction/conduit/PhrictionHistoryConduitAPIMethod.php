@@ -11,13 +11,14 @@ final class PhrictionHistoryConduitAPIMethod extends PhrictionConduitAPIMethod {
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "phriction.content.search" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2026',
+      'phriction.content.search');
   }
 
   protected function defineParamTypes() {
