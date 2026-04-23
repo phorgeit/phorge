@@ -1,10 +1,7 @@
 <?php
 
-final class RemarkupReferenceCowsayModule
-  extends PhorgeRemarkupReferenceModule {
-
-  // TODO when PhutilRemarkupBlockInterpreter are supported by the reference
-  // app, this class should be replaced by that.
+final class RemarkupReferenceCowsayDocumentation
+  extends PhorgeRemarkupDocumentation {
 
   public function getModuleKey() {
     return 'cowsay';
@@ -14,7 +11,7 @@ final class RemarkupReferenceCowsayModule
     return pht('Cowsay');
   }
 
-  public function getModuleOrder() {
+  protected function getOrder() {
     return 5200;
   }
 

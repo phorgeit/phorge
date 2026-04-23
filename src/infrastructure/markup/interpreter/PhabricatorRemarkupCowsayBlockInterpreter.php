@@ -71,4 +71,9 @@ final class PhabricatorRemarkupCowsayBlockInterpreter
     return $map;
   }
 
+  public function getRemarkupDocumentationObject() {
+    return id(new RemarkupReferenceCowsayDocumentation())
+      ->setRuleInstance($this);
+  }
+
 }

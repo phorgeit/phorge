@@ -3,7 +3,8 @@
 /**
  * @task documentation  Documentation in the Reference App
  */
-abstract class PhutilRemarkupRule extends Phobject {
+abstract class PhutilRemarkupRule extends Phobject
+  implements PhorgeRemarkupDocumentationProducer {
 
   private $engine;
   private $replaceCallback;

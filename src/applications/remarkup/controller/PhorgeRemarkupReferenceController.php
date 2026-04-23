@@ -24,17 +24,16 @@ abstract class PhorgeRemarkupReferenceController extends PhabricatorController {
   }
 
   protected function formatToc($toc) {
-
-    if ($toc) {
-      $toc = phutil_tag_div('phui-document-toc-content', array(
-        phutil_tag_div(
-          'phui-document-toc-header',
-          pht('Contents')),
-        $toc,
-      ));
+    if (!$toc) {
+      return $toc;
     }
 
-    return $toc;
+    return phutil_tag_div(
+      'phui-document-toc-content',
+      array(
+        phutil_tag_div('phui-document-toc-header', pht('Contents')),
+        $toc,
+      ));
   }
 
   protected function buildSideNavView() {
@@ -51,11 +50,9 @@ abstract class PhorgeRemarkupReferenceController extends PhabricatorController {
 
     $rules = array();
 
-    // TODO support PhutilRemarkupBlockRule and PhutilRemarkupBlockInterpreter
-
     // one day, we'll probably want to mgroup these by something
     $rules = id(new PhutilClassMapQuery())
-      ->setAncestorClass(PhutilRemarkupRule::class)
+      ->setAncestorClass(PhorgeRemarkupDocumentationProducer::class)
       ->execute();
     $rule_docs = mpull($rules, 'getRemarkupDocumentationObject');
     $rule_docs = array_filter($rule_docs);
@@ -66,7 +63,6 @@ abstract class PhorgeRemarkupReferenceController extends PhabricatorController {
     }
 
     return $nav;
-
   }
 
 }

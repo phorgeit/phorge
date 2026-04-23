@@ -1,6 +1,7 @@
 <?php
 
-abstract class PhutilRemarkupBlockRule extends Phobject {
+abstract class PhutilRemarkupBlockRule extends Phobject
+  implements PhorgeRemarkupDocumentationProducer {
 
   private $engine;
   private $rules = array();
@@ -176,6 +177,11 @@ abstract class PhutilRemarkupBlockRule extends Phobject {
 
     $table = phutil_tag('table', $table_attributes, $out);
     return phutil_tag_div('remarkup-table-wrap', $table);
+  }
+
+
+  public function getRemarkupDocumentationObject() {
+    return null;
   }
 
 }

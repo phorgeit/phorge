@@ -588,11 +588,11 @@ var.remarkup-assist-textarea {
 }
 
 .remarkup-cowsay {
-  white-space: pre-wrap;
+  white-space: pre;
 }
 
 .remarkup-figlet {
-  white-space: pre-wrap;
+  white-space: pre;
 }
 
 .remarkup-assist {

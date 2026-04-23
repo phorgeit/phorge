@@ -10,9 +10,9 @@ final class PhorgeRemarkupReferenceRuleController
     // I could just use the $class as a classname, but this adds some sanity
     // into the thing.
     $rules = id(new PhutilClassMapQuery())
-      ->setAncestorClass(PhutilRemarkupRule::class)
+      ->setAncestorClass(PhorgeRemarkupDocumentationProducer::class)
       ->execute();
-    /** @var PhutilRemarkupRule|null */
+    /** @var PhorgeRemarkupDocumentationProducer|null */
     $rule = idx($rules, $class);
 
     if (!$rule) {

@@ -68,4 +68,9 @@ final class PhabricatorRemarkupFigletBlockInterpreter
     return $map;
   }
 
+  public function getRemarkupDocumentationObject() {
+    return id(new RemarkupReferenceFigletDocumentation())
+      ->setRuleInstance($this);
+  }
+
 }

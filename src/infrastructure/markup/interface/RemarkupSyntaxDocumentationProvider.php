@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @deprecated replaced with PhorgeReferenceModule and
- * PhorgeRemarkupDocumentation
+ * @deprecated replaced with PhorgeReferenceModule
+ * and PhorgeRemarkupDocumentationProducer.
  */
 interface RemarkupSyntaxDocumentationProvider {
 
