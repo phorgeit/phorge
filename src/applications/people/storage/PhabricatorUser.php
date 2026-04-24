@@ -25,8 +25,6 @@ final class PhabricatorUser
 
   const SESSION_TABLE = 'phabricator_session';
   const NAMETOKEN_TABLE = 'user_nametoken';
-  const MAXIMUM_USERNAME_LENGTH = 64;
-  const MAXIMUM_REALNAME_LENGTH = 256;
 
   protected $userName;
   protected $realName;
@@ -529,10 +527,12 @@ final class PhabricatorUser
   }
 
   public static function describeValidUsername($bad_username) {
-    if (strlen($bad_username) > self::MAXIMUM_USERNAME_LENGTH) {
+    $maximum_username_length = id(new self())
+      ->getColumnMaximumByteLength('userName');
+    if (strlen($bad_username) > $maximum_username_length) {
       return pht(
         'Usernames must have no more than %s characters.',
-         new PhutilNumber(self::MAXIMUM_USERNAME_LENGTH));
+         new PhutilNumber($maximum_username_length));
     }
     if (strpos($bad_username, ' ') !== false) {
       return pht('Usernames cannot contain spaces. Please replace them '.
@@ -555,7 +555,9 @@ final class PhabricatorUser
     //  - Unit tests, obviously.
     //  - describeValidUsername() method, above.
 
-    if (strlen($username) > self::MAXIMUM_USERNAME_LENGTH) {
+    $maximum_username_length = id(new self())
+      ->getColumnMaximumByteLength('userName');
+    if (strlen($username) > $maximum_username_length) {
       return false;
     }
 
@@ -563,13 +565,17 @@ final class PhabricatorUser
   }
 
   public static function describeValidRealName() {
+    $maximum_realname_length = id(new self())
+      ->getColumnMaximumByteLength('realName');
     return pht(
       'Real Name must have no more than %s characters.',
-      new PhutilNumber(self::MAXIMUM_REALNAME_LENGTH));
+      new PhutilNumber($maximum_realname_length));
   }
 
   public static function validateRealName($realname) {
-    return strlen($realname) <= self::MAXIMUM_REALNAME_LENGTH;
+    $maximum_realname_length = id(new self())
+      ->getColumnMaximumByteLength('realName');
+    return strlen($realname) <= $maximum_realname_length;
   }
 
   public static function getDefaultProfileImageURI() {
