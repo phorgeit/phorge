@@ -516,6 +516,15 @@ JX.install('Workflow', {
 
   initialize : function() {
 
+    function hasUnsavedChanges(activeWorkflow) {
+      if (!activeWorkflow._root) {
+        return false;
+      }
+      var form = JX.DOM.scry(activeWorkflow._root, 'form', 'jx-dialog');
+      return form.length &&
+        JX.Stratcom.hasSigil(form[0], 'dialog-keydown');
+    }
+
     function close_dialog_when_user_presses_escape(e) {
       if (e.getSpecialKey() != 'esc') {
         // Some key other than escape.
@@ -555,16 +564,11 @@ JX.install('Workflow', {
 
       // Only when the response is a Dialog, check if the user
       // is quitting with pending changes
-      if (active._root) {
-        var form = JX.DOM.scry(active._root, 'form', 'jx-dialog');
+      if (hasUnsavedChanges(active)) {
         var confirmMsg =
           'Form data may have changed. ' +
           'Are you sure you want to close this dialog?';
-        if (
-          form.length &&
-          JX.Stratcom.hasSigil(form[0], 'dialog-keydown') &&
-          !window.confirm(confirmMsg)
-        ) {
+        if (!window.confirm(confirmMsg)) {
           return;
         }
       }
@@ -577,6 +581,21 @@ JX.install('Workflow', {
 
     JX.Stratcom.listen('mousemove', null, JX.Workflow._onmousemove);
     JX.Stratcom.listen('mouseup', null, JX.Workflow._onmouseup);
+
+    window.addEventListener('beforeunload', function(e) {
+      var active = JX.Workflow._getActiveWorkflow();
+      if (active && hasUnsavedChanges(active)) {
+        // Trigger browser-generated confirmation dialog in the modern way.
+        // Supported since Firefox 1, but only after Chrome 119 (2023).
+        e.preventDefault();
+
+        // Same, for remaining browser versions.
+        // We could return whatever non-empty string like "Melanzane ripiene"
+        // as post-2016 browsers should override this.
+        // https://phabricator.wikimedia.org/P74205#L29
+        return 'Really close?';
+      }
+    });
   }
 
 });
