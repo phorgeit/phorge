@@ -42,8 +42,14 @@ final class PhabricatorSetConfigType
           $this->getTypeKey()));
     }
 
+    // Set all array values to "true".
+    $filler = true;
+
     if ($value) {
-      if (!phutil_is_natural_list($value)) {
+      // Allow input as array. Example: ["http"]
+      // Also allow a map. Example: {"http": true}
+      if (!phutil_is_natural_list($value)
+        && !$this->hasOnlyAcceptedValues($value, $filler)) {
         throw $this->newException(
           pht(
             'Option "%s" is of type "%s", and should be specified on the '.
@@ -54,7 +60,7 @@ final class PhabricatorSetConfigType
       }
     }
 
-    return array_fill_keys($value, true);
+    return array_fill_keys($value, $filler);
   }
 
   public function newDisplayValue(
@@ -87,6 +93,21 @@ final class PhabricatorSetConfigType
             $k));
       }
     }
+  }
+
+  /**
+   * Check that all array values equal the expected value.
+   * @param array $array
+   * @param mixed $expected_value
+   * @return bool
+   */
+  private function hasOnlyAcceptedValues(array $array, $expected_value) {
+    foreach ($array as $value) {
+      if ($value !== $expected_value) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }
