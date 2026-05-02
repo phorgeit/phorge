@@ -60,7 +60,13 @@ final class PhabricatorSetConfigType
       }
     }
 
-    return array_fill_keys($value, $filler);
+    // For historical reasons we always save the map {"http": true}
+    // if we receive ["http"].
+    if (phutil_is_natural_list($value)) {
+      $value = array_fill_keys($value, $filler);
+    }
+
+    return $value;
   }
 
   public function newDisplayValue(
