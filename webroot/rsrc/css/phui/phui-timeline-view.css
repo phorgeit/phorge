@@ -57,7 +57,7 @@
 
 .device-phone .phui-timeline-minor-event,
 .device-tablet .phui-timeline-minor-event {
-  padding-left: 3px;
+  margin-left: 5px;
 }
 
 .phui-timeline-major-event .phui-timeline-content {
@@ -74,7 +74,7 @@
 }
 
 .phui-timeline-minor-event .phui-timeline-title {
-  padding: 1px 8px 4px 33px;
+  padding: 1px 8px 4px 32px;
 }
 
 .phui-timeline-title a {
