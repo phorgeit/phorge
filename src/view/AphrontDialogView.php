@@ -415,8 +415,9 @@ final class AphrontDialogView
       );
     }
 
-    $header = new PHUIHeaderView();
-    $header->setHeader($this->title);
+    $header = id(new PHUIHeaderView())
+      ->setViewer($this->getViewer())
+      ->setHeader($this->title);
 
     $footer = null;
     if ($this->footers) {
