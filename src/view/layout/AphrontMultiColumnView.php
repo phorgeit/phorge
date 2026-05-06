@@ -9,7 +9,6 @@ final class AphrontMultiColumnView extends AphrontView {
   private $id;
   private $columns = array();
   private $fluidLayout = false;
-  private $fluidishLayout = false;
   private $gutter;
   private $border;
 
@@ -41,12 +40,6 @@ final class AphrontMultiColumnView extends AphrontView {
     return $this;
   }
 
-  public function setFluidishLayout($layout) {
-    $this->fluidLayout = true;
-    $this->fluidishLayout = $layout;
-    return $this;
-  }
-
   public function setGutter($gutter) {
     $this->gutter = $gutter;
     return $this;
@@ -64,7 +57,7 @@ final class AphrontMultiColumnView extends AphrontView {
     $classes[] = 'aphront-multi-column-inner';
     $classes[] = 'grouped';
 
-    if ($this->fluidishLayout || $this->fluidLayout) {
+    if ($this->fluidLayout) {
       // we only support seven columns for now for fluid views; see T4054
       if (count($this->columns) > 7) {
         throw new Exception(pht('No more than 7 columns per view.'));
@@ -120,9 +113,6 @@ final class AphrontMultiColumnView extends AphrontView {
     $classes[] = 'aphront-multi-column-outer';
     if ($this->fluidLayout) {
       $classes[] = 'aphront-multi-column-fluid';
-      if ($this->fluidishLayout) {
-        $classes[] = 'aphront-multi-column-fluidish';
-      }
     } else {
       $classes[] = 'aphront-multi-column-fixed';
     }
