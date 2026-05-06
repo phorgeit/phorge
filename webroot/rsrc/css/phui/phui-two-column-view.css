@@ -266,13 +266,6 @@
   display: none;
 }
 
-/* Document View */
-
-.phui-two-column-view .phui-two-column-content .phui-document-fluid
-  .phui-document-view {
-    margin: 0 0 20px 0;
-}
-
 /*- Fixed Styles with Navigation -------------------------------------------- */
 
 .phui-two-column-fixed.phui-two-column-view .phui-two-column-header {
