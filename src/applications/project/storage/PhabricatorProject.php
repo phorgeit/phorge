@@ -378,14 +378,6 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     return $this->assertAttached($this->slugs);
   }
 
-  public function getColor() {
-    if ($this->isArchived()) {
-      return PHUITagView::COLOR_DISABLED;
-    }
-
-    return $this->color;
-  }
-
   public function getURI() {
     $id = $this->getID();
     return "/project/view/{$id}/";
@@ -611,7 +603,11 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function getDisplayColor() {
-    if ($this->isMilestone() && !$this->isArchived()) {
+    if ($this->isArchived()) {
+      return PHUITagView::COLOR_DISABLED;
+    }
+
+    if ($this->isMilestone()) {
       return $this->getParentProject()->getColor();
     }
 

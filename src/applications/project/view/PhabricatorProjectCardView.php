@@ -32,7 +32,7 @@ final class PhabricatorProjectCardView extends AphrontTagView {
     $classes = array();
     $classes[] = 'project-card-view';
 
-    $color = $this->project->getColor();
+    $color = $this->project->getDisplayColor();
     $classes[] = 'project-card-'.$color;
 
     return array(
