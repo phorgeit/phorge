@@ -169,6 +169,9 @@ final class PhabricatorDashboardQueryPanelType
     return $results_view;
   }
 
+  /**
+   * @return PHUIHeaderView
+   */
   public function adjustPanelHeader(
     PhabricatorUser $viewer,
     PhabricatorDashboardPanel $panel,
