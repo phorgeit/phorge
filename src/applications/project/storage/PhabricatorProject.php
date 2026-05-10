@@ -958,6 +958,8 @@ final class PhabricatorProject extends PhabricatorProjectDAO
         ->setAttachmentKey('watchers'),
       id(new PhabricatorProjectsAncestorsSearchEngineAttachment())
         ->setAttachmentKey('ancestors'),
+      id(new PhabricatorProjectsSlugsSearchEngineAttachment())
+        ->setAttachmentKey('slugs'),
     );
   }
 
