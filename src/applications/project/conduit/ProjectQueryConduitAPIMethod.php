@@ -83,9 +83,8 @@ final class ProjectQueryConduitAPIMethod extends ProjectConduitAPIMethod {
       $query->withSlugs($slugs);
     }
 
-    $request->getValue('icons');
-    if ($request->getValue('icons')) {
-      $icons = array();
+    $icons = $request->getValue('icons');
+    if ($icons) {
       $query->withIcons($icons);
     }
 
