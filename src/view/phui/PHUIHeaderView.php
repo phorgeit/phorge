@@ -280,13 +280,12 @@ final class PHUIHeaderView extends AphrontTagView {
       }
     }
 
-    $viewer = $this->getUser();
-
     $left = array();
     $right = array();
 
     $space_header = null;
-    if ($viewer) {
+    if ($this->policyObject) {
+      $viewer = $this->getViewer();
       $space_header = id(new PHUISpacesNamespaceContextView())
         ->setViewer($viewer)
         ->setObject($this->policyObject);
