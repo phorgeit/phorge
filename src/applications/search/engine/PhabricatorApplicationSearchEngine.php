@@ -1225,29 +1225,20 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     } else if ($this->isBuiltinQuery($query_key)) {
       $saved_query = $this->buildSavedQueryFromBuiltin($query_key);
     } else if (strlen($query_key) !== PhabricatorHash::INDEX_DIGEST_LENGTH) {
-        throw new Exception(
-          pht(
-            'Query key "%s" does not correspond to a valid query.',
-            $query_key));
+      throw new ConduitException('ERR-BAD-QUERYKEY');
     } else {
       $saved_query = id(new PhabricatorSavedQueryQuery())
         ->setViewer($viewer)
         ->withQueryKeys(array($query_key))
         ->executeOne();
       if (!$saved_query) {
-        throw new Exception(
-          pht(
-            'Query key "%s" does not correspond to a valid query.',
-            $query_key));
+      throw new ConduitException('ERR-BAD-QUERYKEY');
       }
     }
 
     $constraints = $request->getValue('constraints', array());
     if (!is_array($constraints)) {
-      throw new Exception(
-        pht(
-          'Parameter "constraints" must be a map of constraints, got "%s".',
-          phutil_describe_type($constraints)));
+      throw new ConduitException('ERR-INVALID-CONSTRAINTS-FORMAT');
     }
 
     $fields = $this->getSearchFieldsForConduit();
@@ -1267,10 +1258,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     foreach ($constraints as $key => $constraint) {
       if (empty($valid_constraints[$key])) {
-        throw new Exception(
-          pht(
-            'Constraint "%s" is not a valid constraint for this query.',
-            $key));
+        throw new ConduitException('ERR-INVALID-CONSTRAINT');
       }
     }
 
@@ -1298,17 +1286,11 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $attachment_specs = $request->getValue('attachments', array());
     if (!is_array($attachment_specs)) {
-      throw new Exception(
-        pht(
-          'Parameter "attachments" must be a map of attachments, got "%s".',
-          phutil_describe_type($attachment_specs)));
+      throw new ConduitException('ERR-INVALID-ATTACHMENTS-FORMAT');
     }
     foreach ($attachment_specs as $key => $attachment) {
       if (empty($attachments[$key])) {
-        throw new Exception(
-          pht(
-            'Attachment key "%s" is not a valid attachment for this query.',
-            $key));
+        throw new ConduitException('ERR-INVALID-ATTACHMENT');
       }
     }
 
