@@ -179,6 +179,7 @@ final class PhabricatorPasteSearchEngine
       $title = nonempty($paste->getTitle(), pht('(An Untitled Masterwork)'));
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName('P'.$paste->getID())
         ->setHeader($title)
         ->setHref('/P'.$paste->getID())

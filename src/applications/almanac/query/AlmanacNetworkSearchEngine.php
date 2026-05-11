@@ -78,6 +78,7 @@ final class AlmanacNetworkSearchEngine
       $id = $network->getID();
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName(pht('Network %d', $id))
         ->setHeader($network->getName())
         ->setHref($this->getApplicationURI("network/{$id}/"))

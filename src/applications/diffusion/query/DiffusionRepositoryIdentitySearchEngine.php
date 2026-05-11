@@ -124,6 +124,7 @@ final class DiffusionRepositoryIdentitySearchEngine
 
     foreach ($identities as $identity) {
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName($identity->getObjectName())
         ->setHeader($identity->getIdentityShortName())
         ->setHref($identity->getURI())

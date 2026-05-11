@@ -140,6 +140,7 @@ final class PhabricatorOwnersPackageSearchEngine
       $id = $package->getID();
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObject($package)
         ->setObjectName($package->getMonogram())
         ->setHeader($package->getName())

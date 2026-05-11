@@ -87,6 +87,7 @@ final class PassphraseCredentialSearchEngine
     foreach ($credentials as $credential) {
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName('K'.$credential->getID())
         ->setHeader($credential->getName())
         ->setHref('/K'.$credential->getID())

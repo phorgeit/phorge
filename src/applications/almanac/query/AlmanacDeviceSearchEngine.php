@@ -110,6 +110,7 @@ final class AlmanacDeviceSearchEngine
     $list->setUser($viewer);
     foreach ($devices as $device) {
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName(pht('Device %d', $device->getID()))
         ->setHeader($device->getName())
         ->setHref($device->getURI())

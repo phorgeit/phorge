@@ -158,6 +158,7 @@ final class ConpherenceThreadSearchEngine
 
       if (!phutil_nonempty_string($fulltext)) {
         $item = id(new PHUIObjectItemView())
+          ->setViewer($viewer)
           ->setObjectName($conpherence->getMonogram())
           ->setHeader($title)
           ->setHref('/'.$conpherence->getMonogram())

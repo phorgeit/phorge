@@ -145,6 +145,7 @@ final class PonderQuestionSearchEngine
       $full_status = PonderQuestionStatus::getQuestionStatusFullName(
         $question->getStatus());
       $item = new PHUIObjectItemView();
+      $item->setViewer($viewer);
       $item->setObjectName('Q'.$question->getID());
       $item->setHeader($question->getTitle());
       $item->setHref('/Q'.$question->getID());

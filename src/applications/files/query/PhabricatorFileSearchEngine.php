@@ -174,6 +174,7 @@ final class PhabricatorFileSearchEngine
       }
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObject($file)
         ->setObjectName("F{$id}")
         ->setHeader($name)
