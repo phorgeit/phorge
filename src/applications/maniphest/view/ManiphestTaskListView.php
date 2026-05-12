@@ -40,7 +40,8 @@ final class ManiphestTaskListView extends ManiphestView {
 
     require_celerity_resource('maniphest-task-summary-css');
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($this->getViewer());
 
     if ($this->noDataString) {
       $list->setNoDataString($this->noDataString);
