@@ -22,7 +22,8 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
     $viewer = $request->getViewer();
     $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
 
-    $guide_items = new PhabricatorGuideListView();
+    $guide_items = id(new PhabricatorGuideListView())
+      ->setViewer($viewer);
 
     $title = pht('Create a Repository');
     $repository_check = id(new PhabricatorRepositoryQuery())

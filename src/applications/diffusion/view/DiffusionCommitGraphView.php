@@ -103,8 +103,12 @@ final class DiffusionCommitGraphView
     return $drequest->getRepository();
   }
 
+  /**
+   * @return PHUIObjectItemListView
+   */
   public function newObjectItemListView() {
-    $list_view = new PHUIObjectItemListView();
+    $list_view = id(new PHUIObjectItemListView())
+      ->setViewer($this->getViewer());
 
     $item_views = $this->newObjectItemViews();
     foreach ($item_views as $item_view) {
@@ -300,6 +304,7 @@ final class DiffusionCommitGraphView
         $rows);
     } else {
       $table = id(new PHUIObjectItemListView())
+        ->setViewer($this->getViewer())
         ->setNoDataString($this->noDataString);
     }
 

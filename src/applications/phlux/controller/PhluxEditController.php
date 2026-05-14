@@ -127,12 +127,14 @@ final class PhluxEditController extends PhluxController {
           ->setError($e_value))
       ->appendChild(
         id(new AphrontFormPolicyControl())
+          ->setViewer($viewer)
           ->setName('viewPolicy')
           ->setPolicyObject($var)
           ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
           ->setPolicies($policies))
       ->appendChild(
         id(new AphrontFormPolicyControl())
+          ->setViewer($viewer)
           ->setName('editPolicy')
           ->setPolicyObject($var)
           ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)

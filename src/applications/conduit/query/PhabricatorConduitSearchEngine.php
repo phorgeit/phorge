@@ -146,8 +146,9 @@ final class PhabricatorConduitSearchEngine
         if ($list) {
           $out[] = $list;
         }
-        $list = new PHUIObjectItemListView();
-        $list->setHeader($app);
+        $list = id(new PHUIObjectItemListView())
+          ->setViewer($viewer)
+          ->setHeader($app);
 
         $app_object = $method->getApplication();
         if ($app_object) {

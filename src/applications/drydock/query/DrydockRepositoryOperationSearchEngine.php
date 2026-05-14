@@ -91,7 +91,9 @@ final class DrydockRepositoryOperationSearchEngine
 
     $viewer = $this->requireViewer();
 
-    $view = new PHUIObjectItemListView();
+    $view = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
+
     foreach ($operations as $operation) {
       $id = $operation->getID();
 

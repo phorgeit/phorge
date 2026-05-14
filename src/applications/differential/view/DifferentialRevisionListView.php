@@ -102,7 +102,8 @@ final class DifferentialRevisionListView extends AphrontView {
 
     $handles = $viewer->loadHandles($handle_phids);
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($this->revisions as $key => $revision) {
       $item = id(new PHUIObjectItemView())
         ->setViewer($viewer);

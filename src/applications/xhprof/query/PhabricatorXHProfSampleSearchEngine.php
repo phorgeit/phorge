@@ -62,7 +62,8 @@ final class PhabricatorXHProfSampleSearchEngine
 
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($samples as $sample) {
       $file_phid = $sample->getFilePHID();
 

@@ -31,6 +31,7 @@ final class PhabricatorConfigSettingsListController
     $db_values = mpull($db_values, null, 'getConfigKey');
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setBig(true)
       ->setFlush(true);
 

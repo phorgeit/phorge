@@ -105,7 +105,8 @@ final class PhabricatorPhurlURLSearchEngine
 
     assert_instances_of($urls, PhabricatorPhurlURL::class);
     $viewer = $this->requireViewer();
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     $handles = $viewer->loadHandles(mpull($urls, 'getAuthorPHID'));
 
     foreach ($urls as $url) {

@@ -41,7 +41,7 @@ final class PhabricatorProjectBoardManageController
     $nav = $this->newNavigation(
       $board,
       PhabricatorProject::ITEM_WORKBOARD);
-    $columns_list = $this->buildColumnsList($board, $columns);
+    $columns_list = $this->buildColumnsList($board, $columns, $viewer);
 
     require_celerity_resource('project-view-css');
 
@@ -101,15 +101,19 @@ final class PhabricatorProjectBoardManageController
   /**
    * @param PhabricatorProject $board
    * @param array<PhabricatorProjectColumn> $columns
+   * @param PhabricatorUser $viewer
    */
   private function buildColumnsList(
     PhabricatorProject $board,
-    array $columns) {
+    array $columns,
+    PhabricatorUser $viewer) {
+
     assert_instances_of($columns, PhabricatorProjectColumn::class);
 
     $board_id = $board->getID();
 
     $view = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setNoDataString(pht('This board has no columns.'));
 
     foreach ($columns as $column) {

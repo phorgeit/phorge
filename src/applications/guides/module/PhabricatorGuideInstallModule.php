@@ -24,7 +24,8 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $guide_items = new PhabricatorGuideListView();
+    $guide_items = id(new PhabricatorGuideListView())
+      ->setViewer($viewer);
 
     $title = pht('Resolve Setup Issues');
     $issues_resolved = !PhabricatorSetupCheck::getOpenSetupIssueKeys();

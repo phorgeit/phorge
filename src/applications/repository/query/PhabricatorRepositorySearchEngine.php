@@ -187,7 +187,9 @@ final class PhabricatorRepositorySearchEngine
 
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
+
     foreach ($repositories as $repository) {
       $id = $repository->getID();
 

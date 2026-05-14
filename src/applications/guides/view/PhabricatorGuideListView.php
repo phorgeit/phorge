@@ -11,6 +11,7 @@ final class PhabricatorGuideListView extends AphrontView {
 
   public function render() {
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($this->getViewer())
       ->setBig(true);
 
     foreach ($this->items as $item) {
