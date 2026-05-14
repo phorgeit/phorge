@@ -16,7 +16,7 @@ trait PhorgeNameTransactionTrait {
   }
 
   public function getTitle() {
-    if (strlen($this->getOldValue())) {
+    if (phutil_nonempty_string($this->getOldValue())) {
       return pht(
         '%s renamed this %s from %s to %s.',
         $this->renderAuthor(),
