@@ -722,6 +722,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       ));
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setID($list_id)
       ->setNoDataString(pht('This menu currently has no items.'));
 

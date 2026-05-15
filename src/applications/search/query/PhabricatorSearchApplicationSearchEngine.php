@@ -266,8 +266,9 @@ final class PhabricatorSearchApplicationSearchEngine
     $fulltext_tokens = $result_set->getFulltextTokens();
 
     $viewer = $this->requireViewer();
-    $list = new PHUIObjectItemListView();
-    $list->setNoDataString(pht('No results found.'));
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
+      ->setNoDataString(pht('No results found.'));
 
     if ($results) {
       $objects = id(new PhabricatorObjectQuery())

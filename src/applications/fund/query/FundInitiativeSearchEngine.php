@@ -86,6 +86,7 @@ final class FundInitiativeSearchEngine
     array $initiatives,
     PhabricatorSavedQuery $query,
     array $handles) {
+
     assert_instances_of($initiatives, 'FundInitiative');
 
     $viewer = $this->requireViewer();
@@ -113,7 +114,8 @@ final class FundInitiativeSearchEngine
     $handles = $viewer->loadHandles($load_phids);
     $handles = iterator_to_array($handles);
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($initiatives as $initiative) {
       $owner_handle = $handles[$initiative->getOwnerPHID()];
 

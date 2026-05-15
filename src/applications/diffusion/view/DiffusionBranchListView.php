@@ -23,6 +23,9 @@ final class DiffusionBranchListView extends DiffusionView {
     return $this;
   }
 
+  /**
+   * @return PHUIObjectItemListView
+   */
   public function render() {
     $drequest = $this->getDiffusionRequest();
     $current_branch = $drequest->getBranch();
@@ -39,6 +42,7 @@ final class DiffusionBranchListView extends DiffusionView {
     Javelin::initBehavior('phabricator-tooltips');
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->addClass('diffusion-history-list')
       ->addClass('diffusion-branch-list');
 

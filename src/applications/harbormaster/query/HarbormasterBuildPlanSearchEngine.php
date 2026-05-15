@@ -85,8 +85,8 @@ final class HarbormasterBuildPlanSearchEngine
     array $plans,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($plans, HarbormasterBuildPlan::class);
 
+    assert_instances_of($plans, HarbormasterBuildPlan::class);
     $viewer = $this->requireViewer();
 
     if ($plans) {
@@ -100,7 +100,8 @@ final class HarbormasterBuildPlanSearchEngine
       $edge_query->execute();
     }
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($plans as $plan) {
       $id = $plan->getID();
 

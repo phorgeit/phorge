@@ -28,7 +28,8 @@ final class PhabricatorTokenLeaderController
         ->execute();
     }
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($phids as $object) {
       $count = idx($counts, $object, 0);
       $item = new PHUIObjectItemView();

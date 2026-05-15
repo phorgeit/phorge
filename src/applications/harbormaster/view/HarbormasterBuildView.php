@@ -34,7 +34,8 @@ final class HarbormasterBuildView
 
     $handles = $viewer->loadHandles($phids);
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($builds as $build) {
       $id = $build->getID();
 

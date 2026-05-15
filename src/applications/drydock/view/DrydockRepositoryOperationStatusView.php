@@ -133,6 +133,7 @@ final class DrydockRepositoryOperationStatusView
     }
 
     return id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->addItem($item);
   }
 

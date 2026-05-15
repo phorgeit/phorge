@@ -290,6 +290,7 @@ abstract class PhabricatorAuthController extends PhabricatorController {
           PlatformSymbols::getPlatformServerName()));
 
     $invite_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->addItem($invite_item)
       ->setFlush(true);
 

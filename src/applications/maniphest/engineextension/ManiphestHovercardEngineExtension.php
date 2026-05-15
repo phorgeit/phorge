@@ -63,6 +63,7 @@ final class ManiphestHovercardEngineExtension
 
     $item = $card->getItem();
     $card = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setFlush(true)
       ->setItemClass('phui-workcard')
       ->addClass('hovercard-task-view')

@@ -34,6 +34,7 @@ final class DiffusionTagListView extends DiffusionView {
     $buildables = $this->loadBuildables($this->commits);
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setFlush(true)
       ->addClass('diffusion-history-list');
     foreach ($this->tags as $tag) {

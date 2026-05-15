@@ -238,6 +238,7 @@ final class HeraldTranscriptController extends HeraldController {
     $action_map = mgroup($action_map, 'getRuleID');
 
     $rule_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setNoDataString(pht('No Herald rules applied to this object.'))
       ->setFlush(true);
 

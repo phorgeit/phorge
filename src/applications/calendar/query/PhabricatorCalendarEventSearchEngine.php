@@ -318,7 +318,8 @@ final class PhabricatorCalendarEventSearchEngine
 
     assert_instances_of($events, PhabricatorCalendarEvent::class);
     $viewer = $this->requireViewer();
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     foreach ($events as $event) {
       if ($event->getIsGhostEvent()) {

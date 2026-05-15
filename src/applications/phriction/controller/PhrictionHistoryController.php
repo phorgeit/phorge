@@ -36,8 +36,9 @@ final class PhrictionHistoryController
     $max_version = (int)$document->getMaxVersion();
     $current_version = $document->getContent()->getVersion();
 
-    $list = new PHUIObjectItemListView();
-    $list->setFlush(true);
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
+      ->setFlush(true);
     foreach ($history as $content) {
       $slug_uri = PhrictionDocument::getSlugURI($document->getSlug());
       $version = $content->getVersion();
