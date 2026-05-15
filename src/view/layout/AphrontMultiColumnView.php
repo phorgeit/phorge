@@ -26,6 +26,7 @@ final class AphrontMultiColumnView extends AphrontView {
     $class = null,
     $sigil = null,
     $metadata = null) {
+
     $this->columns[] = array(
       'column' => $column,
       'class' => $class,

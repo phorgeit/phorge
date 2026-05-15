@@ -156,6 +156,7 @@ final class PhabricatorDashboardQueryPanelType
         $content = $results_view->getContent();
 
         $more_list = id(new PHUIObjectItemListView())
+          ->setViewer($viewer)
           ->setAllowEmptyList(true);
 
         $more_list->newTailButton()
