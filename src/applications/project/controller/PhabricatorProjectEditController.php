@@ -62,6 +62,10 @@ final class PhabricatorProjectEditController
 
         $parent = $query->executeOne();
 
+        if (!$parent) {
+          return new Aphront404Response();
+        }
+
         if ($is_milestone) {
           if (!$parent->supportsMilestones()) {
             $cancel_uri = "/project/subprojects/{$parent_id}/";
