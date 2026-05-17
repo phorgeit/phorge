@@ -111,13 +111,16 @@ final class PhabricatorConduitAPIController
     } catch (Exception $ex) {
       $result = null;
 
-      if ($ex instanceof ConduitException) {
+      if ($ex instanceof ConduitException ||
+          $ex instanceof PhutilTypeExtraParametersException ||
+          $ex instanceof PhutilTypeMissingParametersException) {
+        // Expose error messages about invalid user input to the user only.
         $error_code = 'ERR-CONDUIT-CALL';
       } else {
         $error_code = 'ERR-CONDUIT-CORE';
 
         // See T13581. When a Conduit method raises an uncaught exception
-        // other than a "ConduitException", log it.
+        // other than the types listed above, log it.
         phlog($ex);
       }
 
