@@ -13,7 +13,8 @@ final class PhabricatorConduitAPIController
     // the method name. This entire call will fail anyway; truncation allows us
     // to at least show a meaningful error message instead of returning a raw
     // DB write error while still logging the failed call in the Call Logs.
-    $limit = 64;
+    $limit = id(new PhabricatorConduitMethodCallLog())
+      ->getColumnMaximumByteLength('method');
     if (strlen($method) > $limit) {
       $method = substr($method, 0, $limit);
     }
