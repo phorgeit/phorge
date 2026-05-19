@@ -22,6 +22,7 @@ abstract class AphrontDatabaseConnection
   abstract public function executeRawQueries(array $raw_queries);
   abstract public function close();
   abstract public function openConnection();
+  abstract public function simulateErrorOnNextQuery($error);
 
   public function __destruct() {
     // NOTE: This does not actually close persistent connections: PHP maintains

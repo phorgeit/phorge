@@ -145,6 +145,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
     $this->raiseUnreachable($database, $master_exception);
   }
 
+  /** @return never */
   private function raiseImproperWrite($database) {
     throw new PhabricatorClusterImproperWriteException(
       pht(
@@ -154,6 +155,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
         $database));
   }
 
+  /** @return never */
   private function raiseImpossibleWrite($database) {
     throw new PhabricatorClusterImpossibleWriteException(
       pht(
@@ -162,6 +164,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
         $database));
   }
 
+  /** @return never */
   private function raiseUnconfigured($database) {
     throw new Exception(
       pht(
@@ -170,6 +173,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
         $database));
   }
 
+  /** @return never */
   private function raiseUnreachable($database, ?Exception $proxy = null) {
     $message = pht(
       'Unable to establish a connection to any database host '.
@@ -187,7 +191,6 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
 
     throw new PhabricatorClusterStrandedException($message);
   }
-
 
   /**
    * Get the database table name

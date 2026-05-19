@@ -525,7 +525,7 @@ final class PhabricatorCalendarEventSearchEngine
    * @param string|null $range_start Epoch
    * @param string|null $range_end Epoch
    * @param string $display View, such as "month" or "day"
-   * @return array<string|int, string|int, string|int> YYYY, M, D
+   * @return array<string|int> Three values: YYYY, M, D
    */
   private function getDisplayYearAndMonthAndDay(
     $range_start,
