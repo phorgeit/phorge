@@ -136,13 +136,15 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
     return $dialog;
   }
 
+  /**
+   * @return array{0: array<PhabricatorExternalAccountIdentifier>|null,
+   *   1: PhabricatorStandardPageView|null}
+   */
   public function processLoginRequest(
     PhabricatorAuthLoginController $controller) {
 
     $request = $controller->getRequest();
     $viewer = $request->getUser();
-    $response = null;
-    $account = null;
 
     $username = $request->getStr('ldap_username');
     $password = $request->getStr('ldap_password');
@@ -153,7 +155,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
       $response = $controller->buildProviderPageResponse(
         $this,
         $this->renderLoginForm($request, 'login'));
-      return array($account, $response);
+      return array(null, $response);
     }
 
     if ($request->isFormPost()) {
@@ -169,20 +171,23 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
         DarkConsoleErrorLogPluginAPI::enableDiscardMode();
           $identifiers = $adapter->getAccountIdentifiers();
         DarkConsoleErrorLogPluginAPI::disableDiscardMode();
+
+        return array(
+          $this->newExternalAccountForIdentifiers($identifiers),
+          null,
+        );
       } catch (PhutilAuthCredentialException $ex) {
         $response = $controller->buildProviderPageResponse(
           $this,
           $this->renderLoginForm($request, 'login'));
-        return array($account, $response);
+        return array(null, $response);
       } catch (Exception $ex) {
         // TODO: Make this cleaner.
         throw $ex;
       }
     }
 
-    $account = $this->newExternalAccountForIdentifiers($identifiers);
-
-    return array($account, $response);
+    return array(null, null);
   }
 
 
