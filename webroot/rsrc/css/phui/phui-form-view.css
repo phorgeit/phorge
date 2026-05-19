@@ -168,17 +168,19 @@
 }
 
 .aphront-form-instructions {
-  width: 60%;
+  font-size: {$smallerfontsize};
+  color: {$bluetext};
+  margin-right: 20%;
   margin-left: 20%;
-  padding: 12px 4px;
-  color: {$darkbluetext};
+  line-height: 16px;
+  padding: 2px 4px 12px;
 }
 
 .device .aphront-form-instructions,
 .phui-form-full-width .aphront-form-instructions {
   width: auto;
   margin: 0;
-  padding: 12px 8px 8px;
+  padding: 2px 8px 12px;
 }
 
 .aphront-form-control-markup .aphront-form-input {
