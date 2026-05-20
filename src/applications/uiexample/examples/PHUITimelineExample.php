@@ -14,10 +14,11 @@ final class PHUITimelineExample extends PhabricatorUIExample {
   public function renderExample() {
     $request = $this->getRequest();
     $user = $request->getUser();
+    $viewer_phid = $user->getPHID() ?? '';
 
     $handle = id(new PhabricatorHandleQuery())
       ->setViewer($user)
-      ->withPHIDs(array($user->getPHID()))
+      ->withPHIDs(array($viewer_phid))
       ->executeOne();
 
     $designer = id(new PHUIBadgeMiniView())
