@@ -129,11 +129,15 @@ function JX.DOM.findAbove(anchor: Element, tagName: string, sigil: string): Elem
 Example usage:
 
 ```javascript
-var parent = JX.DOM.findAbove(child, '*', 'my-sigil');
+var parent = JX.DOM.findAbove(child, 'div', 'my-sigil');
 ```
+
+- if you don't want to specify a parent tagName,
+  set `null` or any other falsy value instead of `'div'`
+- unlike other Javelin methods, tagName does not support '*'
 
 Comparison table from other frameworks:
 
-|                 | From Code                             | To Javelin                                    |
-|-----------------|---------------------------------------|-----------------------------------------------|
-| **From jQuery** | `$(anchor).closest('.class-name')[0]` | `JX.DOM.findAbove(anchor, '*', 'sigil-name')` |
+|                 | From Code                             | To Javelin                                      |
+|-----------------|---------------------------------------|-------------------------------------------------|
+| **From jQuery** | `$(anchor).closest('.class-name')[0]` | `JX.DOM.findAbove(anchor, 'div', 'sigil-name')` |
