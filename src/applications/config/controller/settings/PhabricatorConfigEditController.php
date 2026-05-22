@@ -354,7 +354,10 @@ final class PhabricatorConfigEditController
     }
 
     if ($option->isCustomType()) {
-      $controls = $option->getCustomObject()->renderControls(
+      $custom_object = $option->getCustomObject();
+      $custom_object->setViewer($this->getViewer());
+
+      $controls = $custom_object->renderControls(
         $option,
         $display_value,
         $e_value);

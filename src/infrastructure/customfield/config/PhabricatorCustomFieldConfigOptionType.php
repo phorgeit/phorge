@@ -48,11 +48,15 @@ final class PhabricatorCustomFieldConfigOptionType
     $list_id = celerity_generate_unique_node_id();
     $input_id = celerity_generate_unique_node_id();
 
+    $viewer = $this->getViewer();
+
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setFlush(true)
       ->setID($list_id);
     foreach ($fields as $key => $field) {
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->addSigil('field-spec')
         ->setMetadata(array('fieldKey' => $key))
         ->setGrippable(true)
