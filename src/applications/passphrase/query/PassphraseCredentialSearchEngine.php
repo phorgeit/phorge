@@ -27,6 +27,12 @@ final class PassphraseCredentialSearchEngine
       id(new PhabricatorSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name'),
+      id(new PhabricatorUsersSearchField())
+        ->setLabel(pht('Authors'))
+        ->setKey('authorPHIDs')
+        ->setAliases(array('author', 'authors', 'authorPHID'))
+        ->setDescription(
+          pht('Search for credentials with given authors.')),
     );
   }
 
@@ -35,6 +41,10 @@ final class PassphraseCredentialSearchEngine
 
     if ($map['isDestroyed'] !== null) {
       $query->withIsDestroyed($map['isDestroyed']);
+    }
+
+    if ($map['authorPHIDs'] !== null) {
+      $query->withAuthors($map['authorPHIDs']);
     }
 
     if (strlen($map['name'])) {
@@ -51,6 +61,7 @@ final class PassphraseCredentialSearchEngine
   protected function getBuiltinQueryNames() {
     return array(
       'active' => pht('Active Credentials'),
+      'authored' => pht('Authored'),
       'all' => pht('All Credentials'),
     );
   }
@@ -59,11 +70,15 @@ final class PassphraseCredentialSearchEngine
     $query = $this->newSavedQuery();
     $query->setQueryKey($query_key);
 
+    $viewer_phid = $this->requireViewer()->getPHID();
+
     switch ($query_key) {
       case 'all':
         return $query;
       case 'active':
         return $query->setParameter('isDestroyed', false);
+      case 'authored':
+        return $query->setParameter('authorPHIDs', array($viewer_phid));
     }
 
     return parent::buildSavedQueryFromBuiltin($query_key);
