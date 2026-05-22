@@ -311,6 +311,16 @@ final class PhabricatorAuthRegisterController
           ->setObject($user);
 
         try {
+          $request_parameters = array('username', 'realName', 'email');
+          $registration_data = array();
+          foreach ($request_parameters as $param) {
+            $value = $request->getStr($param);
+            if (phutil_nonempty_string($value)) {
+              $registration_data[] = $value;
+            }
+          }
+          $engine->setAdditionalPasswordBlocklistEntries($registration_data);
+
           $engine->checkNewPassword($password_envelope, $confirm_envelope);
           $e_password = null;
         } catch (PhabricatorAuthPasswordException $ex) {

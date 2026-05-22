@@ -1534,18 +1534,23 @@ final class PhabricatorUser
     PhabricatorAuthPasswordEngine $engine) {
 
     $list = array();
-    $list[] = $this->getUsername();
-    $list[] = $this->getRealName();
 
-    $emails = id(new PhabricatorUserEmail())->loadAllWhere(
-      'userPHID = %s',
-      $this->getPHID());
-    foreach ($emails as $email) {
-      $list[] = $email->getAddress();
+    $registration_data = $engine->getAdditionalPasswordBlocklistEntries();
+    if ($registration_data) {
+      $list = $registration_data;
+    } else {
+      $list[] = $this->getUsername();
+      $list[] = $this->getRealName();
+
+      $emails = id(new PhabricatorUserEmail())->loadAllWhere(
+        'userPHID = %s',
+        $this->getPHID());
+      foreach ($emails as $email) {
+        $list[] = $email->getAddress();
+      }
     }
 
     return $list;
   }
-
 
 }
