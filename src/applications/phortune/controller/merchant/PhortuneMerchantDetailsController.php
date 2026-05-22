@@ -126,6 +126,7 @@ final class PhortuneMerchantDetailsController
     $handles = $viewer->loadHandles($member_phids);
 
     $member_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setSimple(true);
 
     foreach ($member_phids as $member_phid) {

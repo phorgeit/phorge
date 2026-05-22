@@ -60,6 +60,7 @@ final class PhortuneMerchantProvidersController
       PhabricatorPolicyCapability::CAN_EDIT);
 
     $provider_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setNoDataString(pht('This merchant has no payment providers.'));
 
     foreach ($providers as $provider_config) {

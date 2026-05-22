@@ -79,6 +79,7 @@ final class PhortuneAccountDetailsController
     $handles = $viewer->loadHandles($member_phids);
 
     $member_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setSimple(true);
 
     foreach ($member_phids as $member_phid) {
@@ -99,6 +100,7 @@ final class PhortuneAccountDetailsController
       ->appendChild($member_list);
 
     $merchant_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setSimple(true)
       ->setNoDataString(pht('No purchase history.'));
 
