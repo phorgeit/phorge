@@ -524,6 +524,8 @@ final class ManiphestTask extends ManiphestDAO
         ->setAttachmentKey('columns'),
       id(new ManiphestTaskDependsOnSearchEngineAttachment())
         ->setAttachmentKey('dependsOn'),
+      id(new ManiphestTaskDependedOnBySearchEngineAttachment())
+        ->setAttachmentKey('dependedOnBy'),
     );
   }
 
