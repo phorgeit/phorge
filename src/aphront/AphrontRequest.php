@@ -633,7 +633,11 @@ final class AphrontRequest extends Phobject {
     return $this->user;
   }
 
+  /** @return PhabricatorUser */
   public function getViewer() {
+    if (!$this->user) {
+      throw new PhutilInvalidStateException('setUser');
+    }
     return $this->user;
   }
 
