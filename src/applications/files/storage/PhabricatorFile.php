@@ -919,6 +919,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return '/'.$this->getMonogram();
   }
 
+  /**
+   * @return string
+   */
   public function getBestURI() {
     if ($this->isViewableInBrowser()) {
       return $this->getViewURI();

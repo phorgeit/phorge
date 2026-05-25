@@ -273,6 +273,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
   }
 
+  /**
+   * @return array<string,PhabricatorSearchField> Map of field name to a
+   *   subclass of PhabricatorSearchField
+   */
   protected function buildSearchFields() {
     $fields = array();
 
@@ -1189,6 +1193,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 /* -(  Application Search  )------------------------------------------------- */
 
 
+  /**
+   * @return array<string,PhabricatorSearchField> Map of field name to a
+   *   subclass of PhabricatorSearchField
+   */
   public function getSearchFieldsForConduit() {
     $standard_fields = $this->buildSearchFields();
 

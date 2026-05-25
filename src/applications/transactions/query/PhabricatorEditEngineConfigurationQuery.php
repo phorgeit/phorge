@@ -28,8 +28,8 @@ final class PhabricatorEditEngineConfigurationQuery
   }
 
   /**
-   * @param array<string> EditEngine keys, e.g. 'maniphest.task' or
-   *   'calendar.event'
+   * @param array<string> $engine_keys EditEngine keys, e.g. 'maniphest.task'
+   *   or 'calendar.event'
    * @return $this
    */
   public function withEngineKeys(array $engine_keys) {
@@ -43,7 +43,7 @@ final class PhabricatorEditEngineConfigurationQuery
   }
 
   /**
-   * @param array<string> Form identifiers, e.g. 'default' or '10'
+   * @param array<string> $identifiers Form identifiers, e.g. 'default' or '10'
    * @return $this
    */
   public function withIdentifiers(array $identifiers) {

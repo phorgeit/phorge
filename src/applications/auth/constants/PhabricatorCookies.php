@@ -156,8 +156,8 @@ final class PhabricatorCookies extends Phobject {
    * Parse a Next URI cookie into its components.
    *
    * @param   string                 $cookie Raw cookie value.
-   * @return  list<int,string>|null  List of timestamp and URI, or null if the
-   *   cookie is empty or null.
+   * @return  array{0:int, 1:string}>|null  List of timestamp and URI, or null
+   *   if the cookie is empty or null.
    *
    * @task next
    */

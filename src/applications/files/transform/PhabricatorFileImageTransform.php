@@ -12,7 +12,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
    * Get an estimate of the transformed dimensions of a file.
    *
    * @param PhabricatorFile $file File to transform.
-   * @return list<int, int>|null Width and height, if available.
+   * @return array{0:int, 1:int}|null Width and height, if available.
    */
   public function getTransformedDimensions(PhabricatorFile $file) {
     return null;
@@ -207,7 +207,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Get the pixel dimensions of the image being transformed.
    *
-   * @return list<int, int> Width and height of the image.
+   * @return array{0:int, 1:int} Width and height of the image.
    */
   protected function getImageDimensions() {
     if ($this->imageX === null) {

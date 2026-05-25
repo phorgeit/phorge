@@ -137,6 +137,10 @@ final class PHUIFeedStoryView extends AphrontView {
     return $this->href;
   }
 
+  /**
+   * @param PhabricatorUser|null $user
+   * @return PhutilSafeHTML
+   */
   public function renderNotification($user) {
     $classes = array(
       'phabricator-notification',

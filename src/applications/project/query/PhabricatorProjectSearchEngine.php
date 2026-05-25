@@ -38,7 +38,7 @@ final class PhabricatorProjectSearchEngine
         ->setKey('slugs')
         ->setDescription(
           pht(
-            'Search for projects with particular hashtags.)')),
+            'Search for projects with particular hashtags.')),
       id(new PhabricatorUsersSearchField())
         ->setLabel(pht('Members'))
         ->setKey('memberPHIDs')

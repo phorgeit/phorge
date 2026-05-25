@@ -47,6 +47,9 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this->disabled;
   }
 
+  /**
+   * @param PhutilSafeHTML $icon
+   */
   public function addHeadIcon($icon) {
     $this->headIcons[] = $icon;
     return $this;
@@ -57,20 +60,33 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param bool $grippable
+   */
   public function setGrippable($grippable) {
     $this->grippable = $grippable;
     return $this;
   }
 
+  /**
+   * @return bool|null
+   */
   public function getGrippable() {
     return $this->grippable;
   }
 
+  /**
+   * @param string $effect One of the strings 'highlighted', 'selected', or
+   *  'visited'
+   */
   public function setEffect($effect) {
     $this->effect = $effect;
     return $this;
   }
 
+  /**
+   * @return string One of the strings 'highlighted', 'selected', or 'visited'
+   */
   public function getEffect() {
     return $this->effect;
   }
@@ -112,6 +128,9 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param string $subhead
+   */
   public function setSubHead($subhead) {
     $this->subhead = $subhead;
     return $this;
@@ -122,6 +141,10 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param float $num
+   * @param string $noun
+   */
   public function setCountdown($num, $noun) {
     $this->countdownNum = $num;
     $this->countdownNoun = $noun;
@@ -196,6 +219,9 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this->hasSpriteImage;
   }
 
+  /**
+   * @param string $image File URI
+   */
   public function setCoverImage($image) {
     $this->coverImage = $image;
     return $this;
@@ -252,6 +278,9 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @return FuelMenuItemView
+   */
   public function newMenuItem() {
     if (!$this->menu) {
       $this->menu = new FuelMenuView();
@@ -260,6 +289,9 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this->menu->newItem();
   }
 
+  /**
+   * @return FuelMapView
+   */
   public function newMapView() {
     $list = id(new FuelMapView())
       ->addClass('fuel-map-property-list');
@@ -297,11 +329,18 @@ final class PHUIObjectItemView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Render a colored border on the left. Used for cards on workboards.
+   * @param string $bar_color
+   */
   public function setBarColor($bar_color) {
     $this->barColor = $bar_color;
     return $this;
   }
 
+  /**
+   * @return string
+   */
   public function getBarColor() {
     return $this->barColor;
   }

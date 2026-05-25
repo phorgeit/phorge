@@ -771,6 +771,9 @@ final class DiffusionCommitController extends DiffusionController {
     return $timeline;
   }
 
+  /**
+   * @return DiffusionCommitEditEngine
+   */
   private function renderAddCommentPanel(
     PhabricatorRepositoryCommit $commit,
     $timeline) {
@@ -791,6 +794,9 @@ final class DiffusionCommitController extends DiffusionController {
     return $comment_view;
   }
 
+  /**
+   * @return PHUIObjectBoxView|null
+   */
   private function buildMergesTable(PhabricatorRepositoryCommit $commit) {
     $viewer = $this->getViewer();
     $drequest = $this->getDiffusionRequest();
@@ -957,6 +963,9 @@ final class DiffusionCommitController extends DiffusionController {
     return $parser->processCorpus($corpus);
   }
 
+  /**
+   * @return PHUIDiffTableOfContentsListView
+   */
   private function buildTableOfContents(
     array $changesets,
     $header,

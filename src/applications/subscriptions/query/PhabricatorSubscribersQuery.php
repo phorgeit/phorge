@@ -5,6 +5,11 @@ final class PhabricatorSubscribersQuery extends PhabricatorQuery {
   private $objectPHIDs;
   private $subscriberPHIDs;
 
+  /**
+   * @param string|null $phid The PHID of an object which implements
+   *   PhabricatorSubscribableInterface
+   * @return array<string> PHIDs of subscribed objects (users, projects, etc)
+   */
   public static function loadSubscribersForPHID($phid) {
     if (!$phid) {
       return array();

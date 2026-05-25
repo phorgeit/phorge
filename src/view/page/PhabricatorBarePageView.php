@@ -3,7 +3,7 @@
 /**
  * This is a bare HTML page view which has access to Phabricator page
  * infrastructure like Celerity, but no content or builtin static resources.
- * You basically get a valid HMTL5 document and an empty body tag.
+ * You basically get a valid HTML5 document and an empty body tag.
  *
  * @concrete-extensible
  */
