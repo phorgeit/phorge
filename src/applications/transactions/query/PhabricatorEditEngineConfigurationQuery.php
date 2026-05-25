@@ -203,10 +203,13 @@ final class PhabricatorEditEngineConfigurationQuery
     if ($this->identifiers !== null) {
       $identifiers = array_fuse($this->identifiers);
       foreach ($page as $key => $config) {
-        if (isset($identifiers[$config->getBuiltinKey()])) {
+        $config_builtin_key = $config->getBuiltinKey();
+        $config_id = $config->getID();
+        if ($config_builtin_key !== null &&
+          isset($identifiers[$config_builtin_key])) {
           continue;
         }
-        if (isset($identifiers[$config->getID()])) {
+        if ($config_id !== null && isset($identifiers[$config_id])) {
           continue;
         }
         unset($page[$key]);
