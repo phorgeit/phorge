@@ -3,9 +3,17 @@
 final class DifferentialRevisionSearchEngine
   extends PhabricatorApplicationSearchEngine {
 
+  private $noDataString;
+
   public function getResultTypeDescription() {
     return pht('Differential Revisions');
   }
+
+  public function setNoDataString($no_data_string) {
+    $this->noDataString = $no_data_string;
+    return $this;
+  }
+
 
   public function getApplicationClassName() {
     return PhabricatorDifferentialApplication::class;
@@ -17,7 +25,6 @@ final class DifferentialRevisionSearchEngine
 
   public function newQuery() {
     return id(new DifferentialRevisionQuery())
-      ->needFlags(true)
       ->needDrafts(true)
       ->needReviewers(true);
   }
@@ -184,7 +191,9 @@ final class DifferentialRevisionSearchEngine
     $viewer = $this->requireViewer();
     $template = id(new DifferentialRevisionListView())
       ->setViewer($viewer)
-      ->setNoBox($this->isPanelContext());
+      ->setNoBox($this->isPanelContext())
+      ->setNoDataString(
+        nonempty($this->noDataString, pht('No revisions found.')));
 
     $bucket = $this->getResultBucket($query);
 
@@ -210,7 +219,7 @@ final class DifferentialRevisionSearchEngine
               ->setRevisions($group->getObjects());
           }
         }
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         $this->addError($ex->getMessage());
       }
     } else {
@@ -219,9 +228,7 @@ final class DifferentialRevisionSearchEngine
     }
 
     if (!$views) {
-      $views[] = id(new DifferentialRevisionListView())
-        ->setViewer($viewer)
-        ->setNoDataString(pht('No revisions found.'));
+      $views[] = clone $template;
     }
 
     foreach ($views as $view) {

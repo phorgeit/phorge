@@ -1,12 +1,14 @@
 <?php
 
-final class PhorgeFlagFlaggedObjectCustomField extends PhabricatorCustomField {
+trait PhorgeFlagFlaggedObjectCustomField {
+  use PhorgeCustomFieldMetaTrait;
 
   private $flag;
 
   public function getFieldKey() {
     return 'flag:flag';
   }
+
   public function shouldAppearInPropertyView() {
     return false;
   }
@@ -19,9 +21,10 @@ final class PhorgeFlagFlaggedObjectCustomField extends PhabricatorCustomField {
     if (!$this->flag) {
       return;
     }
-    // I'm very open to improvements in the way a Flag is displayed
-    $icon = PhabricatorFlagColor::getIcon($this->flag->getColor());
-    $view->addIcon($icon);
+
+    $flag_class = PhabricatorFlagColor::getCSSClass($this->flag->getColor());
+    $icon = phutil_tag_div('phabricator-flag-icon '.$flag_class);
+    $view->addHeadIcon($icon);
   }
 
 
@@ -32,6 +35,10 @@ final class PhorgeFlagFlaggedObjectCustomField extends PhabricatorCustomField {
   public function setValueFromStorage($value) {
     $this->flag = $value;
     return $this;
+  }
+
+  public function getValueForStorage() {
+    return null;
   }
 
   // The parent function is defined to return a PhabricatorCustomFieldStorage,

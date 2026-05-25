@@ -23,6 +23,10 @@ final class PHUIObjectItemListView extends AphrontTagView {
     return $this->allowEmptyList;
   }
 
+  public function isEmpty() {
+    return empty($this->items);
+  }
+
   public function setFlush($flush) {
     $this->flush = $flush;
     return $this;

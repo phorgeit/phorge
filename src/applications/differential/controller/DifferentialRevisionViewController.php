@@ -459,17 +459,12 @@ final class DifferentialRevisionViewController
       ->setCommitsForLinks($commits_for_links);
 
     if ($repository && !$this->isVeryLargeDiff()) {
-      $other_revisions = $this->loadOtherRevisions(
+      $other_view = $this->buildSimilarRevisionsView(
         $changesets,
         $target,
         $repository);
     } else {
-      $other_revisions = array();
-    }
-
-    $other_view = null;
-    if ($other_revisions) {
-      $other_view = $this->renderOtherRevisions($other_revisions);
+      $other_view = null;
     }
 
     if ($this->isVeryLargeDiff()) {
@@ -1035,14 +1030,15 @@ final class DifferentialRevisionViewController
    * @param array<DifferentialChangeset> $changesets
    * @param DifferentialDiff $target
    * @param PhabricatorRepository $repository
+   * @return AphrontView|null
    */
-  private function loadOtherRevisions(
+  private function buildSimilarRevisionsView(
     array $changesets,
     DifferentialDiff $target,
     PhabricatorRepository $repository) {
+
     assert_instances_of($changesets, DifferentialChangeset::class);
 
-    $viewer = $this->getViewer();
 
     $paths = array();
     foreach ($changesets as $changeset) {
@@ -1057,13 +1053,14 @@ final class DifferentialRevisionViewController
 
     $recent = (PhabricatorTime::getNow() - phutil_units('30 days in seconds'));
 
-    $query = id(new DifferentialRevisionQuery())
-      ->setViewer($viewer)
+    $engine = id(new DifferentialRevisionSearchEngine())
+      ->setViewer($this->getViewer());
+
+    $query = $engine->newQuery()
       ->withIsOpen(true)
       ->withUpdatedEpochBetween($recent, null)
       ->setOrder(DifferentialRevisionQuery::ORDER_MODIFIED)
       ->setLimit(10)
-      ->needFlags(true)
       ->needDrafts(true)
       ->needReviewers(true)
       ->withRepositoryPHIDs(
@@ -1072,7 +1069,9 @@ final class DifferentialRevisionViewController
         ))
       ->withPaths($paths);
 
-    $results = $query->execute();
+    $saved = id(new PhabricatorSavedQuery());
+    $pager = $engine->newPagerForSavedQuery($saved);
+    $results = $engine->executeQuery($query, $pager);
 
     // Strip out *this* revision.
     foreach ($results as $key => $result) {
@@ -1082,24 +1081,12 @@ final class DifferentialRevisionViewController
       }
     }
 
-    return $results;
-  }
+    if (!$results) {
+      return null;
+    }
 
-  /**
-   * @param array<DifferentialRevision> $revisions
-   */
-  private function renderOtherRevisions(array $revisions) {
-    assert_instances_of($revisions, DifferentialRevision::class);
-    $viewer = $this->getViewer();
-
-    $header = id(new PHUIHeaderView())
-      ->setHeader(pht('Recent Similar Revisions'));
-
-    return id(new DifferentialRevisionListView())
-      ->setViewer($viewer)
-      ->setRevisions($revisions)
-      ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
-      ->setNoBox(true);
+    $rendered = $engine->renderResults($results, $saved);
+    return $rendered->getContent();
   }
 
   /**

@@ -50,7 +50,6 @@ final class DifferentialRevision extends DifferentialDAO
   private $reviewerStatus = self::ATTACHABLE;
   private $customFields = self::ATTACHABLE;
   private $drafts = array();
-  private $flags = array();
   private $forceMap = array();
 
   const RELATION_REVIEWER     = 'revw';
@@ -664,17 +663,6 @@ final class DifferentialRevision extends DifferentialDAO
   public function getStatusObject() {
     $status = $this->getStatus();
     return DifferentialRevisionStatus::newForStatus($status);
-  }
-
-  public function getFlag(PhabricatorUser $viewer) {
-    return $this->assertAttachedKey($this->flags, $viewer->getPHID());
-  }
-
-  public function attachFlag(
-    PhabricatorUser $viewer,
-    ?PhabricatorFlag $flag = null) {
-    $this->flags[$viewer->getPHID()] = $flag;
-    return $this;
   }
 
   public function getHasDraft(PhabricatorUser $viewer) {

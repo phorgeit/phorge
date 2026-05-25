@@ -99,6 +99,7 @@ final class PhabricatorApplicationSearchController
     $parent = $this->getDelegatingController();
     $request = $this->getRequest();
     $user = $request->getUser();
+    /** @var PhabricatorApplicationSearchEngine */
     $engine = $this->getSearchEngine();
     $nav = $this->getNavigation();
     if (!$nav) {

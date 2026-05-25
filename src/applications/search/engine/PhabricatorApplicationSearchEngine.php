@@ -1105,8 +1105,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
   /**
-   * @return array<string,PhabricatorObjectHandle> $results Array of pairs of
-   *   the object's PHID as key and the corresponding PhabricatorObjectHandle
+   * @return array<string, PhabricatorPolicyInterface> $results Array of pairs
+   * of the object's PHID as key and the object as value.
    */
   public function executeQuery(
     PhabricatorPolicyAwareQuery $query,
@@ -1129,6 +1129,20 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return;
   }
 
+  /**
+   * Convenience method to quickly get a result view in a controller.
+   *
+   * Note that the result is almost always
+   * PhabricatorApplicationSearchResultView, which //isn't// a View.
+   *
+   * @return PhabricatorApplicationSearchResultView|mixed
+   */
+  public function executeQueryAndRender(PhabricatorQuery $query) {
+    $saved = id(new PhabricatorSavedQuery());
+    $pager = $this->newPagerForSavedQuery($saved);
+    $results = $this->executeQuery($query, $pager);
+    return $this->renderResults($results, $saved);
+  }
 
 /* -(  Rendering  )---------------------------------------------------------- */
 

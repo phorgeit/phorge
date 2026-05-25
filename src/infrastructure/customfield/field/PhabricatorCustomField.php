@@ -17,6 +17,7 @@
  * @task herald       Integration with Herald
  */
 abstract class PhabricatorCustomField extends Phobject {
+  use PhorgeCustomFieldMetaTrait;
 
   private $viewer;
   private $object;
