@@ -1275,7 +1275,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       pht('No visible menu items can render content.'));
   }
 
-
+  /**
+   * @return PhabricatorProfileMenuItemViewList
+   */
   final public function newProfileMenuItemViewList() {
     $items = $this->getItems();
 

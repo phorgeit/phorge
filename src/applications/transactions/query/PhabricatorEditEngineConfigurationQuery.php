@@ -227,6 +227,9 @@ final class PhabricatorEditEngineConfigurationQuery
     return $page;
   }
 
+  /**
+   * @param array<PhabricatorEditEngineConfiguration>
+   */
   protected function willFilterPage(array $configs) {
     $engine_keys = mpull($configs, 'getEngineKey');
 

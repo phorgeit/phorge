@@ -2392,6 +2392,12 @@ abstract class PhabricatorEditEngine
     return $this->getConduitEditTypesFromFields($fields);
   }
 
+  /**
+   * Get all EditEngines of all applications. (Use PhabricatorEditEngineQuery
+   * to get only EditEngines of installed applications installed.)
+   *
+   * @array<PhabricatorEditEngine>
+   */
   final public static function getAllEditEngines() {
     return id(new PhutilClassMapQuery())
       ->setAncestorClass(self::class)
