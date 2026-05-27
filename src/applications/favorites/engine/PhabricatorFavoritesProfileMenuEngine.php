@@ -11,6 +11,10 @@ final class PhabricatorFavoritesProfileMenuEngine
     return "/favorites/menu/{$path}";
   }
 
+  /**
+   * Attach forms to menu items shown in top bar Favorites dropdown displayed
+   * for a logged-in user.
+   */
   protected function getBuiltinProfileItems($object) {
     $items = array();
     $viewer = $this->getViewer();

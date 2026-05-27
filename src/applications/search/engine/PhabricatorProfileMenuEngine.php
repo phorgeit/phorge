@@ -8,6 +8,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   private $items;
   private $controller;
   private $editMode;
+  /** @var array<string> CSS classes */
   private $pageClasses = array();
   private $showContentCrumbs = true;
 
@@ -85,6 +86,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $this->controller;
   }
 
+  /**
+   * @param string $class CSS class
+   */
   public function addContentPageClass($class) {
     $this->pageClasses[] = $class;
     return $this;
@@ -342,6 +346,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $this->items;
   }
 
+  /**
+   * @param string $mode
+   */
   private function loadItems($mode) {
     $viewer = $this->getViewer();
     $object = $this->getProfileObject();
@@ -1220,6 +1227,16 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * Sort the menu items.
+   *
+   * @param array<string,PhabricatorProfileMenuItemConfiguration> $items Map of
+   *   a constant (like 'home.dashboard', 'home.apps.label' or 'people.commits')
+   *   or a DividerItem or a Manage item or a PHID of a PhabricatorApplication
+   *   to a PhabricatorProfileMenuItemConfiguration object
+   * @param string $mode
+   * @return array<PhabricatorProfileMenuItemConfiguration>
+   */
   private function arrangeItems(array $items, $mode) {
     // Sort the items.
     $items = msortv($items, 'getSortVector');
@@ -1258,6 +1275,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $items;
   }
 
+  /**
+   * @return PHUIInfoView
+   */
   final protected function newEmptyView($title, $message) {
     return id(new PHUIInfoView())
       ->setTitle($title)
@@ -1268,6 +1288,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         ));
   }
 
+  /**
+   * @return PHUIInfoView
+   */
   protected function newNoContentView(array $items) {
     return $this->newEmptyView(
       pht('No Content'),

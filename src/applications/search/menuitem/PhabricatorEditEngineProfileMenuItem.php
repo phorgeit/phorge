@@ -35,16 +35,16 @@ final class PhabricatorEditEngineProfileMenuItem
   }
 
   /**
-   * Attach forms to menu items shown in top bar Favorites dropdown
+   * Get the items shown in a menu (for example the top bar Favorites dropdown,
+   * the frontpage sidebar on the left, etc.) Also attach corresponding forms
+   * to menu items.
+   *
    * @param array<PhabricatorProfileMenuItemConfiguration> $items
    */
   public function willGetMenuItemViewList(array $items) {
     $viewer = $this->getViewer();
-    $engines = PhabricatorEditEngine::getAllEditEngines();
-    $engine_keys = array_keys($engines);
     $forms = id(new PhabricatorEditEngineConfigurationQuery())
       ->setViewer($viewer)
-      ->withEngineKeys($engine_keys)
       ->withIsDisabled(false)
       ->execute();
     $form_engines = mgroup($forms, 'getEngineKey');
@@ -82,6 +82,10 @@ final class PhabricatorEditEngineProfileMenuItem
     }
   }
 
+  /**
+   * @return array{0: PhabricatorDatasourceEditField,
+   *   1: PhabricatorTextEditField}
+   */
   public function buildEditEngineFields(
     PhabricatorProfileMenuItemConfiguration $config) {
     return array(
