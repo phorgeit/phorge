@@ -1484,18 +1484,20 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
 
     if ($limit > 100) {
-      throw new Exception(
-        pht(
-          'Maximum page size for Conduit API method calls is 100, but '.
-          'this call specified %s.',
+      throw id(new ConduitException('ERR-INVALID-PAGE-SIZE'))
+        ->setErrorDescription(
+          pht(
+          'Maximum page size for Conduit API method calls is 100, but this '.
+          'call specified %s.',
           $limit));
     }
 
     if ($limit < 1) {
-      throw new Exception(
-        pht(
-          'Minimum page size for API searches is 1, but this call '.
-          'specified %s.',
+      throw id(new ConduitException('ERR-INVALID-PAGE-SIZE'))
+        ->setErrorDescription(
+          pht(
+          'Minimum page size for Conduit API method calls is 1, but this '.
+          'call specified %s.',
           $limit));
     }
 

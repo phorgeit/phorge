@@ -62,6 +62,9 @@ abstract class PhabricatorSearchEngineAPIMethod
       'ERR-INVALID-ATTACHMENT' => pht(
         'Parameter "%s" includes an invalid key.',
         'attachments'),
+      'ERR-INVALID-PAGE-SIZE' => pht(
+        'Parameter "%s" is invalid.',
+        'limit'),
     );
   }
 
