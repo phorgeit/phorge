@@ -30,10 +30,6 @@ final class PhabricatorUIExamplesApplication extends PhabricatorApplication {
     return self::GROUP_DEVELOPER;
   }
 
-  public function isPrototype() {
-    return true;
-  }
-
   public function getApplicationOrder() {
     return 0.110;
   }
