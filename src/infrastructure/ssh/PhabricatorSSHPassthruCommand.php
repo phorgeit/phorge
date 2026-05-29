@@ -163,7 +163,7 @@ final class PhabricatorSSHPassthruCommand extends Phobject {
       }
 
       $out_message = $command_channel->read();
-      if (strlen($out_message)) {
+      if (phutil_nonempty_string($out_message)) {
         $out_message = $this->willReadData($out_message);
         if ($out_message !== null) {
           $io_channel->write($out_message);
@@ -201,7 +201,7 @@ final class PhabricatorSSHPassthruCommand extends Phobject {
 
   public function writeIORead($in_message) {
     $in_message = $this->willWriteData($in_message);
-    if (strlen($in_message)) {
+    if (phutil_nonempty_string($in_message)) {
       $this->commandChannel->write($in_message);
     }
   }
