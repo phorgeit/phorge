@@ -13,6 +13,10 @@ final class DiffusionBrowseQueryConduitAPIMethod
       '(optional) commit.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'array';
   }

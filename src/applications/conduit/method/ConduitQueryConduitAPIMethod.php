@@ -10,6 +10,10 @@ final class ConduitQueryConduitAPIMethod extends ConduitAPIMethod {
     return pht('Returns the parameters of the Conduit methods.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

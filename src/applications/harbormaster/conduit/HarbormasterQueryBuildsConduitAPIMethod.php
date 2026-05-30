@@ -11,6 +11,10 @@ final class HarbormasterQueryBuildsConduitAPIMethod
     return pht('Query Harbormaster builds.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function getMethodStatus() {
     return self::METHOD_STATUS_DEPRECATED;
   }

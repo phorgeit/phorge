@@ -10,6 +10,10 @@ final class FileDownloadConduitAPIMethod extends FileConduitAPIMethod {
     return pht('Download a file from the server.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'phid' => 'required phid',

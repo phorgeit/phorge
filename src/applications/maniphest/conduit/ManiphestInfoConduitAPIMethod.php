@@ -10,6 +10,10 @@ final class ManiphestInfoConduitAPIMethod extends ManiphestConduitAPIMethod {
     return pht('Retrieve information about a Maniphest task, given its ID.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function getMethodStatus() {
     return self::METHOD_STATUS_DEPRECATED;
   }

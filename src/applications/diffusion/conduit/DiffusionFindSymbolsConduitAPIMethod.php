@@ -11,6 +11,10 @@ final class DiffusionFindSymbolsConduitAPIMethod
     return pht('Retrieve Diffusion symbol information.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'name'           => 'optional string',

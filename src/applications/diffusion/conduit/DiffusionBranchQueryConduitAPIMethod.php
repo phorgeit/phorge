@@ -11,6 +11,10 @@ final class DiffusionBranchQueryConduitAPIMethod
     return pht('Determine what branches exist for a repository.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'list<dict>';
   }

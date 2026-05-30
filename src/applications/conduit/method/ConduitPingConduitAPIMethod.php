@@ -14,6 +14,10 @@ final class ConduitPingConduitAPIMethod extends ConduitAPIMethod {
     return pht('Basic ping for monitoring or a health-check.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

@@ -13,6 +13,10 @@ final class TransactionSearchConduitAPIMethod
       'or an entire object type.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function newDocumentationPages(PhabricatorUser $viewer) {
     $markup = pht(<<<EOREMARKUP
 When an object (like a task) is edited, the relevant application creates a

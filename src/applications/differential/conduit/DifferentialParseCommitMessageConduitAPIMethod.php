@@ -11,6 +11,10 @@ final class DifferentialParseCommitMessageConduitAPIMethod
     return pht('Parse commit messages for Differential fields.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'corpus'  => 'required string',

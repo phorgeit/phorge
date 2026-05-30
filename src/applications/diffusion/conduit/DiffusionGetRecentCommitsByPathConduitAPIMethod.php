@@ -9,6 +9,10 @@ final class DiffusionGetRecentCommitsByPathConduitAPIMethod
     return 'diffusion.getrecentcommitsbypath';
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function getMethodStatus() {
     return self::METHOD_STATUS_DEPRECATED;
   }

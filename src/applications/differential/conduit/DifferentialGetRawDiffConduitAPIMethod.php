@@ -11,6 +11,10 @@ final class DifferentialGetRawDiffConduitAPIMethod
     return pht('Retrieve a raw diff');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'diffID' => 'required diffID',

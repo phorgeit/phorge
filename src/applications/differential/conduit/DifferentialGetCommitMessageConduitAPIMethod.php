@@ -11,6 +11,10 @@ final class DifferentialGetCommitMessageConduitAPIMethod
     return pht('Retrieve Differential commit messages or message templates.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     $edit_types = array('edit', 'create');
 

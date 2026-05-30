@@ -11,6 +11,10 @@ final class PassphraseQueryConduitAPIMethod
     return pht('Query credentials.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function newQueryObject() {
     return new PassphraseCredentialQuery();
   }

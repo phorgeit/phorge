@@ -11,6 +11,10 @@ final class FileQueryChunksConduitAPIMethod
     return pht('Get information about file chunks.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'filePHID' => 'phid',

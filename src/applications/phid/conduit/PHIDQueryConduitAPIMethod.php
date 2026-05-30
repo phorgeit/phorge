@@ -10,6 +10,10 @@ final class PHIDQueryConduitAPIMethod extends PHIDConduitAPIMethod {
     return pht('Retrieve information about arbitrary PHIDs.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'phids' => 'required list<phid>',

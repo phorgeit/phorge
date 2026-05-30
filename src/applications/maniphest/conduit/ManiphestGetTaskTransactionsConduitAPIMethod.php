@@ -11,6 +11,10 @@ final class ManiphestGetTaskTransactionsConduitAPIMethod
     return pht('Retrieve Maniphest task transactions.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'ids' => 'required list<int>',

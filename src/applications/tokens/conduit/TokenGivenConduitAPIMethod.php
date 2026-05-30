@@ -10,6 +10,10 @@ final class TokenGivenConduitAPIMethod extends TokenConduitAPIMethod {
     return pht('Query tokens given to objects.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'authorPHIDs' => 'list<phid>',

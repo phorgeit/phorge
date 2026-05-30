@@ -11,6 +11,10 @@ final class DiffusionSearchQueryConduitAPIMethod
     return pht('Search (grep) a repository at a specific path and commit.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'array';
   }

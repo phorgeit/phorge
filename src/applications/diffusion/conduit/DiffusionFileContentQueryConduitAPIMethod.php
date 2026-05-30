@@ -11,6 +11,10 @@ final class DiffusionFileContentQueryConduitAPIMethod
     return pht('Retrieve file content from a repository.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'array';
   }

@@ -10,6 +10,10 @@ final class TokenQueryConduitAPIMethod extends TokenConduitAPIMethod {
     return pht('Query tokens.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

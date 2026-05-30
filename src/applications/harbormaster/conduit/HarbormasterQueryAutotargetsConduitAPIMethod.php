@@ -11,6 +11,10 @@ final class HarbormasterQueryAutotargetsConduitAPIMethod
     return pht('Load or create build autotargets.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'objectPHID' => 'phid',

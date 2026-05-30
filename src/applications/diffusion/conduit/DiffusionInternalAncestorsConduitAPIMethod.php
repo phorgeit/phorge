@@ -15,6 +15,10 @@ final class DiffusionInternalAncestorsConduitAPIMethod
     return pht('Internal method for filtering ref ancestors.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'list<string>';
   }

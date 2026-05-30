@@ -17,6 +17,10 @@ final class ManiphestStatusSearchConduitAPIMethod
       'tasks.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

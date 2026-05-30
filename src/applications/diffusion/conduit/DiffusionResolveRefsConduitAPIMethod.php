@@ -11,6 +11,10 @@ final class DiffusionResolveRefsConduitAPIMethod
     return pht('Resolve references into stable, canonical identifiers.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'dict<string, list<dict<string, wild>>>';
   }

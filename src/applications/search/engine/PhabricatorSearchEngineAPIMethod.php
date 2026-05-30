@@ -5,6 +5,10 @@ abstract class PhabricatorSearchEngineAPIMethod
 
   abstract public function newSearchEngine();
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   final public function getQueryMaps($query) {
     $maps = $this->getCustomQueryMaps($query);
 

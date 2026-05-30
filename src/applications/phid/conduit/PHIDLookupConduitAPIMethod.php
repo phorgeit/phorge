@@ -10,6 +10,10 @@ final class PHIDLookupConduitAPIMethod extends PHIDConduitAPIMethod {
     return pht('Look up objects by name.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'names' => 'required list<string>',

@@ -10,6 +10,10 @@ final class FlagQueryConduitAPIMethod extends FlagConduitAPIMethod {
     return pht('Query flag markers.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'ownerPHIDs'    => 'optional list<phid>',

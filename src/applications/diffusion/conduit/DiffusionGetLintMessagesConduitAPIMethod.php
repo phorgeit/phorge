@@ -11,6 +11,10 @@ final class DiffusionGetLintMessagesConduitAPIMethod
     return pht('Get lint messages for existing code.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'repositoryPHID' => 'required phid',

@@ -11,6 +11,10 @@ final class HarbormasterQueryBuildablesConduitAPIMethod
     return pht('Query Harbormaster buildables.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'ids' => 'optional list<id>',

@@ -21,6 +21,10 @@ final class FileInfoConduitAPIMethod extends FileConduitAPIMethod {
       'file.search');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'phid' => 'optional phid',

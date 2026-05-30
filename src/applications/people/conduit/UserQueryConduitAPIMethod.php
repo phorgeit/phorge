@@ -20,6 +20,10 @@ final class UserQueryConduitAPIMethod extends UserConduitAPIMethod {
       'should use "user.search" instead.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'usernames'    => 'optional list<string>',

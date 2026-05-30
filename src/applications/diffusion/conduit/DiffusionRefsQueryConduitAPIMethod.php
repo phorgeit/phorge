@@ -12,6 +12,10 @@ final class DiffusionRefsQueryConduitAPIMethod
       'Query a git repository for ref information at a specific commit.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'array';
   }

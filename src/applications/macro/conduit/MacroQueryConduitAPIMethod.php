@@ -10,6 +10,10 @@ final class MacroQueryConduitAPIMethod extends MacroConduitAPIMethod {
     return pht('Retrieve image macro information.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'authorPHIDs' => 'optional list<phid>',

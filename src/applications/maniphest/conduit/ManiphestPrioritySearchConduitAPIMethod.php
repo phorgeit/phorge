@@ -17,6 +17,10 @@ final class ManiphestPrioritySearchConduitAPIMethod
       'tasks.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

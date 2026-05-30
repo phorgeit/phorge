@@ -11,6 +11,10 @@ final class DiffusionQueryCommitsConduitAPIMethod
     return pht('Retrieve information about commits.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function getMethodStatus() {
     return self::METHOD_STATUS_FROZEN;
   }

@@ -13,6 +13,10 @@ final class DiffusionRawDiffQueryConduitAPIMethod
       '(optional) path.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'string';
   }

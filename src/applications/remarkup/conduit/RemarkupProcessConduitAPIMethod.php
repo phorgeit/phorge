@@ -10,6 +10,10 @@ final class RemarkupProcessConduitAPIMethod extends ConduitAPIMethod {
     return pht('Process text through remarkup.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'nonempty dict';
   }

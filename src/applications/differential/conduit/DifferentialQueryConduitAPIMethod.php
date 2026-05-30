@@ -11,6 +11,10 @@ final class DifferentialQueryConduitAPIMethod
     return pht('Query Differential revisions which match certain criteria.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function getMethodStatus() {
     return self::METHOD_STATUS_FROZEN;
   }

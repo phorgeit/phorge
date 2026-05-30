@@ -15,6 +15,10 @@ final class ConpherenceQueryThreadConduitAPIMethod
       'the logged in user.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'ids' => 'optional array<int>',

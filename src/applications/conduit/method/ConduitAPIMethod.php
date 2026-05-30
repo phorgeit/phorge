@@ -96,7 +96,21 @@ abstract class ConduitAPIMethod
 
   abstract protected function execute(ConduitAPIRequest $request);
 
+  /**
+   * Whether this endpoint can only be called internally.
+   *
+   * @return bool Defaults to false
+   */
   public function isInternalAPI() {
+    return false;
+  }
+
+  /**
+   * Whether this endpoint only reads data and does not write to the database.
+   *
+   * @return bool Defaults to false
+   */
+  public function isReadOnlyAPI() {
     return false;
   }
 

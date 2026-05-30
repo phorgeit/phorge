@@ -10,6 +10,10 @@ final class FeedQueryConduitAPIMethod extends FeedConduitAPIMethod {
     return pht('Query the feed for stories');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   private function getDefaultLimit() {
     return 100;
   }

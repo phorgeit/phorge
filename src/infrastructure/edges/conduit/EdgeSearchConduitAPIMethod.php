@@ -11,6 +11,10 @@ final class EdgeSearchConduitAPIMethod
     return pht('Read edge relationships between objects.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function newDocumentationPages(PhabricatorUser $viewer) {
     $rows = array();
     foreach ($this->getConduitEdgeTypeMap() as $key => $type) {

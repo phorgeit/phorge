@@ -12,6 +12,10 @@ final class ManiphestQueryStatusesConduitAPIMethod
       'Retrieve information about possible Maniphest task status values.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

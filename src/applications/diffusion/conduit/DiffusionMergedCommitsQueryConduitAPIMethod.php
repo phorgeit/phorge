@@ -12,6 +12,10 @@ final class DiffusionMergedCommitsQueryConduitAPIMethod
       'Merged commit information for a specific commit in a repository.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'array';
   }

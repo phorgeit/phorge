@@ -21,6 +21,10 @@ final class ManiphestQueryConduitAPIMethod extends ManiphestConduitAPIMethod {
       'maniphest.search');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     $statuses = array(
       ManiphestTaskQuery::STATUS_ANY,

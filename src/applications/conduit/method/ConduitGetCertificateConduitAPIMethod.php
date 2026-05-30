@@ -30,6 +30,10 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
     return pht('Retrieve certificate information for a user.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'token' => 'required string',

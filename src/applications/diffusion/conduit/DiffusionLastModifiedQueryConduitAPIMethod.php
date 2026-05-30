@@ -11,6 +11,10 @@ final class DiffusionLastModifiedQueryConduitAPIMethod
     return pht('Get the commits at which paths were last modified.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'map<string, string>';
   }

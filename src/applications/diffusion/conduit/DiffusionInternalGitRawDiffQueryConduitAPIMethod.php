@@ -15,6 +15,10 @@ final class DiffusionInternalGitRawDiffQueryConduitAPIMethod
     return pht('Internal method for getting raw diff information.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'string';
   }

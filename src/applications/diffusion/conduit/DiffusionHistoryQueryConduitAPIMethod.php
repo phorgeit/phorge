@@ -15,6 +15,10 @@ final class DiffusionHistoryQueryConduitAPIMethod
       'commit and path.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'array';
   }

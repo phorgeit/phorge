@@ -11,6 +11,10 @@ final class DiffusionExistsQueryConduitAPIMethod
     return pht('Determine if code exists in a version control system.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'bool';
   }

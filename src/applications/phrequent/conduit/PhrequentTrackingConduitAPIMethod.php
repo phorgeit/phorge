@@ -11,6 +11,10 @@ final class PhrequentTrackingConduitAPIMethod
     return pht('Returns current objects being tracked in Phrequent.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array();
   }

@@ -11,6 +11,10 @@ final class PhabricatorAuthQueryPublicKeysConduitAPIMethod
     return pht('Query public keys.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'ids' => 'optional list<id>',

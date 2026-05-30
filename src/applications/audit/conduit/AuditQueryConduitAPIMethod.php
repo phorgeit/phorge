@@ -16,6 +16,10 @@ final class AuditQueryConduitAPIMethod extends AuditConduitAPIMethod {
     return pht('Query audit requests.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   public function getMethodStatus() {
     return self::METHOD_STATUS_DEPRECATED;
   }

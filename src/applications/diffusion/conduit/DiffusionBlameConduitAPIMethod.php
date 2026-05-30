@@ -11,6 +11,10 @@ final class DiffusionBlameConduitAPIMethod
     return pht('Get blame information for a list of paths.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineReturnType() {
     return 'map<string, wild>';
   }

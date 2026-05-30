@@ -15,6 +15,10 @@ final class ConpherenceQueryTransactionConduitAPIMethod
       'transactions within the Conpherence room for the logged in user.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'roomID' => 'optional int',

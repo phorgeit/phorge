@@ -21,6 +21,10 @@ final class UserFindConduitAPIMethod extends UserConduitAPIMethod {
     return pht('Lookup PHIDs by username. Obsoleted by "%s".', 'user.query');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'aliases' => 'required list<string>',

@@ -5,6 +5,10 @@ abstract class PhabricatorEditEngineAPIMethod
 
   abstract public function newEditEngine();
 
+  public function isReadOnlyAPI() {
+    return false;
+  }
+
   public function getApplication() {
     $engine = $this->newEditEngine();
     $class = $engine->getEngineApplicationClass();

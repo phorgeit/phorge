@@ -21,6 +21,10 @@ final class PasteInfoConduitAPIMethod extends PasteConduitAPIMethod {
     return pht('Retrieve an array of information about a paste.');
   }
 
+  public function isReadOnlyAPI() {
+    return true;
+  }
+
   protected function defineParamTypes() {
     return array(
       'paste_id' => 'required id',
