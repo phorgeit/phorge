@@ -2796,6 +2796,13 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       'status' => $this->getStatus(),
       'isHosted' => $this->isHosted(),
       'isImporting' => (bool)$this->isImporting(),
+      'encoding' => $this->getDefaultTextEncoding(),
+      'staging' => array(
+        'supported' => $this->supportsStaging(),
+        'prefix' => 'phabricator',
+        'uri' => $this->getStagingURI(),
+      ),
+      'browseUri' => PhabricatorEnv::getProductionURI($this->getURI()),
       'almanacServicePHID' => $this->getAlmanacServicePHID(),
       'refRules' => array(
         'fetchRules' => $fetch_rules,
