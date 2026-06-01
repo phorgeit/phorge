@@ -54,7 +54,13 @@ final class PhabricatorRepositorySearchEngine
         ->setKey('uris')
         ->setDescription(
           pht('Search for repositories by clone/checkout URI.')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhabricatorSearchStringListField())
+        ->setLabel(pht('UUIDs'))
+        ->setKey('uuids')
+        ->setIsHidden(true)
+        ->setDescription(
+          pht('Search for SVN repositories by UUID.')),
+       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Services'))
         ->setKey('almanacServicePHIDs')
         ->setDescription(
@@ -99,6 +105,10 @@ final class PhabricatorRepositorySearchEngine
 
     if ($map['uris']) {
       $query->withURIs($map['uris']);
+    }
+
+    if ($map['uuids']) {
+      $query->withUUIDs($map['uuids']);
     }
 
     if ($map['almanacServicePHIDs']) {
