@@ -41,16 +41,12 @@ final class PhabricatorProjectsCurtainExtension
       require_celerity_resource('maniphest-task-summary-css');
 
       foreach ($project_phids as $project_phid) {
-        $handle = $handles[$project_phid];
-
         $columns = $engine->getObjectColumns(
           $project_phid,
           $object->getPHID());
 
         $annotation = array();
         foreach ($columns as $column) {
-          $project_id = $column->getProject()->getID();
-
           $column_name = pht('(%s)', $column->getDisplayName());
           $column_link = phutil_tag(
             'a',
