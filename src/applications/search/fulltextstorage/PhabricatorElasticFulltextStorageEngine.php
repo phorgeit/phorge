@@ -65,10 +65,6 @@ class PhabricatorElasticFulltextStorageEngine
 
     $type = $doc->getDocumentType();
     $phid = $doc->getPHID();
-    $handle = id(new PhabricatorHandleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withPHIDs(array($phid))
-      ->executeOne();
 
     $timestamp_key = $this->getTimestampField();
 

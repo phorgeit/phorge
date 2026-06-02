@@ -22,11 +22,6 @@ final class PhabricatorSpacesViewController
     $property_list = $this->buildPropertyListView($space);
     $title = array($space->getMonogram(), $space->getNamespaceName());
 
-    $xactions = id(new PhabricatorSpacesNamespaceTransactionQuery())
-      ->setViewer($viewer)
-      ->withObjectPHIDs(array($space->getPHID()))
-      ->execute();
-
     $timeline = $this->buildTransactionTimeline(
       $space,
       new PhabricatorSpacesNamespaceTransactionQuery());

@@ -25,6 +25,7 @@ final class PonderAnswer extends PonderDAO
   public static function initializeNewAnswer(
     PhabricatorUser $actor,
     PonderQuestion $question) {
+
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
       ->withClasses(array(PhabricatorPonderApplication::class))
