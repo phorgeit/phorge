@@ -33,6 +33,9 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser|null
+   */
   final public function getActor() {
     return $this->actor;
   }
