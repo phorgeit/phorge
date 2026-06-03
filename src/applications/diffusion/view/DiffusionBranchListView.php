@@ -35,7 +35,6 @@ final class DiffusionBranchListView extends DiffusionView {
     require_celerity_resource('diffusion-css');
 
     $buildables = $this->loadBuildables($commits);
-    $have_builds = false;
 
     $can_close_branches = ($repository->isHg());
 

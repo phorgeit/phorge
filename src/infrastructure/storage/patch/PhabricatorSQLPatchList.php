@@ -69,7 +69,6 @@ abstract class PhabricatorSQLPatchList extends Phobject {
       ->execute();
 
     $specs = array();
-    $seen_namespaces = array();
 
     $phases = PhabricatorStoragePatch::getPhaseList();
     $phases = array_fuse($phases);

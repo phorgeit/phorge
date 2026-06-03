@@ -44,8 +44,6 @@ abstract class PhabricatorEditEngineAPIMethod
 
     $types = $engine->getConduitEditTypes();
 
-    $out = array();
-
     return $this->buildEditTypesDocumentationPages($viewer, $engine, $types);
   }
 

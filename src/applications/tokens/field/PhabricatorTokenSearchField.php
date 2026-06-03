@@ -15,7 +15,6 @@ final class PhabricatorTokenSearchField
     $list = $this->getListFromRequest($request, $key);
 
     $phids = array();
-    $slugs = array();
     $token_type = PhabricatorTokenTokenPHIDType::TYPECONST;
     foreach ($list as $item) {
       $type = phid_get_type($item);

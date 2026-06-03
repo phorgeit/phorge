@@ -121,7 +121,6 @@ final class PHUIDiffInlineCommentDetailView
 
     $ghost_tag = null;
     $ghost = $inline->getIsGhost();
-    $ghost_id = null;
     if ($ghost) {
       if ($ghost['new']) {
         $ghosticon = 'fa-fast-forward';

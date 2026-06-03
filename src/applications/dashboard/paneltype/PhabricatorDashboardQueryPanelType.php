@@ -106,7 +106,6 @@ final class PhabricatorDashboardQueryPanelType
     $results_view = $engine->renderResults($results, $saved);
 
     $is_overheated = $query->getIsOverheated();
-    $overheated_view = null;
     if ($is_overheated) {
       $content = $results_view->getContent();
 

@@ -508,8 +508,6 @@ final class DiffusionCommitGraphView
   }
 
   private function addBuildAction(PHUIObjectItemView $item, $hash) {
-    $is_disabled = true;
-
     $buildable = null;
 
     $commit = $this->getCommit($hash);

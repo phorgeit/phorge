@@ -27,7 +27,6 @@ final class PhabricatorMetaMTAMemberQuery extends PhabricatorQuery {
     $viewer = $this->getViewer();
 
     $phids = array_fuse($this->phids);
-    $actors = array();
     $type_map = array();
     foreach ($phids as $phid) {
       $type_map[phid_get_type($phid)][] = $phid;

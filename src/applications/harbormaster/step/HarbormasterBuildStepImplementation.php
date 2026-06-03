@@ -156,7 +156,6 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
 
     $artifacts = array();
 
-    $artifact_arrays = array();
     foreach ($steps as $step) {
       if ($current_build_step !== null &&
         $step->getPHID() === $current_build_step->getPHID()) {

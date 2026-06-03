@@ -383,7 +383,6 @@ final class PHUITimelineEventView extends AphrontView {
     $show_badges = false;
 
     $group_titles = array();
-    $group_items = array();
     $group_children = array();
     foreach ($events as $event) {
       if ($event->shouldRenderEventTitle()) {

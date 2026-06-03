@@ -22,7 +22,6 @@ final class PhabricatorProjectBuiltinsExample extends PhabricatorUIExample {
 
     Javelin::initBehavior('phabricator-tooltips', array());
 
-    $map = array();
     $builtin_map = id(new FileFinder($root))
       ->withType('f')
       ->withFollowSymlinks(true)

@@ -330,7 +330,6 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
     $edits = preg_replace('/(d+)(x+)/', '\2\1', $edits);
 
     $vector = array();
-    $length = strlen($edits);
 
     $old_cursor = 0;
     $new_cursor = 0;

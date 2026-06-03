@@ -1259,7 +1259,6 @@ final class PhabricatorFile extends PhabricatorFileDAO
       }
     }
 
-    $build = array();
     foreach ($builtins as $key => $builtin) {
       if (isset($results[$key])) {
         continue;

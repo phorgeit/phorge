@@ -253,8 +253,6 @@ final class PhabricatorApplicationTransactionCommentView
       }
     }
 
-    $data = array();
-
     $comment = $this->renderCommentPanel();
 
     if ($this->getShowPreview()) {

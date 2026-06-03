@@ -35,7 +35,6 @@ final class PhabricatorConfigSettingsListController
       ->setBig(true)
       ->setFlush(true);
 
-    $rows = array();
     $options = PhabricatorApplicationConfigOptions::loadAllOptions();
     ksort($options);
 

@@ -139,7 +139,6 @@ final class DifferentialJIRAIssuesField
       $type,
       $xactions);
 
-    $transaction = null;
     foreach ($xactions as $xaction) {
       $old = $xaction->getOldValue();
       $new = $xaction->getNewValue();

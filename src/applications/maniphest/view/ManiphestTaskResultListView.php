@@ -59,8 +59,6 @@ final class ManiphestTaskResultListView extends ManiphestView {
       $group_parameter,
       $this->handles);
 
-    $result = array();
-
     $lists = array();
     foreach ($groups as $group => $list) {
       $task_list = new ManiphestTaskListView();

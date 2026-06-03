@@ -66,9 +66,6 @@ final class DrydockLandRepositoryOperation
     $viewer = $this->getViewer();
     $repository = $operation->getRepository();
 
-    $cmd = array();
-    $arg = array();
-
     $object = $operation->getObject();
     if ($object instanceof DifferentialRevision) {
       $revision = $object;

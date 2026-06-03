@@ -276,7 +276,6 @@ final class ManiphestReportController extends ManiphestController {
     Javelin::initBehavior('phabricator-tooltips', array());
 
     $rows = array();
-    $pri_total = array();
     foreach (array_merge($handles, array(null)) as $handle) {
       if ($handle) {
         if (($project_handle) &&

@@ -54,8 +54,6 @@ final class PhabricatorPeopleProfileTasksAuthoredController
   private function buildTasksView(PhabricatorUser $user) {
     $viewer = $this->getViewer();
 
-    $open = ManiphestTaskStatus::getOpenStatusConstants();
-
     $tasks = id(new ManiphestTaskQuery())
       ->setViewer($viewer)
       ->withAuthors(array($user->getPHID()))

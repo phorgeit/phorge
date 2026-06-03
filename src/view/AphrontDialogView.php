@@ -401,7 +401,6 @@ final class AphrontDialogView
     $errors = $this->errors;
 
     $ex = $this->validationException;
-    $exception_errors = null;
     if ($ex) {
       foreach ($ex->getErrors() as $error) {
         $errors[] = $error->getMessage();

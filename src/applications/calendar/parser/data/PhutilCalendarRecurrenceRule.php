@@ -1535,7 +1535,6 @@ final class PhutilCalendarRecurrenceRule
     }
 
     $result = array();
-    $seen = array();
 
     $ii = $cursor;
     while (true) {

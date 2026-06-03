@@ -5112,7 +5112,6 @@ abstract class PhabricatorApplicationTransactionEditor
     $this->stampTemplates = $this->newMailStampTemplates($object);
 
     $extensions = $this->newMailExtensions($object);
-    $stamps = array();
     foreach ($extensions as $extension) {
       $extension->newMailStamps($object, $xactions);
     }

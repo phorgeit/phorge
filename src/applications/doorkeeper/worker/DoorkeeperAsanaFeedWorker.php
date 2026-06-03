@@ -259,7 +259,6 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
     // First, find all the object references in Phabricator for tasks that we
     // know about and import their objects from Asana.
     $sub_edges = $edges[$src_phid][$etype_sub];
-    $sub_refs = array();
     $subtask_data = $this->getAsanaSubtaskData($object);
     $have_phids = array();
 

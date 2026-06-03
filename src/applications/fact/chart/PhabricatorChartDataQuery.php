@@ -52,8 +52,6 @@ final class PhabricatorChartDataQuery
    * @return array<int> Epoch timestamps of fitlered input data
    */
   public function selectInputValues(array $xv) {
-    $result = array();
-
     $x_min = $this->getMinimumValue();
     $x_max = $this->getMaximumValue();
     $limit = $this->getLimit();

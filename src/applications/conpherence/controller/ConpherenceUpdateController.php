@@ -36,7 +36,6 @@ final class ConpherenceUpdateController
     $latest_transaction_id = null;
     $response_mode = $request->isAjax() ? 'ajax' : 'redirect';
     $error_view = null;
-    $e_file = array();
     $errors = array();
     $delete_draft = false;
     $xactions = array();

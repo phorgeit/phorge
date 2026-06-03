@@ -31,8 +31,6 @@ final class DiffusionLowLevelGitRefQuery extends DiffusionLowLevelQuery {
 
     $repository = $this->getRepository();
 
-    $prefixes = array();
-
     $branch_prefix = 'refs/heads/';
     $tag_prefix = 'refs/tags/';
 

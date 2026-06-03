@@ -43,7 +43,6 @@ final class PhabricatorOwnersAuditRule
   public static function getStorageValueFromAPIValue($value) {
     $specs = self::newSpecifications();
 
-    $map = array();
     foreach ($specs as $key => $spec) {
       $deprecated = idx($spec, 'deprecated', array());
       if (isset($deprecated[$value])) {

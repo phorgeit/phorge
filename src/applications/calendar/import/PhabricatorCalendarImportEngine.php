@@ -222,7 +222,6 @@ abstract class PhabricatorCalendarImportEngine
 
     $xactions = array();
     $update_map = array();
-    $invitee_map = array();
     $attendee_name_map = array(); // map[eventUID][email from] = Attendee
     $attendee_user_map = array(); // map[eventUID][userPHID  ] = Attendee
     foreach ($node_map as $full_uid => $node) {

@@ -95,12 +95,6 @@ final class PhabricatorSearchApplicationSearchEngine
     AphrontFormView $form,
     PhabricatorSavedQuery $saved) {
 
-    $options = array();
-    $author_value = null;
-    $owner_value = null;
-    $subscribers_value = null;
-    $project_value = null;
-
     $author_phids = $saved->getParameter('authorPHIDs', array());
     $owner_phids = $this->readOwnerPHIDs($saved);
     $subscriber_phids = $saved->getParameter('subscriberPHIDs', array());

@@ -81,7 +81,6 @@ final class HarbormasterStepEditController
     $e_depends_on = null;
     $v_depends_on = $step->getDetail('dependsOn', array());
 
-    $errors = array();
     $validation_exception = null;
     if ($request->isFormPost()) {
       $e_name = null;

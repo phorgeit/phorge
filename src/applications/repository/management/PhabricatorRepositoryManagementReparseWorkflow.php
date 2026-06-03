@@ -188,7 +188,6 @@ final class PhabricatorRepositoryManagementReparseWorkflow
     $progress = new PhutilConsoleProgressBar();
     $progress->setTotal(count($commits));
 
-    $tasks = array();
     foreach ($commits as $commit) {
       $repository = $commit->getRepository();
 

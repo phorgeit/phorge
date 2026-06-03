@@ -592,8 +592,6 @@ final class DiffusionCommitController extends DiffusionController {
       $handles = $this->loadViewerHandles($phids);
     }
 
-    $props = array();
-
     if ($audit_requests) {
       $user_requests = array();
       $other_requests = array();

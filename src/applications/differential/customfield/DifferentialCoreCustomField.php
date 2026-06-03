@@ -47,7 +47,6 @@ abstract class DifferentialCoreCustomField
       $type,
       $xactions);
 
-    $transaction = null;
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
       if ($this->isCoreFieldRequired()) {
