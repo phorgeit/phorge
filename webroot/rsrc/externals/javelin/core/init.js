@@ -121,18 +121,6 @@
         what.preventDefault && what.preventDefault();
         document.body.id = 'event_capture';
 
-        // For versions of IE that use attachEvent, the event object is somehow
-        // stored globally by reference, and all the references we push to the
-        // master_event_queue will always refer to the most recent event. We
-        // work around this by popping the useless global event off the queue,
-        // and pushing a clone of the event that was just fired using the IE's
-        // proprietary createEventObject function.
-        // see: http://msdn.microsoft.com/en-us/library/ms536390(v=vs.85).aspx
-        if (!add_event_listener && document.createEventObject) {
-          master_event_queue.pop();
-          master_event_queue.push(document.createEventObject(what));
-        }
-
         return false;
       }
     }
