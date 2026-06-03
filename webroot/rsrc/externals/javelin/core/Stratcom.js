@@ -543,16 +543,6 @@ JX.install('Stratcom', {
             break;
         }
       }
-
-      // If the initializer tags did not explicitly allow framing, framebust.
-      // This protects us from clickjacking attacks on older versions of IE.
-      // The "X-Frame-Options" and "Content-Security-Policy" headers provide
-      // more modern variations of this protection.
-      if (!frameable) {
-        if (window.top != window.self) {
-          window.top.location.replace(window.self.location.href);
-        }
-      }
     },
 
     /**
