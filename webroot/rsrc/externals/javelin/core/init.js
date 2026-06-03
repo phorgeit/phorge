@@ -4,7 +4,6 @@
  * @provides javelin-magical-init
  *
  * @javelin-installs JX.__rawEventQueue
- * @javelin-installs JX.__simulate
  * @javelin-installs JX.__allowedEvents
  * @javelin-installs JX.enableDispatch
  * @javelin-installs JX.onload
@@ -50,7 +49,6 @@
   var onload = [];
   var master_event_queue = [];
   var root = document.documentElement;
-  var has_add_event_listener = !!root.addEventListener;
 
   window.__DEV__ = !!root.getAttribute('data-developer-mode');
 
@@ -162,14 +160,6 @@
     'load'
   ];
 
-  //  Simulate focus and blur in old versions of IE using focusin and focusout
-  //  TODO: Document the gigantic IE mess here with focus/blur.
-  //  TODO: beforeactivate/beforedeactivate?
-  //  http://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
-  if (!has_add_event_listener) {
-    document_events.push('focusin', 'focusout');
-  }
-
   //  Opera is multilol: it propagates focus / blur oddly
   if (window.opera) {
     document_events.push('focus', 'blur');
@@ -217,34 +207,9 @@
     JX.enableDispatch(window, window_events[ii]);
   }
 
-  JX.__simulate = function(node, event) {
-    if (!has_add_event_listener) {
-      var e = {target: node, type: event};
-      JX.__rawEventQueue(e);
-      if (e.returnValue === false) {
-        return false;
-      }
-    }
-  };
-
-  if (has_add_event_listener) {
-    document.addEventListener('DOMContentLoaded', function() {
-      JX.__rawEventQueue({type: 'domready'});
-    }, true);
-  } else {
-    var ready =
-      'if (this.readyState == "complete") {' +
-        'JX.__rawEventQueue({type: "domready"});' +
-      '}';
-
-    // NOTE: Don't write a 'src' attribute, because "javascript:void(0)" causes
-    // a mixed content warning in IE8 if the page is served over SSL.
-    document.write(
-      '<script' +
-      ' defer="defer"' +
-      ' onreadystatechange="' + ready + '"' +
-      '><\/sc' + 'ript' + '>');
-  }
+  document.addEventListener('DOMContentLoaded', function() {
+    JX.__rawEventQueue({type: 'domready'});
+  }, true);
 
   JX.onload = function(func) {
     if (loaded) {
