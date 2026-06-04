@@ -270,16 +270,8 @@ JX.install('Request', {
       } else if (type == 'XML') {
         var doc;
         try {
-          if (typeof DOMParser != 'undefined') {
-            var parser = new DOMParser();
-            doc = parser.parseFromString(text, 'text/xml');
-          } else {  // IE
-            // an XDomainRequest
-            doc = new ActiveXObject('Microsoft.XMLDOM');
-            doc.async = false;
-            doc.loadXML(xport.responseText);
-          }
-
+          var parser = new DOMParser();
+          doc = parser.parseFromString(text, 'text/xml');
           return doc.documentElement;
         } catch (exception) {
           if (__DEV__) {
