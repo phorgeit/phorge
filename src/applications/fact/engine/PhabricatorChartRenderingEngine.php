@@ -294,10 +294,6 @@ final class PhabricatorChartRenderingEngine
 
     $domain = $this->getDomain($functions);
 
-    $axis = id(new PhabricatorChartAxis())
-      ->setMinimumValue($domain->getMin())
-      ->setMaximumValue($domain->getMax());
-
     $data_query = id(new PhabricatorChartDataQuery())
       ->setMinimumValue($domain->getMin())
       ->setMaximumValue($domain->getMax())
