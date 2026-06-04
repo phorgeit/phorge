@@ -5,6 +5,18 @@ final class PhorgeNamedPolicyEditEngine
 
   const ENGINECONST = 'policy.named';
 
+  public function getEngineName() {
+    return pht('Named Policies');
+  }
+
+  public function getSummaryHeader() {
+    return pht('Configure Named Policy Forms');
+  }
+
+  public function getSummaryText() {
+    return pht('Configure creating and editing Named Policies.');
+  }
+
   public function getEngineApplicationClass() {
     return PhabricatorPolicyApplication::class;
   }
