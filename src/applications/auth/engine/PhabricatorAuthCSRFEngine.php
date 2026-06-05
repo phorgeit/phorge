@@ -28,6 +28,9 @@ final class PhabricatorAuthCSRFEngine extends Phobject {
     return Filesystem::readRandomCharacters($salt_length);
   }
 
+  /**
+   * @return string
+   */
   public function newToken() {
     $salt = $this->getSalt();
 

@@ -23,7 +23,7 @@ final class PhabricatorSubscriptionsSearchEngineAttachment
 
     $viewer = $this->getViewer();
     $viewer_phid = $viewer->getPHID();
-    if ($viewer) {
+    if ($viewer_phid) {
       $edges = id(new PhabricatorEdgeQuery())
         ->withSourcePHIDs($object_phids)
         ->withEdgeTypes(array($edge_type))

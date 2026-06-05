@@ -239,63 +239,59 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     Javelin::initBehavior('workflow', array());
 
     $user = $request->getUser();
-    if ($user) {
-      if ($user->isUserActivated()) {
-        // Only bother user about timezone offset if they have not set UTC
-        if ($user->getTimezoneIdentifier() !== 'UTC') {
-          $offset = $user->getTimeZoneOffset();
+    if ($user->isUserActivated()) {
+      // Only bother user about timezone offset if they have not set UTC
+      if ($user->getTimezoneIdentifier() !== 'UTC') {
+        $offset = $user->getTimeZoneOffset();
 
-          $ignore_key = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
-          $ignore = $user->getUserSetting($ignore_key);
+        $ignore_key = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
+        $ignore = $user->getUserSetting($ignore_key);
 
-          Javelin::initBehavior(
-            'detect-timezone',
-            array(
-              'offset' => $offset,
-              'uri' => '/settings/timezone/',
-              'message' => pht(
-                'Your browser timezone setting differs from the timezone '.
-                'setting in your profile, click to reconcile.'),
-              'ignoreKey' => $ignore_key,
-              'ignore' => $ignore,
-            ));
-        }
-
-        if ($user->getIsAdmin()) {
-          $server_https = $request->isHTTPS();
-          $server_protocol = $server_https ? 'HTTPS' : 'HTTP';
-          $client_protocol = $server_https ? 'HTTP' : 'HTTPS';
-
-          $doc_name = 'Configuring a Preamble Script';
-          $doc_href = PhabricatorEnv::getDoclink($doc_name);
-
-          Javelin::initBehavior(
-            'setup-check-https',
-            array(
-              'server_https' => $server_https,
-              'doc_name' => pht('See Documentation'),
-              'doc_href' => $doc_href,
-              'message' => pht(
-                'This server thinks you are using %s, but your '.
-                'client is convinced that it is using %s. This is a serious '.
-                'misconfiguration with subtle, but significant, consequences.',
-                $server_protocol, $client_protocol),
-            ));
-        }
+        Javelin::initBehavior(
+          'detect-timezone',
+          array(
+            'offset' => $offset,
+            'uri' => '/settings/timezone/',
+            'message' => pht(
+              'Your browser timezone setting differs from the timezone '.
+              'setting in your profile, click to reconcile.'),
+            'ignoreKey' => $ignore_key,
+            'ignore' => $ignore,
+          ));
       }
 
-      Javelin::initBehavior('lightbox-attachments');
+      if ($user->getIsAdmin()) {
+        $server_https = $request->isHTTPS();
+        $server_protocol = $server_https ? 'HTTPS' : 'HTTP';
+        $client_protocol = $server_https ? 'HTTP' : 'HTTPS';
+
+        $doc_name = 'Configuring a Preamble Script';
+        $doc_href = PhabricatorEnv::getDoclink($doc_name);
+
+        Javelin::initBehavior(
+          'setup-check-https',
+          array(
+            'server_https' => $server_https,
+            'doc_name' => pht('See Documentation'),
+            'doc_href' => $doc_href,
+            'message' => pht(
+              'This server thinks you are using %s, but your '.
+              'client is convinced that it is using %s. This is a serious '.
+              'misconfiguration with subtle, but significant, consequences.',
+              $server_protocol,
+              $client_protocol),
+          ));
+      }
     }
+
+    Javelin::initBehavior('lightbox-attachments');
 
     Javelin::initBehavior('aphront-form-disable-on-submit');
     Javelin::initBehavior('toggle-class', array());
     Javelin::initBehavior('history-install');
     Javelin::initBehavior('phabricator-gesture');
 
-    $current_token = null;
-    if ($user) {
-      $current_token = $user->getCSRFToken();
-    }
+    $current_token = $user->getCSRFToken();
 
     Javelin::initBehavior(
       'refresh-csrf',
@@ -343,11 +339,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
         $this->getConsoleConfig());
     }
 
-    if ($user) {
-      $viewer = $user;
-    } else {
-      $viewer = new PhabricatorUser();
-    }
+    $viewer = $user;
 
     $menu = id(new PhabricatorMainMenuView())
       ->setViewer($viewer);
@@ -392,10 +384,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     $request = $this->getRequest();
     if ($request) {
       $user = $request->getUser();
-      if ($user) {
-        $monospaced = $user->getUserSetting(
-          PhabricatorMonospacedFontSetting::SETTINGKEY);
-      }
+      $monospaced = $user->getUserSetting(
+        PhabricatorMonospacedFontSetting::SETTINGKEY);
     }
 
     $response = CelerityAPI::getStaticResourceResponse();
@@ -453,11 +443,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   }
 
   protected function getBody() {
-    $user = null;
     $request = $this->getRequest();
-    if ($request) {
-      $user = $request->getUser();
-    }
+    $user = $request->getUser();
 
     $header_chrome = null;
     if ($this->getShowChrome()) {
@@ -589,7 +576,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $with_protocol);
 
     if ($servers) {
-      if ($user && $user->isLoggedIn()) {
+      if ($user->isLoggedIn()) {
         // TODO: We could tell the browser about all the servers and let it
         // do random reconnects to improve reliability.
         shuffle($servers);
@@ -882,9 +869,6 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     }
 
     $user = $request->getUser();
-    if (!$user) {
-      return $default;
-    }
 
     return $user->getUserSetting($key);
   }

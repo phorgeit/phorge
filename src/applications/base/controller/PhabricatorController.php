@@ -456,9 +456,7 @@ abstract class PhabricatorController extends AphrontController {
     }
 
     $viewer = $this->getRequest()->getUser();
-    if ($viewer) {
-      $page->setViewer($viewer);
-    }
+    $page->setViewer($viewer);
 
     return $page;
   }

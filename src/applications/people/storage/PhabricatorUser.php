@@ -1019,6 +1019,9 @@ final class PhabricatorUser
 /* -(  CSRF  )--------------------------------------------------------------- */
 
 
+  /**
+   * @return string|null
+   */
   public function getCSRFToken() {
     if ($this->isOmnipotent()) {
       // We may end up here when called from the daemons. The omnipotent user
@@ -1044,6 +1047,9 @@ final class PhabricatorUser
     return $this;
   }
 
+  /**
+   * @return PhabricatorAuthCSRFEngine
+   */
   private function newCSRFEngine() {
     if ($this->getPHID()) {
       $vec = $this->getPHID().$this->getAccountSecret();

@@ -134,13 +134,8 @@ final class PHUIObjectItemListView extends AphrontTagView {
     }
 
     if ($this->items) {
-      if ($viewer) {
-        foreach ($this->items as $item) {
-          $item->setViewer($viewer);
-        }
-      }
-
       foreach ($this->items as $item) {
+        $item->setViewer($viewer);
         $item->addClass($this->itemClass);
       }
 

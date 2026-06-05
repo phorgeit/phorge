@@ -22,11 +22,9 @@ abstract class PhabricatorPeopleProfileController
     $crumbs = parent::buildApplicationCrumbs();
 
     $user = $this->getUser();
-    if ($user) {
-      $crumbs->addTextCrumb(
-        $user->getUsername(),
-        urisprintf('/p/%s/', $user->getUsername()));
-    }
+    $crumbs->addTextCrumb(
+      $user->getUsername(),
+      urisprintf('/p/%s/', $user->getUsername()));
 
     return $crumbs;
   }
