@@ -83,9 +83,6 @@ final class PHUITagExample extends PhabricatorUIExample {
       ->appendChild($intro)
       ->addPadding(PHUI::PADDING_LARGE);
 
-    $header1 = id(new PHUIHeaderView())
-      ->setHeader('Colors');
-
     $colors = PHUITagView::getColors();
     $tags = array();
     foreach ($colors as $color) {

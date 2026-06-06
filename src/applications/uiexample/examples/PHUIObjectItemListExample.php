@@ -200,8 +200,7 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
       ->setHeaderText('Action Link List')
       ->setObjectList($list);
 
-    $head = id(new PHUIHeaderView())
-      ->setHeader(pht('Extras'));
+    $out[] = $box;
 
     $list = id(new PHUIObjectItemListView())
       ->setViewer($viewer);
