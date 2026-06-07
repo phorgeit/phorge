@@ -59,7 +59,6 @@
   bottom: 88px;
   overflow-x: hidden;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .conpherence-messages.jx-scrollbar-frame {
