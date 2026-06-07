@@ -23,6 +23,7 @@ final class PHIDQueryConduitAPIMethod extends PHIDConduitAPIMethod {
   protected function defineErrorTypes() {
     return array(
       'ERR-BAD-PHID' => pht('Must pass PHIDs.'),
+      'ERR-BAD-PHIDS' => pht('PHIDs must be a list.'),
     );
   }
 
@@ -31,6 +32,9 @@ final class PHIDQueryConduitAPIMethod extends PHIDConduitAPIMethod {
 
     if (!$phids) {
       throw new ConduitException('ERR-BAD-PHID');
+    }
+    if (!is_array($phids)) {
+      throw new ConduitException('ERR-BAD-PHIDS');
     }
 
     $handles = id(new PhabricatorHandleQuery())
