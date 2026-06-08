@@ -113,7 +113,8 @@ final class PhabricatorConduitAPIController
 
       if ($ex instanceof ConduitException ||
           $ex instanceof PhutilTypeExtraParametersException ||
-          $ex instanceof PhutilTypeMissingParametersException) {
+          $ex instanceof PhutilTypeMissingParametersException ||
+          $ex instanceof PhutilJSONParserException) {
         // Expose error messages about invalid user input to the user only.
         $error_code = 'ERR-CONDUIT-CALL';
       } else {
@@ -124,7 +125,11 @@ final class PhabricatorConduitAPIController
         phlog($ex);
       }
 
-      $error_info = $ex->getMessage();
+      if ($ex instanceof ConduitException && $ex->getErrorDescription()) {
+        $error_info = $ex->getErrorDescription();
+      } else {
+        $error_info = $ex->getMessage();
+      }
     }
 
     $log
@@ -640,6 +645,14 @@ final class PhabricatorConduitAPIController
     return $value;
   }
 
+  /**
+   * @phutil-external-symbol class PhabricatorStartup
+   *
+   * @param AphrontRequest $request
+   * @param string $method
+   * @return array Tuple containing metadata, method parameters and whether the
+   *               call is strictly typed
+   */
   private function decodeConduitParams(
     AphrontRequest $request,
     $method) {
@@ -647,10 +660,20 @@ final class PhabricatorConduitAPIController
     $content_type = $request->getHTTPHeader('Content-Type');
 
     if ($content_type == 'application/json') {
-      throw new Exception(
-        pht('Use form-encoded data to submit parameters to Conduit endpoints. '.
-            'Sending a JSON-encoded body and setting \'Content-Type\': '.
-            '\'application/json\' is not currently supported.'));
+      $metadata = array();
+
+      $authorization = $request->getHTTPHeader('Authorization', '');
+
+      if (!strncmp('Bearer ', $authorization, 7)) {
+        $metadata['access_token'] = substr(7, $authorization);
+      } else if ($authorization !== '') {
+        $metadata['token'] = $authorization;
+      }
+
+      list(, $params) = $this->decodeConduitJSON(
+        PhabricatorStartup::getRawInput());
+
+      return array($metadata, $params, true);
     }
 
     // Look for parameters from the Conduit API Console, which are encoded
@@ -678,14 +701,15 @@ final class PhabricatorConduitAPIController
           // caution and fail. In the future, if we make the Conduit API
           // actually do type checking, it might be reasonable to treat it as
           // a string if the parameter type is string.
-          throw new ConduitException(
-            pht(
-              "The value for parameter '%s' is not valid JSON. All ".
-              "parameters must be encoded as JSON values, including strings ".
-              "(which means you need to surround them in double quotes). ".
-              "Check your syntax. Value was: %s.",
-              $key,
-              $value));
+          throw id(new ConduitException('ERR-CONDUIT-CALL'))
+            ->setErrorDescription(
+              pht(
+                "The value for parameter '%s' is not valid JSON. All ".
+                "parameters must be encoded as JSON values, including strings ".
+                "(which means you need to surround them in double quotes). ".
+                "Check your syntax. Value was: %s.",
+                $key,
+                $value));
         }
         $params[$key] = $decoded_value;
       }
@@ -706,28 +730,16 @@ final class PhabricatorConduitAPIController
     // entire param dictionary JSON encoded.
     $params_json = $request->getStr('params');
     if (phutil_nonempty_string($params_json)) {
-      $params = null;
       try {
-        $params = phutil_json_decode($params_json);
+        return $this->decodeConduitJSON($params_json);
       } catch (PhutilJSONParserException $ex) {
-        throw new ConduitException(
-          pht(
-            "Invalid parameter information was passed to method '%s'.",
-            $method),
-          0,
-          $ex);
+        throw id(new ConduitException('ERR-CONDUIT-CALL', 0, $ex))
+          ->setErrorDescription(
+            pht(
+              "Invalid parameter information was passed to method '%s': %s.",
+              $method,
+              $ex->getMessage()));
       }
-
-      $metadata = idx($params, '__conduit__', array());
-      if (!is_array($metadata)) {
-        throw new ConduitException(
-          pht(
-            "Parameter '%s' must be a valid JSON dictionary.",
-            '__conduit__'));
-      }
-      unset($params['__conduit__']);
-
-      return array($metadata, $params, true);
     }
 
     // If we do not have `params`, assume this is a simple HTTP request with
@@ -744,6 +756,22 @@ final class PhabricatorConduitAPIController
     }
 
     return array($metadata, $params, false);
+  }
+
+  private function decodeConduitJSON(string $json) {
+    $params = phutil_json_decode($json);
+
+    $metadata = idx($params, '__conduit__', array());
+    if (!is_array($metadata)) {
+      throw id(new ConduitException('ERR-CONDUIT-CALL'))
+        ->setErrorDescription(
+          pht(
+            "Parameter '%s' must be a valid JSON dictionary.",
+            '__conduit__'));
+    }
+    unset($params['__conduit__']);
+
+    return array($metadata, $params, true);
   }
 
   private function authorizeOAuthMethodAccess(

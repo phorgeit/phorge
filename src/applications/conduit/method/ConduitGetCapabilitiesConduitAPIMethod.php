@@ -52,6 +52,7 @@ final class ConduitGetCapabilitiesConduitAPIMethod extends ConduitAPIMethod {
       ),
       'input' => array(
         'json',
+        'json (params)',
         'urlencoded',
       ),
       'output' => array(

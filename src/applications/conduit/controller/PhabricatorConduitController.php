@@ -33,6 +33,9 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $curl_example = id(new PHUIPropertyListView())
       ->addRawContent($this->renderExample($method, 'curl', $params));
 
+    $json_example = id(new PHUIPropertyListView())
+      ->addRawContent($this->renderExample($method, 'json', $params));
+
     $php_example = id(new PHUIPropertyListView())
       ->addRawContent($this->renderExample($method, 'php', $params));
 
@@ -79,6 +82,11 @@ abstract class PhabricatorConduitController extends PhabricatorController {
           ->appendChild($curl_example))
       ->addTab(
         id(new PHUITabView())
+          ->setName(pht('cURL (JSON)'))
+          ->setKey('json')
+          ->appendChild($json_example))
+      ->addTab(
+        id(new PHUITabView())
           ->setName(pht('PHP'))
           ->setKey('php')
           ->appendChild($php_example));
@@ -104,6 +112,9 @@ abstract class PhabricatorConduitController extends PhabricatorController {
         break;
       case 'curl':
         $example = $this->buildCURLExample($method, $params);
+        break;
+      case 'json':
+        $example = $this->buildJSONExample($method, $params);
         break;
       default:
         throw new Exception(pht('Conduit client "%s" is not known.', $kind));
@@ -261,6 +272,66 @@ abstract class PhabricatorConduitController extends PhabricatorController {
 
       $parts[] = phutil_implode_html(array(' ', $linebreak), $lines);
     }
+
+    return $this->renderExampleCode($parts);
+  }
+
+  private function buildJSONExample(
+    ConduitAPIMethod $method,
+    $params) {
+
+    $call_uri = '/api/'.$method->getAPIMethodName();
+
+    $parts = array();
+
+    $break = array(phutil_tag('br'), '    ');
+    $linebreak = array('\\', phutil_tag('br'), '    ');
+
+    $parts[] = '$ curl ';
+    $parts[] = phutil_tag(
+      'strong',
+      array('class' => 'real'),
+      csprintf('%R', PhabricatorEnv::getURI($call_uri)));
+    $parts[] = ' ';
+    $parts[] = $linebreak;
+
+    $parts[] = '-H "Content-Type: application/json"';
+    $parts[] = $linebreak;
+    $parts[] = '-H "Authorization: ';
+    $parts[] = phutil_tag('strong', array(), 'api-token');
+    $parts[] = '" ';
+    $parts[] = $linebreak;
+
+    $parts[] = '-d';
+    $parts[] = ' ';
+    $parts[] = $linebreak;
+    $parts[] = "'{";
+    $parts[] = $break;
+
+    if (!$params) {
+      $parts[] = '  "';
+      $parts[] = phutil_tag('strong', array(), 'param');
+      $parts[] = '": "';
+      $parts[] = phutil_tag('strong', array(), 'value');
+      $parts[] = '"';
+    } else {
+      $params = $this->simplifyParams($params);
+
+      foreach ($params as $key => $value) {
+        $piece = csprintf('  "%s": "%s"', $key, $value);
+        $parts[] = phutil_tag('strong', array('class' => 'real'), $piece);
+        $parts[] = ',';
+        $parts[] = $break;
+      }
+
+      if (count($parts) > 1) {
+        array_pop($parts);
+        array_pop($parts);
+      }
+    }
+
+    $parts[] = $break;
+    $parts[] = "}'";
 
     return $this->renderExampleCode($parts);
   }
