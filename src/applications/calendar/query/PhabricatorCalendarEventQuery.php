@@ -294,7 +294,10 @@ final class PhabricatorCalendarEventQuery
       $parent_phid = $event->getInstanceOfEventPHID();
       $sequence = $event->getSequenceIndex();
 
-      $have_pairs[$parent_phid][$sequence] = true;
+      if ($parent_phid && $sequence !== null) {
+        $have_pairs[$parent_phid][$sequence] = true;
+      }
+
     }
 
     // Now, generate a map of all <parentPHID, sequence> events we generated
