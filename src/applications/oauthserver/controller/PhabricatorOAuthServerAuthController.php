@@ -292,8 +292,6 @@ final class PhabricatorOAuthServerAuthController
 
 
   private function buildErrorResponse($code, $title, $message) {
-    $viewer = $this->getRequest()->getUser();
-
     return $this->newDialog()
       ->setTitle(pht('OAuth: %s', $title))
       ->appendParagraph($message)

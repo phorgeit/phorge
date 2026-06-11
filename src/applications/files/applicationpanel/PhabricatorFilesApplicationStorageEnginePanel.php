@@ -14,7 +14,6 @@ final class PhabricatorFilesApplicationStorageEnginePanel
 
   public function buildConfigurationPagePanel() {
     $viewer = $this->getViewer();
-    $application = $this->getApplication();
 
     $engines = PhabricatorFileStorageEngine::loadAllEngines();
     $writable_engines = PhabricatorFileStorageEngine::loadWritableEngines();

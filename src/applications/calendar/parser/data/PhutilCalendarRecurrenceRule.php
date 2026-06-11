@@ -1034,9 +1034,7 @@ final class PhutilCalendarRecurrenceRule
       return;
     }
 
-    $frequency = $this->getFrequency();
     $interval = $this->getInterval();
-    $scale = $this->getFrequencyScale();
     $by_weekno = $this->getByWeekNumber();
 
     while (!$this->setWeeks) {

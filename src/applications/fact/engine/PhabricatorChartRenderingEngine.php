@@ -266,7 +266,6 @@ final class PhabricatorChartRenderingEngine
 
   private function newWireData($is_tabular) {
     $chart = $this->getStoredChart();
-    $chart_key = $chart->getChartKey();
 
     $chart_engine = PhabricatorChartEngine::newFromChart($chart)
       ->setViewer($this->getViewer());

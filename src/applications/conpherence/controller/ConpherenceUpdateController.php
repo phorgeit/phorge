@@ -214,7 +214,6 @@ final class ConpherenceUpdateController
 
     $request = $this->getRequest();
     $user = $request->getUser();
-    $add_person = $request->getStr('add_person');
 
     $form = id(new AphrontFormView())
       ->setUser($user)

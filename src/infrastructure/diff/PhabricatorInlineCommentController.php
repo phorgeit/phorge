@@ -407,7 +407,6 @@ abstract class PhabricatorInlineCommentController
   }
 
   private function buildEditDialog(PhabricatorInlineComment $inline) {
-    $request = $this->getRequest();
     $viewer = $this->getViewer();
 
     $edit_dialog = id(new PHUIDiffInlineCommentEditView())
@@ -432,7 +431,6 @@ abstract class PhabricatorInlineCommentController
     PhabricatorInlineComment $inline,
     $on_right) {
 
-    $request = $this->getRequest();
     $viewer = $this->getViewer();
 
     $engine = new PhabricatorMarkupEngine();

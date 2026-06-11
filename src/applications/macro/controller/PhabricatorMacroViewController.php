@@ -21,7 +21,6 @@ final class PhabricatorMacroViewController
     }
 
     $title_short = pht('Macro "%s"', $macro->getName());
-    $title_long  = pht('Image Macro "%s"', $macro->getName());
 
     $curtain = $this->buildCurtain($macro);
     $subheader = $this->buildSubheaderView($macro);

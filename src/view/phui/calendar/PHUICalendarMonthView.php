@@ -195,7 +195,6 @@ final class PHUICalendarMonthView extends AphrontView {
 
   private function getEventListCell($event_list) {
     $list = $event_list['list'];
-    $class = $event_list['class'];
     $count = $event_list['count'];
 
     $viewer_is_invited = $list->getIsViewerInvitedOnList();
@@ -231,7 +230,6 @@ final class PHUICalendarMonthView extends AphrontView {
   }
 
   private function getDayNumberCell($event_list) {
-    $class = $event_list['class'];
     $date = $event_list['date'];
     $week_number = null;
 

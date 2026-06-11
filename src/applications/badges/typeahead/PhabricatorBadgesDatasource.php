@@ -17,7 +17,6 @@ final class PhabricatorBadgesDatasource
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
 
     $params = $this->getParameters();
     $recipient_phid = $params['recipientPHID'];

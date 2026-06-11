@@ -1036,7 +1036,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $button = pht('Disable Menu Item');
     }
 
-    $v_visibility = $configuration->getVisibility();
     if ($request->isFormPost()) {
       if ($new_value === null) {
         $configuration->delete();

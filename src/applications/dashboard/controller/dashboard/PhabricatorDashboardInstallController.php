@@ -27,7 +27,6 @@ final class PhabricatorDashboardInstallController
     }
 
     $this->setDashboard($dashboard);
-    $cancel_uri = $dashboard->getURI();
 
     $workflow_key = $request->getURIData('workflowKey');
 

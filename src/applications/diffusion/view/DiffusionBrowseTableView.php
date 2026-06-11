@@ -15,7 +15,6 @@ final class DiffusionBrowseTableView extends DiffusionView {
 
   public function render() {
     $request = $this->getDiffusionRequest();
-    $repository = $request->getRepository();
     require_celerity_resource('diffusion-css');
 
     $base_path = trim($request->getPath(), '/');
@@ -104,7 +103,6 @@ final class DiffusionBrowseTableView extends DiffusionView {
 
     $branch = $this->getDiffusionRequest()->loadBranch();
     $show_lint = ($branch && $branch->getLintCommit());
-    $lint = $request->getLint();
 
     $view = new AphrontTableView($rows);
     $view->setColumnClasses(

@@ -58,8 +58,8 @@ final class PhabricatorCalendarImportViewController
 
   private function buildHeaderView(
     PhabricatorCalendarImport $import) {
+
     $viewer = $this->getViewer();
-    $id = $import->getID();
 
     if ($import->getIsDisabled()) {
       $icon = 'fa-ban';

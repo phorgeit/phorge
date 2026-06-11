@@ -52,7 +52,6 @@ final class ManiphestTaskResultListView extends ManiphestView {
     }
 
     $group_parameter = nonempty($query->getParameter('group'), 'priority');
-    $order_parameter = nonempty($query->getParameter('order'), 'priority');
 
     $groups = $this->groupTasks(
       $tasks,

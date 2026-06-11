@@ -11,8 +11,6 @@ final class DiffusionCommitAuditorsTransaction
   }
 
   public function generateNewValue($object, $value) {
-    $actor = $this->getActor();
-
     $auditors = $this->generateOldValue($object);
     $old_auditors = $auditors;
 
@@ -84,8 +82,6 @@ final class DiffusionCommitAuditorsTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    $src_phid = $object->getPHID();
-
     $old = $this->generateOldValue($object);
     $new = $value;
 

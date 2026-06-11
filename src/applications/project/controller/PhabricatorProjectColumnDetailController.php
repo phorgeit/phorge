@@ -22,8 +22,6 @@ final class PhabricatorProjectColumnDetailController
     }
     $this->setProject($project);
 
-    $project_id = $project->getID();
-
     $column = id(new PhabricatorProjectColumnQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))

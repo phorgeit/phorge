@@ -71,8 +71,6 @@ abstract class PhabricatorChartEngine
   final public function newStoredChart() {
     $viewer = $this->getViewer();
 
-    $parameters = $this->getEngineParameters();
-
     $chart = id(new PhabricatorFactChart())
       ->setChartParameter(self::KEY_ENGINE, $this->getChartEngineKey())
       ->setChartParameter(self::KEY_PARAMETERS, $this->getEngineParameters());

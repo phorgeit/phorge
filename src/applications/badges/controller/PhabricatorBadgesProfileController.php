@@ -21,7 +21,6 @@ abstract class PhabricatorBadgesProfileController
   protected function buildHeaderView() {
     $viewer = $this->getViewer();
     $badge = $this->getBadge();
-    $id = $badge->getID();
 
     if ($badge->isArchived()) {
       $status_icon = 'fa-ban';

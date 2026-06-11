@@ -60,7 +60,6 @@ final class PhabricatorProjectWorkboardProfileMenuItem
     PhabricatorProfileMenuItemConfiguration $config) {
     $project = $config->getProfileObject();
 
-    $id = $project->getID();
     $uri = $project->getWorkboardURI();
     $name = $this->getDisplayName($config);
 

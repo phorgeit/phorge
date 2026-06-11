@@ -15,8 +15,6 @@ final class PhabricatorProjectManageController
 
     $viewer = $request->getUser();
     $project = $this->getProject();
-    $id = $project->getID();
-    $picture = $project->getProfileImageURI();
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Project History'))

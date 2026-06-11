@@ -68,8 +68,6 @@ final class PHUIDiffInlineCommentEditView
         $buttons,
       ));
 
-    $inline = $this->getInlineComment();
-
     return javelin_tag(
       'div',
       array(

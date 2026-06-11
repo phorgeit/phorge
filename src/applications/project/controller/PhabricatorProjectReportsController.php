@@ -21,7 +21,6 @@ final class PhabricatorProjectReportsController
     }
 
     $project = $this->getProject();
-    $id = $project->getID();
 
     $nav = $this->newNavigation(
       $project,

@@ -42,9 +42,6 @@ final class PhabricatorSSHKeysSettingsPanel extends PhabricatorSettingsPanel {
       ->setCanEdit(true)
       ->setNoDataString(pht("You haven't added any SSH Public Keys."));
 
-    $panel = new PHUIObjectBoxView();
-    $header = new PHUIHeaderView();
-
     $ssh_actions = PhabricatorAuthSSHKeyTableView::newKeyActionsMenu(
       $viewer,
       $user);

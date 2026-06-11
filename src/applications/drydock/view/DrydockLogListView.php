@@ -57,9 +57,6 @@ final class DrydockLogListView extends AphrontView {
     $logs = $this->logs;
     $viewer = $this->getUser();
 
-    $view = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
-
     $types = DrydockLogType::getAllLogTypes();
 
     $rows = array();

@@ -112,7 +112,6 @@ final class PhabricatorWorkboardViewState
   }
 
   private function newURI($path) {
-    $project = $this->getProject();
     $uri = new PhutilURI($path);
 
     $request_order = $this->getOrder();

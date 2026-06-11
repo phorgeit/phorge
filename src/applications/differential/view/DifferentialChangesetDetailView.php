@@ -138,8 +138,6 @@ final class DifferentialChangesetDetailView extends AphrontView {
 
     $display_filename = $changeset->getDisplayFilename();
     $display_icon = FileTypeIcon::getFileIcon($display_filename);
-    $icon = id(new PHUIIconView())
-      ->setIcon($display_icon);
 
     $changeset_id = $this->changeset->getID();
 

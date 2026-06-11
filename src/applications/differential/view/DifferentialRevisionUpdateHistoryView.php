@@ -69,7 +69,6 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
     $max_id = $diff->getID();
     $revision_id = $diff->getRevisionID();
 
-    $idx = 0;
     $rows = array();
     $disable = false;
     $radios = array();

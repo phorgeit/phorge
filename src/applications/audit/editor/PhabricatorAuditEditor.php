@@ -178,10 +178,6 @@ final class PhabricatorAuditEditor
     }
     $object->attachAudits($commit->getAudits());
 
-    $actor_phid = $this->getActingAsPHID();
-    $actor_is_author = ($object->getAuthorPHID()) &&
-      ($actor_phid == $object->getAuthorPHID());
-
     $import_status_flag = null;
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {

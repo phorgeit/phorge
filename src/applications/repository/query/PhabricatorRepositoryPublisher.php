@@ -60,7 +60,6 @@ final class PhabricatorRepositoryPublisher
   }
 
   public function getRefHoldReasons(DiffusionRepositoryRef $ref) {
-    $repository = $this->getRepository();
     $reasons = $this->getRepositoryHoldReasons();
 
     foreach ($this->getRefImpermanentReasons($ref) as $reason) {

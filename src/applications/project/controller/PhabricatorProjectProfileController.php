@@ -16,7 +16,6 @@ final class PhabricatorProjectProfileController
     $viewer = $request->getUser();
     $project = $this->getProject();
     $id = $project->getID();
-    $picture = $project->getProfileImageURI();
     $icon = $project->getDisplayIconIcon();
     $icon_name = $project->getDisplayIconName();
     $tag = id(new PHUITagView())

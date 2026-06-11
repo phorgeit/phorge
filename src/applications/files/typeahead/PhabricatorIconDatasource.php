@@ -24,8 +24,6 @@ final class PhabricatorIconDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   private function buildResults() {
-    $raw_query = $this->getRawQuery();
-
     $icons = id(new PHUIIconView())->getIcons();
 
     $results = array();

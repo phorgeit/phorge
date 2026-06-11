@@ -95,8 +95,6 @@ abstract class PhabricatorRepositoryCommitMessageParserWorker
       $commit->setCommitterIdentityPHID($committer_identity->getPHID());
     }
 
-    $repository = $this->repository;
-
     $author_phid = $data->getCommitDetail('authorPHID');
     $committer_phid = $data->getCommitDetail('committerPHID');
 

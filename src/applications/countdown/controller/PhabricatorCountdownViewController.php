@@ -23,7 +23,6 @@ final class PhabricatorCountdownViewController
       ->setUser($viewer)
       ->setCountdown($countdown);
 
-    $id = $countdown->getID();
     $title = $countdown->getTitle();
 
     $crumbs = $this

@@ -448,8 +448,6 @@ final class DiffusionBrowseController extends DiffusionController {
     $show_editor) {
 
     $viewer = $this->getViewer();
-    $base_uri = $this->getRequest()->getRequestURI();
-
     $repository = $drequest->getRepository();
     $path = $drequest->getPath();
     $line = nonempty((int)$drequest->getLine(), 1);

@@ -17,7 +17,6 @@ abstract class PhabricatorDashboardProfileController
   protected function buildHeaderView() {
     $viewer = $this->getViewer();
     $dashboard = $this->getDashboard();
-    $id = $dashboard->getID();
 
     if ($dashboard->isArchived()) {
       $status_icon = 'fa-ban';

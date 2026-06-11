@@ -763,7 +763,6 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     $clauses = array();
     $accumulated = array();
-    $last_key = last_key($columns);
     foreach ($columns as $key => $column) {
       $type = $column['type'];
 

@@ -45,10 +45,6 @@ final class DrydockAuthorizationViewController
     $crumbs->addTextCrumb($title);
     $crumbs->setBorder(true);
 
-    $object_box = id(new PHUIObjectBoxView())
-      ->setHeader($header)
-      ->addPropertyList($properties);
-
     $view = id(new PHUITwoColumnView())
       ->setHeader($header)
       ->setCurtain($curtain)

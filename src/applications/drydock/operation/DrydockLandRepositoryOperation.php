@@ -63,8 +63,8 @@ final class DrydockLandRepositoryOperation
   public function applyOperation(
     DrydockRepositoryOperation $operation,
     DrydockInterface $interface) {
+
     $viewer = $this->getViewer();
-    $repository = $operation->getRepository();
 
     $object = $operation->getObject();
     if ($object instanceof DifferentialRevision) {

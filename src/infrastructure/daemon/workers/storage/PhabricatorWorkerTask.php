@@ -62,7 +62,6 @@ abstract class PhabricatorWorkerTask extends PhabricatorWorkerDAO {
   }
 
   final public function getWorkerInstance() {
-    $id = $this->getID();
     $class = $this->getTaskClass();
 
     try {

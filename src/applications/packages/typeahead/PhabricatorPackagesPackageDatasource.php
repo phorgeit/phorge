@@ -17,7 +17,6 @@ final class PhabricatorPackagesPackageDatasource
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
 
     $package_query = new PhabricatorPackagesPackageQuery();
     $packages = $this->executeQuery($package_query);

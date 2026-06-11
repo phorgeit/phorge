@@ -804,8 +804,6 @@ final class ManiphestTransactionEditor
       }
     }
 
-    $actor_phid = $this->getActingAsPHID();
-
     $was_locked = ManiphestTaskStatus::areEditsLockedInStatus(
       $old_status);
     $now_locked = ManiphestTaskStatus::areEditsLockedInStatus(

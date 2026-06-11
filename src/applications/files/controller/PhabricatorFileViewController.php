@@ -33,8 +33,6 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
       return new Aphront404Response();
     }
 
-    $phid = $file->getPHID();
-
     $header = id(new PHUIHeaderView())
       ->setViewer($viewer)
       ->setPolicyObject($file)

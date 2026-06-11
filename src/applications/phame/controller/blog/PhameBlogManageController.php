@@ -71,10 +71,6 @@ final class PhameBlogManageController extends PhameBlogController {
     $crumbs->addTextCrumb(pht('Manage Blog'));
     $crumbs->setBorder(true);
 
-    $object_box = id(new PHUIObjectBoxView())
-      ->setHeader($header)
-      ->addPropertyList($properties);
-
     $timeline = $this->buildTransactionTimeline(
       $blog,
       new PhameBlogTransactionQuery());
@@ -159,10 +155,6 @@ final class PhameBlogManageController extends PhameBlogController {
     $viewer = $this->getViewer();
 
     $curtain = $this->newCurtainView($blog);
-
-    $actions = id(new PhabricatorActionListView())
-      ->setObject($blog)
-      ->setUser($viewer);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,

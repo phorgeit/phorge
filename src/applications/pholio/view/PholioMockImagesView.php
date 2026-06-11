@@ -156,12 +156,7 @@ final class PholioMockImagesView extends AphrontView {
     if (!$this->getMock()) {
       throw new PhutilInvalidStateException('setMock');
     }
-    $mock = $this->getMock();
-
     require_celerity_resource('javelin-behavior-pholio-mock-view');
-
-    $panel_id = $this->panelID;
-    $viewport_id = $this->viewportID;
 
     $config = $this->getBehaviorConfig();
     Javelin::initBehavior(

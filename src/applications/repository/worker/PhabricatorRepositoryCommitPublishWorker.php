@@ -177,8 +177,6 @@ final class PhabricatorRepositoryCommitPublishWorker
       return array();
     }
 
-    $data = $commit->getCommitData();
-
     $author_phid = $commit->getEffectiveAuthorPHID();
 
     $revision = DiffusionCommitRevisionQuery::loadRevisionForCommit(

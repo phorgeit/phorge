@@ -16,7 +16,6 @@ final class PhabricatorProjectSubprojectsController
     }
 
     $project = $this->getProject();
-    $id = $project->getID();
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,

@@ -26,7 +26,6 @@ final class DiffusionRepositoryStorageManagementPanel
   }
 
   public function buildManagementPanelCurtain() {
-    $repository = $this->getRepository();
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 

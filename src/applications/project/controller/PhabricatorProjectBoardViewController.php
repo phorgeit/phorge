@@ -352,13 +352,6 @@ final class PhabricatorProjectBoardViewController
 
     $manage_menu = $this->buildManageMenu($project, $state->getShowHidden());
 
-    $header_link = phutil_tag(
-      'a',
-      array(
-        'href' => $this->getApplicationURI('profile/'.$project->getID().'/'),
-      ),
-      $project->getName());
-
     $board_box = id(new PHUIBoxView())
       ->appendChild($board)
       ->addClass('project-board-wrapper');
@@ -451,8 +444,6 @@ final class PhabricatorProjectBoardViewController
 
       $items[] = $item;
     }
-
-    $id = $project->getID();
 
     $save_uri = $state->newWorkboardURI('default/sort/');
 
@@ -549,8 +540,6 @@ final class PhabricatorProjectBoardViewController
 
       $items[] = $item;
     }
-
-    $id = $project->getID();
 
     $filter_uri = $state->newWorkboardURI('filter/');
 
