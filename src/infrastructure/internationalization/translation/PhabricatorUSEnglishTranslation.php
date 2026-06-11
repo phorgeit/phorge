@@ -794,7 +794,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited task(s), added %s: %s; removed %s: %s.' =>
-        '%s edited tasks, added: %3$s; removed: $5$s',
+        '%s edited tasks, added: %3$s; removed: %5$s',
 
       '%s edited task(s) for %s, added %s: %s; removed %s: %s.' =>
         '%s edited tasks for %s: added: %4$s; removed: %6$s.',
