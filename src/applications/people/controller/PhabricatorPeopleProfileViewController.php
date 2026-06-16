@@ -25,8 +25,6 @@ final class PhabricatorPeopleProfileViewController
     $header = $this->buildProfileHeader();
 
     $properties = $this->buildPropertyView($user);
-    $name = $user->getUsername();
-
     $feed = $this->buildPeopleFeed($user, $viewer);
 
     $view_all = id(new PHUIButtonView())

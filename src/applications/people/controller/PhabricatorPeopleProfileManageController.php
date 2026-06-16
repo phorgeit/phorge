@@ -27,7 +27,6 @@ final class PhabricatorPeopleProfileManageController
 
     $curtain = $this->buildCurtain($user);
     $properties = $this->buildPropertyView($user);
-    $name = $user->getUsername();
 
     $nav = $this->newNavigation(
       $user,

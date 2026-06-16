@@ -501,7 +501,6 @@ abstract class PhabricatorAuthProvider extends Phobject {
       ));
 
     $viewer = $request->getUser();
-    $adapter = $this->getAdapter();
 
     if ($mode == 'link') {
       $button_text = pht('Link External Account');

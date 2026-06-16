@@ -426,9 +426,6 @@ final class PhabricatorProjectTransactionEditor
     PhabricatorLiskDAO $object,
     array $xactions) {
 
-    $actor = $this->getActor();
-    $actor_phid = $actor->getPHID();
-
     $results = parent::expandTransactions($object, $xactions);
 
     $is_milestone = $object->isMilestone();

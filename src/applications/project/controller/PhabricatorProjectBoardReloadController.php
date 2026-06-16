@@ -24,8 +24,6 @@ final class PhabricatorProjectBoardReloadController
     $state = $this->getViewState();
     $board_uri = $state->newWorkboardURI();
 
-    $layout_engine = $state->getLayoutEngine();
-
     $board_phid = $project->getPHID();
 
     $objects = $state->getObjects();

@@ -20,8 +20,6 @@ final class PhrictionHistoryController
       return new Aphront404Response();
     }
 
-    $current = $document->getContent();
-
     $pager = id(new AphrontCursorPagerView())
       ->readFromRequest($request);
 

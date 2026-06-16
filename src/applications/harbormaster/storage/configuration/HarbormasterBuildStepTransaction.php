@@ -19,9 +19,6 @@ final class HarbormasterBuildStepTransaction
   public function getTitle() {
     $author_phid = $this->getAuthorPHID();
 
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
     switch ($this->getTransactionType()) {
       case self::TYPE_CREATE:
         return pht(
@@ -33,11 +30,6 @@ final class HarbormasterBuildStepTransaction
   }
 
   public function getIcon() {
-    $author_phid = $this->getAuthorPHID();
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
     switch ($this->getTransactionType()) {
       case self::TYPE_CREATE:
         return 'fa-plus';
@@ -47,11 +39,6 @@ final class HarbormasterBuildStepTransaction
   }
 
   public function getColor() {
-    $author_phid = $this->getAuthorPHID();
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
     switch ($this->getTransactionType()) {
       case self::TYPE_CREATE:
         return 'green';

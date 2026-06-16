@@ -29,7 +29,6 @@ final class PhabricatorAuthFactorProviderEditController
   }
 
   private function buildFactorSelectionResponse() {
-    $request = $this->getRequest();
     $viewer = $this->getViewer();
 
     $cancel_uri = $this->getApplicationURI('mfa/');

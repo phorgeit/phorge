@@ -20,8 +20,6 @@ final class HarbormasterUnitMessageListController
       return new Aphront404Response();
     }
 
-    $id = $buildable->getID();
-
     $target_phids = array();
     foreach ($buildable->getBuilds() as $build) {
       foreach ($build->getBuildTargets() as $target) {

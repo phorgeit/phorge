@@ -20,9 +20,6 @@ final class PholioInlineListController extends PholioController {
       $id,
       $viewer->getPHID());
 
-    $author_phids = mpull($inline_comments, 'getAuthorPHID');
-    $authors = $this->loadViewerHandles($author_phids);
-
     $inlines = array();
     foreach ($inline_comments as $inline_comment) {
       $inlines[] = $inline_comment->toDictionary();

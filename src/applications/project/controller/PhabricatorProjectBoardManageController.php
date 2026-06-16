@@ -28,8 +28,6 @@ final class PhabricatorProjectBoardManageController
 
     $columns = $layout_engine->getColumns($board->getPHID());
 
-    $board_id = $board->getID();
-
     $header = $this->buildHeaderView($board);
     $curtain = $this->buildCurtainView($board);
 

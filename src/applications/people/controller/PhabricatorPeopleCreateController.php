@@ -23,22 +23,6 @@ final class PhabricatorPeopleCreateController
 
     $title = pht('Create New User');
 
-    $standard_caption = pht(
-      'Create a standard user account. These users can log in, '.
-      'use the web interface and API, and receive email.');
-
-    $standard_admin = pht(
-      'Administrators are limited in their ability to access or edit these '.
-      'accounts after account creation.');
-
-    $bot_caption = pht(
-      'Create a bot/script user account, to automate interactions with other '.
-      'systems. These users can not use the web interface, but can use the '.
-      'API.');
-
-    $bot_admin = pht(
-      'Administrators have greater access to edit these accounts.');
-
     $types = array();
 
     $can_create = $this->hasApplicationCapability(
@@ -47,14 +31,19 @@ final class PhabricatorPeopleCreateController
       $types[] = array(
         'type' => 'standard',
         'name' => pht('Create Standard User'),
-        'help' => pht('Create a standard user account.'),
+        'help' => pht(
+          'Create a standard user account. These users can log in, use the '.
+          'web interface and API, and receive email.'),
       );
     }
 
     $types[] = array(
       'type' => 'bot',
       'name' => pht('Create Bot User'),
-      'help' => pht('Create a new user for use with automated scripts.'),
+      'help' => pht(
+        'Create a bot/script user account, to automate interactions with '.
+        'other systems. These users can not use the web interface, but can '.
+        'use the Conduit API.'),
     );
 
     $types[] = array(

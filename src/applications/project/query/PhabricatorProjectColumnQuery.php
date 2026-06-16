@@ -83,8 +83,6 @@ final class PhabricatorProjectColumnQuery
       $column->attachProject($project);
     }
 
-    $proxy_phids = array_filter(mpull($page, 'getProjectPHID'));
-
     return $page;
   }
 

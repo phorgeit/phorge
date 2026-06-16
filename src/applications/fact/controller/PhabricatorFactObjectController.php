@@ -35,7 +35,6 @@ final class PhabricatorFactObjectController
         ->addCancelButton($this->getApplicationURI());
     }
 
-    $key_dimension = new PhabricatorFactKeyDimension();
     $object_phid = $object->getPHID();
 
     $facts = array();
@@ -52,9 +51,6 @@ final class PhabricatorFactObjectController
 
       $timings[$key] = ($t_end - $t_start);
     }
-
-    $object_id = id(new PhabricatorFactObjectDimension())
-      ->newDimensionID($object_phid, true);
 
     $stored_datapoints = id(new PhabricatorFactDatapointQuery())
       ->withFacts(array_mergev($facts))
@@ -100,9 +96,6 @@ final class PhabricatorFactObjectController
     }
 
     $handles = $viewer->loadHandles($handle_phids);
-
-    $dimension_map = id(new PhabricatorFactObjectDimension())
-      ->newDimensionMap($handle_phids, true);
 
     $content = array();
 

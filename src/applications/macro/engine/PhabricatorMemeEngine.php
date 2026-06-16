@@ -275,7 +275,6 @@ final class PhabricatorMemeEngine extends Phobject {
 
     $metrics = $this->getMetrics($dx, $dy);
     $font = $this->getFont();
-    $size = $metrics['size'];
 
     $above = $this->getAboveText();
     if ($above !== null && phutil_nonempty_string(trim($above))) {

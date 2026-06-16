@@ -34,8 +34,6 @@ final class DiffusionBlameController extends DiffusionController {
       $commits = array();
     }
 
-    $commit_map = mpull($commits, 'getCommitIdentifier', 'getPHID');
-
     $revision_map = DiffusionCommitRevisionQuery::loadRevisionMapForCommits(
       $viewer,
       $commits);

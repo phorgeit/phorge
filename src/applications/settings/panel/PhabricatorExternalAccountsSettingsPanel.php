@@ -22,8 +22,6 @@ final class PhabricatorExternalAccountsSettingsPanel
   public function processRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $providers = PhabricatorAuthProvider::getAllProviders();
-
     $accounts = id(new PhabricatorExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))

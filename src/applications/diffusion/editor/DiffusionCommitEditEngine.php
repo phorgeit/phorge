@@ -97,7 +97,6 @@ final class DiffusionCommitEditEngine
 
   protected function buildCustomEditFields($object) {
     $viewer = $this->getViewer();
-    $data = $object->getCommitData();
 
     $fields = array();
     // remove "Change Auditors" from "Add Action" dropdown etc

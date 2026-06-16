@@ -6,7 +6,6 @@ final class PhabricatorProjectSilenceController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
-    $action = $request->getURIData('action');
 
     $project = id(new PhabricatorProjectQuery())
       ->setViewer($viewer)

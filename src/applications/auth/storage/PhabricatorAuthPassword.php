@@ -148,13 +148,13 @@ final class PhabricatorAuthPassword
 
     $object_phid = $object->getPHID();
 
-    if ($this->getObjectPHID() !== $object->getPHID()) {
+    if ($this->getObjectPHID() !== $object_phid) {
       throw new Exception(
         pht(
           'This password is associated with an object PHID ("%s") for '.
           'a different object than the provided one ("%s").',
           $this->getObjectPHID(),
-          $object->getPHID()));
+          $object_phid));
     }
 
     $digest = $object->newPasswordDigest($password, $this);
@@ -164,7 +164,7 @@ final class PhabricatorAuthPassword
         pht(
           'Failed to digest password: object ("%s") did not return an '.
           'opaque envelope with a password digest.',
-          $object->getPHID()));
+          $object_phid));
     }
 
     return $digest;
