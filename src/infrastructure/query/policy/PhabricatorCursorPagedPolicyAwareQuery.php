@@ -2051,7 +2051,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
       $value = $raw_token->getValue();
 
-      $length = count(phutil_utf8v($value));
+      $length = phutil_utf8_strlen($value);
 
       if ($raw_token->getOperator() == $op_sub) {
         $is_substring = true;
@@ -2474,7 +2474,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $this->ngrams[] = array(
         'index' => $index,
         'value' => $value,
-        'length' => count(phutil_utf8v($value)),
+        'length' => phutil_utf8_strlen($value),
       );
     }
 
