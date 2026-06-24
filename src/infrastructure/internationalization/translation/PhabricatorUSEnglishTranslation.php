@@ -2207,10 +2207,6 @@ final class PhabricatorUSEnglishTranslation
         'Done, compacted %s edge transaction.',
         'Done, compacted %s edge transactions.',
       ),
-      '%s line(s)' => array(
-        '%s line',
-        '%s line(s)',
-      ),
       'Adjusted **%s** create statements and **%s** use statements.' => array(
         array(
           'Adjusted **%s** create statement and **%s** use statement.',
