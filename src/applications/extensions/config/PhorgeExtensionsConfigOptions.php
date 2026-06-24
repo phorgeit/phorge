@@ -16,6 +16,10 @@ extends PhabricatorApplicationConfigOptions {
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhorgeExtensionsApplication::class;
+  }
+
   public function getOptions() {
     $options = array();
 

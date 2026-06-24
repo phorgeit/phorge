@@ -80,10 +80,4 @@ final class PhabricatorSearchApplicationStorageEnginePanel
     return $box;
   }
 
-  public function handlePanelRequest(
-    AphrontRequest $request,
-    PhabricatorController $controller) {
-    return new Aphront404Response();
-  }
-
 }

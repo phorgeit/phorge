@@ -19,6 +19,10 @@ final class PhabricatorCoreConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     if (phutil_is_windows()) {
       $paths = array();

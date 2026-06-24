@@ -19,6 +19,10 @@ final class PhabricatorAuthenticationConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorAuthApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('auth.require-email-verification', 'bool', false)

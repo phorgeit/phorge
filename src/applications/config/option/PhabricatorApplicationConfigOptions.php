@@ -3,8 +3,11 @@
 abstract class PhabricatorApplicationConfigOptions extends Phobject {
 
   abstract public function getName();
+
   abstract public function getDescription();
+
   abstract public function getGroup();
+
   /**
    * @return array<PhabricatorConfigOption>
    */
@@ -18,11 +21,16 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
    * Get corresponding application class for configuration options. Child
    * classes returning a classname should also have getGroup() return 'apps'.
    *
-   * @return class-string|null Application class name, or null if the config
-   *  options are not related to a specific application.
+   * @return class-string Application class name
    */
   public function getApplicationClassName() {
-    return null;
+    phlog(
+      pht(
+        'Warning - %s must implement `%s`. This method will become abstract '.
+        'in the near future.',
+        get_class($this),
+        'getApplicationClassName()'));
+    return PhabricatorSystemApplication::class;
   }
 
   public function validateOption(PhabricatorConfigOption $option, $value) {
@@ -41,7 +49,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
         $this->didValidateOption($option, $value);
       } catch (PhabricatorConfigValidationException $ex) {
         throw $ex;
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         // If custom validators threw exceptions other than validation
         // exceptions, convert them to validation exceptions so we repair the
         // configuration and raise an error.
@@ -54,7 +62,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
     if ($option->isCustomType()) {
       try {
         return $option->getCustomObject()->validateOption($option, $value);
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         throw new PhabricatorConfigValidationException($ex->getMessage());
       }
     } else {
@@ -63,13 +71,12 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
           'Unknown configuration option type "%s".',
           $option->getType()));
     }
-
-    $this->didValidateOption($option, $value);
   }
 
   protected function didValidateOption(
     PhabricatorConfigOption $option,
     $value) {
+
     // Hook for subclasses to do complex validation.
     return;
   }
@@ -87,6 +94,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
   public function renderContextualDescription(
     PhabricatorConfigOption $option,
     AphrontRequest $request) {
+
     return null;
   }
 
@@ -110,6 +118,9 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
       ->setGroup($this);
   }
 
+  /**
+   * @return array<string, PhabricatorApplicationConfigOptions>
+   */
   final public static function loadAll($external_only = false) {
     $symbols = id(new PhutilSymbolLoader())
       ->setAncestorClass(self::class)
@@ -145,6 +156,31 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
   final public static function loadAllOptions($external_only = false) {
     $groups = self::loadAll($external_only);
 
+    return self::extractOptions($groups);
+  }
+
+  /**
+   * @param array<string> $applications list of application classes
+   * @return array<PhabricatorConfigOption>
+   */
+  final public static function loadOptionsForApplications($applications) {
+    $groups = self::loadAll();
+
+    $applicable = array_fill_keys($applications, true);
+
+    foreach ($groups as $key => $group) {
+      if (!idx($applicable, $group->getApplicationClassName())) {
+        unset($groups[$key]);
+      }
+    }
+
+    return self::extractOptions($groups);
+  }
+
+  /**
+   * @param array<PhabricatorApplicationConfigOptions> $groups
+   */
+  private static function extractOptions($groups) {
     $options = array();
     foreach ($groups as $group) {
       foreach ($group->getOptions() as $option) {

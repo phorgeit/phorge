@@ -19,6 +19,10 @@ final class PhabricatorPolicyConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorPolicyApplication::class;
+  }
+
   public function getOptions() {
     $policy_locked_type = 'custom:PolicyLockOptionType';
     $policy_locked_example = array(

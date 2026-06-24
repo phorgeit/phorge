@@ -19,6 +19,10 @@ final class PhabricatorTranslationsConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('translation.override', 'wild', array())

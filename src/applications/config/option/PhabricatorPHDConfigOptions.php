@@ -19,6 +19,10 @@ final class PhabricatorPHDConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorDaemonsApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('phd.log-directory', 'string', '/var/tmp/phd/log')

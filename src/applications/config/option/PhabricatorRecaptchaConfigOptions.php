@@ -19,6 +19,10 @@ final class PhabricatorRecaptchaConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
 
     return array(

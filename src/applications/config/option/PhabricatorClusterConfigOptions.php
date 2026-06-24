@@ -19,6 +19,10 @@ final class PhabricatorClusterConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     $databases_type = 'cluster.databases';
     $databases_help = $this->deformat(pht(<<<EOTEXT

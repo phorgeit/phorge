@@ -19,6 +19,10 @@ final class PhabricatorAccessLogConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     $common_map = array(
       'C' => pht('The controller or workflow which handled the request.'),

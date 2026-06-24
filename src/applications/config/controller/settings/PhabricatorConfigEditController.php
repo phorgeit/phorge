@@ -36,9 +36,14 @@ final class PhabricatorConfigEditController
     }
 
     $issue = $request->getStr('issue');
+    $app_key = $request->getStr('application');
     if ($issue) {
       // If the user came here from an open setup issue, send them back.
       $done_uri = $this->getApplicationURI('issue/'.$issue.'/');
+    } else if ($app_key) {
+      // Not taking this from the Option object because we want to go back to
+      // where we actually came from.
+      $done_uri = "/applications/view/{$app_key}/";
     } else {
       $done_uri = $this->getApplicationURI('settings/');
     }
@@ -152,8 +157,16 @@ final class PhabricatorConfigEditController
     }
 
     $form
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('issue', $request->getStr('issue'));
+
+    $application = $option->getGroup()->getApplicationClassName();
+    $application = PhabricatorApplication::getByClass($application);
+    $form->appendChild(
+      id(new AphrontFormStaticControl())
+        ->setDisabled(true)
+        ->setValue($application->getName())
+        ->setLabel(pht('Application source')));
 
     $description = $option->newDescriptionRemarkupView($viewer);
     if ($description) {
@@ -254,7 +267,7 @@ final class PhabricatorConfigEditController
         } catch (PhabricatorConfigValidationException $ex) {
           $errors[] = $ex->getMessage();
           $xaction = null;
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
           // NOTE: Some older validators throw bare exceptions. Purely in good
           // taste, it would be nice to convert these at some point.
           $errors[] = $ex->getMessage();

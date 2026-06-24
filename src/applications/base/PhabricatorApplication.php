@@ -416,20 +416,6 @@ abstract class PhabricatorApplication
   }
 
   /**
-   * @return array<PhabricatorApplication>
-   */
-  final public static function getAllUninstalledApplications() {
-    $all_applications = self::getAllApplications();
-    $apps = array();
-    foreach ($all_applications as $app) {
-      if (!$app->isInstalled()) {
-        $apps[] = $app;
-      }
-    }
-    return $apps;
-  }
-
-  /**
    * Determine if an application is enabled, by application class name.
    *
    * To check if an application is enabled //and// available to a particular

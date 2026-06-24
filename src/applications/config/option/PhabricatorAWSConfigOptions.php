@@ -19,6 +19,10 @@ final class PhabricatorAWSConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorFilesApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('amazon-s3.access-key', 'string', null)

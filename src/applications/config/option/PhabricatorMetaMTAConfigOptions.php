@@ -19,6 +19,10 @@ final class PhabricatorMetaMTAConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorMetaMTAApplication::class;
+  }
+
   public function getOptions() {
     $send_as_user_desc = $this->deformat(pht(<<<EODOC
 When a user takes an action which generates an email notification (like

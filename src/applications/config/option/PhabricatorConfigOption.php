@@ -97,6 +97,7 @@ final class PhabricatorConfigOption
     return $this;
   }
 
+  /** @return PhabricatorApplicationConfigOptions */
   public function getGroup() {
     return $this->group;
   }

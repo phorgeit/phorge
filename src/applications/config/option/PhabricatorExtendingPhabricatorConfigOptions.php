@@ -19,6 +19,10 @@ final class PhabricatorExtendingPhabricatorConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('load-libraries', 'list<string>', array())
