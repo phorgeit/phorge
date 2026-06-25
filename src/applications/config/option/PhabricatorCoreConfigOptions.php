@@ -324,8 +324,8 @@ EOREMARKUP
         throw new PhabricatorConfigValidationException(
           pht(
             "Config option '%s' is invalid. The URI must NOT have a path, ".
-            "e.g. '%s' is OK, but '%s' is not. This software must be '.
-            'installed on an entire domain; it can not be installed on a path.",
+            "e.g. '%s' is OK, but '%s' is not. This software must be ".
+            "installed on an entire domain; it can not be installed on a path.",
             $key,
             'https://devtools.example.com/',
             'https://example.com/devtools/'));
