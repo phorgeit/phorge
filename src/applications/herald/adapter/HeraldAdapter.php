@@ -482,14 +482,14 @@ abstract class HeraldAdapter extends Phobject {
             pht('Expected condition value to be an array.'));
         }
         $condition_value = array_fuse($condition_value);
-        return isset($condition_value[$field_value]);
+        return $field_value !== null && isset($condition_value[$field_value]);
       case self::CONDITION_IS_NOT_ANY:
         if (!is_array($condition_value)) {
           throw new HeraldInvalidConditionException(
             pht('Expected condition value to be an array.'));
         }
         $condition_value = array_fuse($condition_value);
-        return !isset($condition_value[$field_value]);
+        return $field_value === null || !isset($condition_value[$field_value]);
       case self::CONDITION_INCLUDE_ALL:
         if (!is_array($field_value)) {
           throw new HeraldInvalidConditionException(
