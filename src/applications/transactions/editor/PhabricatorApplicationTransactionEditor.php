@@ -3243,6 +3243,9 @@ abstract class PhabricatorApplicationTransactionEditor
     return $errors;
   }
 
+  /**
+   * @return PhabricatorLiskDAO An enhanced copy of the input object
+   */
   protected function adjustObjectForPolicyChecks(
     PhabricatorLiskDAO $object,
     array $xactions) {

@@ -195,7 +195,7 @@ final class PhorgeInternationalizationValidator extends Phobject {
         throw new Exception(pht(
           'Strings have not yet been extracted for library %s. '.
           'Run `%s` for that library first to extract them or '.
-          're-run with `%s` to automatically extract missing strngs.',
+          're-run with `%s` to automatically extract missing strings.',
           $lib,
           'bin/i18n extract',
           '--extract'));

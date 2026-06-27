@@ -91,7 +91,7 @@ final class AphrontRoutingMap extends Phobject {
    * Test a sub-map to see if any routes match a path.
    *
    * @param string $route Pattern from the map.
-   * @param string $value Value from the map.
+   * @param string|array $value Value from the map.
    * @param string $path Path to route.
    * @return array<string, array<string>|string>|null Match details, if path
    *   matches sub-map.

@@ -53,6 +53,9 @@ final class PhutilRemarkupBlockStorage extends Phobject {
     return $key;
   }
 
+  /**
+   * @param PhutilSafeHTML $corpus
+   */
   public function restore($corpus, $text_mode = false) {
     $map = $this->map;
 

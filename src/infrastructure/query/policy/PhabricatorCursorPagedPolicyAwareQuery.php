@@ -131,12 +131,18 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this->newPagingMapFromPartialObject($object);
   }
 
+  /**
+   * @return array{0: string, 1: int}
+   */
   protected function newPagingMapFromPartialObject($object) {
     return array(
       'id' => (int)$object->getID(),
     );
   }
 
+  /**
+   * @return string Cursor
+   */
   private function getExternalCursorStringForResult($object) {
     $cursor = $this->newExternalCursorStringForResult($object);
 
@@ -170,6 +176,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this;
   }
 
+  /**
+   * @return PhabricatorQueryCursor
+   */
   private function getInternalCursorObject() {
     return $this->internalCursorObject;
   }
@@ -180,6 +189,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this;
   }
 
+  /**
+   * @return PhabricatorQueryCursor
+   */
   private function getInternalCursorFromExternalCursor(
     $cursor_string) {
 

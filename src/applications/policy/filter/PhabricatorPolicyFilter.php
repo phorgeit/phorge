@@ -74,6 +74,9 @@ final class PhabricatorPolicyFilter extends Phobject {
       ->apply(array($object));
   }
 
+  /**
+   * @return bool
+   */
   public static function hasCapability(
     PhabricatorUser $user,
     PhabricatorPolicyInterface $object,
@@ -87,6 +90,9 @@ final class PhabricatorPolicyFilter extends Phobject {
     return (count($result) == 1);
   }
 
+  /**
+   * @return bool
+   */
   public static function canInteract(
     PhabricatorUser $user,
     PhabricatorPolicyInterface $object) {
@@ -448,6 +454,9 @@ final class PhabricatorPolicyFilter extends Phobject {
     return $result;
   }
 
+  /**
+   * @return bool
+   */
   private function checkCapability(
     PhabricatorPolicyInterface $object,
     $capability) {
@@ -683,6 +692,9 @@ final class PhabricatorPolicyFilter extends Phobject {
     $this->customPolicies[$viewer_phid] += $custom_policies;
   }
 
+  /**
+   * @return bool
+   */
   private function checkCustomPolicy(
     $policy_phid,
     PhabricatorPolicyInterface $object) {
