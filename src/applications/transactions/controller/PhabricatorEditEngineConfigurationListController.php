@@ -63,10 +63,12 @@ final class PhabricatorEditEngineConfigurationListController
     $target_key = $this->getEngineKey();
     $target_engine = PhabricatorEditEngine::getByKey($viewer, $target_key);
 
-    id(new PhabricatorEditEngineConfigurationEditEngine())
-      ->setTargetEngine($target_engine)
-      ->setViewer($viewer)
-      ->addActionToCrumbs($crumbs);
+    if ($target_engine) {
+      id(new PhabricatorEditEngineConfigurationEditEngine())
+        ->setTargetEngine($target_engine)
+        ->setViewer($viewer)
+        ->addActionToCrumbs($crumbs);
+    }
 
     return $crumbs;
   }
