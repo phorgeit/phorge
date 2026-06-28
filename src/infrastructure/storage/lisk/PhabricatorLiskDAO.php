@@ -288,6 +288,14 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
     return $result;
   }
 
+  /**
+   * Assert that a property has been attached.
+   *
+   * @template T
+   * @param T $property Property value
+   * @return T Attached property value
+   * @throws PhabricatorDataNotAttachedException
+   */
   protected function assertAttached($property) {
     if ($property === self::ATTACHABLE) {
       throw new PhabricatorDataNotAttachedException($this);
