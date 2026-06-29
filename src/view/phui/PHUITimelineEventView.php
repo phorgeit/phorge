@@ -527,8 +527,7 @@ final class PHUITimelineEventView extends AphrontView {
         'div',
         array(
           'class' => 'phui-timeline-event-view '.
-                     'phui-timeline-spacer '.
-                     'phui-timeline-spacer-bold',
+                     'phui-timeline-spacer',
         ));
     }
 
