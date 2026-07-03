@@ -3,7 +3,6 @@
 final class PHUIWorkboardView extends AphrontTagView {
 
   private $panels = array();
-  private $actions = array();
 
   public function addPanel(PHUIWorkpanelView $panel) {
     $this->panels[] = $panel;

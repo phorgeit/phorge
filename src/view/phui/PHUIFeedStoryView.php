@@ -9,9 +9,7 @@ final class PHUIFeedStoryView extends AphrontView {
   private $epoch;
   private $viewed;
   private $href;
-  private $pontification = null;
   private $tokenBar = array();
-  private $projects = array();
   private $actions = array();
   private $chronologicalKey;
   private $tags;
@@ -104,11 +102,6 @@ final class PHUIFeedStoryView extends AphrontView {
 
   public function getShowTimestamp() {
     return $this->showTimestamp;
-  }
-
-  public function addProject($project) {
-    $this->projects[] = $project;
-    return $this;
   }
 
   public function addAction(PHUIIconView $action) {

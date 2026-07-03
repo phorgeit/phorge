@@ -11,8 +11,6 @@ final class PHUICalendarDayView extends AphrontView {
   private $query;
   private $events = array();
 
-  private $allDayEvents = array();
-
   public function addEvent(AphrontCalendarEventView $event) {
     $this->events[] = $event;
     return $this;

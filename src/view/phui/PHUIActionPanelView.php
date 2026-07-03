@@ -9,7 +9,6 @@ final class PHUIActionPanelView extends AphrontTagView {
   private $subHeader;
   private $bigText;
   private $state;
-  private $status;
 
   const COLOR_RED = 'phui-action-panel-red';
   const COLOR_ORANGE = 'phui-action-panel-orange';
@@ -52,11 +51,6 @@ final class PHUIActionPanelView extends AphrontTagView {
 
   public function setState($state) {
     $this->state = $state;
-    return $this;
-  }
-
-  public function setStatus($text) {
-    $this->status = $text;
     return $this;
   }
 

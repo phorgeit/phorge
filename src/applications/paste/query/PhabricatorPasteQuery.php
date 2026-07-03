@@ -15,7 +15,6 @@ final class PhabricatorPasteQuery
   private $needRawContent;
   private $needSnippets;
   private $languages;
-  private $includeNoLanguage;
   private $dateCreatedAfter;
   private $dateCreatedBefore;
   private $statuses;
@@ -57,7 +56,6 @@ final class PhabricatorPasteQuery
   }
 
   public function withLanguages(array $languages) {
-    $this->includeNoLanguage = false;
     foreach ($languages as $key => $language) {
       if ($language === null) {
         $languages[$key] = '';

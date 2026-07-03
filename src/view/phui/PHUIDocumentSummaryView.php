@@ -3,8 +3,6 @@
 final class PHUIDocumentSummaryView extends AphrontTagView {
 
   private $title;
-  private $image;
-  private $imageHref;
   private $subtitle;
   private $href;
   private $summary;
@@ -17,16 +15,6 @@ final class PHUIDocumentSummaryView extends AphrontTagView {
 
   public function setSubtitle($subtitle) {
     $this->subtitle = $subtitle;
-    return $this;
-  }
-
-  public function setImage($image) {
-    $this->image = $image;
-    return $this;
-  }
-
-  public function setImageHref($image_href) {
-    $this->imageHref = $image_href;
     return $this;
   }
 

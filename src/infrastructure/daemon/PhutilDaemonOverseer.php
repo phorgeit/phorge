@@ -19,9 +19,6 @@ final class PhutilDaemonOverseer extends Phobject {
   private $libraries = array();
   private $modules = array();
   private $verbose;
-  private $startEpoch;
-  private $autoscale = array();
-  private $autoscaleConfig = array();
 
   const SIGNAL_NOTIFY = 'signal/notify';
   const SIGNAL_RELOAD = 'signal/reload';
@@ -108,8 +105,6 @@ EOHELP
     }
 
     self::$instance = $this;
-
-    $this->startEpoch = time();
 
     if (!idx($config, 'daemons')) {
       throw new PhutilArgumentUsageException(

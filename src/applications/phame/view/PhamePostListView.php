@@ -137,8 +137,6 @@ final class PhamePostListView extends AphrontTagView {
         ->setTitle($post->getTitle())
         ->setHref($post_uri)
         ->setSubtitle($subtitle)
-        ->setImage($blogger_image)
-        ->setImageHref($blogger_uri)
         ->setSummary($phame_post)
         ->setDraft($post->isDraft());
 

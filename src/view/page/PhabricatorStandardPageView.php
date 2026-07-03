@@ -17,7 +17,6 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   private $pageObjects = array();
   private $applicationMenu;
   private $showFooter = true;
-  private $showDurableColumn = true;
   private $quicksandConfig = array();
   private $tabs;
   private $crumbs;
@@ -76,11 +75,9 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     return $this;
   }
 
-  public function setShowDurableColumn($show) {
-    $this->showDurableColumn = $show;
-    return $this;
-  }
-
+  /**
+   * @return bool Whether to render a ConpherenceDurableColumnView
+   */
   public function getShowDurableColumn() {
     $request = $this->getRequest();
     if (!$request) {
