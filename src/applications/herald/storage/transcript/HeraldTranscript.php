@@ -22,6 +22,11 @@ final class HeraldTranscript extends HeraldDAO
 
   const TABLE_SAVED_HEADER = 'herald_savedheader';
 
+  /**
+   * Create the mail header value which lists applied Herald rules
+   *
+   * @return string
+   */
   public function getXHeraldRulesHeader() {
     $ids = array();
     foreach ($this->applyTranscripts as $xscript) {
