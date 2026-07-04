@@ -65,6 +65,7 @@ final class PhorgeNamedPolicyEditEngine
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the Policy.'))
         ->setConduitDescription(pht('Rename the policy.'))
+        ->setConduitTypeDescription(pht('New policy name.'))
         ->setTransactionType(
           PhorgePolicyNamedPolicyNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
@@ -72,6 +73,8 @@ final class PhorgeNamedPolicyEditEngine
       id(new PhabricatorRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
+        ->setConduitDescription(pht('Edit the description of the policy.'))
+        ->setConduitTypeDescription(pht('New description of the policy.'))
         ->setTransactionType(
           PhorgePolicyNamedPolicyDescriptionTransaction::TRANSACTIONTYPE)
         ->setValue($object->getDescription()),
@@ -91,15 +94,15 @@ final class PhorgeNamedPolicyEditEngine
       $fields[] = id(new PhabricatorDatasourceEditField())
         ->setKey('targetobjecttype')
         ->setLabel(pht('Target Object Type'))
+        ->setConduitDescription(
+          pht('Set the type of object this policy can apply to.'))
+        ->setConduitTypeDescription(pht('A four-letter object type.'))
         ->setControlInstructions($target_object_type_instructions)
         // TODO make custom datasource - filter to implementing PolicyInterface
         ->setDatasource(new PhabricatorSearchDocumentTypeDatasource())
         ->setTransactionType(
           PhorgePolicyNamedPolicyTargetObjectTypeTransaction::TRANSACTIONTYPE)
         ->setSingleValue($object->getTargetObjectType());
-
-
-
 
     $effective_policy_instructions = pht(
       'When selected as the policy for other objects, this policy will behave '.
@@ -114,6 +117,10 @@ final class PhorgeNamedPolicyEditEngine
     $fields[] = id(new PhabricatorPolicyEditField())
       ->setKey('namedpolicy.policy')
       ->setLabel(pht('Effective Policy'))
+      ->setConduitDescription(
+        pht('The effective policy which this policy will behave like when '.
+          'selected as the policy for other objects.'))
+      ->setConduitTypeDescription(pht('Existing policy PHID or constant.'))
       ->setControlInstructions($effective_policy_instructions)
       ->setCapability(PhorgeNamedPolicyEffectivePolicyCapability::CAPABILITY)
       ->setTemplateObject($reference_object)
