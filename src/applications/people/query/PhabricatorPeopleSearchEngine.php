@@ -13,7 +13,6 @@ final class PhabricatorPeopleSearchEngine
 
   public function newQuery() {
     return id(new PhabricatorPeopleQuery())
-      ->needPrimaryEmail(true)
       ->needProfileImage(true);
   }
 

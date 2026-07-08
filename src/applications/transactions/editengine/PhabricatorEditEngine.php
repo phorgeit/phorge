@@ -2546,7 +2546,8 @@ abstract class PhabricatorEditEngine
       return $fields;
     }
 
-    if (!$this->getSelectedPage()) {
+    $selected_page = $this->getSelectedPage();
+    if (!$selected_page) {
       return $fields;
     }
 
@@ -2574,12 +2575,7 @@ abstract class PhabricatorEditEngine
       $page_map[$default_key][$field_key] = $field;
     }
 
-    $page = $this->getSelectedPage();
-    if (!$page) {
-      $page = head($pages);
-    }
-
-    $selected_key = $page->getKey();
+    $selected_key = $selected_page->getKey();
     return $page_map[$selected_key];
   }
 

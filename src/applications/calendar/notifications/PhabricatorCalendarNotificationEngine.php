@@ -264,7 +264,7 @@ final class PhabricatorCalendarNotificationEngine
     $body = new PhabricatorMetaMTAMailBody();
     foreach ($events as $event) {
       $body->addTextSection(
-        null,
+        '',
         pht(
           '%s is starting in %s minute(s), at %s.',
           $event->getEvent()->getName(),

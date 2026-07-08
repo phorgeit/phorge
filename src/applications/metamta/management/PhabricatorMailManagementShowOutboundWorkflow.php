@@ -50,15 +50,13 @@ final class PhabricatorMailManagementShowOutboundWorkflow
       'id IN (%Ld)',
       $ids);
 
-    if ($ids) {
-      $ids = array_fuse($ids);
-      $missing = array_diff_key($ids, $messages);
-      if ($missing) {
-        throw new PhutilArgumentUsageException(
-          pht(
-            'Some specified messages do not exist: %s',
-            implode(', ', array_keys($missing))));
-      }
+    $ids = array_fuse($ids);
+    $missing = array_diff_key($ids, $messages);
+    if ($missing) {
+      throw new PhutilArgumentUsageException(
+        pht(
+          'Some specified messages do not exist: %s',
+          implode(', ', array_keys($missing))));
     }
 
     $last_key = last_key($messages);

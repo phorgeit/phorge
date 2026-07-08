@@ -179,7 +179,7 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
 
     $query = id(new PhabricatorEdgeQuery())
       ->withSourcePHIDs(array_keys($results))
-      ->withEdgeTypes($legacy_edge_map);
+      ->withEdgeTypes(array_values($legacy_edge_map));
 
     $query->execute();
 

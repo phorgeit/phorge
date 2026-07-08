@@ -101,7 +101,7 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
    *      Text is indented.
    *
    * @param string $header Header text.
-   * @param string $section Section text.
+   * @param string|PhabricatorMetaMTAMailSection $section Section text.
    * @return $this
    * @task compose
    */

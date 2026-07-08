@@ -181,7 +181,7 @@ final class DivinerLiveSymbol extends DivinerDAO
    * @return string
    */
   public function getMethodClassname() {
-    if (!$this->getType() === DivinerAtom::TYPE_METHOD) {
+    if ($this->getType() !== DivinerAtom::TYPE_METHOD) {
       throw new Exception(
         pht("Symbol '%s' is not a method!", $this->getName()));
     }

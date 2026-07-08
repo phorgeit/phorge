@@ -592,10 +592,6 @@ final class PhabricatorJupyterDocumentEngine
   }
 
   private function newOutput(array $output) {
-    if (!is_array($output)) {
-      return pht('<Invalid Output>');
-    }
-
     $classes = array(
       'jupyter-output',
       'PhabricatorMonospaced',

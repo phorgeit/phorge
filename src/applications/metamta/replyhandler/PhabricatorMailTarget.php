@@ -181,7 +181,8 @@ final class PhabricatorMailTarget extends Phobject {
    * Get the recipients list, in HTML-text format.
    * @param array<PhabricatorObjectHandle> $to_handles
    * @param array<PhabricatorObjectHandle> $cc_handles
-   * @return PhutilSafeHTML
+   * @return PhutilSafeHTML|string HTML, or an empty string when the config
+   *   setting to render recipients is not enabled
    */
   private function getRecipientsSummaryHTML(
     array $to_handles,

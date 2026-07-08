@@ -23,7 +23,6 @@ final class PhabricatorPeopleQuery
   private $namePrefixes;
   private $isEnrolledInMultiFactor;
 
-  private $needPrimaryEmail;
   private $needProfile;
   private $needAvailability;
   private $cacheKeys = array();
@@ -109,11 +108,6 @@ final class PhabricatorPeopleQuery
 
   public function withIsEnrolledInMultiFactor($enrolled) {
     $this->isEnrolledInMultiFactor = $enrolled;
-    return $this;
-  }
-
-  public function needPrimaryEmail($need) {
-    $this->needPrimaryEmail = $need;
     return $this;
   }
 

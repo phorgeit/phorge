@@ -154,7 +154,7 @@ final class PhutilJIRAAuthAdapter extends PhutilOAuth1AuthAdapter {
     }
 
     $public_key = openssl_pkey_get_details($res);
-    if (!$ok || empty($public_key['key'])) {
+    if (empty($public_key['key'])) {
       throw new Exception(pht('%s failed!', 'openssl_pkey_get_details()'));
     }
     $public_key = $public_key['key'];
