@@ -155,83 +155,84 @@ final class ManiphestTaskResultListView extends ManiphestView {
     $user = $this->getUser();
 
     if (!$this->canBatchEdit) {
-      return null;
+      $editor = id(new PHUIInfoView())
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
+        ->setErrors(
+          array(
+            pht('You do not have permission to batch edit tasks.'),
+          ));
+    } else {
+
+      Javelin::initBehavior(
+        'maniphest-batch-selector',
+        array(
+          'selectAll'   => 'batch-select-all',
+          'selectNone'  => 'batch-select-none',
+          'submit'      => 'batch-select-submit',
+          'status'      => 'batch-select-status-cell',
+          'idContainer' => 'batch-select-id-container',
+          'formID'      => 'batch-select-form',
+        ));
+
+      $select_all = javelin_tag(
+        'a',
+        array(
+          'href'        => '#',
+          'mustcapture' => true,
+          'class'       => 'button button-grey',
+          'id'          => 'batch-select-all',
+        ),
+        pht('Select All'));
+
+      $select_none = javelin_tag(
+        'a',
+        array(
+          'href'        => '#',
+          'mustcapture' => true,
+          'class'       => 'button button-grey',
+          'id'          => 'batch-select-none',
+        ),
+        pht('Clear Selection'));
+
+      $submit = phutil_tag(
+        'button',
+        array(
+          'id'          => 'batch-select-submit',
+          'disabled'    => 'disabled',
+          'class'       => 'disabled',
+        ),
+        pht("Bulk Edit Selected \xC2\xBB"));
+
+      $hidden = phutil_tag(
+        'div',
+        array(
+          'id' => 'batch-select-id-container',
+        ),
+        '');
+
+      $editor = hsprintf(
+          '<div class="maniphest-batch-editor-layout">'.
+            '<div class="batch-select-left">'.
+              '%s%s'.
+            '</div>'.
+            '<div id="batch-select-status-cell">%s</div>'.
+            '<div class="batch-select-submit-cell">%s%s</div>'.
+          '</div>',
+        $select_all,
+        $select_none,
+        '',
+        $submit,
+        $hidden);
+
+      $editor = phabricator_form(
+        $user,
+        array(
+          'method' => 'POST',
+          'action' => '/maniphest/bulk/',
+          'id'     => 'batch-select-form',
+        ),
+        $editor);
     }
-
-    if (!$user->isLoggedIn()) {
-      // Don't show the batch editor for logged-out users.
-      return null;
-    }
-
-    Javelin::initBehavior(
-      'maniphest-batch-selector',
-      array(
-        'selectAll'   => 'batch-select-all',
-        'selectNone'  => 'batch-select-none',
-        'submit'      => 'batch-select-submit',
-        'status'      => 'batch-select-status-cell',
-        'idContainer' => 'batch-select-id-container',
-        'formID'      => 'batch-select-form',
-      ));
-
-    $select_all = javelin_tag(
-      'a',
-      array(
-        'href'        => '#',
-        'mustcapture' => true,
-        'class'       => 'button button-grey',
-        'id'          => 'batch-select-all',
-      ),
-      pht('Select All'));
-
-    $select_none = javelin_tag(
-      'a',
-      array(
-        'href'        => '#',
-        'mustcapture' => true,
-        'class'       => 'button button-grey',
-        'id'          => 'batch-select-none',
-      ),
-      pht('Clear Selection'));
-
-    $submit = phutil_tag(
-      'button',
-      array(
-        'id'          => 'batch-select-submit',
-        'disabled'    => 'disabled',
-        'class'       => 'disabled',
-      ),
-      pht("Bulk Edit Selected \xC2\xBB"));
-
-    $hidden = phutil_tag(
-      'div',
-      array(
-        'id' => 'batch-select-id-container',
-      ),
-      '');
-
-    $editor = hsprintf(
-        '<div class="maniphest-batch-editor-layout">'.
-          '<div class="batch-select-left">'.
-            '%s%s'.
-          '</div>'.
-          '<div id="batch-select-status-cell">%s</div>'.
-          '<div class="batch-select-submit-cell">%s%s</div>'.
-        '</div>',
-      $select_all,
-      $select_none,
-      '',
-      $submit,
-      $hidden);
-
-    $editor = phabricator_form(
-      $user,
-      array(
-        'method' => 'POST',
-        'action' => '/maniphest/bulk/',
-        'id'     => 'batch-select-form',
-      ),
-      $editor);
 
     $box = id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Batch Task Editor'))
