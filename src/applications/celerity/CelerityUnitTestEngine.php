@@ -21,6 +21,9 @@ final class CelerityUnitTestEngine extends ArcanistUnitTestEngine {
       if ($this->renderer) {
         $test_case->setRenderer($this->renderer);
       }
+      if ($this->reporter) {
+        $test_case->setReporter($this->reporter);
+      }
       $result = $test_case->run();
       $test_case->didRunTestCases(array($test_case));
       return $result;
