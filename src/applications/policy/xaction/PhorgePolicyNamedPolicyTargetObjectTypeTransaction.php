@@ -48,14 +48,25 @@ extends PhorgePolicyNamedPolicyTransactionType {
     }
     return $phid_type->getTypeName();
 
-
   }
-
 
   public function validateTransactions($object, array $xactions) {
     $errors = array();
+    $viewer = $this->getActor();
+    $installed_types = PhabricatorPHIDType::getAllInstalledTypes($viewer);
+    $valid_types = implode(', ', array_keys($installed_types));
 
-    // TODO
+    foreach ($xactions as $xaction) {
+      $new_value = $xaction->getNewValue();
+
+      if (phutil_nonempty_string($new_value) &&
+          !array_key_exists($new_value, $installed_types)) {
+        $errors[] = $this->newInvalidError(
+          pht(
+            'Invalid Target Object Type. Valid types are: %s.',
+            $valid_types));
+      }
+    }
 
     return $errors;
   }
