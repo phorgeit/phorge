@@ -39,8 +39,8 @@ final class PhabricatorConduitTokenEditController
             'Tokens must have a name.');
         } else if (strlen($new_name) > $token_length) {
           $errors[] = pht(
-            'Maximum token name length is %d characters.',
-            $token_length);
+            'Maximum token name length is %s characters.',
+            new PhutilNumber($token_length));
         }
         if (!$errors) {
           $token->setTokenName($new_name);
