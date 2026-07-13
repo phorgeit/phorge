@@ -499,6 +499,13 @@ abstract class PhabricatorController extends AphrontController {
       foreach ($panels as $panel) {
         $curtain->addPanel($panel);
       }
+
+      $actions = PHUIActionListExtension::buildExtensionActions(
+        $viewer,
+        $object);
+      foreach ($actions as $action) {
+        $action_list->addAction($action);
+      }
     }
 
     return $curtain;

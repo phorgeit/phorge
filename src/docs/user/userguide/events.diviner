@@ -168,6 +168,9 @@ This is a test event for testing event listeners. See above for details.
 
 == UI: Did Render Actions ==
 
+NOTE: This event is even more deprecated. Extend `PHUIActionListExtension` for
+modern alternative.
+
 The constant for this event is
 `PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS`.
 
@@ -178,7 +181,6 @@ the UI. It allows you to add new actions that your application may provide, like
   - `object` The object which actions are being rendered for.
   - `actions` The current list of available actions.
 
-NOTE: This event is unstable and subject to change.
 
 = Debugging Listeners =
 

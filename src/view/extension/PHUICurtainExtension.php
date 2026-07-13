@@ -14,7 +14,16 @@ abstract class PHUICurtainExtension extends Phobject {
   }
 
   abstract public function shouldEnableForObject($object);
-  abstract public function getExtensionApplication();
+
+  public function getExtensionApplicationClass() {
+    $legacy = $this->getExtensionApplication();
+    return get_class($legacy);
+  }
+
+  /** @deprecated use getExtensionApplicationClass() */
+  public function getExtensionApplication() {
+    throw new PhutilMethodNotImplementedException();
+  }
 
   public function buildCurtainPanels($object) {
     $panel = $this->buildCurtainPanel($object);
@@ -34,6 +43,9 @@ abstract class PHUICurtainExtension extends Phobject {
     return $this->getPhobjectClassConstant('EXTENSIONKEY');
   }
 
+  /**
+   * @return array<string, self>
+   */
   final public static function getAllExtensions() {
     return id(new PhutilClassMapQuery())
       ->setAncestorClass(self::class)
@@ -60,28 +72,11 @@ abstract class PHUICurtainExtension extends Phobject {
       $extension->setViewer($viewer);
     }
 
-    foreach ($extensions as $key => $extension) {
-      $application = $extension->getExtensionApplication();
-      if (!($application instanceof PhabricatorApplication)) {
-        throw new Exception(
-          pht(
-            'Curtain extension ("%s", of class "%s") did not return an '.
-            'application from method "%s". This method must return an '.
-            'object of class "%s".',
-            $key,
-            get_class($extension),
-            'getExtensionApplication()',
-            'PhabricatorApplication'));
-      }
-
-      $has_application = PhabricatorApplication::isClassInstalledForViewer(
-        get_class($application),
+    $extensions =
+      PhabricatorApplication::filterExtensionsByInstalledApplication(
+        $extensions,
+        'getExtensionApplicationClass',
         $viewer);
-
-      if (!$has_application) {
-        unset($extensions[$key]);
-      }
-    }
 
     foreach ($extensions as $key => $extension) {
       if (!$extension->shouldEnableForObject($object)) {

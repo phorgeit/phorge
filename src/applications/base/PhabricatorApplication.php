@@ -480,6 +480,32 @@ abstract class PhabricatorApplication
     return $result;
   }
 
+  /**
+   * @template T
+   * @param array<T> $extensions
+   * @return array<T>
+   */
+  final public static function filterExtensionsByInstalledApplication(
+    array $extensions,
+    string $get_application_class,
+    PhabricatorUser $viewer) {
+
+    foreach ($extensions as $key => $extension) {
+      $application = call_user_func(array($extension, $get_application_class));
+
+      $has_application = self::isClassInstalledForViewer(
+        $application,
+        $viewer);
+
+      if (!$has_application) {
+        unset($extensions[$key]);
+      }
+    }
+
+    return $extensions;
+  }
+
+
 /* -(  PhabricatorPolicyInterface  )----------------------------------------- */
 
 

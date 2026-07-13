@@ -9,8 +9,8 @@ final class PhrequentCurtainExtension
     return ($object instanceof PhrequentTrackableInterface);
   }
 
-  public function getExtensionApplication() {
-    return new PhabricatorPhrequentApplication();
+  public function getExtensionApplicationClass() {
+    return PhabricatorPhrequentApplication::class;
   }
 
   public function buildCurtainPanel($object) {

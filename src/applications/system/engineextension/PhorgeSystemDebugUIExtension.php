@@ -1,33 +1,24 @@
 <?php
 
-final class PhabricatorSystemDebugUIEventListener
-  extends PhabricatorEventListener {
 
-  public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
+final class PhorgeSystemDebugUIExtension extends PHUIActionListExtension {
+
+  const EXTENSIONKEY = 'developeractions';
+
+  public function shouldEnableForObject($object) {
+    return $object && $object->getPHID();
   }
 
-  public function handleEvent(PhutilEvent $event) {
-    switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
-        $this->handleActionEvent($event);
-        break;
-    }
+  public function getExtensionApplicationClass() {
+    return PhabricatorSystemApplication::class;
   }
 
-  private function handleActionEvent($event) {
-    $viewer = $event->getUser();
-    $object = $event->getValue('object');
+  protected function buildAction() {
+    $viewer = $this->getViewer();
+    $object = $this->getObject();
 
     $is_dev = $viewer->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
     if (!$is_dev) {
-      return;
-    }
-
-
-    if (!$object || !$object->getPHID()) {
-      // If we have no object, or the object doesn't have a PHID, we can't
-      // do anything useful.
       return;
     }
 
@@ -61,15 +52,11 @@ final class PhabricatorSystemDebugUIEventListener
             $object->getID()));
     }
 
-    $developer_action = id(new PhabricatorActionView())
+    return id(new PhabricatorActionView())
       ->setName(pht('Advanced/Developer...'))
       ->setIcon('fa-magic')
       ->setOrder(9001)
       ->setSubmenu($submenu);
-
-    $actions = $event->getValue('actions');
-    $actions[] = $developer_action;
-    $event->setValue('actions', $actions);
   }
 
 }
