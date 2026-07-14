@@ -112,6 +112,17 @@ final class ManiphestTaskUnblockTransaction
     return 'fa-shield';
   }
 
+  public function getTransactionTypeForConduit($xaction) {
+    return 'unblock';
+  }
+
+  public function getFieldValuesForConduit($xaction, $data) {
+    return array(
+      'old' => $xaction->getOldValue(),
+      'new' => $xaction->getNewValue(),
+    );
+  }
+
   public function shouldHideForFeed() {
     // Hide "alice created X, a task blocking Y." from feed because it
     // will almost always appear adjacent to "alice created Y".
