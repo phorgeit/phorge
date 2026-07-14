@@ -42,4 +42,15 @@ final class ManiphestTaskMergedFromTransaction
     return 'orange';
   }
 
+  public function getTransactionTypeForConduit($xaction) {
+    return 'mergedfrom';
+  }
+
+  public function getFieldValuesForConduit($xaction, $data) {
+    return array(
+      'old' => $xaction->getOldValue(),
+      'new' => $xaction->getNewValue(),
+    );
+  }
+
 }
