@@ -93,6 +93,10 @@ final class PhabricatorObjectQuery
     return $this->namedResults;
   }
 
+  /**
+   * @param array<PhabricatorPHIDType> $types
+   * @param array<string> $names
+   */
   private function loadObjectsByName(array $types, array $names) {
     $groups = array();
     foreach ($names as $name) {

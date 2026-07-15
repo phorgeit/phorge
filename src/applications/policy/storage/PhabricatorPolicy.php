@@ -49,6 +49,13 @@ final class PhabricatorPolicy
     $policy_identifier,
     ?PhabricatorObjectHandle $handle = null) {
 
+    if ($policy_identifier === null) {
+      return id(new self())
+        ->setType(PhabricatorPolicyType::TYPE_MASKED)
+        ->setName(pht('Null policy'))
+        ->makeEphemeral();
+    }
+
     $is_global = PhabricatorPolicyQuery::isGlobalPolicy($policy_identifier);
     if ($is_global) {
       return PhabricatorPolicyQuery::getGlobalPolicy($policy_identifier);
