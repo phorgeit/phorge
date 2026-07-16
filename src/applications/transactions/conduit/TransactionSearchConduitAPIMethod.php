@@ -300,11 +300,45 @@ EOREMARKUP
                 $type = 'projects';
                 $fields = $this->newEdgeTransactionFields($xaction);
                 break;
+              case ManiphestTaskDependsOnTaskEdgeType::EDGECONST:
+                $type = 'dependsOn';
+                $fields = $this->newEdgeTransactionFields($xaction);
+                break;
+              case ManiphestTaskDependedOnByTaskEdgeType::EDGECONST:
+                $type = 'dependedOnBy';
+                $fields = $this->newEdgeTransactionFields($xaction);
+                break;
             }
             break;
           case PhabricatorTransactions::TYPE_SUBSCRIBERS:
             $type = 'subscribers';
             $fields = $this->newEdgeTransactionFields($xaction);
+            break;
+          case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+            $type = 'core:customfield';
+            $fields = array(
+              $xaction->getMetadataValue('customfield:key') => array(
+                'old'  => $xaction->getOldValue(),
+                'new'  => $xaction->getNewValue(),
+              ),
+            );
+            break;
+          case PhabricatorTransactions::TYPE_EDIT_POLICY:
+            $type = 'core:edit-policy';
+            $fields = array(
+              'old'  => $xaction->getOldValue(),
+              'new'  => $xaction->getNewValue(),
+            );
+            break;
+          case PhabricatorTransactions::TYPE_VIEW_POLICY:
+            $type = 'core:view-policy';
+            $fields = array(
+              'old'  => $xaction->getOldValue(),
+              'new'  => $xaction->getNewValue(),
+            );
+            break;
+          case PhabricatorTransactions::TYPE_MFA:
+            $type = 'core:mfa';
             break;
         }
       }

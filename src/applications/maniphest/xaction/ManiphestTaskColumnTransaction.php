@@ -222,4 +222,15 @@ final class ManiphestTaskColumnTransaction
     return (bool)$new;
   }
 
+  public function getTransactionTypeForConduit($xaction) {
+    return 'core:columns';
+  }
+
+  public function getFieldValuesForConduit($xaction, $data) {
+    return array(
+      'old' => $xaction->getOldValue(),
+      'new' => $xaction->getNewValue(),
+    );
+  }
+
 }
