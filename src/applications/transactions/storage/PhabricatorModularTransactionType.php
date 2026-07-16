@@ -83,6 +83,10 @@ abstract class PhabricatorModularTransactionType
     return null;
   }
 
+  public function getNoEffectDescription() {
+    return null;
+  }
+
   public function hasChangeDetailView() {
     return false;
   }

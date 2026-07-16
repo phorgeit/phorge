@@ -177,7 +177,8 @@ EODOCS
           pht('List of columns to move the task to.'))
         ->setConduitDocumentation($column_documentation)
         ->setAliases(array('columnPHID', 'columns', 'columnPHIDs'))
-        ->setTransactionType(PhabricatorTransactions::TYPE_COLUMNS)
+        ->setTransactionType(
+          ManiphestTaskColumnTransactionType::TRANSACTIONTYPE)
         ->setIsReorderable(false)
         ->setIsDefaultable(false)
         ->setIsLockable(false)

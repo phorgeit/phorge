@@ -96,27 +96,6 @@ final class ManiphestTransaction
     return $phids;
   }
 
-  public function getActionName() {
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-    switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return pht('Changed Project Column');
-    }
-
-    return parent::getActionName();
-  }
-
-  public function getIcon() {
-    switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return 'fa-columns';
-    }
-
-    return parent::getIcon();
-  }
-
-
   public function getTitle() {
     $author_phid = $this->getAuthorPHID();
 
@@ -184,7 +163,7 @@ final class ManiphestTransaction
       case ManiphestTaskUnblockTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_UNBLOCK;
         break;
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case ManiphestTaskColumnTransactionType::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_COLUMN;
         break;
       case PhabricatorTransactions::TYPE_COMMENT:

@@ -330,6 +330,11 @@ abstract class PhabricatorApplicationTransaction
     return $this->assertAttached($this->viewer);
   }
 
+  /**
+   * I'm pretty sure this method is not required for Modular transactions -
+   * those use `renderHandle` which does all the caching and loading
+   * automatically.
+   */
   public function getRequiredHandlePHIDs() {
     $phids = array();
 
@@ -356,15 +361,6 @@ abstract class PhabricatorApplicationTransaction
       case PhabricatorTransactions::TYPE_EDGE:
         $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
         $phids[] = $record->getChangedPHIDs();
-        break;
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        foreach ($new as $move) {
-          $phids[] = array(
-            $move['columnPHID'],
-            $move['boardPHID'],
-          );
-          $phids[] = $move['fromColumnPHIDs'];
-        }
         break;
       case PhabricatorTransactions::TYPE_EDIT_POLICY:
       case PhabricatorTransactions::TYPE_VIEW_POLICY:
@@ -516,8 +512,6 @@ abstract class PhabricatorApplicationTransaction
         return 'fa-trophy';
       case PhabricatorTransactions::TYPE_SPACE:
         return 'fa-th-large';
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return 'fa-columns';
       case PhabricatorTransactions::TYPE_MFA:
         return 'fa-vcard';
     }
@@ -689,8 +683,6 @@ abstract class PhabricatorApplicationTransaction
           return $field->shouldHideInApplicationTransactions($this);
         }
         break;
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return !$this->getInterestingMoves($this->getNewValue());
       case PhabricatorTransactions::TYPE_EDGE:
         $edge_type = $this->getMetadataValue('edge:type');
         switch ($edge_type) {
@@ -928,10 +920,6 @@ abstract class PhabricatorApplicationTransaction
         return pht('This object is already in that space.');
       case PhabricatorTransactions::TYPE_EDGE:
         return pht('Edges already exist; transaction has no effect.');
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return pht(
-          'You have not moved this object to any columns it is not '.
-          'already in.');
       case PhabricatorTransactions::TYPE_MFA:
         return pht(
           'You can not sign a transaction group that has no other '.
@@ -1277,45 +1265,6 @@ abstract class PhabricatorApplicationTransaction
             new PhutilNumber($undone));
         }
 
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        $moves = $this->getInterestingMoves($new);
-        if (count($moves) == 1) {
-          $move = head($moves);
-          $from_columns = $move['fromColumnPHIDs'];
-          $to_column = $move['columnPHID'];
-          $board_phid = $move['boardPHID'];
-          if (count($from_columns) == 1) {
-            return pht(
-              '%s moved this task from %s to %s on the %s board.',
-              $this->renderHandleLink($author_phid),
-              $this->renderHandleLink(head($from_columns)),
-              $this->renderHandleLink($to_column),
-              $this->renderHandleLink($board_phid));
-          } else {
-            return pht(
-              '%s moved this task to %s on the %s board.',
-              $this->renderHandleLink($author_phid),
-              $this->renderHandleLink($to_column),
-              $this->renderHandleLink($board_phid));
-          }
-        } else {
-          $fragments = array();
-          foreach ($moves as $move) {
-            $to_column = $move['columnPHID'];
-            $board_phid = $move['boardPHID'];
-            $fragments[] = pht(
-              '%s (%s)',
-              $this->renderHandleLink($board_phid),
-              $this->renderHandleLink($to_column));
-          }
-
-          return pht(
-            '%s moved this task on %s board(s): %s.',
-            $this->renderHandleLink($author_phid),
-            phutil_count($moves),
-            phutil_implode_html(', ', $fragments));
-        }
-
       case PhabricatorTransactions::TYPE_MFA:
         return pht(
           '%s signed these changes with MFA.',
@@ -1446,48 +1395,6 @@ abstract class PhabricatorApplicationTransaction
             '%s edited a custom field on %s.',
             $this->renderHandleLink($author_phid),
             $this->renderHandleLink($object_phid));
-        }
-
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        $moves = $this->getInterestingMoves($new);
-        if (count($moves) == 1) {
-          $move = head($moves);
-          $from_columns = $move['fromColumnPHIDs'];
-          $to_column = $move['columnPHID'];
-          $board_phid = $move['boardPHID'];
-          if (count($from_columns) == 1) {
-            return pht(
-              '%s moved %s from %s to %s on the %s board.',
-              $this->renderHandleLink($author_phid),
-              $this->renderHandleLink($object_phid),
-              $this->renderHandleLink(head($from_columns)),
-              $this->renderHandleLink($to_column),
-              $this->renderHandleLink($board_phid));
-          } else {
-            return pht(
-              '%s moved %s to %s on the %s board.',
-              $this->renderHandleLink($author_phid),
-              $this->renderHandleLink($object_phid),
-              $this->renderHandleLink($to_column),
-              $this->renderHandleLink($board_phid));
-          }
-        } else {
-          $fragments = array();
-          foreach ($moves as $move) {
-            $to_column = $move['columnPHID'];
-            $board_phid = $move['boardPHID'];
-            $fragments[] = pht(
-              '%s (%s)',
-              $this->renderHandleLink($board_phid),
-              $this->renderHandleLink($to_column));
-          }
-
-          return pht(
-            '%s moved %s on %s board(s): %s.',
-            $this->renderHandleLink($author_phid),
-            $this->renderHandleLink($object_phid),
-            phutil_count($moves),
-            phutil_implode_html(', ', $fragments));
         }
 
       case PhabricatorTransactions::TYPE_MFA:

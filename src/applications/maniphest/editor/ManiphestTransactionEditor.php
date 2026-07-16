@@ -19,7 +19,6 @@ final class ManiphestTransactionEditor
 
     $types[] = PhabricatorTransactions::TYPE_COMMENT;
     $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_COLUMNS;
     $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
     $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
 
@@ -32,64 +31,6 @@ final class ManiphestTransactionEditor
 
   public function getCreateObjectTitleForFeed($author, $object) {
     return pht('%s created %s.', $author, $object);
-  }
-
-  protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return null;
-    }
-  }
-
-  protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return $xaction->getNewValue();
-    }
-  }
-
-  protected function transactionHasEffect(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    $old = $xaction->getOldValue();
-    $new = $xaction->getNewValue();
-
-    switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return (bool)$new;
-    }
-
-    return parent::transactionHasEffect($object, $xaction);
-  }
-
-  protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        return;
-    }
-  }
-
-  protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
-        foreach ($xaction->getNewValue() as $move) {
-          $this->applyBoardMove($object, $move);
-        }
-        break;
-    }
   }
 
   protected function applyFinalEffects(
@@ -150,6 +91,7 @@ final class ManiphestTransactionEditor
   protected function shouldSendMail(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
@@ -210,6 +152,7 @@ final class ManiphestTransactionEditor
 
   protected function getObjectLinkButtonLabelForMail(
     PhabricatorLiskDAO $object) {
+
     return pht('View Task');
   }
 
@@ -229,9 +172,10 @@ final class ManiphestTransactionEditor
       pht('TASK DETAIL'),
       $this->getObjectLinkButtonURIForMail($object));
 
-
     $board_phids = array();
-    $type_columns = PhabricatorTransactions::TYPE_COLUMNS;
+    $type_columns = ManiphestTaskColumnTransactionType::TRANSACTIONTYPE;
+    // TODO this should be moved to ManiphestTaskColumnTransactionType, but
+    // there's no support for `addLinkSection()` feature in TransactionType.
     foreach ($xactions as $xaction) {
       if ($xaction->getTransactionType() == $type_columns) {
         $moves = $xaction->getNewValue();
@@ -261,6 +205,7 @@ final class ManiphestTransactionEditor
   protected function shouldPublishFeedStory(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
@@ -271,6 +216,7 @@ final class ManiphestTransactionEditor
   protected function shouldApplyHeraldRules(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
@@ -403,13 +349,13 @@ final class ManiphestTransactionEditor
 
     $type = $xaction->getTransactionType();
     switch ($type) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case ManiphestTaskColumnTransactionType::TRANSACTIONTYPE:
         try {
           $more_xactions = $this->buildMoveTransaction($object, $xaction);
           foreach ($more_xactions as $more_xaction) {
             $results[] = $more_xaction;
           }
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
           $error = new PhabricatorApplicationTransactionValidationError(
             $type,
             pht('Invalid'),
@@ -446,6 +392,13 @@ final class ManiphestTransactionEditor
   private function buildMoveTransaction(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {
+
+    // This method is all about Board Columns, and I think it has nothing that
+    // is task-specific.
+    // Should be moved to ManiphestTaskColumnTransactionType, once
+    // `expandTransaction` is modularized.
+    // alternatively, use PhabricatorEditorExtension if that's a thing.
+
     $actor = $this->getActor();
 
     $new = $xaction->getNewValue();
@@ -696,74 +649,6 @@ final class ManiphestTransactionEditor
 
     return $more;
   }
-
-  private function applyBoardMove($object, array $move) {
-    $board_phid = $move['boardPHID'];
-    $column_phid = $move['columnPHID'];
-
-    $before_phids = $move['beforePHIDs'];
-    $after_phids = $move['afterPHIDs'];
-
-    $object_phid = $object->getPHID();
-
-    // We're doing layout with the omnipotent viewer to make sure we don't
-    // remove positions in columns that exist, but which the actual actor
-    // can't see.
-    $omnipotent_viewer = PhabricatorUser::getOmnipotentUser();
-
-    $select_phids = array($board_phid);
-
-    $descendants = id(new PhabricatorProjectQuery())
-      ->setViewer($omnipotent_viewer)
-      ->withAncestorProjectPHIDs($select_phids)
-      ->execute();
-    foreach ($descendants as $descendant) {
-      $select_phids[] = $descendant->getPHID();
-    }
-
-    $board_tasks = id(new ManiphestTaskQuery())
-      ->setViewer($omnipotent_viewer)
-      ->withEdgeLogicPHIDs(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-        PhabricatorQueryConstraint::OPERATOR_ANCESTOR,
-        array($select_phids))
-      ->execute();
-
-    $board_tasks = mpull($board_tasks, null, 'getPHID');
-    $board_tasks[$object_phid] = $object;
-
-    // Make sure tasks are sorted by ID, so we lay out new positions in
-    // a consistent way.
-    $board_tasks = msort($board_tasks, 'getID');
-
-    $object_phids = array_keys($board_tasks);
-
-    $engine = id(new PhabricatorBoardLayoutEngine())
-      ->setViewer($omnipotent_viewer)
-      ->setBoardPHIDs(array($board_phid))
-      ->setObjectPHIDs($object_phids)
-      ->executeLayout();
-
-    // TODO: This logic needs to be revised when we legitimately support
-    // multiple column positions.
-    $columns = $engine->getObjectColumns($board_phid, $object_phid);
-    foreach ($columns as $column) {
-      $engine->queueRemovePosition(
-        $board_phid,
-        $column->getPHID(),
-        $object_phid);
-    }
-
-    $engine->queueAddPosition(
-      $board_phid,
-      $column_phid,
-      $object_phid,
-      $after_phids,
-      $before_phids);
-
-    $engine->applyPositionUpdates();
-  }
-
 
   private function validateColumnPHID($value) {
     if (phid_get_type($value) == PhabricatorProjectColumnPHIDType::TYPECONST) {

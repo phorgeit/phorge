@@ -192,6 +192,16 @@ abstract class PhabricatorModularTransaction
     return $this->getTransactionImplementation()->newRemarkupChanges();
   }
 
+  /* final */ public function getNoEffectDescription() {
+    $description = $this->getTransactionImplementation()
+      ->getNoEffectDescription();
+    if ($description !== null) {
+      return $description;
+    }
+
+    return parent::getNoEffectDescription();
+  }
+
   /* final */ public function newWarningForTransactions(
     $object,
     array $xactions) {

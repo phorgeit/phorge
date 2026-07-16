@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This transaction type is deprecated. We keep it around for legacy installs
  * so any transactions render correctly.
  *

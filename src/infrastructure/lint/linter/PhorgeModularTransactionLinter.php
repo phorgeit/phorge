@@ -19,6 +19,7 @@ final class PhorgeModularTransactionLinter
     'getIcon' => true,
     'getTitle' => true,
     'getTitleForFeed' => true,
+    'getNoEffectDescription' => true,
     'newWarningForTransactions' => true,
     'shouldHide' => true,
     'shouldHideForMail' => true,
