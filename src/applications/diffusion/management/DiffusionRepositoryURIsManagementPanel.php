@@ -132,7 +132,7 @@ final class DiffusionRepositoryURIsManagementPanel
       if ($is_new) {
         $host_message = pht('This repository will be hosted.');
       } else {
-        $host_message = pht('This repository is observed.');
+        $host_message = pht('This repository is hosted.');
       }
 
       $messages[] = $host_message;
