@@ -24,9 +24,9 @@ final class PhabricatorUserSinceField
       $this->getObject()->getDateCreated(),
       $this->getViewer());
 
-    $relative = phutil_format_relative_time_detailed(
-      time() - $this->getObject()->getDateCreated(),
-      $levels = 2);
+    $relative = phutil_format_years(
+      $this->getObject()->getDateCreated(),
+      time());
 
     return hsprintf('%s (%s)', $absolute, $relative);
   }
