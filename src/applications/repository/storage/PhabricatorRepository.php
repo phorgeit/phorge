@@ -873,12 +873,15 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       return $default;
     }
 
-    $default_branches = array(
-      PhabricatorRepositoryType::REPOSITORY_TYPE_GIT        => 'master',
-      PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL  => 'default',
-    );
-
-    return idx($default_branches, $this->getVersionControlSystem());
+    $vcs = $this->getVersionControlSystem();
+    switch ($vcs) {
+      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+        return PhabricatorEnv::getEnvConfig(
+          'diffusion.global-default-branch-git');
+      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        return PhabricatorEnv::getEnvConfig(
+          'diffusion.global-default-branch-mercurial');
+    }
   }
 
   public function getDefaultArcanistBranch() {

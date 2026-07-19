@@ -147,6 +147,28 @@ final class PhabricatorDiffusionConfigOptions
             ->getCustomFieldBaseClass())
         ->setDescription(
           pht('Select and reorder Diffusion fields.')),
+      $this->newOption(
+        'diffusion.global-default-branch-git',
+        'string',
+        'master')
+        ->setSummary(
+          pht('Override the default branch name for all Git repositories.'))
+        ->setDescription(
+          pht(
+            'Specifies the default branch name to use for Git '.
+            'repositories.')),
+      $this->newOption(
+        'diffusion.global-default-branch-mercurial',
+        'string',
+        'default')
+        ->setSummary(
+          pht(
+            'Override the default branch name for all Mercurial '.
+            'repositories.'))
+        ->setDescription(
+          pht(
+            'Specifies the default branch name to use for Mercurial '.
+            'repositories.')),
     );
   }
 
