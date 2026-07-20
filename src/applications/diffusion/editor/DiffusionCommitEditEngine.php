@@ -134,7 +134,7 @@ final class DiffusionCommitEditEngine
 
     $xactions = $editor->newAutomaticInlineTransactions(
       $object,
-      PhabricatorAuditActionConstants::INLINE,
+      PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE,
       new DiffusionDiffInlineCommentQuery());
 
     return $xactions;
@@ -142,7 +142,7 @@ final class DiffusionCommitEditEngine
 
   protected function newCommentPreviewContent($object, array $xactions) {
     $viewer = $this->getViewer();
-    $type_inline = PhabricatorAuditActionConstants::INLINE;
+    $type_inline = PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE;
 
     $inlines = array();
     foreach ($xactions as $xaction) {
@@ -168,4 +168,5 @@ final class DiffusionCommitEditEngine
 
     return $content;
   }
+
 }

@@ -33,14 +33,14 @@ final class PhabricatorAuditTransactionView
 
     switch ($u->getTransactionType()) {
       case PhabricatorTransactions::TYPE_COMMENT:
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE:
         break;
       default:
         return false;
     }
 
     switch ($v->getTransactionType()) {
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE:
         return true;
     }
 
@@ -52,7 +52,7 @@ final class PhabricatorAuditTransactionView
 
     $out = array();
 
-    $type_inline = PhabricatorAuditActionConstants::INLINE;
+    $type_inline = PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE;
 
     $group = $xaction->getTransactionGroup();
 
@@ -73,7 +73,7 @@ final class PhabricatorAuditTransactionView
     $inlines = array();
     foreach ($group as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorAuditActionConstants::INLINE:
+        case PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE:
           $inlines[] = $xaction;
           break;
         default:

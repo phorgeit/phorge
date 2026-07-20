@@ -142,7 +142,7 @@ final class PhabricatorRepositoryCommitPublishWorker
     $xactions = array();
 
     $xactions[] = $commit->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuditTransaction::TYPE_COMMIT)
+      ->setTransactionType(PhorgeAuditCommitCommitTransaction::TRANSACTIONTYPE)
       ->setDateCreated($commit->getEpoch())
       ->setNewValue(
         array(

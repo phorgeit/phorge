@@ -2424,6 +2424,10 @@ abstract class PhabricatorApplicationTransactionEditor
     return $block_xactions;
   }
 
+  /**
+   * This extracts mentions(?), commands, etc from the body of comments into
+   * actual transactions.
+   */
   protected function expandCustomRemarkupBlockTransactions(
     PhabricatorLiskDAO $object,
     array $xactions,

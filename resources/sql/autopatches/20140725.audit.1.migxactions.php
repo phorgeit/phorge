@@ -37,7 +37,7 @@ foreach ($rows as $row) {
 
   // Build the main action transaction.
   switch ($row['action']) {
-    case PhabricatorAuditActionConstants::ADD_AUDITORS:
+    case PhorgeAuditCommitAddAuditorTransaction::TRANSACTIONTYPE:
       $phids = idx($metadata, 'added-auditors', array());
       $xactions[] = array(
         'type' => $row['action'],
@@ -45,7 +45,7 @@ foreach ($rows as $row) {
         'new' => array_fuse($phids),
       );
       break;
-    case PhabricatorAuditActionConstants::ADD_CCS:
+    case PhorgeAuditCommitAddCCTransaction::TRANSACTIONTYPE:
       $phids = idx($metadata, 'added-ccs', array());
       $xactions[] = array(
         'type' => $row['action'],
@@ -54,13 +54,13 @@ foreach ($rows as $row) {
       );
       break;
     case PhabricatorAuditActionConstants::COMMENT:
-    case PhabricatorAuditActionConstants::INLINE:
+    case PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE:
       // These actions will have their transactions created by other rules.
       break;
     default:
       // Otherwise, this is an accept/concern/etc action.
       $xactions[] = array(
-        'type' => PhabricatorAuditActionConstants::ACTION,
+        'type' => PhorgeAuditCommitActionTransaction::TRANSACTIONTYPE,
         'old' => null,
         'new' => $row['action'],
       );
@@ -82,7 +82,7 @@ foreach ($rows as $row) {
   // Build inline comment transactions.
   foreach ($inline_comments as $inline) {
     $xactions[] = array(
-      'type' => PhabricatorAuditActionConstants::INLINE,
+      'type' => PhorgeAuditCommitInlineCommentTransaction::TRANSACTIONTYPE,
       'old' => null,
       'new' => null,
       'phid' => $inline['transactionPHID'],

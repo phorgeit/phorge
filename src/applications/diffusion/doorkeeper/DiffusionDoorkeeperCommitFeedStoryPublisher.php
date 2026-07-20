@@ -30,7 +30,7 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
     $story = $this->getFeedStory();
     $xaction = $story->getPrimaryTransaction();
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditCommitActionTransaction::TRANSACTIONTYPE:
         switch ($xaction->getNewValue()) {
           case PhabricatorAuditActionConstants::CLOSE:
             return true;
