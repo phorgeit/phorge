@@ -603,11 +603,6 @@ abstract class PhabricatorApplicationTransaction
 
     $xaction_type = $this->getTransactionType();
 
-    // Always hide requests for object history.
-    if ($xaction_type === PhabricatorTransactions::TYPE_HISTORY) {
-      return true;
-    }
-
     // Always hide file attach/detach transactions.
     if ($xaction_type === PhabricatorTransactions::TYPE_FILE) {
       if ($this->getMetadataValue('attach.implicit')) {

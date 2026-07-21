@@ -84,7 +84,6 @@ abstract class PhabricatorApplicationTransactionEditor
   private $webhookMap = array();
 
   private $transactionQueue = array();
-  private $sendHistory = false;
   private $shouldRequireMFA = false;
   private $hasRequiredMFA = false;
   private $request;
@@ -332,8 +331,6 @@ abstract class PhabricatorApplicationTransactionEditor
     $types = array();
 
     $types[] = PhabricatorTransactions::TYPE_CREATE;
-    $types[] = PhabricatorTransactions::TYPE_HISTORY;
-
     $types[] = PhabricatorTransactions::TYPE_FILE;
 
     if ($this->object instanceof PhabricatorEditEngineSubtypeInterface) {
@@ -504,7 +501,6 @@ abstract class PhabricatorApplicationTransactionEditor
 
     switch ($type) {
       case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
       case PhabricatorTransactions::TYPE_MFA:
       case PhabricatorTransactions::TYPE_COMMENT:
       case PhabricatorTransactions::TYPE_FILE:
@@ -610,7 +606,6 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_TOKEN:
       case PhabricatorTransactions::TYPE_INLINESTATE:
       case PhabricatorTransactions::TYPE_SUBTYPE:
-      case PhabricatorTransactions::TYPE_HISTORY:
       case PhabricatorTransactions::TYPE_FILE:
         return $xaction->getNewValue();
       case PhabricatorTransactions::TYPE_MFA:
@@ -670,7 +665,6 @@ abstract class PhabricatorApplicationTransactionEditor
 
     switch ($xaction->getTransactionType()) {
       case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
         return true;
       case PhabricatorTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getCustomFieldForTransaction($object, $xaction);
@@ -755,7 +749,6 @@ abstract class PhabricatorApplicationTransactionEditor
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->applyApplicationTransactionInternalEffects($xaction);
       case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
       case PhabricatorTransactions::TYPE_SUBTYPE:
       case PhabricatorTransactions::TYPE_MFA:
       case PhabricatorTransactions::TYPE_TOKEN:
@@ -820,7 +813,6 @@ abstract class PhabricatorApplicationTransactionEditor
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->applyApplicationTransactionExternalEffects($xaction);
       case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
       case PhabricatorTransactions::TYPE_SUBTYPE:
       case PhabricatorTransactions::TYPE_MFA:
       case PhabricatorTransactions::TYPE_EDGE:
@@ -953,9 +945,6 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_VIEW_POLICY:
       case PhabricatorTransactions::TYPE_SPACE:
         $this->scrambleFileSecrets($object);
-        break;
-      case PhabricatorTransactions::TYPE_HISTORY:
-        $this->sendHistory = true;
         break;
       case PhabricatorTransactions::TYPE_FILE:
         $this->applyFileTransaction($object, $xaction);
@@ -1695,13 +1684,6 @@ abstract class PhabricatorApplicationTransactionEditor
       $this->publishFeedStory($object, $xactions, $mailed);
     }
 
-    if ($this->sendHistory) {
-      $history_mail = $this->buildHistoryMail($object);
-      if ($history_mail) {
-        $messages[] = $history_mail;
-      }
-    }
-
     foreach ($this->newAuxiliaryMail($object, $xactions) as $message) {
       $messages[] = $message;
     }
@@ -1959,11 +1941,6 @@ abstract class PhabricatorApplicationTransactionEditor
         return null;
       case PhabricatorTransactions::TYPE_TOKEN:
         // TODO: This technically requires CAN_INTERACT, like comments.
-        return null;
-      case PhabricatorTransactions::TYPE_HISTORY:
-        // This is a special magic transaction which sends you history via
-        // email and is only partially supported in the upstream. You don't
-        // need any capabilities to apply it.
         return null;
       case PhabricatorTransactions::TYPE_MFA:
         // Signing a transaction group with MFA does not require permissions
@@ -3916,7 +3893,7 @@ abstract class PhabricatorApplicationTransactionEditor
       // "alice added a comment." transaction in the header, like a normal
       // transaction.
 
-      // Some mail, like Differential undraft mail or "!history" mail, may
+      // Some mail, like Differential undraft mail, may
       // have two or more comments. In these cases, we'll put the first
       // "alice added a comment." transaction in the header normally, but
       // move the other transactions down so they provide context above the
@@ -4684,7 +4661,6 @@ abstract class PhabricatorApplicationTransactionEditor
       'mailMutedPHIDs',
       'webhookMap',
       'silent',
-      'sendHistory',
     );
   }
 
@@ -5354,37 +5330,6 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     return true;
-  }
-
-  /**
-   * Get an entire object's history (via the "!history" email command)
-   */
-  private function buildHistoryMail(PhabricatorLiskDAO $object) {
-    $viewer = $this->requireActor();
-    $recipient_phid = $this->getActingAsPHID();
-
-    // Load every transaction so we can build a mail message with a complete
-    // history for the object.
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($object);
-    $xactions = $query
-      ->setViewer($viewer)
-      ->withObjectPHIDs(array($object->getPHID()))
-      ->execute();
-    $xactions = array_reverse($xactions);
-
-    $mail_messages = $this->buildMailWithRecipients(
-      $object,
-      $xactions,
-      array($recipient_phid),
-      array(),
-      array());
-    $mail = head($mail_messages);
-
-    // Since the user explicitly requested "!history", force delivery of this
-    // message regardless of their other mail settings.
-    $mail->setForceDelivery(true);
-
-    return $mail;
   }
 
   public function newAutomaticInlineTransactions(
