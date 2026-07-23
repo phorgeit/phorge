@@ -94,12 +94,12 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
           $seen + array($name => true));
       }
       $known = static::$knownTypes;
-      if (isset($known[$this->classExtends])) {
+      if ($this->classExtends !== null && isset($known[$this->classExtends])) {
         $class_data = $known[$this->classExtends];
-      } else if (isset($known[$this->classDecl])) {
+      } else if ($this->classDecl !== null && isset($known[$this->classDecl])) {
         $class_data = $known[$this->classDecl];
       }
-      if (isset($class_data[$this->methodDecl])) {
+      if ($this->methodDecl !== null && isset($class_data[$this->methodDecl])) {
         $types = $class_data[$this->methodDecl];
         if ($name && isset($this->paramVars[$name])) {
           if (isset($types[$this->paramVars[$name]])) {
