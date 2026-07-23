@@ -323,7 +323,7 @@ final class MultimeterSampleController extends MultimeterController {
     return phutil_tag(
       'a',
       array(
-        'href' => $uri,
+        'href' => phutil_string_cast($uri),
       ),
       $link_text);
   }

@@ -927,12 +927,12 @@ final class PhutilCalendarRecurrenceRule
       // like a filter if FREQ=WEEKLY.
 
       $is_dynamic = $is_daily
+        || ($by_month && $is_weekly)
         || $is_weekly
         || $by_day
         || $by_monthday
         || $by_yearday
         || $by_weekno
-        || ($by_month && $is_weekly)
         || ($scale < self::SCALE_DAILY);
 
       if ($is_dynamic) {

@@ -216,8 +216,8 @@ EOFILE;
    *
    * @param string $name Resource name.
    * @param string $data Resource data.
-   * @return array<string|null, list<string>|null> The `@provides` symbol and
-   *    the list of `@requires` symbols. If the resource is not part of the
+   * @return array{0: string|null, 1: list<string>|null} The `@provides` symbol
+   *    and the list of `@requires` symbols. If the resource is not part of the
    *    dependency graph, both are null.
    */
   private function getProvidesAndRequires($name, $data) {

@@ -95,7 +95,7 @@ final class PhabricatorDifferenceEngine extends Phobject {
     Filesystem::writeFile($new_tmp, $new);
     list($err, $diff) = exec_manual(
       'diff %Ls %s %s',
-      $options,
+      implode(' ', $options),
       $old_tmp,
       $new_tmp);
 

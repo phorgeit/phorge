@@ -19,7 +19,7 @@ final class PhorgeSystemDebugUIExtension extends PHUIActionListExtension {
 
     $is_dev = $viewer->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
     if (!$is_dev) {
-      return;
+      return null;
     }
 
     $phid = $object->getPHID();

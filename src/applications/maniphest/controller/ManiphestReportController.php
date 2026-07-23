@@ -77,7 +77,7 @@ final class ManiphestReportController extends ManiphestController {
    * The same thing on /project/reports/$id/ is handled by
    * PhabricatorProjectReportsController instead.
    *
-   * @return array<AphrontListFilterView, PHUIObjectBoxView>
+   * @return array{0: AphrontListFilterView, 1: PHUIObjectBoxView}
    */
   public function renderBurn() {
     $request = $this->getRequest();
@@ -180,7 +180,7 @@ final class ManiphestReportController extends ManiphestController {
   /**
    * Render all table cells in the "Open Tasks" table on /maniphest/report/*.
    *
-   * @return array<AphrontListFilterView,PHUIObjectBoxView>
+   * @return array{0: AphrontListFilterView, 1: PHUIObjectBoxView}
    */
   public function renderOpenTasks() {
     $request = $this->getRequest();
@@ -571,8 +571,8 @@ final class ManiphestReportController extends ManiphestController {
    * Used on /maniphest/report/user/ and /maniphest/report/project/ URIs.
    *
    * @param array<ManiphestTask> $tasks
-   * @return array<PhutilSafeHTML,int> HTML link markup and the timespan
-   *         (as epoch) since task creation
+   * @return array{0: PhutilSafeHTML|string, 1: PHUIObjectBoxView|int} HTML
+   *   link markup (or '-') and the timespan (as epoch) since task creation
    */
   private function renderOldest(array $tasks) {
     assert_instances_of($tasks, ManiphestTask::class);

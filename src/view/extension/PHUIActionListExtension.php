@@ -7,7 +7,7 @@ abstract class PHUIActionListExtension extends Phobject {
   abstract public function getExtensionApplicationClass();
 
   /**
-   * @return PhabricatorActionView
+   * @return PhabricatorActionView|null
    */
   abstract protected function buildAction();
 
