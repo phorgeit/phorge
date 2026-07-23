@@ -91,6 +91,10 @@ final class DarkConsoleCore extends Phobject {
     }
   }
 
+  /**
+   * @param AphrontRequest $request
+   * @return PhutilSafeHTML
+   */
   public function render(AphrontRequest $request) {
     $user = $request->getUser();
     $visible = $user->getUserSetting(

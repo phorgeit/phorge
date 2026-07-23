@@ -466,6 +466,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
   /**
    * @task clauses
+   * @return PhutilQueryString
    */
   protected function buildSelectClause(AphrontDatabaseConnection $conn) {
     $parts = $this->buildSelectClauseParts($conn);
@@ -2845,6 +2846,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
   /**
    * @task edgelogic
+   * @return array<PhutilQueryString>
    */
   public function buildEdgeLogicWhereClause(AphrontDatabaseConnection $conn) {
     $where = array();
@@ -2904,6 +2906,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
   /**
    * @task edgelogic
+   * @return array<PhutilQueryString>
    */
   public function buildEdgeLogicHavingClause(AphrontDatabaseConnection $conn) {
     $having = array();

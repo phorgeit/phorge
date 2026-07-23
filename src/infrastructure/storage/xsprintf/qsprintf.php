@@ -71,6 +71,8 @@
  *
  *   %T ("Table")
  *     Escapes a table name. In most cases, you should use "%R" instead.
+ *
+ * @return PhutilQueryString
  */
 function qsprintf(PhutilQsprintfInterface $escaper, $pattern /* , ... */) {
   $args = func_get_args();
@@ -78,6 +80,9 @@ function qsprintf(PhutilQsprintfInterface $escaper, $pattern /* , ... */) {
   return new PhutilQueryString($escaper, $args);
 }
 
+/**
+ * @return PhutilQueryString
+ */
 function vqsprintf(PhutilQsprintfInterface $escaper, $pattern, array $argv) {
   array_unshift($argv, $pattern);
   return new PhutilQueryString($escaper, $argv);
@@ -86,6 +91,8 @@ function vqsprintf(PhutilQsprintfInterface $escaper, $pattern, array $argv) {
 /**
  * @{function:xsprintf} callback for encoding SQL queries. See
  * @{function:qsprintf}.
+ *
+ * @return void
  */
 function xsprintf_query($userdata, &$pattern, &$pos, &$value, &$length) {
   $type = $pattern[$pos];

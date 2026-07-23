@@ -29,6 +29,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
 
   /**
    * @task config
+   * @return string
    */
   public static function getDefaultStorageNamespace() {
     return PhabricatorEnv::getEnvConfig('storage.default-namespace');
@@ -36,10 +37,11 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
 
   /**
    * @task config
+   * @return string
    */
   public static function getStorageNamespace() {
     $namespace = end(self::$namespaceStack);
-    if (!strlen($namespace)) {
+    if (!phutil_nonempty_scalar($namespace)) {
       $namespace = self::getDefaultStorageNamespace();
     }
     if (!strlen($namespace)) {

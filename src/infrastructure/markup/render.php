@@ -140,6 +140,9 @@ function phutil_escape_html($string) {
       $result .= phutil_escape_html($item);
     }
     return $result;
+  } else {
+    // Cast int, bool, float, PhutilCommandString, PhutilURI, etc.
+    $string = (string)$string;
   }
 
   return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
@@ -178,6 +181,8 @@ function phutil_implode_html($glue, array $pieces) {
 /**
  * Format a HTML code. This function behaves like `sprintf()`, except that all
  * the normal conversions (like %s) will be properly escaped.
+ *
+ * @return PhutilSafeHTML
  */
 function hsprintf($html /* , ... */) {
   $args = func_get_args();

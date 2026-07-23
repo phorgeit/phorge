@@ -42,14 +42,23 @@ final class PhutilQueryString extends Phobject {
     $this->unmaskedString = $unmasked_string;
   }
 
+  /**
+   * @return string
+   */
   public function __toString() {
     return $this->getMaskedString();
   }
 
+  /**
+   * @return string
+   */
   public function getUnmaskedString() {
     return $this->unmaskedString;
   }
 
+  /**
+   * @return string
+   */
   public function getMaskedString() {
     return $this->maskedString;
   }
