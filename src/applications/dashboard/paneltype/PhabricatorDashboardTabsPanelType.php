@@ -28,19 +28,23 @@ final class PhabricatorDashboardTabsPanelType
     return false;
   }
 
+  /**
+   * @return array
+   */
   public function getPanelConfiguration(PhabricatorDashboardPanel $panel) {
     $config = $panel->getProperty('config');
 
-    if (!is_array($config)) {
-      // NOTE: The older version of this panel stored raw JSON.
-      try {
-        $config = phutil_json_decode($config);
-      } catch (PhutilJSONParserException $ex) {
-        $config = array();
-      }
+    if (is_array(config)) {
+      return $config;
     }
-
-    return $config;
+    if ($config === null) {
+      return array();
+    }
+    try {
+      return phutil_json_decode($config);
+    } catch (PhutilJSONParserException $ex) {
+      return array();
+    }
   }
 
   public function renderPanelContent(
