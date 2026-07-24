@@ -2303,6 +2303,18 @@ final class PhabricatorUSEnglishTranslation
           ),
         ),
       ),
+      'WARNING: This project has [[%s|%s open task(s) with no active '.
+      'project tags]]. Before archiving, consider closing the task(s) or '.
+      'adding active project tags to the task(s).' => array(
+        array(
+          'WARNING: This project has [[%s|%s open task with no active '.
+          'project tags]]. Before archiving, consider closing the task or '.
+          'adding active project tags to it.',
+          'WARNING: This project has [[%s|%s open tasks with no active '.
+          'project tags]]. Before archiving, consider closing the tasks or '.
+          'adding active project tags to them.',
+        ),
+      ),
     );
   }
 }
