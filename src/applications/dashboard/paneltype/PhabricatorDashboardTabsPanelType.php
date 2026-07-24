@@ -34,7 +34,7 @@ final class PhabricatorDashboardTabsPanelType
   public function getPanelConfiguration(PhabricatorDashboardPanel $panel) {
     $config = $panel->getProperty('config');
 
-    if (is_array(config)) {
+    if (is_array($config)) {
       return $config;
     }
     if ($config === null) {
