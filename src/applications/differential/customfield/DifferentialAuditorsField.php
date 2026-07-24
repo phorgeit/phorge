@@ -20,10 +20,14 @@ final class DifferentialAuditorsField
   }
 
   public function setValueFromStorage($value) {
-    try {
-      $this->setValue(phutil_json_decode($value));
-    } catch (PhutilJSONParserException $ex) {
+    if ($value === null) {
       $this->setValue(array());
+    } else {
+      try {
+        $this->setValue(phutil_json_decode($value));
+      } catch (PhutilJSONParserException $ex) {
+        $this->setValue(array());
+      }
     }
     return $this;
   }
