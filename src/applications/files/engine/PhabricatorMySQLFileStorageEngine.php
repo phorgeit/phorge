@@ -48,13 +48,15 @@ final class PhabricatorMySQLFileStorageEngine
   /**
    * Write file data into the big blob store table in MySQL. Returns the row
    * ID as the file data handle.
+   *
+   * @return string Row ID
    */
   public function writeFile($data, array $params) {
     $blob = new PhabricatorFileStorageBlob();
     $blob->setData($data);
     $blob->save();
 
-    return $blob->getID();
+    return (string)$blob->getID();
   }
 
 

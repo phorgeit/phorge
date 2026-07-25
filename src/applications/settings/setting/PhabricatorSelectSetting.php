@@ -36,7 +36,7 @@ abstract class PhabricatorSelectSetting
       return;
     }
 
-    if (!strlen($value)) {
+    if (!phutil_nonempty_string($value)) {
       throw new Exception(
         pht(
           'Empty string is not a valid setting for "%s".',
