@@ -185,8 +185,11 @@ abstract class PhabricatorApplication
     return null;
   }
 
+  /**
+   * @param string|PhutilURI $path
+   */
   final public function getApplicationURI($path = '') {
-    return $this->getBaseURI().ltrim($path, '/');
+    return $this->getBaseURI().ltrim((string)$path, '/');
   }
 
   public function getIcon() {
