@@ -11,7 +11,7 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
 
   private $components = array();
 
-  public function addItem(PHUIDiffTableOfContentsItemView $item) {
+  public function addItem(PHUIDiffTableOfContentsItem $item) {
     $this->items[] = $item;
     return $this;
   }
@@ -386,6 +386,9 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
     return $key;
   }
 
+  /**
+   * @return PhutilSafeHTML Table
+   */
   private function newComponentView(
     $icon,
     array $keys,

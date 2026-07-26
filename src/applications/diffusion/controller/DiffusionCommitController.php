@@ -1025,7 +1025,7 @@ final class DiffusionCommitController extends DiffusionController {
           'type' => $changeset->getFileType(),
         ));
 
-      $item = id(new PHUIDiffTableOfContentsItemView())
+      $item = id(new PHUIDiffTableOfContentsItem())
         ->setChangeset($changeset)
         ->setAnchor($anchor)
         ->setContext(

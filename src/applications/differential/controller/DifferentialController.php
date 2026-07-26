@@ -138,7 +138,7 @@ abstract class DifferentialController extends PhabricatorController {
       $filename = $changeset->getFilename();
       $coverage_id = 'differential-mcoverage-'.md5($filename);
 
-      $item = id(new PHUIDiffTableOfContentsItemView())
+      $item = id(new PHUIDiffTableOfContentsItem())
         ->setChangeset($changeset)
         ->setIsVisible($is_visible)
         ->setAnchor($anchor)

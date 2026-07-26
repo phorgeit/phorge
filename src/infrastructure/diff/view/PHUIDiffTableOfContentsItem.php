@@ -1,7 +1,8 @@
 <?php
 
-final class PHUIDiffTableOfContentsItemView extends AphrontView {
+final class PHUIDiffTableOfContentsItem extends Phobject {
 
+  private $viewer;
   private $changeset;
   private $isVisible = true;
   private $anchor;
@@ -9,6 +10,15 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
   private $coverageID;
   private $context;
   private $packages;
+
+  public function setViewer(PhabricatorUser $viewer) {
+    $this->viewer = $viewer;
+    return $this;
+  }
+
+  public function getViewer() {
+    return $this->viewer;
+  }
 
   public function setChangeset(DifferentialChangeset $changeset) {
     $this->changeset = $changeset;
@@ -82,33 +92,10 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
     return $this->packages;
   }
 
-  public function render() {
-    $changeset = $this->getChangeset();
-
-    $cells = array();
-
-    $cells[] = $this->getContext();
-
-    $cells[] = $changeset->newFileTreeIcon();
-
-    $link = $this->renderChangesetLink();
-    $lines = $this->renderChangesetLines();
-    $meta = $this->renderChangesetMetadata();
-
-    $cells[] = array(
-      $link,
-      $lines,
-      $meta,
-    );
-
-    $cells[] = $this->renderCoverage();
-    $cells[] = $this->renderModifiedCoverage();
-
-    $cells[] = $this->renderPackages();
-
-    return $cells;
-  }
-
+  /**
+   * Create the string which shows how many lines were changed in a file.
+   * @return PhutilSafeHTML
+   */
   public function newLink() {
     $anchor = $this->getAnchor();
 
@@ -128,6 +115,10 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
       $name);
   }
 
+  /**
+   * Create the string which shows how many lines were changed in a file.
+   * @return string|null
+   */
   public function renderChangesetLines() {
     $changeset = $this->getChangeset();
 
@@ -161,6 +152,9 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
     return sprintf('%d%%', 100 * ($covered / ($covered + $not_covered)));
   }
 
+  /**
+   * @return PhutilSafeHTML|string
+   */
   public function renderModifiedCoverage() {
     $not_applicable = '-';
 
@@ -184,47 +178,9 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
       $label);
   }
 
-  private function renderChangesetMetadata() {
-    $changeset = $this->getChangeset();
-    $type = $changeset->getChangeType();
-
-    $meta = array();
-    if (DifferentialChangeType::isOldLocationChangeType($type)) {
-      $away = $changeset->getAwayPaths();
-      if (count($away) > 1) {
-        if ($type == DifferentialChangeType::TYPE_MULTICOPY) {
-          $meta[] = pht('Deleted after being copied to multiple locations:');
-        } else {
-          $meta[] = pht('Copied to multiple locations:');
-        }
-        foreach ($away as $path) {
-          $meta[] = $path;
-        }
-      } else {
-        if ($type == DifferentialChangeType::TYPE_MOVE_AWAY) {
-          // This case is handled when we render the path.
-        } else {
-          $meta[] = pht('Copied to %s', head($away));
-        }
-      }
-    } else if ($type == DifferentialChangeType::TYPE_COPY_HERE) {
-      $meta[] = pht('Copied from %s', $changeset->getOldFile());
-    }
-
-    if (!$meta) {
-      return null;
-    }
-
-    $meta = phutil_implode_html(phutil_tag('br'), $meta);
-
-    return phutil_tag(
-      'div',
-      array(
-        'class' => 'differential-toc-meta',
-      ),
-      $meta);
-  }
-
+  /**
+   * @return PHUIHandleListView|null View of the handles
+   */
   public function renderPackages() {
     $packages = $this->getPackages();
 
