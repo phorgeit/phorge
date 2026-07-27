@@ -161,6 +161,10 @@ final class DivinerAtomRef extends Phobject {
     // helpful to replace it with a "." or a ":" or similar, while it's better
     // if operator overloads read as, e.g., "operator_div".
 
+    if ($str === null) {
+      return 'null';
+    }
+
     $map = array(
       // Hopefully not used anywhere by anything.
       '#' => '.',
