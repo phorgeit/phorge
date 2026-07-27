@@ -191,7 +191,7 @@ final class PhabricatorProjectColumnBulkMoveController
 
           $xactions[] = id(new ManiphestTransaction())
             ->setTransactionType(
-              ManiphestTaskColumnTransactionType::TRANSACTIONTYPE)
+              ManiphestTaskColumnTransaction::TRANSACTIONTYPE)
             ->setNewValue(
               array(
                 array(

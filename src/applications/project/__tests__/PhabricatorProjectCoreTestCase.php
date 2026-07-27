@@ -1413,7 +1413,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     ) + $options;
 
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(ManiphestTaskColumnTransactionType::TRANSACTIONTYPE)
+      ->setTransactionType(ManiphestTaskColumnTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($value));
 
     $editor = id(new ManiphestTransactionEditor())

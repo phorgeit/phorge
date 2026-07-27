@@ -173,8 +173,8 @@ final class ManiphestTransactionEditor
       $this->getObjectLinkButtonURIForMail($object));
 
     $board_phids = array();
-    $type_columns = ManiphestTaskColumnTransactionType::TRANSACTIONTYPE;
-    // TODO this should be moved to ManiphestTaskColumnTransactionType, but
+    $type_columns = ManiphestTaskColumnTransaction::TRANSACTIONTYPE;
+    // TODO this should be moved to ManiphestTaskColumnTransaction, but
     // there's no support for `addLinkSection()` feature in TransactionType.
     foreach ($xactions as $xaction) {
       if ($xaction->getTransactionType() == $type_columns) {
@@ -349,7 +349,7 @@ final class ManiphestTransactionEditor
 
     $type = $xaction->getTransactionType();
     switch ($type) {
-      case ManiphestTaskColumnTransactionType::TRANSACTIONTYPE:
+      case ManiphestTaskColumnTransaction::TRANSACTIONTYPE:
         try {
           $more_xactions = $this->buildMoveTransaction($object, $xaction);
           foreach ($more_xactions as $more_xaction) {
@@ -395,7 +395,7 @@ final class ManiphestTransactionEditor
 
     // This method is all about Board Columns, and I think it has nothing that
     // is task-specific.
-    // Should be moved to ManiphestTaskColumnTransactionType, once
+    // Should be moved to ManiphestTaskColumnTransaction, once
     // `expandTransaction` is modularized.
     // alternatively, use PhabricatorEditorExtension if that's a thing.
 

@@ -178,7 +178,7 @@ EODOCS
         ->setConduitDocumentation($column_documentation)
         ->setAliases(array('columnPHID', 'columns', 'columnPHIDs'))
         ->setTransactionType(
-          ManiphestTaskColumnTransactionType::TRANSACTIONTYPE)
+          ManiphestTaskColumnTransaction::TRANSACTIONTYPE)
         ->setIsReorderable(false)
         ->setIsDefaultable(false)
         ->setIsLockable(false)

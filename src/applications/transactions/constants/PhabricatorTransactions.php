@@ -19,7 +19,7 @@ final class PhabricatorTransactions extends Phobject {
   const TYPE_MFA = 'core:mfa';
   const TYPE_FILE = 'core:file';
 
-  /** @deprecated move applicable code to ManiphestTaskColumnTransactionType. */
+  /** @deprecated move applicable code to ManiphestTaskColumnTransaction. */
   const TYPE_COLUMNS = 'core:columns';
 
   const COLOR_RED         = 'red';

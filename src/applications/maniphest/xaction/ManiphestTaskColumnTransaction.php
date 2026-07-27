@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskColumnTransactionType
+final class ManiphestTaskColumnTransaction
   extends ManiphestTaskTransactionType {
 
   // The TRANSACTIONTYPE is `core:`, probably in preparation for someday having

@@ -163,7 +163,7 @@ final class ManiphestTransaction
       case ManiphestTaskUnblockTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_UNBLOCK;
         break;
-      case ManiphestTaskColumnTransactionType::TRANSACTIONTYPE:
+      case ManiphestTaskColumnTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_COLUMN;
         break;
       case PhabricatorTransactions::TYPE_COMMENT:

@@ -97,7 +97,7 @@ final class PhabricatorProjectMoveController
 
     $xactions = array();
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(ManiphestTaskColumnTransactionType::TRANSACTIONTYPE)
+      ->setTransactionType(ManiphestTaskColumnTransaction::TRANSACTIONTYPE)
       ->setNewValue(
         array(
           array(
