@@ -1769,18 +1769,6 @@ abstract class PhabricatorApplicationTransaction
   }
 
 
-  private function getInterestingMoves(array $moves) {
-    // Remove moves which only shift the position of a task within a column.
-    foreach ($moves as $key => $move) {
-      $from_phids = array_fuse($move['fromColumnPHIDs']);
-      if (isset($from_phids[$move['columnPHID']])) {
-        unset($moves[$key]);
-      }
-    }
-
-    return $moves;
-  }
-
   private function getInterestingInlineStateChangeCounts() {
     // See PHI995. Newer inline state transactions have additional details
     // which we use to tailor the rendering behavior. These details are not

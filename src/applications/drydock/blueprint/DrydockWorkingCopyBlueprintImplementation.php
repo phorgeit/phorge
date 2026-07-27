@@ -547,13 +547,6 @@ final class DrydockWorkingCopyBlueprintImplementation
     return $lease->getAttribute('workingcopy.vcs.error');
   }
 
-  private function execxv(
-    DrydockCommandInterface $interface,
-    array $commands,
-    array $arguments) {
-    return $this->newExecvFuture($interface, $commands, $arguments)->resolvex();
-  }
-
   private function newExecvFuture(
     DrydockCommandInterface $interface,
     array $commands,
