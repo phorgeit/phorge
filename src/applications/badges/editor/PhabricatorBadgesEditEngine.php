@@ -61,10 +61,6 @@ final class PhabricatorBadgesEditEngine
     return $this->getApplication()->getApplicationURI('edit/');
   }
 
-  protected function getCommentViewHeaderText($object) {
-    return pht('Render Honors');
-  }
-
   protected function getCommentViewButtonText($object) {
     return pht('Salute');
   }

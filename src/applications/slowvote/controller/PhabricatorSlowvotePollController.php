@@ -144,19 +144,12 @@ final class PhabricatorSlowvotePollController
   private function buildCommentForm(PhabricatorSlowvotePoll $poll) {
     $viewer = $this->getRequest()->getUser();
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phabricator.serious-business');
-
-    $add_comment_header = $is_serious
-      ? pht('Add Comment')
-      : pht('Enter Deliberations');
-
     $draft = PhabricatorDraft::newFromUserAndKey($viewer, $poll->getPHID());
 
     return id(new PhabricatorApplicationTransactionCommentView())
       ->setViewer($viewer)
       ->setObject($poll)
       ->setDraft($draft)
-      ->setHeaderText($add_comment_header)
       ->setAction($this->getApplicationURI('/comment/'.$poll->getID().'/'))
       ->setSubmitButtonName(pht('Add Comment'));
   }

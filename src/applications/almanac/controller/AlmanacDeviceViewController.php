@@ -159,7 +159,6 @@ final class AlmanacDeviceViewController
     $table = id(new PhabricatorAuthSSHKeyTableView())
       ->setUser($viewer)
       ->setKeys($keys)
-      ->setCanEdit($can_edit)
       ->setShowID(true)
       ->setShowTrusted(true)
       ->setNoDataString(pht('This device has no associated SSH public keys.'));

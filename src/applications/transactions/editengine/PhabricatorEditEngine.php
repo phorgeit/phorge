@@ -331,24 +331,8 @@ abstract class PhabricatorEditEngine
   /**
    * @task text
    */
-  protected function getCommentViewSeriousHeaderText($object) {
-    return pht('Take Action');
-  }
-
-
-  /**
-   * @task text
-   */
   protected function getCommentViewSeriousButtonText($object) {
     return pht('Submit');
-  }
-
-
-  /**
-   * @task text
-   */
-  protected function getCommentViewHeaderText($object) {
-    return $this->getCommentViewSeriousHeaderText($object);
   }
 
 
@@ -1705,10 +1689,8 @@ abstract class PhabricatorEditEngine
     $is_serious = PhabricatorEnv::getEnvConfig('phabricator.serious-business');
 
     if ($is_serious) {
-      $header_text = $this->getCommentViewSeriousHeaderText($object);
       $button_text = $this->getCommentViewSeriousButtonText($object);
     } else {
-      $header_text = $this->getCommentViewHeaderText($object);
       $button_text = $this->getCommentViewButtonText($object);
     }
 
@@ -1723,7 +1705,6 @@ abstract class PhabricatorEditEngine
 
     $view = id(new PhabricatorApplicationTransactionCommentView())
       ->setViewer($viewer)
-      ->setHeaderText($header_text)
       ->setAction($comment_uri)
       ->setRequestURI(new PhutilURI($this->getObjectViewURI($object)))
       ->setRequiresMFA($requires_mfa)

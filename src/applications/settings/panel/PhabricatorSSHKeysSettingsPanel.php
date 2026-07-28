@@ -39,7 +39,6 @@ final class PhabricatorSSHKeysSettingsPanel extends PhabricatorSettingsPanel {
     $table = id(new PhabricatorAuthSSHKeyTableView())
       ->setUser($viewer)
       ->setKeys($keys)
-      ->setCanEdit(true)
       ->setNoDataString(pht("You haven't added any SSH Public Keys."));
 
     $ssh_actions = PhabricatorAuthSSHKeyTableView::newKeyActionsMenu(

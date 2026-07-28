@@ -58,10 +58,6 @@ final class PhabricatorCountdownEditEngine
     return pht('Countdown');
   }
 
-  protected function getCommentViewHeaderText($object) {
-    return pht('Last Words');
-  }
-
   protected function getCommentViewButtonText($object) {
     return pht('Contemplate Infinity');
   }

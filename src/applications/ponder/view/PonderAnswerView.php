@@ -123,7 +123,6 @@ final class PonderAnswerView extends AphrontTagView {
       ->setUser($viewer)
       ->setObject($answer)
       ->setShowPreview(false)
-      ->setHeaderText(pht('Answer Comment'))
       ->setAction("/ponder/answer/comment/{$id}/")
       ->setSubmitButtonName(pht('Comment'));
 

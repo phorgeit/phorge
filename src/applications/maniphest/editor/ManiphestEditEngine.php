@@ -61,10 +61,6 @@ final class ManiphestEditEngine
     return $this->getApplication()->getApplicationURI('task/edit/');
   }
 
-  protected function getCommentViewHeaderText($object) {
-    return pht('Weigh In');
-  }
-
   protected function getCommentViewButtonText($object) {
     return pht('Set Sail for Adventure');
   }

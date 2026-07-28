@@ -50,10 +50,6 @@ final class PhabricatorPasteEditEngine
     return pht('Paste');
   }
 
-  protected function getCommentViewHeaderText($object) {
-    return pht('Eat Paste');
-  }
-
   protected function getCommentViewButtonText($object) {
     return pht('Nom Nom Nom Nom Nom');
   }

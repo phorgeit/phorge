@@ -14,7 +14,6 @@ final class PhabricatorApplicationTransactionCommentView
   private $requestURI;
   private $showPreview = true;
   private $object;
-  private $headerText;
   private $noPermission;
   private $fullWidth;
   private $infoView;
@@ -104,11 +103,6 @@ final class PhabricatorApplicationTransactionCommentView
 
   public function getAction() {
     return $this->action;
-  }
-
-  public function setHeaderText($text) {
-    $this->headerText = $text;
-    return $this;
   }
 
   public function setFullWidth($fw) {

@@ -105,7 +105,6 @@ final class ConpherenceListController extends ConpherenceController {
 
     $thread_view = id(new ConpherenceThreadListView())
       ->setViewer($user)
-      ->setBaseURI($this->getApplicationURI())
       ->setThreads($threads);
 
     switch ($mode) {

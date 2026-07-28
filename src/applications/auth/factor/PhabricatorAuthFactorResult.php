@@ -9,7 +9,6 @@ final class PhabricatorAuthFactorResult
   private $isContinue = false;
   private $errorMessage;
   private $value;
-  private $issuedChallenges = array();
   private $icon;
   private $statusChallenge;
 

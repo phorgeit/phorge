@@ -5,7 +5,6 @@ final class DifferentialTransactionEditor
 
   private $changedPriorToCommitURI;
   private $isCloseByCommit;
-  private $repositoryPHIDOverride = false;
   private $didExpandInlineState = false;
   private $firstBroadcast = false;
   private $wasBroadcasting;
@@ -62,11 +61,6 @@ final class DifferentialTransactionEditor
 
   public function getChangedPriorToCommitURI() {
     return $this->changedPriorToCommitURI;
-  }
-
-  public function setRepositoryPHIDOverride($phid_or_null) {
-    $this->repositoryPHIDOverride = $phid_or_null;
-    return $this;
   }
 
   public function getTransactionTypes() {

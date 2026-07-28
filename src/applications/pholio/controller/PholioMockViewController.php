@@ -216,17 +216,11 @@ final class PholioMockViewController extends PholioController {
 
     $draft = PhabricatorDraft::newFromUserAndKey($viewer, $mock->getPHID());
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phabricator.serious-business');
-    $title = $is_serious
-      ? pht('Add Comment')
-      : pht('History Beckons');
-
     $form = id(new PhabricatorApplicationTransactionCommentView())
       ->setViewer($viewer)
       ->setObject($mock)
       ->setFormID($comment_form_id)
       ->setDraft($draft)
-      ->setHeaderText($title)
       ->setSubmitButtonName(pht('Add Comment'))
       ->setAction($this->getApplicationURI('/comment/'.$mock->getID().'/'))
       ->setRequestURI($this->getRequest()->getRequestURI());

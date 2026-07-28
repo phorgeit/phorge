@@ -23,7 +23,6 @@ abstract class DiffusionRequest extends Phobject {
   protected $repositoryCommitData;
 
   private $isClusterRequest = false;
-  private $initFromConduit = true;
   private $user;
   private $branchObject = false;
   private $refAlternatives;
@@ -218,7 +217,6 @@ abstract class DiffusionRequest extends Phobject {
 
     $this->path = idx($data, 'path');
     $this->line = idx($data, 'line');
-    $this->initFromConduit = idx($data, 'initFromConduit', true);
     $this->lint = idx($data, 'lint');
 
     $this->symbolicCommit = idx($data, 'commit');

@@ -3,7 +3,6 @@
 final class DiffusionDoorkeeperCommitFeedStoryPublisher
   extends DoorkeeperFeedStoryPublisher {
 
-  private $auditRequests;
   private $activePHIDs;
   private $passivePHIDs;
 
@@ -111,7 +110,6 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
 
     $this->activePHIDs = $active;
     $this->passivePHIDs = $passive;
-    $this->auditRequests = $requests;
 
     return $commit;
   }

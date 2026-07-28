@@ -3,7 +3,6 @@
 final class PhabricatorAuthSSHKeyTableView extends AphrontView {
 
   private $keys;
-  private $canEdit;
   private $noDataString;
   private $showTrusted;
   private $showID;
@@ -62,11 +61,6 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
 
   public function setNoDataString($no_data_string) {
     $this->noDataString = $no_data_string;
-    return $this;
-  }
-
-  public function setCanEdit($can_edit) {
-    $this->canEdit = $can_edit;
     return $this;
   }
 

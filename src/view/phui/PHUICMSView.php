@@ -6,7 +6,6 @@ final class PHUICMSView extends AphrontTagView {
   private $nav;
   private $crumbs;
   private $content;
-  private $toc;
   private $comments;
 
   public function setHeader(PHUIHeaderView $header) {
@@ -26,11 +25,6 @@ final class PHUICMSView extends AphrontTagView {
 
   public function setContent($content) {
     $this->content = $content;
-    return $this;
-  }
-
-  public function setToc($toc) {
-    $this->toc = $toc;
     return $this;
   }
 

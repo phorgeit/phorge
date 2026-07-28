@@ -4,7 +4,6 @@ final class ConpherenceThreadListView extends AphrontView {
 
   const SEE_ALL_LIMIT = 16;
 
-  private $baseURI;
   private $threads;
 
   /**
@@ -13,11 +12,6 @@ final class ConpherenceThreadListView extends AphrontView {
   public function setThreads(array $threads) {
     assert_instances_of($threads, ConpherenceThread::class);
     $this->threads = $threads;
-    return $this;
-  }
-
-  public function setBaseURI($base_uri) {
-    $this->baseURI = $base_uri;
     return $this;
   }
 
