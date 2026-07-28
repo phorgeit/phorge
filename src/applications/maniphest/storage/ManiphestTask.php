@@ -30,6 +30,7 @@ final class ManiphestTask extends ManiphestDAO
 
   protected $status;
   protected $priority;
+  // Obsolete, see https://we.phorge.it/T16723
   protected $subpriority = 0;
 
   protected $title = '';

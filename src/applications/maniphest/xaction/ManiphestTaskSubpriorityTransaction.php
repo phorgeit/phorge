@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Obsolete since March 2019, see https://we.phorge.it/T16723
+ */
 final class ManiphestTaskSubpriorityTransaction
   extends ManiphestTaskTransactionType {
 
