@@ -19,6 +19,10 @@ final class PhabricatorSecurityConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     $doc_href = PhabricatorEnv::getDoclink('Configuring a File Domain');
     $doc_name = pht('Configuration Guide: Configuring a File Domain');

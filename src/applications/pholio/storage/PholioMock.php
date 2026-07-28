@@ -41,7 +41,7 @@ final class PholioMock extends PholioDAO
     $view_policy = $app->getPolicy(PholioDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(PholioDefaultEditCapability::CAPABILITY);
 
-    return id(new PholioMock())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->attachImages(array())
       ->setStatus(self::STATUS_OPEN)
@@ -186,6 +186,7 @@ final class PholioMock extends PholioDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

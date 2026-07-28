@@ -8,7 +8,6 @@ final class PhabricatorApplicationTransactionCommentView
 
   private $previewPanelID;
   private $previewTimelineID;
-  private $previewToggleID;
   private $formID;
   private $commentID;
   private $draft;
@@ -21,7 +20,6 @@ final class PhabricatorApplicationTransactionCommentView
   private $infoView;
   private $editEngine;
   private $editEngineLock;
-  private $noBorder;
   private $requiresMFA;
 
   private $currentVersion;
@@ -254,8 +252,6 @@ final class PhabricatorApplicationTransactionCommentView
         }
       }
     }
-
-    $data = array();
 
     $comment = $this->renderCommentPanel();
 
@@ -593,7 +589,7 @@ final class PhabricatorApplicationTransactionCommentView
     // Merge options into groups.
     $groups = array();
     foreach ($action_map as $key => $item) {
-      $group_key = $item['groupKey'];
+      $group_key = $item['groupKey'] ?? '';
       if (!isset($groups[$group_key])) {
         $groups[$group_key] = array();
       }

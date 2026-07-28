@@ -5,12 +5,12 @@ $root = dirname(dirname(dirname(__FILE__)));
 require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **generate_ctags_symbols.php** [__options__]
 
   Generate repository symbols using Exuberant Ctags. Paths are read from stdin.
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 if (ctags_check_executable() == false) {

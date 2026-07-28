@@ -1,2 +1,1 @@
-ALTER TABLE {$NAMESPACE}_phortune.phortune_merchant
-  ADD contactInfo LONGTEXT COLLATE {$COLLATE_TEXT} NOT NULL;
+/* This file is intentionally left empty, see T15726 */

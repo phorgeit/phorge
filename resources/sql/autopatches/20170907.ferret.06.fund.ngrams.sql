@@ -1,5 +1,1 @@
-CREATE TABLE {$NAMESPACE}_fund.fund_initiative_fngrams (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  documentID INT UNSIGNED NOT NULL,
-  ngram CHAR(3) NOT NULL COLLATE {$COLLATE_TEXT}
-) ENGINE=InnoDB, COLLATE {$COLLATE_TEXT};
+/* This file is intentionally left empty, see T15726 */

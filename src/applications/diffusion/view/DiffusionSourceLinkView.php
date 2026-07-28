@@ -162,7 +162,7 @@ final class DiffusionSourceLinkView
     $icon = 'fa-file-text-o';
 
     $text = $this->getText();
-    if (!strlen($text)) {
+    if (!phutil_nonempty_string($text)) {
       $path = $this->getDisplayPath();
 
       $line = $this->getDisplayLine();

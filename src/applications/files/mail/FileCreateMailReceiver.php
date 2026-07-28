@@ -10,7 +10,6 @@ final class FileCreateMailReceiver
   protected function processReceivedMail(
     PhabricatorMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
-    $author = $this->getAuthor();
 
     $attachment_phids = $mail->getAttachments();
     if (empty($attachment_phids)) {

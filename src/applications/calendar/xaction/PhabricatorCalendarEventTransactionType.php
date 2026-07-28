@@ -7,4 +7,8 @@ abstract class PhabricatorCalendarEventTransactionType
     return true;
   }
 
+  protected function renderObjectType() {
+    return pht('event');
+  }
+
 }

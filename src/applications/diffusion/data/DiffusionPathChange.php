@@ -183,7 +183,7 @@ final class DiffusionPathChange extends Phobject {
       $commit_data =
         PhabricatorRepositoryCommitData::newFromDictionary(
           $dict['commitData']);
-      $results[] = id(new DiffusionPathChange())
+      $results[] = id(new self())
         ->setPath($dict['path'])
         ->setCommitIdentifier($dict['commitIdentifier'])
         ->setCommit($commit)

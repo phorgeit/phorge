@@ -34,7 +34,7 @@ final class PhabricatorCommonPasswords extends Phobject {
   /**
    * Load the common password wordlist.
    *
-   * @return map<string, bool>  Map of common passwords.
+   * @return array<string, bool>  Map of common passwords.
    *
    * @task common
    */

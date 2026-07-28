@@ -7,7 +7,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   private $customPHID;
   private $items;
   private $controller;
-  private $navigation;
   private $editMode;
   private $pageClasses = array();
   private $showContentCrumbs = true;
@@ -209,7 +208,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $available_modes = $this->getViewerEditModes();
       if ($available_modes) {
         $available_modes = array_fuse($available_modes);
-        if (isset($available_modes[$edit_mode])) {
+        if ($edit_mode !== null && isset($available_modes[$edit_mode])) {
           $this->editMode = $edit_mode;
         } else {
           if ($item_action != 'configure') {
@@ -723,6 +722,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       ));
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setID($list_id)
       ->setNoDataString(pht('This menu currently has no items.'));
 
@@ -736,7 +736,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         $item,
         PhabricatorPolicyCapability::CAN_EDIT);
 
-      $view = id(new PHUIObjectItemView());
+      $view = new PHUIObjectItemView();
 
       $name = $item->getDisplayName();
       $type = $item->getMenuItemTypeName();
@@ -1036,7 +1036,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $button = pht('Disable Menu Item');
     }
 
-    $v_visibility = $configuration->getVisibility();
     if ($request->isFormPost()) {
       if ($new_value === null) {
         $configuration->delete();
@@ -1275,7 +1274,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       pht('No visible menu items can render content.'));
   }
 
-
+  /**
+   * @return PhabricatorProfileMenuItemViewList
+   */
   final public function newProfileMenuItemViewList() {
     $items = $this->getItems();
 

@@ -59,7 +59,6 @@ final class PHUICurtainObjectRefView
     require_celerity_resource('phui-curtain-object-ref-view-css');
 
     $viewer = $this->getViewer();
-    $handle = $this->handle;
 
     $more_rows = array();
 

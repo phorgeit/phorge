@@ -30,4 +30,28 @@ final class PhabricatorProjectColorTransaction
       $this->renderValue(PHUITagView::getShadeName($new)));
   }
 
+  public function validateTransactions($object, array $xactions) {
+    $errors = array();
+
+    if (!$xactions) {
+      return $errors;
+    }
+
+    foreach ($xactions as $xaction) {
+      $new_color = $xaction->getNewValue();
+      if (!PhabricatorProjectIconSet::getColorName($new_color)) {
+        $errors[] = new PhabricatorApplicationTransactionValidationError(
+          self::TRANSACTIONTYPE,
+          pht('Invalid'),
+          pht(
+            'Value for "%s" is invalid: "%s".',
+            self::TRANSACTIONTYPE,
+            $new_color));
+        break;
+      }
+    }
+
+    return $errors;
+  }
+
 }

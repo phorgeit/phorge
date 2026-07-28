@@ -1,9 +1,12 @@
 /**
- * @provides javelin-dynval
  * @requires javelin-install
  *           javelin-reactornode
  *           javelin-util
  *           javelin-reactor
+ * @provides javelin-dynval
+ *
+ * @javelin-installs JX.DynVal
+ *
  * @javelin
  */
 

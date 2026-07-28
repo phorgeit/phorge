@@ -9,21 +9,22 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
   public function getDescription() {
     return pht(
       'Use %s to render lists of objects.',
-      hsprintf('<tt>PHUIObjectItemListView</tt>'));
+      hsprintf('<code>PHUIObjectItemListView</code>'));
   }
 
   public function renderExample() {
     $request = $this->getRequest();
-    $user = $request->getUser();
+    $viewer = $request->getViewer();
 
     $handle = id(new PhabricatorHandleQuery())
-      ->setViewer($user)
-      ->withPHIDs(array($user->getPHID()))
+      ->setViewer($viewer)
+      ->withPHIDs(array($viewer->getPHID()))
       ->executeOne();
 
     $out = array();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -50,8 +51,9 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
-    $list->setNoDataString(pht('This list is empty.'));
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
+      ->setNoDataString(pht('This list is empty.'));
 
     $box = id(new PHUIObjectBoxView())
       ->setHeaderText('Empty List')
@@ -59,7 +61,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -84,7 +87,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -131,7 +135,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -161,7 +166,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -194,10 +200,10 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
       ->setHeaderText('Action Link List')
       ->setObjectList($list);
 
-    $head = id(new PHUIHeaderView())
-      ->setHeader(pht('Extras'));
+    $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -240,7 +246,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $list->addItem(
       id(new PHUIObjectItemView())
@@ -275,7 +282,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $bar_colors = array(
       ''        => pht('None'),
@@ -304,11 +312,12 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
 
     $out[] = $box;
 
-    $list = new PHUIObjectItemListView();
-    $list->setFlush(true);
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
+      ->setFlush(true);
 
-    $default_profile = PhabricatorFile::loadBuiltin($user, 'profile.png');
-    $default_project = PhabricatorFile::loadBuiltin($user, 'project.png');
+    $default_profile = PhabricatorFile::loadBuiltin($viewer, 'profile.png');
+    $default_project = PhabricatorFile::loadBuiltin($viewer, 'project.png');
 
     $list->addItem(
       id(new PHUIObjectItemView())

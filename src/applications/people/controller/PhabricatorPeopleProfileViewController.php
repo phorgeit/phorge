@@ -25,8 +25,6 @@ final class PhabricatorPeopleProfileViewController
     $header = $this->buildProfileHeader();
 
     $properties = $this->buildPropertyView($user);
-    $name = $user->getUsername();
-
     $feed = $this->buildPeopleFeed($user, $viewer);
 
     $view_all = id(new PHUIButtonView())
@@ -158,7 +156,7 @@ final class PhabricatorPeopleProfileViewController
     } else {
       $list = id(new PHUIInfoView())
         ->setSeverity(PHUIInfoView::SEVERITY_NODATA)
-        ->appendChild(pht('User does not belong to any projects.'));
+        ->appendChild(pht('User is not a member of any projects.'));
     }
 
     $box = id(new PHUIObjectBoxView())

@@ -81,6 +81,9 @@ final class PhabricatorObjectHandle
     return 'blue';
   }
 
+  /**
+   * @return string|null
+   */
   public function getIconColor() {
     if ($this->tagColor) {
       return $this->tagColor;

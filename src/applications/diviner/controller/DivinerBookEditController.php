@@ -75,7 +75,7 @@ final class DivinerBookEditController extends DivinerController {
         id(new AphrontFormTokenizerControl())
           ->setDatasource(new PhabricatorProjectDatasource())
           ->setName('projectPHIDs')
-          ->setLabel(pht('Tags'))
+          ->setLabel(pht('Project Tags'))
           ->setValue($book->getProjectPHIDs()))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
@@ -89,12 +89,14 @@ final class DivinerBookEditController extends DivinerController {
             : null))
       ->appendChild(
         id(new AphrontFormPolicyControl())
+          ->setViewer($viewer)
           ->setName('viewPolicy')
           ->setPolicyObject($book)
           ->setCapability($view_capability)
           ->setPolicies($policies))
       ->appendChild(
         id(new AphrontFormPolicyControl())
+          ->setViewer($viewer)
           ->setName('editPolicy')
           ->setPolicyObject($book)
           ->setCapability($edit_capability)

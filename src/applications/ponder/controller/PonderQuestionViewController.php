@@ -144,13 +144,8 @@ final class PonderQuestionViewController extends PonderController {
 
     $curtain = $this->newCurtainView($question);
 
-    if ($question->getStatus() == PonderQuestionStatus::STATUS_OPEN) {
-      $name = pht('Close Question');
-      $icon = 'fa-check-square-o';
-    } else {
-      $name = pht('Reopen Question');
-      $icon = 'fa-square-o';
-    }
+    $name = pht('Change Question Status');
+    $icon = 'fa-square-o';
 
     $curtain->addAction(
       id(new PhabricatorActionView())

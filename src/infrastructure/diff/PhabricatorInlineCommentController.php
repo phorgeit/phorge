@@ -72,11 +72,17 @@ abstract class PhabricatorInlineCommentController
     return $this->isNewFile;
   }
 
+  /**
+   * @param DifferentialChangesetRenderer $renderer
+   */
   public function setRenderer($renderer) {
     $this->renderer = $renderer;
     return $this;
   }
 
+  /**
+   * @return DifferentialChangesetRenderer
+   */
   public function getRenderer() {
     return $this->renderer;
   }
@@ -401,7 +407,6 @@ abstract class PhabricatorInlineCommentController
   }
 
   private function buildEditDialog(PhabricatorInlineComment $inline) {
-    $request = $this->getRequest();
     $viewer = $this->getViewer();
 
     $edit_dialog = id(new PHUIDiffInlineCommentEditView())
@@ -426,7 +431,6 @@ abstract class PhabricatorInlineCommentController
     PhabricatorInlineComment $inline,
     $on_right) {
 
-    $request = $this->getRequest();
     $viewer = $this->getViewer();
 
     $engine = new PhabricatorMarkupEngine();

@@ -1,8 +1,9 @@
 /**
- * @provides javelin-behavior-phui-selectable-list
  * @requires javelin-behavior
  *           javelin-stratcom
+ *           javelin-util
  *           javelin-dom
+ * @provides javelin-behavior-phui-selectable-list
  */
 
 JX.behavior('phui-selectable-list', function() {

@@ -10,12 +10,15 @@
 }
 
 .maniphest-batch-editor-layout {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.maniphest-batch-editor-layout td {
+.batch-select-left {
   padding: 12px 4px 8px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .maniphest-batch-editor-layout a.button,
@@ -25,14 +28,18 @@
 
 .maniphest-batch-editor-layout .batch-select-submit-cell {
   text-align: right;
+  padding: 12px 4px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 #batch-select-status-cell {
+  padding: 12px 4px 8px;
+  white-space: nowrap;
+  flex-grow: 1;
   text-align: right;
   color: {$greytext};
   font-size: {$smallestfontsize};
-  vertical-align: middle;
-  width: 100%;
 }
 
 .maniphest-board-link {

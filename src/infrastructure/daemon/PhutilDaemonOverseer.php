@@ -39,11 +39,11 @@ final class PhutilDaemonOverseer extends Phobject {
 
     $args = new PhutilArgumentParser($argv);
     $args->setTagline(pht('daemon overseer'));
-    $args->setSynopsis(<<<EOHELP
+    $args->setSynopsis(pht(<<<EOHELP
 **launch_daemon.php** [__options__] __daemon__
     Launch and oversee an instance of __daemon__.
 EOHELP
-      );
+      ));
     $args->parseStandardArguments();
     $args->parse(
       array(

@@ -513,7 +513,7 @@ abstract class PhabricatorDaemonManagementWorkflow
   }
 
   private function freeActiveLeases() {
-    $task_table = id(new PhabricatorWorkerActiveTask());
+    $task_table = new PhabricatorWorkerActiveTask();
     $conn_w = $task_table->establishConnection('w');
     queryfx(
       $conn_w,

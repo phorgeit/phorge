@@ -86,7 +86,7 @@ final class PhameBlog extends PhameDAO
   }
 
   public static function initializeNewBlog(PhabricatorUser $actor) {
-    $blog = id(new PhameBlog())
+    $blog = id(new self())
       ->setCreatorPHID($actor->getPHID())
       ->setStatus(self::STATUS_ACTIVE)
       ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
@@ -117,7 +117,6 @@ final class PhameBlog extends PhameDAO
    */
   public function validateCustomDomain($domain_full_uri) {
     $example_domain = 'http://blog.example.com/';
-    $label = pht('Invalid');
 
     // note this "uri" should be pretty busted given the desired input
     // so just use it to test if there's a protocol specified
@@ -257,6 +256,7 @@ final class PhameBlog extends PhameDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {

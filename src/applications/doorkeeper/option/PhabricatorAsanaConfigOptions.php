@@ -19,6 +19,11 @@ final class PhabricatorAsanaConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorDoorkeeperApplication::class;
+  }
+
+
   public function getOptions() {
     return array(
       $this->newOption('asana.workspace-id', 'string', null)

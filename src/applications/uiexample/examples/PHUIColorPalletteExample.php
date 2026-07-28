@@ -97,14 +97,6 @@ final class PHUIColorPalletteExample extends PhabricatorUIExample {
         $name.' #'.$color);
     }
 
-    $color_url = phutil_tag(
-      'a',
-      array(
-        'href' => 'https://color.hailpixel.com/#'.implode(',', $url),
-        'class' => 'button button-grey mlb',
-      ),
-      pht('Color Palette'));
-
     $wrap1 = id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Greys'))
       ->appendChild($d_column);

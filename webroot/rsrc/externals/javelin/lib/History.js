@@ -4,6 +4,9 @@
  *           javelin-uri
  *           javelin-util
  * @provides javelin-history
+ *
+ * @javelin-installs JX.History
+ *
  * @javelin
  */
 
@@ -19,8 +22,8 @@ JX.install('History', {
 
   statics : {
 
-    // Mechanisms to @{JX.History.install} with (in preferred support order).
-    // The default behavior is to use the best supported mechanism.
+    // Mechanisms to @{method:JX.History.install} with (in preferred support
+    //  order). The default behavior is to use the best supported mechanism.
     DEFAULT : Infinity,
     PUSHSTATE : 3,
     HASHCHANGE : 2,

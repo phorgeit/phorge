@@ -1,5 +1,10 @@
 /**
+ * @requires javelin-install
+ *           javelin-dom
+ *           phuix-icon-view
  * @provides javelin-chart-curtain-view
+ *
+ * @javelin-installs JX.ChartCurtainView
  */
 JX.install('ChartCurtainView', {
 

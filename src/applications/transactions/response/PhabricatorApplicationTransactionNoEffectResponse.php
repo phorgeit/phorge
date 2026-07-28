@@ -3,7 +3,6 @@
 final class PhabricatorApplicationTransactionNoEffectResponse
   extends AphrontProxyResponse {
 
-  private $viewer;
   private $exception;
   private $cancelURI;
 

@@ -1,7 +1,9 @@
 /**
- * @provides phabricator-favicon
  * @requires javelin-install
  *           javelin-dom
+ * @provides phabricator-favicon
+ *
+ * @javelin-installs JX.Favicon
  */
 JX.install('Favicon', {
   statics: {

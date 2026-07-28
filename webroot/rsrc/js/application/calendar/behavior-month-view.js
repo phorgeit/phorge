@@ -1,4 +1,9 @@
 /**
+ * @requires javelin-behavior
+ *           javelin-dom
+ *           javelin-magical-init
+ *           javelin-stratcom
+ *           javelin-uri
  * @provides javelin-behavior-calendar-month-view
  */
 JX.behavior('calendar-month-view', function() {

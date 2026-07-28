@@ -145,7 +145,7 @@ final class DifferentialDiff
     $view_policy = $app->getPolicy(
       DifferentialDefaultViewCapability::CAPABILITY);
 
-    $diff = id(new DifferentialDiff())
+    $diff = id(new self())
       ->setViewPolicy($view_policy);
 
     return $diff;
@@ -171,10 +171,13 @@ final class DifferentialDiff
   public static function newEphemeralFromRawChanges(array $changes) {
     assert_instances_of($changes, ArcanistDiffChange::class);
 
-    $diff = id(new DifferentialDiff())->makeEphemeral();
+    $diff = id(new self())->makeEphemeral();
     return self::buildChangesetsFromRawChanges($diff, $changes);
   }
 
+  /**
+   * @param array<ArcanistDiffChange> $changes
+   */
   private static function buildChangesetsFromRawChanges(
     DifferentialDiff $diff,
     array $changes) {
@@ -268,10 +271,8 @@ final class DifferentialDiff
       'description' => $this->getDescription(),
       'unitStatus' => $this->getUnitStatus(),
       'lintStatus' => $this->getLintStatus(),
-      'changes' => array(),
+      'changes' => $this->buildChangesList(),
     );
-
-    $dict['changes'] = $this->buildChangesList();
 
     return $dict + $this->getDiffAuthorshipDict();
   }

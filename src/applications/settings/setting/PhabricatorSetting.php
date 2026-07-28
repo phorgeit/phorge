@@ -9,6 +9,9 @@ abstract class PhabricatorSetting extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser|null
+   */
   public function getViewer() {
     if ($this->viewer === false) {
       throw new PhutilInvalidStateException('setViewer');

@@ -1,8 +1,8 @@
 /**
- * @provides javelin-behavior-phui-timer-control
  * @requires javelin-behavior
- *           javelin-stratcom
+ *           javelin-request
  *           javelin-dom
+ * @provides javelin-behavior-phui-timer-control
  */
 
 JX.behavior('phui-timer-control', function(config) {

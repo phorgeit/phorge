@@ -1,9 +1,14 @@
 /**
- * @provides javelin-scrollbar
  * @requires javelin-install
  *           javelin-dom
+ *           javelin-magical-init
  *           javelin-stratcom
+ *           javelin-util
  *           javelin-vector
+ * @provides javelin-scrollbar
+ *
+ * @javelin-installs JX.Scrollbar
+ *
  * @javelin
  */
 

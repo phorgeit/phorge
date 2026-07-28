@@ -210,6 +210,7 @@ final class PhabricatorUserPreferences
 
         return PhabricatorPolicies::POLICY_ADMIN;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

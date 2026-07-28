@@ -13,7 +13,8 @@ final class PhabricatorConduitAPIController
     // the method name. This entire call will fail anyway; truncation allows us
     // to at least show a meaningful error message instead of returning a raw
     // DB write error while still logging the failed call in the Call Logs.
-    $limit = 64;
+    $limit = id(new PhabricatorConduitMethodCallLog())
+      ->getColumnMaximumByteLength('method');
     if (strlen($method) > $limit) {
       $method = substr($method, 0, $limit);
     }
@@ -110,13 +111,16 @@ final class PhabricatorConduitAPIController
     } catch (Exception $ex) {
       $result = null;
 
-      if ($ex instanceof ConduitException) {
+      if ($ex instanceof ConduitException ||
+          $ex instanceof PhutilTypeExtraParametersException ||
+          $ex instanceof PhutilTypeMissingParametersException) {
+        // Expose error messages about invalid user input to the user only.
         $error_code = 'ERR-CONDUIT-CALL';
       } else {
         $error_code = 'ERR-CONDUIT-CORE';
 
         // See T13581. When a Conduit method raises an uncaught exception
-        // other than a "ConduitException", log it.
+        // other than the types listed above, log it.
         phlog($ex);
       }
 

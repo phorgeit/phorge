@@ -8,7 +8,6 @@ final class ConpherenceTransactionView extends AphrontView {
   private $markupEngine;
   private $classes = array();
   private $searchResult;
-  private $timeOnly;
 
   public function setConpherenceThread(ConpherenceThread $t) {
     $this->conpherenceThread = $t;

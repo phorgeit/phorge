@@ -1,6 +1,9 @@
 /**
- * @provides javelin-workboard-order-template
  * @requires javelin-install
+ * @provides javelin-workboard-order-template
+ *
+ * @javelin-installs JX.WorkboardOrderTemplate
+ *
  * @javelin
  */
 

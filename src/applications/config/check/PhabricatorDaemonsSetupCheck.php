@@ -51,7 +51,7 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
         ->setMessage($message)
         ->addCommand(
           hsprintf(
-            '<tt>%s $</tt>./bin/phd start',
+            '<samp>%s $</samp><kbd>./bin/phd start</kbd>',
             PlatformSymbols::getPlatformServerPath()));
     }
 
@@ -95,7 +95,7 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
           ->addPhabricatorConfig('phd.user')
           ->addCommand(
             hsprintf(
-              '<tt>%s $</tt>./bin/phd restart',
+              '<samp>%s $</samp><kbd>./bin/phd restart</kbd>',
               PlatformSymbols::getPlatformServerPath()));
 
         break;

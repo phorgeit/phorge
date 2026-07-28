@@ -6,7 +6,6 @@ final class DifferentialFileTreeEngine
   private $viewer;
   private $changesets;
   private $disabled;
-  private $ownedChangesets;
 
   public function setViewer($viewer) {
     $this->viewer = $viewer;
@@ -78,7 +77,7 @@ final class DifferentialFileTreeEngine
           ->setHref('#'));
     $flank_view->setHead($head_view);
 
-    $tail_view = id(new PHUIListView());
+    $tail_view = new PHUIListView();
 
     if ($viewer->isLoggedIn()) {
       $tail_view->addMenuItem(

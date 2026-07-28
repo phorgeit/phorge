@@ -7,6 +7,9 @@
  *           phabricator-prefab
  *           phuix-form-control-view
  * @provides owners-path-editor
+ *
+ * @javelin-installs JX.OwnersPathEditor
+ *
  * @javelin
  */
 

@@ -55,7 +55,8 @@ final class PhabricatorConduitTokensSettingsPanel
             'href' => '/conduit/token/edit/'.$token->getID().'/',
             'sigil' => 'workflow',
           ),
-          $token->getPublicTokenName()),
+          $token->getTokenName()),
+          $token->getShortenedToken(),
         PhabricatorConduitToken::getTokenTypeName($token->getTokenType()),
         phabricator_datetime($token->getDateCreated(), $viewer),
         ($token->getExpires()
@@ -76,6 +77,7 @@ final class PhabricatorConduitTokensSettingsPanel
     $table->setNoDataString(pht("You don't have any active API tokens."));
     $table->setHeaders(
       array(
+        pht('Token Name'),
         pht('Token'),
         pht('Type'),
         pht('Created'),
@@ -85,6 +87,7 @@ final class PhabricatorConduitTokensSettingsPanel
     $table->setColumnClasses(
       array(
         'wide pri',
+        'right',
         '',
         'right',
         'right',

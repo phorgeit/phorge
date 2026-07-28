@@ -134,10 +134,6 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
 
     $commands = $this->loadCommands($lease->getPHID());
     foreach ($commands as $command) {
-      if (!$lease->canReceiveCommands()) {
-        break;
-      }
-
       $this->processLeaseCommand($lease, $command);
 
       $command
@@ -279,7 +275,7 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
 
     $phids = $lease->getAllocatedResourcePHIDs();
     if (!$phids) {
-      return null;
+      return;
     }
 
     $resources = id(new DrydockResourceQuery())

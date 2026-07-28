@@ -179,6 +179,7 @@ final class PhabricatorProjectTriggerEditController
 
     $form->appendControl(
       id(new AphrontFormPolicyControl())
+        ->setViewer($viewer)
         ->setName('editPolicy')
         ->setPolicyObject($trigger)
         ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)

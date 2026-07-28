@@ -291,30 +291,6 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
 
     $conn = $ref->newManagementConnection();
 
-    $ok = PhabricatorStorageManagementAPI::isCharacterSetAvailableOnConnection(
-      'utf8mb4',
-      $conn);
-    if (!$ok) {
-      $summary = pht(
-        'You are using an old version of MySQL (on host "%s"), and should '.
-        'upgrade.',
-        $host_name);
-
-      $message = pht(
-        'You are using an old version of MySQL (on host "%s") which has poor '.
-        'unicode support (it does not support the "utf8mb4" collation set). '.
-        'You will encounter limitations when working with some unicode data.'.
-        "\n\n".
-        'We strongly recommend you upgrade to MySQL 5.5 or newer.',
-        $host_name);
-
-      $this->newIssue('mysql.utf8mb4')
-        ->setName(pht('Old MySQL Version'))
-        ->setSummary($summary)
-        ->setDatabaseRef($ref)
-        ->setMessage($message);
-    }
-
     $info = queryfx_one(
       $conn,
       'SELECT UNIX_TIMESTAMP() epoch');

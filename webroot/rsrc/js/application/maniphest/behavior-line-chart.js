@@ -1,8 +1,9 @@
 /**
- * @provides javelin-behavior-line-chart
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-chart
+ *           javelin-request
+ * @provides javelin-behavior-line-chart
  */
 
 JX.behavior('line-chart', function(config) {

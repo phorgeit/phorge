@@ -25,7 +25,7 @@ final class PhabricatorRepositoryPushEvent
   private $logs = self::ATTACHABLE;
 
   public static function initializeNewEvent(PhabricatorUser $viewer) {
-    return id(new PhabricatorRepositoryPushEvent())
+    return id(new self())
       ->setPusherPHID($viewer->getPHID());
   }
 

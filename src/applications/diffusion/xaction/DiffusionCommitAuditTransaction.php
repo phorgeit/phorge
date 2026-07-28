@@ -32,7 +32,7 @@ abstract class DiffusionCommitAuditTransaction
 
     $viewer_status = $this->getViewerAuditStatus($commit, $viewer);
 
-    return isset($active[$viewer_status]);
+    return $viewer_status !== null && isset($active[$viewer_status]);
   }
 
   protected function isViewerFullyAccepted(

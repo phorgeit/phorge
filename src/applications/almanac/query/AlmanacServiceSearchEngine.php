@@ -103,6 +103,7 @@ final class AlmanacServiceSearchEngine
     $list->setUser($viewer);
     foreach ($services as $service) {
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName(pht('Service %d', $service->getID()))
         ->setHeader($service->getName())
         ->setHref($service->getURI())

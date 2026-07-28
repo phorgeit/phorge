@@ -1,0 +1,13 @@
+/**
+ * @requires javelin-install
+ *           javelin-does-not-exist
+ * @provides javelin-test-unknown-dependency
+ *
+ * @javelin-installs JX.Test
+ *
+ * @javelin
+ */
+
+JX.install('Test', {});
+~~~~~~~~~~
+error:1:0:JAVELIN4

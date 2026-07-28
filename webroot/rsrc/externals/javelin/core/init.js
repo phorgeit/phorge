@@ -4,7 +4,6 @@
  * @provides javelin-magical-init
  *
  * @javelin-installs JX.__rawEventQueue
- * @javelin-installs JX.__simulate
  * @javelin-installs JX.__allowedEvents
  * @javelin-installs JX.enableDispatch
  * @javelin-installs JX.onload
@@ -50,7 +49,6 @@
   var onload = [];
   var master_event_queue = [];
   var root = document.documentElement;
-  var has_add_event_listener = !!root.addEventListener;
 
   window.__DEV__ = !!root.getAttribute('data-developer-mode');
 
@@ -59,11 +57,13 @@
 
     var ii;
     var Stratcom = JX['Stratcom'];
+    var JSON = JX['JSON'];
+    var DOM = JX['DOM'];
 
     if (!loaded && what.type == 'domready') {
       var initializers = [];
 
-      var tags = JX.DOM.scry(document.body, 'data');
+      var tags = DOM.scry(document.body, 'data');
       for (ii = 0; ii < tags.length; ii++) {
 
         // Ignore tags which are not immediate children of the document
@@ -76,7 +76,7 @@
 
         var tag_kind = tags[ii].getAttribute('data-javelin-init-kind');
         var tag_data = tags[ii].getAttribute('data-javelin-init-data');
-        tag_data = JX.JSON.parse(tag_data);
+        tag_data = JSON.parse(tag_data);
 
         initializers.push({kind: tag_kind, data: tag_data});
       }
@@ -119,18 +119,6 @@
         what.preventDefault && what.preventDefault();
         document.body.id = 'event_capture';
 
-        // For versions of IE that use attachEvent, the event object is somehow
-        // stored globally by reference, and all the references we push to the
-        // master_event_queue will always refer to the most recent event. We
-        // work around this by popping the useless global event off the queue,
-        // and pushing a clone of the event that was just fired using the IE's
-        // proprietary createEventObject function.
-        // see: http://msdn.microsoft.com/en-us/library/ms536390(v=vs.85).aspx
-        if (!add_event_listener && document.createEventObject) {
-          master_event_queue.pop();
-          master_event_queue.push(document.createEventObject(what));
-        }
-
         return false;
       }
     }
@@ -171,14 +159,6 @@
     'touchcancel',
     'load'
   ];
-
-  //  Simulate focus and blur in old versions of IE using focusin and focusout
-  //  TODO: Document the gigantic IE mess here with focus/blur.
-  //  TODO: beforeactivate/beforedeactivate?
-  //  http://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
-  if (!has_add_event_listener) {
-    document_events.push('focusin', 'focusout');
-  }
 
   //  Opera is multilol: it propagates focus / blur oddly
   if (window.opera) {
@@ -227,34 +207,9 @@
     JX.enableDispatch(window, window_events[ii]);
   }
 
-  JX.__simulate = function(node, event) {
-    if (!has_add_event_listener) {
-      var e = {target: node, type: event};
-      JX.__rawEventQueue(e);
-      if (e.returnValue === false) {
-        return false;
-      }
-    }
-  };
-
-  if (has_add_event_listener) {
-    document.addEventListener('DOMContentLoaded', function() {
-      JX.__rawEventQueue({type: 'domready'});
-    }, true);
-  } else {
-    var ready =
-      'if (this.readyState == "complete") {' +
-        'JX.__rawEventQueue({type: "domready"});' +
-      '}';
-
-    // NOTE: Don't write a 'src' attribute, because "javascript:void(0)" causes
-    // a mixed content warning in IE8 if the page is served over SSL.
-    document.write(
-      '<script' +
-      ' defer="defer"' +
-      ' onreadystatechange="' + ready + '"' +
-      '><\/sc' + 'ript' + '>');
-  }
+  document.addEventListener('DOMContentLoaded', function() {
+    JX.__rawEventQueue({type: 'domready'});
+  }, true);
 
   JX.onload = function(func) {
     if (loaded) {

@@ -31,7 +31,6 @@ final class PhabricatorProjectBurndownChartEngine
       $project_phids = array();
     }
 
-    $functions = array();
     if ($project_phids) {
       $open_function = $this->newFunction(
         array(

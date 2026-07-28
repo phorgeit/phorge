@@ -65,6 +65,7 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
 
       $availability = null;
       if ($user->getIsDisabled()) {
+        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
         $availability = PhabricatorObjectHandle::AVAILABILITY_DISABLED;
       } else if (!$user->isResponsive()) {
         $availability = PhabricatorObjectHandle::AVAILABILITY_NOEMAIL;

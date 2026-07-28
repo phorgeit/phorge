@@ -42,7 +42,7 @@ final class PhabricatorTokenUIEventListener
     }
 
     if (!$this->canUseApplication($event->getUser())) {
-      return null;
+      return;
     }
 
     $can_interact = PhabricatorPolicyFilter::canInteract($user, $object);
@@ -69,7 +69,9 @@ final class PhabricatorTokenUIEventListener
         ->setDisabled(!$can_interact);
     }
 
-    if (!$user->isLoggedIn()) {
+    if (!$user->isLoggedIn() ||
+        ($object instanceof PhorgeRestrictableInteractionInterface &&
+        $object->disallowInteractions())) {
       $token_action->setDisabled(true);
     }
 
@@ -93,7 +95,7 @@ final class PhabricatorTokenUIEventListener
     }
 
     if (!$this->canUseApplication($event->getUser())) {
-      return null;
+      return;
     }
 
     $tokens_given = id(new PhabricatorTokenGivenQuery())

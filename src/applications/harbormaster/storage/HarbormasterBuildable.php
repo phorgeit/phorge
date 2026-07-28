@@ -19,7 +19,7 @@ final class HarbormasterBuildable
   private $builds = self::ATTACHABLE;
 
   public static function initializeNewBuildable(PhabricatorUser $actor) {
-    return id(new HarbormasterBuildable())
+    return id(new self())
       ->setIsManualBuildable(0)
       ->setBuildableStatus(HarbormasterBuildableStatus::STATUS_PREPARING);
   }
@@ -78,7 +78,7 @@ final class HarbormasterBuildable
     }
 
     // Skip all of this logic if the Harbormaster application
-    // isn't currently installed.
+    // isn't currently enabled.
 
     $harbormaster_app = PhabricatorHarbormasterApplication::class;
     if (!PhabricatorApplication::isClassInstalled($harbormaster_app)) {

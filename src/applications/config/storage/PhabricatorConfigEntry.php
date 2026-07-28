@@ -37,14 +37,14 @@ final class PhabricatorConfigEntry
   }
 
   public static function loadConfigEntry($key) {
-    $config_entry = id(new PhabricatorConfigEntry())
+    $config_entry = id(new self())
       ->loadOneWhere(
         'configKey = %s AND namespace = %s',
         $key,
         'default');
 
     if (!$config_entry) {
-      $config_entry = id(new PhabricatorConfigEntry())
+      $config_entry = id(new self())
         ->setConfigKey($key)
         ->setNamespace('default')
         ->setIsDeleted(0);

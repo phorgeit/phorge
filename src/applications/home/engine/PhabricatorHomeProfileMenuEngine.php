@@ -37,7 +37,6 @@ final class PhabricatorHomeProfileMenuEngine
   protected function getBuiltinProfileItems($object) {
     $viewer = $this->getViewer();
     $items = array();
-    $custom_phid = $this->getCustomPHID();
 
     $applications = id(new PhabricatorApplicationQuery())
       ->setViewer($viewer)

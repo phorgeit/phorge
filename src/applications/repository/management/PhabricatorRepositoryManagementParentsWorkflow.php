@@ -94,7 +94,7 @@ final class PhabricatorRepositoryManagementParentsWorkflow
         'Found %s total commit(s); updating...',
         phutil_count($graph)));
 
-    $commit_table = id(new PhabricatorRepositoryCommit());
+    $commit_table = new PhabricatorRepositoryCommit();
     $commit_table_name = $commit_table->getTableName();
     $conn_w = $commit_table->establishConnection('w');
 

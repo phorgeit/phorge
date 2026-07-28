@@ -11,13 +11,14 @@ final class PhrictionInfoConduitAPIMethod extends PhrictionConduitAPIMethod {
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "phriction.document.search" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2026',
+      'phriction.document.search');
   }
 
   protected function defineParamTypes() {
@@ -38,12 +39,15 @@ final class PhrictionInfoConduitAPIMethod extends PhrictionConduitAPIMethod {
 
   protected function execute(ConduitAPIRequest $request) {
     $slug = $request->getValue('slug');
+    $document = null;
 
-    $document = id(new PhrictionDocumentQuery())
-      ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
-      ->needContent(true)
-      ->executeOne();
+    if ($slug !== null) {
+      $document = id(new PhrictionDocumentQuery())
+        ->setViewer($request->getUser())
+        ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+        ->needContent(true)
+        ->executeOne();
+    }
     if (!$document) {
       throw new ConduitException('ERR-BAD-DOCUMENT');
     }

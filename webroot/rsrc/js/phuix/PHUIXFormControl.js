@@ -1,7 +1,11 @@
 /**
- * @provides phuix-form-control-view
  * @requires javelin-install
  *           javelin-dom
+ *           javelin-util
+ *           phabricator-prefab
+ * @provides phuix-form-control-view
+ *
+ * @javelin-installs JX.PHUIXFormControl
  */
 
 JX.install('PHUIXFormControl', {

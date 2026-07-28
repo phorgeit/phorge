@@ -95,7 +95,8 @@ final class DrydockBlueprintSearchEngine
       $edge_query->execute();
     }
 
-    $view = new PHUIObjectItemListView();
+    $view = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     foreach ($blueprints as $blueprint) {
       $impl = $blueprint->getImplementation();

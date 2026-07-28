@@ -14,7 +14,6 @@ final class PhabricatorFilesApplicationStorageEnginePanel
 
   public function buildConfigurationPagePanel() {
     $viewer = $this->getViewer();
-    $application = $this->getApplication();
 
     $engines = PhabricatorFileStorageEngine::loadAllEngines();
     $writable_engines = PhabricatorFileStorageEngine::loadWritableEngines();
@@ -80,12 +79,6 @@ final class PhabricatorFilesApplicationStorageEnginePanel
       ->setTable($table);
 
     return $box;
-  }
-
-  public function handlePanelRequest(
-    AphrontRequest $request,
-    PhabricatorController $controller) {
-    return new Aphront404Response();
   }
 
 }

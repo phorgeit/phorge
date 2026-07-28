@@ -11,13 +11,14 @@ final class ProjectCreateConduitAPIMethod extends ProjectConduitAPIMethod {
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "project.edit" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2026',
+      'project.edit');
   }
 
   protected function defineParamTypes() {

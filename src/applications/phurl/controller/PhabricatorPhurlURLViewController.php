@@ -77,7 +77,6 @@ final class PhabricatorPhurlURLViewController
     $icon = 'fa-check';
     $color = 'bluegrey';
     $status = pht('Active');
-    $id = $url->getID();
 
     $visit = id(new PHUIButtonView())
       ->setTag('a')

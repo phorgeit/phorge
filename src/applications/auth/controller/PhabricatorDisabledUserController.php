@@ -9,7 +9,6 @@ final class PhabricatorDisabledUserController
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
-    $id = $request->getURIData('id');
 
     if (!$viewer->getIsDisabled()) {
       return new Aphront404Response();

@@ -238,8 +238,6 @@ final class PhabricatorDashboardPanelTabsController
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
-    $panel_phid = null;
-    $errors = array();
     if ($request->isFormPost()) {
       $impl = $panel->getImplementation();
       $old_config = $impl->getPanelConfiguration($panel);

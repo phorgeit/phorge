@@ -30,16 +30,16 @@ final class DifferentialCreateDiffConduitAPIMethod
 
     return array(
       'changes'                   => 'required list<dict>',
-      'sourceMachine'             => 'required string',
+      'sourceMachine'             => 'optional string',
       'sourcePath'                => 'required string',
-      'branch'                    => 'required string',
+      'branch'                    => 'optional string',
       'bookmark'                  => 'optional string',
-      'sourceControlSystem'       => 'required '.$vcs_const,
-      'sourceControlPath'         => 'required string',
-      'sourceControlBaseRevision' => 'required string',
+      'sourceControlSystem'       => 'optional '.$vcs_const,
+      'sourceControlPath'         => 'optional string',
+      'sourceControlBaseRevision' => 'optional string',
       'creationMethod'            => 'optional string',
-      'lintStatus'                => 'required '.$status_const,
-      'unitStatus'                => 'required '.$status_const,
+      'lintStatus'                => 'optional '.$status_const,
+      'unitStatus'                => 'optional '.$status_const,
       'repositoryPHID'            => 'optional phid',
 
       'parentRevisionID'          => 'deprecated',
@@ -52,9 +52,20 @@ final class DifferentialCreateDiffConduitAPIMethod
     return 'nonempty dict';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-NO-CONTENT' => pht('Diff may not be empty.'),
+      'ERR-USAGE-NO-SOURCE-PATH' => pht('You must specify a source path.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $viewer = $request->getUser();
     $change_data = $request->getValue('changes');
+
+    if (!$change_data) {
+      throw new ConduitException('ERR-NO-CONTENT');
+    }
 
     $changes = array();
     foreach ($change_data as $dict) {
@@ -120,6 +131,11 @@ final class DifferentialCreateDiffConduitAPIMethod
     }
 
     $source_path = $request->getValue('sourcePath');
+
+    if (!phutil_nonempty_string($source_path)) {
+      throw new ConduitException('ERR-USAGE-NO-SOURCE-PATH');
+    }
+
     $source_path = $this->normalizeSourcePath($source_path);
 
     $diff_data_dict = array(

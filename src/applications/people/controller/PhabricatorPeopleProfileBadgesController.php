@@ -101,6 +101,7 @@ final class PhabricatorPeopleProfileBadgesController
       }
     } else {
       $flex = id(new PHUIObjectItemListView())
+        ->setViewer($viewer)
         ->setNoDataString(pht('User has not been awarded any badges.'));
     }
 

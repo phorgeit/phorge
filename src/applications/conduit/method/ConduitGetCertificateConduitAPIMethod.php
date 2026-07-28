@@ -15,6 +15,17 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
     return true;
   }
 
+  public function getMethodStatus() {
+    return self::METHOD_STATUS_DEPRECATED;
+  }
+
+  public function getMethodStatusDescription() {
+    return pht(
+      'This method has been deprecated since %s in favor of token-based '.
+      'authentication.',
+      '02/2026');
+  }
+
   public function getMethodDescription() {
     return pht('Retrieve certificate information for a user.');
   }
@@ -49,10 +60,13 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
       throw new ConduitException('ERR-RATE-LIMIT');
     }
 
+    $info = null;
     $token = $request->getValue('token');
-    $info = id(new PhabricatorConduitCertificateToken())->loadOneWhere(
-      'token = %s',
-      trim($token));
+    if ($token !== null) {
+      $info = id(new PhabricatorConduitCertificateToken())->loadOneWhere(
+        'token = %s',
+        trim($token));
+    }
 
     if (!$info || $info->getDateCreated() < time() - (60 * 15)) {
       $this->logFailure($request, $info);

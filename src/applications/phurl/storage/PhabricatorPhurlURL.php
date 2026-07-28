@@ -39,7 +39,7 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
     $edit_policy = $app->getPolicy(
       PhabricatorPhurlURLDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorPhurlURL())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
@@ -137,6 +137,7 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

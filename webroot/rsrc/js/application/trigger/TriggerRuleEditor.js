@@ -1,7 +1,14 @@
 /**
  * @requires multirow-row-manager
  *           trigger-rule
+ *           javelin-install
+ *           javelin-dom
+ *           javelin-util
+ *           javelin-json
  * @provides trigger-rule-editor
+ *
+ * @javelin-installs JX.TriggerRuleEditor
+ *
  * @javelin
  */
 

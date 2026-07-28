@@ -7,7 +7,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   /**
    * Get the priorities and their full descriptions.
    *
-   * @return  map Priorities to descriptions.
+   * @return array Map of priorities to descriptions.
    */
   public static function getTaskPriorityMap() {
     $map = self::getConfig();
@@ -21,7 +21,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   /**
    * Get the priorities and their command keywords.
    *
-   * @return map Priorities to lists of command keywords.
+   * @return array Map of priorities to lists of command keywords.
    */
   public static function getTaskPriorityKeywordsMap() {
     $map = self::getConfig();
@@ -71,7 +71,8 @@ final class ManiphestTaskPriority extends ManiphestConstants {
    * Keys are aliases, like "wish" and "wishlist". Values are canonical
    * priority keywords, like "wishlist".
    *
-   * @return map<string, string> Map of aliases to canonical priority keywords.
+   * @return array<string, string> Map of aliases to canonical priority
+   *   keywords.
    */
   public static function getTaskPriorityAliasMap() {
     $keyword_map = self::getTaskPriorityKeywordsMap();
@@ -99,7 +100,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   /**
    * Get the priorities and their related short (one-word) descriptions.
    *
-   * @return  map Priorities to short descriptions.
+   * @return  array Map of priorities to short descriptions.
    */
   public static function getShortNameMap() {
     $map = self::getConfig();
@@ -113,7 +114,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   /**
    * Get a map from priority constants to their colors.
    *
-   * @return map<int, string> Priorities to colors.
+   * @return array<int, string> Map of priorities to colors.
    */
   public static function getColorMap() {
     $map = self::getConfig();

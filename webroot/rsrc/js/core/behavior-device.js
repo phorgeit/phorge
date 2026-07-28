@@ -1,10 +1,12 @@
 /**
- * @provides javelin-behavior-device
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-vector
  *           javelin-install
+ * @provides javelin-behavior-device
+ *
+ * @javelin-installs JX.Device
  */
 
 JX.install('Device', {

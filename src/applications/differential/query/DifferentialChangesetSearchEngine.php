@@ -27,7 +27,7 @@ final class DifferentialChangesetSearchEngine
   }
 
   public function newQuery() {
-    $query = id(new DifferentialChangesetQuery());
+    $query = new DifferentialChangesetQuery();
 
     if ($this->diff) {
       $query->withDiffs(array($this->diff));

@@ -1,9 +1,10 @@
 /**
- * @provides javelin-behavior-repository-crossreference
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-stratcom
  *           javelin-uri
+ *           javelin-util
+ * @provides javelin-behavior-repository-crossreference
  */
 
 JX.behavior('repository-crossreference', function(config, statics) {

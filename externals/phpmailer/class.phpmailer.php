@@ -42,6 +42,102 @@ if (version_compare(PHP_VERSION, '5.0.0', '<') ) exit("Sorry, this version of PH
 
 class PHPMailer {
 
+  // PHORGE CODE BEGIN
+  public static function newFromMessage(
+    PhabricatorMailExternalMessage $message) {
+
+    $mailer = new self($use_exceptions = true);
+
+    // By default, PHPMailerLite sends one mail per recipient. We handle
+    // combining or separating To and Cc higher in the stack, so tell it to
+    // send mail exactly like we ask.
+    $mailer->SingleTo = false;
+
+    $mailer->CharSet = 'utf-8';
+    $mailer->Encoding = 'base64';
+
+    $subject = $message->getSubject();
+    if ($subject !== null) {
+      $mailer->Subject = $subject;
+    }
+
+    $from_address = $message->getFromAddress();
+    if ($from_address) {
+      $mailer->SetFrom(
+        $from_address->getAddress(),
+        (string)$from_address->getDisplayName(),
+        $crazy_side_effects = false);
+    }
+
+    $reply_address = $message->getReplyToAddress();
+    if ($reply_address) {
+      $mailer->AddReplyTo(
+        $reply_address->getAddress(),
+        (string)$reply_address->getDisplayName());
+    }
+
+    $to_addresses = $message->getToAddresses();
+    if ($to_addresses) {
+      foreach ($to_addresses as $address) {
+        $mailer->AddAddress(
+          $address->getAddress(),
+          (string)$address->getDisplayName());
+      }
+    }
+
+    $cc_addresses = $message->getCCAddresses();
+    if ($cc_addresses) {
+      foreach ($cc_addresses as $address) {
+        $mailer->AddCC(
+          $address->getAddress(),
+          (string)$address->getDisplayName());
+      }
+    }
+
+    $headers = $message->getHeaders();
+    if ($headers) {
+      foreach ($headers as $header) {
+        $name = $header->getName();
+        $value = $header->getValue();
+
+        if (phutil_utf8_strtolower($name) === 'message-id') {
+          $mailer->MessageID = $value;
+        } else {
+          $mailer->AddCustomHeader("{$name}: {$value}");
+        }
+      }
+    }
+
+    $attachments = $message->getAttachments();
+    if ($attachments) {
+      foreach ($attachments as $attachment) {
+        $mailer->AddStringAttachment(
+          $attachment->getData(),
+          $attachment->getFilename(),
+          'base64',
+          $attachment->getMimeType());
+      }
+    }
+
+    $text_body = $message->getTextBody();
+    if ($text_body !== null) {
+      $mailer->Body = $text_body;
+    }
+
+    $html_body = $message->getHTMLBody();
+    if ($html_body !== null) {
+      $mailer->IsHTML(true);
+      $mailer->Body = $html_body;
+      if ($text_body !== null) {
+        $mailer->AltBody = $text_body;
+      }
+    }
+
+    return $mailer;
+  }
+  // PHORGE CODE END
+
+
   /////////////////////////////////////////////////
   // PROPERTIES, PUBLIC
   /////////////////////////////////////////////////
@@ -242,7 +338,7 @@ class PHPMailer {
    * emails, instead of sending to entire TO addresses
    * @var bool
    */
-  public $SingleTo      = false;
+  public $SingleTo      = true;
 
    /**
    * If SingleTo is true, this provides the array to hold the email addresses
@@ -250,7 +346,7 @@ class PHPMailer {
    */
   public $SingleToArray = array();
 
- /**
+  /**
    * Provides the ability to change the line ending
    * @var string
    */
@@ -275,6 +371,13 @@ class PHPMailer {
    * @var string
    */
   public $DKIM_domain     = '';
+
+  /**
+   * Used with DKIM Digital Signing process
+   * optional
+   * @var string
+   */
+  public $DKIM_passphrase = '';
 
   /**
    * Used with DKIM DNS Resource Record
@@ -451,7 +554,7 @@ class PHPMailer {
    */
   private function AddAnAddress($kind, $address, $name = '') {
     if (!preg_match('/^(to|cc|bcc|ReplyTo)$/', $kind)) {
-      echo 'Invalid recipient array: ' . kind;
+      echo 'Invalid recipient array: ' . $kind;
       return false;
     }
     $address = trim($address);
@@ -570,6 +673,10 @@ class PHPMailer {
 
       // Choose the mailer and send through it
       switch($this->Mailer) {
+        case 'amazon-ses':
+          return $this->customMailer->executeSend(
+            $header.
+            $body);
         case 'sendmail':
           return $this->SendmailSend($header, $body);
         case 'smtp':
@@ -601,7 +708,6 @@ class PHPMailer {
     } else {
       $sendmail = sprintf("%s -oi -t", escapeshellcmd($this->Sendmail));
     }
-
     if ($this->SingleTo === true) {
       foreach ($this->SingleToArray as $key => $val) {
         $mail = new ExecFuture('%C', $sendmail);
@@ -614,7 +720,6 @@ class PHPMailer {
       $mail->write($header.$body);
       $mail->resolvex();
     }
-
     return true;
   }
 
@@ -887,6 +992,10 @@ class PHPMailer {
     $addr_str .= implode(', ', $addresses);
     $addr_str .= $this->LE;
 
+    // NOTE: This is a narrow hack to fix an issue with 1000+ characters of
+    // recipients, described in https://secure.phabricator.com/T12372.
+    $addr_str = wordwrap($addr_str, 75, "\n ");
+
     return $addr_str;
   }
 
@@ -1110,6 +1219,8 @@ class PHPMailer {
 
     if($this->MessageID != '') {
       $result .= $this->HeaderLine('Message-ID',$this->MessageID);
+    } else {
+      $result .= sprintf("Message-ID: <%s@%s>%s", $uniq_id, $this->ServerHostname(), $this->LE);
     }
     $result .= $this->HeaderLine('X-Priority', $this->Priority);
     $result .= $this->HeaderLine('X-Mailer', 'PHPMailer '.$this->Version.' (phpmailer.sourceforge.net)');
@@ -1688,7 +1799,8 @@ class PHPMailer {
   }
 
   /**
-   * NOTE: Phabricator patch to remove use of "/e". See D2147.
+   * NOTE: Phorge patch to remove use of "/e".
+   * See https://we.phorge.it/rPf7b569e5d9b747141ee081729d3ac0270b18b13a
    */
   private function encodeQCallback(array $matches) {
     return '='.sprintf('%02X', ord($matches[1]));
@@ -1704,7 +1816,8 @@ class PHPMailer {
    */
   public function EncodeQ ($str, $position = 'text') {
 
-    // NOTE: Phabricator patch to remove use of "/e". See D2147.
+    // NOTE: Phorge patch to remove use of "/e".
+    // See https://we.phorge.it/rPf7b569e5d9b747141ee081729d3ac0270b18b13a
 
     // There should not be any EOL in the string
     $encoded = preg_replace('/[\r\n]*/', '', $str);
@@ -2293,7 +2406,7 @@ class PHPMailer {
                 "\tb=";
     $toSign   = $this->DKIM_HeaderC($from_header . "\r\n" . $to_header . "\r\n" . $subject_header . "\r\n" . $dkimhdrs);
     $signed   = $this->DKIM_Sign($toSign);
-    return "X-PHPMAILER-DKIM: phpmailer.worxware.com\r\n".$dkimhdrs.$signed."\r\n";
+    return "X-PHPMAILER-DKIM: phpmailer.sourceforge.net\r\n".$dkimhdrs.$signed."\r\n";
   }
 
   protected function doCallback($isSent,$to,$cc,$bcc,$subject,$body) {

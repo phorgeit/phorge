@@ -171,7 +171,7 @@ abstract class AphrontResponse extends Phobject {
     // DarkConsole and PHPAST both use frames to render some content.
     $csp[] = $this->newContentSecurityPolicy('frame-src', "'self'");
 
-    // This is a more modern flavor of of "X-Frame-Options" and prevents
+    // This is a more modern flavor of "X-Frame-Options" and prevents
     // clickjacking attacks where the page is included in a tiny iframe and
     // the user is convinced to click a element on the page, which really
     // clicks a dangerous button hidden under a picture of a cat.
@@ -407,11 +407,9 @@ abstract class AphrontResponse extends Phobject {
       );
     }
 
-    // IE has a feature where it may override an explicit Content-Type
-    // declaration by inferring a content type. This can be a security risk
-    // and we always explicitly transmit the correct Content-Type header, so
-    // prevent IE from using inferred content types. This only offers protection
-    // on recent versions of IE; IE6/7 and Opera currently ignore this header.
+    // Prevent browsers from MIME type sniffing.
+    // Inferring a content type can be a security risk and we always explicitly
+    // transmit the correct Content-Type header.
     $headers[] = array('X-Content-Type-Options', 'nosniff');
 
     return $headers;

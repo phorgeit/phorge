@@ -494,7 +494,7 @@ final class HarbormasterBuildViewController
       ),
     );
 
-    $base_uri = id(new PhutilURI($build->getURI().$generation.'/'));
+    $base_uri = new PhutilURI($build->getURI().$generation.'/');
 
     $links = array();
     foreach ($options as $option) {

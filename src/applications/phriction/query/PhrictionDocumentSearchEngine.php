@@ -141,6 +141,7 @@ final class PhrictionDocumentSearchEngine
         $viewer);
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setHeader($content->getTitle())
         ->setObject($document)
         ->setHref($slug_uri)

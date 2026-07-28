@@ -31,8 +31,9 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
    */
   const PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES = 'storage-fixtures';
 
-  private $configuration;
   private $env;
+
+  private $currentTest;
 
   private static $storageFixtureReferences = 0;
   private static $storageFixture;
@@ -57,9 +58,18 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     return $config;
   }
 
+  /** @phutil-external-symbol function init_phabricator_script */
   public function willRunTestCases(array $test_cases) {
     $root = dirname(phutil_get_library_root('phabricator'));
-    require_once $root.'/scripts/__init_script__.php';
+    if (!function_exists('init_phabricator_script')) {
+      // Run the initialization routines only if nothing else already did
+      require_once $root.'/scripts/init/lib.php';
+      init_phabricator_script(
+        array(
+        'config.optional' => false,
+        'no-extensions' => true,
+      ));
+    }
 
     $config = $this->getComputedConfiguration();
 
@@ -70,7 +80,18 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
       }
     }
 
+    register_shutdown_function(array($this, 'handleTimeout'));
+
     ++self::$testsAreRunning;
+  }
+
+  private function handleTimeout() {
+    if (!self::$testsAreRunning || !$this->currentTest) {
+      return;
+    }
+
+    $classname = get_class($this);
+    echo "\nTIMEOUT while running test: {$classname}::{$this->currentTest}\n";
   }
 
   public function didRunTestCases(array $test_cases) {
@@ -80,6 +101,8 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
         self::$storageFixture = null;
       }
     }
+
+    set_time_limit(0);
 
     --self::$testsAreRunning;
   }
@@ -94,8 +117,8 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     $this->env = PhabricatorEnv::beginScopedEnv();
 
     // NOTE: While running unit tests, we act as though all applications are
-    // installed, regardless of the install's configuration. Tests which need
-    // to uninstall applications are responsible for adjusting state themselves
+    // enabled, regardless of the install's configuration. Tests which need
+    // to disable applications are responsible for adjusting state themselves
     // (such tests are exceedingly rare).
 
     $this->env->overrideEnvConfig(
@@ -142,11 +165,8 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     }
 
     try {
-      if (phutil_is_hiphop_runtime()) {
-        $this->env->__destruct();
-      }
       unset($this->env);
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       throw new Exception(
         pht(
           'Some test called %s, but is still holding '.
@@ -161,6 +181,9 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     if ($config[self::PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES]) {
       LiskDAO::beginIsolateAllLiskEffectsToTransactions();
     }
+
+    $this->currentTest = $test;
+    set_time_limit(4); // this resets the limit
   }
 
   protected function didRunOneTest($test) {

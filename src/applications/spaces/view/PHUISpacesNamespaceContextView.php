@@ -13,6 +13,9 @@ final class PHUISpacesNamespaceContextView extends AphrontView {
     return $this->object;
   }
 
+  /**
+   * @return PhutilSafeHTML|null
+   */
   public function render() {
     $object = $this->getObject();
 

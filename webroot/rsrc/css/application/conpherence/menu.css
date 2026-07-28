@@ -76,10 +76,6 @@
   top: 0px;
 }
 
-.device-phone .conpherence-menu-pane {
-  -webkit-overflow-scrolling: touch;
-}
-
 .device .conpherence-role-thread .conpherence-menu-pane {
   display: none;
 }

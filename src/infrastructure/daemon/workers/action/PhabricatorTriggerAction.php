@@ -28,7 +28,7 @@ abstract class PhabricatorTriggerAction extends Phobject {
   /**
    * Validate action configuration.
    *
-   * @param map<string, mixed> $properties Map of action properties.
+   * @param array<string, mixed> $properties Map of action properties.
    * @return void
    */
   abstract public function validateProperties(array $properties);

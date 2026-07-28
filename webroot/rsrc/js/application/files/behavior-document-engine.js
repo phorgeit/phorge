@@ -1,8 +1,17 @@
 /**
- * @provides javelin-behavior-document-engine
  * @requires javelin-behavior
  *           javelin-dom
+ *           javelin-history
+ *           javelin-request
  *           javelin-stratcom
+ *           javelin-uri
+ *           javelin-util
+ *           javelin-workflow
+ *           phuix-action-list-view
+ *           phuix-action-view
+ *           phuix-dropdown-menu
+ *           phabricator-tooltip
+ * @provides javelin-behavior-document-engine
  */
 
 JX.behavior('document-engine', function(config, statics) {

@@ -33,7 +33,7 @@ final class PhabricatorQueryOrderItem extends Phobject {
       $scalar = substr($scalar, 1);
     }
 
-    $item = new PhabricatorQueryOrderItem();
+    $item = new self();
     $item->orderKey = $scalar;
     $item->isReversed = $is_reversed;
 

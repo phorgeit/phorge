@@ -238,6 +238,7 @@ final class HeraldTranscriptController extends HeraldController {
     $action_map = mgroup($action_map, 'getRuleID');
 
     $rule_list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setNoDataString(pht('No Herald rules applied to this object.'))
       ->setFlush(true);
 
@@ -266,7 +267,7 @@ final class HeraldTranscriptController extends HeraldController {
 
       $cond_xscripts = $xscript->getConditionTranscriptsForRule($rule_id);
 
-      $cond_list = id(new PHUIStatusListView());
+      $cond_list = new PHUIStatusListView();
       $cond_list->addItem(
         id(new PHUIStatusItemView())
           ->setTarget(phutil_tag('strong', array(), pht('Conditions'))));
@@ -354,7 +355,7 @@ final class HeraldTranscriptController extends HeraldController {
 
         $name = pht('Action: %s', $name);
 
-        $action_list = id(new PHUIStatusListView());
+        $action_list = new PHUIStatusListView();
         $action_list->addItem(
           id(new PHUIStatusItemView())
             ->setTarget(phutil_tag('strong', array(), $name)));

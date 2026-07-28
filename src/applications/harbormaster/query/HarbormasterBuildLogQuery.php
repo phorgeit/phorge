@@ -8,7 +8,6 @@ final class HarbormasterBuildLogQuery
 
   private $ids;
   private $phids;
-  private $buildPHIDs;
   private $buildTargetPHIDs;
 
   public function withIDs(array $ids) {

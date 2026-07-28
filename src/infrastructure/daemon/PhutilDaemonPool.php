@@ -7,7 +7,6 @@ final class PhutilDaemonPool extends Phobject {
 
   private $overseer;
   private $daemons = array();
-  private $argv;
 
   private $lastAutoscaleUpdate;
   private $inShutdown;

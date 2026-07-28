@@ -115,10 +115,6 @@ Create all indexes necessary for fast query execution in most cases. Don't
 create indexes which are not used. You can analyze queries @{article:Using
 DarkConsole}.
 
-Older MySQL versions are not able to use indexes for tuple search:
-`(a, b) IN ((%s, %d), (%s, %d))`. Use `AND` and `OR` instead:
-`((a = %s AND b = %d) OR (a = %s AND b = %d))`.
-
 Foreign Keys
 ============
 

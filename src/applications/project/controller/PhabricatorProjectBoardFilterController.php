@@ -11,7 +11,6 @@ final class PhabricatorProjectBoardFilterController
       return $response;
     }
 
-    $project = $this->getProject();
     $state = $this->getViewState();
     $board_uri = $state->newWorkboardURI();
 

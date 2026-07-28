@@ -45,6 +45,29 @@ abstract class PhabricatorSearchEngineAPIMethod
     return 'map<string, wild>';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-QUERYKEY' => pht(
+        'Invalid query for parameter "%s".',
+        'queryKey'),
+      'ERR-INVALID-CONSTRAINTS-FORMAT' => pht(
+        'Parameter "%s" must be a map of constraints.',
+        'constraints'),
+      'ERR-INVALID-CONSTRAINT' => pht(
+        'Parameter "%s" includes an invalid key.',
+        'constraints'),
+      'ERR-INVALID-ATTACHMENTS-FORMAT' => pht(
+        'Parameter "%s" must be a map of attachments.',
+        'attachments'),
+      'ERR-INVALID-ATTACHMENT' => pht(
+        'Parameter "%s" includes an invalid key.',
+        'attachments'),
+      'ERR-INVALID-PAGE-SIZE' => pht(
+        'Parameter "%s" is invalid.',
+        'limit'),
+    );
+  }
+
   final protected function execute(ConduitAPIRequest $request) {
     $engine = $this->newSearchEngine()
       ->setViewer($request->getUser());

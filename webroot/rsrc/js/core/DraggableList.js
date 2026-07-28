@@ -1,11 +1,15 @@
 /**
- * @provides phabricator-draggable-list
  * @requires javelin-install
  *           javelin-dom
  *           javelin-stratcom
  *           javelin-util
  *           javelin-vector
  *           javelin-magical-init
+ *           phabricator-tooltip
+ * @provides phabricator-draggable-list
+ *
+ * @javelin-installs JX.DraggableList
+ *
  * @javelin
  */
 

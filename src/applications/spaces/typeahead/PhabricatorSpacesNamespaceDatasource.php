@@ -16,7 +16,7 @@ final class PhabricatorSpacesNamespaceDatasource
   }
 
   public function loadResults() {
-    $query = id(new PhabricatorSpacesNamespaceQuery());
+    $query = new PhabricatorSpacesNamespaceQuery();
 
     $spaces = $this->executeQuery($query);
     $results = array();

@@ -70,7 +70,8 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
         pht('EXTRACT'),
         pht(
           'Extracting "%s"...',
-          Filesystem::readablePath($library)));
+          phutil_get_library_name_for_root($library) ??
+            Filesystem::readablePath($library)));
 
       $this->extractLibrary($library);
     }
@@ -187,15 +188,16 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
           'line' => $string_info['line'],
         );
 
+        $stypes = $string_info['types'];
         if (!isset($map[$string]['types'])) {
-          $map[$string]['types'] = $string_info['types'];
-        } else if ($map[$string]['types'] !== $string_info['types']) {
-          echo tsprintf(
-            "**<bg:yellow> %s </bg>** %s\n",
-            pht('WARNING'),
-            pht(
-              'Inferred types for string "%s" vary across callsites.',
-              $string_info['string']));
+          $map[$string]['types'] = $stypes;
+        } else if ($map[$string]['types'] !== $stypes) {
+          foreach ($map[$string]['types'] as $i => $t) {
+            if ($t !== $stypes[$i]) {
+              // This type is not consistent, set it to null since we don't know
+              $map[$string]['types'][$i] = null;
+            }
+          }
         }
       }
     }
@@ -207,7 +209,19 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
   }
 
   private function loadLibraryFiles($root) {
-    $files = id(new FileFinder($root))
+    $files = $this->loadDirectoryFiles($root);
+    $extra_dirs = array('support', 'scripts');
+    foreach ($extra_dirs as $extra) {
+      $extra = '..'.DIRECTORY_SEPARATOR.$extra.DIRECTORY_SEPARATOR;
+      if (Filesystem::pathExists(Filesystem::resolvePath($root.$extra))) {
+        $files = array_merge($files, $this->loadDirectoryFiles($root, $extra));
+      }
+    }
+    return $files;
+  }
+
+  private function loadDirectoryFiles($root, $suffix = '') {
+    $files = id(new FileFinder($root.$suffix))
       ->withType('f')
       ->withSuffix('php')
       ->excludePath('*/.*')
@@ -228,7 +242,7 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
         continue;
       }
 
-      $map[$file] = md5($hash.$file);
+      $map[$suffix.$file] = md5($hash.$file);
     }
 
     return $map;

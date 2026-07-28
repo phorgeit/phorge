@@ -310,7 +310,6 @@ final class PhabricatorAuthPasswordEngine
   private function newQuery() {
     $viewer = $this->getViewer();
     $object = $this->getObject();
-    $password_type = $this->getPasswordType();
 
     return id(new PhabricatorAuthPasswordQuery())
       ->setViewer($viewer)

@@ -23,6 +23,10 @@ final class PHUIObjectItemListView extends AphrontTagView {
     return $this->allowEmptyList;
   }
 
+  public function isEmpty() {
+    return empty($this->items);
+  }
+
   public function setFlush($flush) {
     $this->flush = $flush;
     return $this;
@@ -130,13 +134,8 @@ final class PHUIObjectItemListView extends AphrontTagView {
     }
 
     if ($this->items) {
-      if ($viewer) {
-        foreach ($this->items as $item) {
-          $item->setViewer($viewer);
-        }
-      }
-
       foreach ($this->items as $item) {
+        $item->setViewer($viewer);
         $item->addClass($this->itemClass);
       }
 

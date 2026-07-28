@@ -1,8 +1,12 @@
 /**
- * @provides phuix-action-view
  * @requires javelin-install
  *           javelin-dom
+ *           javelin-stratcom
  *           javelin-util
+ * @provides phuix-action-view
+ *
+ * @javelin-installs JX.PHUIXActionView
+ *
  * @javelin
  */
 

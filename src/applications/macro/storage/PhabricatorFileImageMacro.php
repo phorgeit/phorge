@@ -140,6 +140,7 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
           PhabricatorMacroApplication::class);
         return $app->getPolicy(PhabricatorMacroManageCapability::CAPABILITY);
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

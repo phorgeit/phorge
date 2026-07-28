@@ -36,35 +36,6 @@
   width: 300px;
 }
 
-/* flexible, but with a minimum */
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-1-up {
-  min-width: 200px;
-}
-
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-2-up {
-  min-width: 400px;
-}
-
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-3-up {
-  min-width: 600px;
-}
-
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-4-up {
-  min-width: 800px;
-}
-
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-5-up {
-  min-width: 1000px;
-}
-
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-6-up {
-  min-width: 1200px;
-}
-
-.device-desktop .aphront-multi-column-fluidish .aphront-multi-column-7-up {
-  min-width: 1400px;
-}
-
 /* table division */
 .aphront-multi-column-fluid .aphront-multi-column-1-up
   .aphront-multi-column-column-outer {

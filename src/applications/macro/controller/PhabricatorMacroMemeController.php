@@ -9,8 +9,6 @@ final class PhabricatorMacroMemeController
 
   public function handleRequest(AphrontRequest $request) {
     $macro_name = $request->getStr('macro');
-    $upper_text = $request->getStr('uppertext');
-    $lower_text = $request->getStr('lowertext');
     $viewer = $request->getViewer();
 
     $file = id(new PhabricatorMemeEngine())

@@ -16,7 +16,7 @@ final class PhabricatorProjectsExportEngineExtension
         ->setLabel(pht('Tag PHIDs')),
       id(new PhabricatorStringListExportField())
         ->setKey('tags')
-        ->setLabel(pht('Tags')),
+        ->setLabel(pht('Project Tags')),
     );
   }
 

@@ -4,8 +4,13 @@
  *           javelin-vector
  *           javelin-request
  *           javelin-uri
+ *           javelin-util
+ *           javelin-json
  *           phui-hovercard
  * @provides phui-hovercard-list
+ *
+ * @javelin-installs JX.HovercardList
+ *
  * @javelin
  */
 

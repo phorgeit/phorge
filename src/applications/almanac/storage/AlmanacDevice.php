@@ -23,7 +23,7 @@ final class AlmanacDevice
   private $almanacProperties = self::ATTACHABLE;
 
   public static function initializeNewDevice() {
-    return id(new AlmanacDevice())
+    return id(new self())
       ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
       ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN)
       ->setStatus(AlmanacDeviceStatus::ACTIVE)
@@ -183,6 +183,7 @@ final class AlmanacDevice
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

@@ -97,25 +97,20 @@ final class LegalpadDocumentQuery
       $documents = $this->loadSignatures($documents);
     }
 
-    if ($this->needViewerSignatures) {
-      if ($documents) {
-        if ($this->getViewer()->getPHID()) {
-          $signatures = id(new LegalpadDocumentSignatureQuery())
-            ->setViewer($this->getViewer())
-            ->withSignerPHIDs(array($this->getViewer()->getPHID()))
-            ->withDocumentPHIDs(mpull($documents, 'getPHID'))
-            ->execute();
-          $signatures = mpull($signatures, null, 'getDocumentPHID');
-        } else {
-          $signatures = array();
-        }
+    if ($this->needViewerSignatures && $documents &&
+        $this->getViewer()->getPHID()) {
+      $signatures = id(new LegalpadDocumentSignatureQuery())
+        ->setViewer($this->getViewer())
+        ->withSignerPHIDs(array($this->getViewer()->getPHID()))
+        ->withDocumentPHIDs(mpull($documents, 'getPHID'))
+        ->execute();
+      $signatures = mpull($signatures, null, 'getDocumentPHID');
 
-        foreach ($documents as $document) {
-          $signature = idx($signatures, $document->getPHID());
-          $document->attachUserSignature(
-            $this->getViewer()->getPHID(),
-            $signature);
-        }
+      foreach ($documents as $document) {
+        $signature = idx($signatures, $document->getPHID());
+        $document->attachUserSignature(
+          $this->getViewer()->getPHID(),
+          $signature);
       }
     }
 

@@ -19,6 +19,10 @@ final class PhabricatorCoreConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     if (phutil_is_windows()) {
       $paths = array();
@@ -79,7 +83,7 @@ EOREMARKUP
             'improves security by preventing cookies from being set on other '.
             'domains, and allows daemons to send emails with links that have '.
             'the correct domain.'))
-        ->addExample('http://devtools.example.com/', pht('Valid Setting')),
+        ->addExample('https://devtools.example.com/', pht('Valid Setting')),
       $this->newOption('phabricator.production-uri', 'string', null)
         ->setSummary(
           pht('Primary install URI, for multi-environment installs.'))
@@ -93,7 +97,7 @@ EOREMARKUP
             'installs do not need to set this option.',
             PlatformSymbols::getPlatformServerName(),
             'phabricator.base-uri'))
-        ->addExample('http://devtools.example.com/', pht('Valid Setting')),
+        ->addExample('https://devtools.example.com/', pht('Valid Setting')),
       $this->newOption('phabricator.allowed-uris', 'list<string>', array())
         ->setLocked(true)
         ->setSummary(pht('Alternative URIs that can access this service.'))
@@ -104,8 +108,8 @@ EOREMARKUP
             "won't work. The major use case for this is moving installs ".
             "across domains."))
         ->addExample(
-          "http://phabricator2.example.com/\n".
-          "http://phabricator3.example.com/",
+          "https://phorge2.example.com/\n".
+          "https://phorge3.example.com/",
           pht('Valid Setting')),
       $this->newOption('phabricator.timezone', 'string', null)
         ->setSummary(
@@ -135,7 +139,7 @@ EOREMARKUP
           ))
         ->setSummary(
           pht(
-            'Install applications which are still under development.'))
+            'Enable applications which are still under development.'))
         ->setDescription(
           pht(
             "IMPORTANT: The upstream does not provide support for prototype ".
@@ -143,14 +147,14 @@ EOREMARKUP
             "\n\n".
             "This platform includes prototype applications which are in an ".
             "**early stage of development**. By default, prototype ".
-            "applications are not installed, because they are often not yet ".
+            "applications are disabled, because they are often not yet ".
             "developed enough to be generally usable. You can enable ".
-            "this option to install them if you're developing applications ".
+            "this option to enable them if you're developing applications ".
             "or are interested in previewing upcoming features.".
             "\n\n".
             "To learn more about prototypes, see [[ %s | %s ]].".
             "\n\n".
-            "After enabling prototypes, you can selectively uninstall them ".
+            "After enabling prototypes, you can selectively disable them ".
             "(like normal applications).",
             $proto_doc_href,
             $proto_doc_name)),
@@ -239,7 +243,7 @@ EOREMARKUP
       $this->newOption('phabricator.uninstalled-applications', 'set', array())
         ->setLocked(true)
         ->setLockedMessage(pht(
-          'Use the %s to manage installed applications.',
+          'Use the %s to manage enabled applications.',
           phutil_tag(
             'a',
             array(
@@ -247,7 +251,7 @@ EOREMARKUP
             ),
             pht('Applications application'))))
         ->setDescription(
-          pht('Array containing list of uninstalled applications.')),
+          pht('Array containing list of disabled applications.')),
       $this->newOption('phabricator.application-settings', 'wild', array())
         ->setLocked(true)
         ->setDescription(
@@ -264,6 +268,20 @@ EOREMARKUP
           ))
         ->setSummary(pht('Stop this software from sending any email, etc.'))
         ->setDescription($silent_description),
+      $this->newOption('phabricator.user-agent', 'string', null)
+        ->setSummary(
+          pht(
+            'Default User-Agent for outgoing HTTP requests '.
+            'made by this software.'))
+        ->setDescription(
+          pht(
+            'This User-Agent will be used for most outgoing HTTP '.
+            'requests. When unset, the base URI will be used, '.
+            'with a " %s/1.0" suffix.',
+            PlatformSymbols::getPlatformServerName()))
+        ->addExample('Example/1.0 (https://example.org)',
+          pht('Set default user-agent to "%s"',
+            'Example/1.0 (https://example.org)')),
       );
 
   }
@@ -297,8 +315,8 @@ EOREMARKUP
             'browsers will not set cookies on domains with no TLD.',
             $key,
             '.',
-            'http://example.com/',
-            'http://example/'));
+            'https://example.com/',
+            'https://example/'));
       }
 
       $path = $uri->getPath();
@@ -306,11 +324,11 @@ EOREMARKUP
         throw new PhabricatorConfigValidationException(
           pht(
             "Config option '%s' is invalid. The URI must NOT have a path, ".
-            "e.g. '%s' is OK, but '%s' is not. This software must be '.
-            'installed on an entire domain; it can not be installed on a path.",
+            "e.g. '%s' is OK, but '%s' is not. This software must be ".
+            "installed on an entire domain; it can not be installed on a path.",
             $key,
-            'http://devtools.example.com/',
-            'http://example.com/devtools/'));
+            'https://devtools.example.com/',
+            'https://example.com/devtools/'));
       }
     }
 

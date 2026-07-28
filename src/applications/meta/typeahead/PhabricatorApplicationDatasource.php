@@ -17,8 +17,6 @@ final class PhabricatorApplicationDatasource
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
-
     $results = array();
 
     $applications = PhabricatorApplication::getAllInstalledApplications();

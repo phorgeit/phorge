@@ -1,7 +1,10 @@
 /**
- * @provides javelin-cookie
  * @requires javelin-install
  *           javelin-util
+ * @provides javelin-cookie
+ *
+ * @javelin-installs JX.Cookie
+ *
  * @javelin
  */
 

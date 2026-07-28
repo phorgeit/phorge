@@ -118,7 +118,7 @@ final class PhabricatorRepositoryManagementReparseWorkflow
       // OK.
     } else if ($importing) {
       // OK.
-    } else if (!$any_step && !$importing) {
+    } else {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify which steps to reparse with "--message", "--change", '.
@@ -188,7 +188,6 @@ final class PhabricatorRepositoryManagementReparseWorkflow
     $progress = new PhutilConsoleProgressBar();
     $progress->setTotal(count($commits));
 
-    $tasks = array();
     foreach ($commits as $commit) {
       $repository = $commit->getRepository();
 

@@ -208,7 +208,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
   }
 
   public static function newFromMap(array $map) {
-    $obj = new DifferentialLineAdjustmentMap();
+    $obj = new self();
     $obj->map = $map;
     return $obj;
   }
@@ -244,7 +244,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
 
     $inv = self::reduceMapRanges($inv);
 
-    $obj = new DifferentialLineAdjustmentMap();
+    $obj = new self();
     $obj->map = $inv;
     $obj->isInverse = !$map->isInverse;
     return $obj;

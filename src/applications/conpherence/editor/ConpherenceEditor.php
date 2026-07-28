@@ -60,7 +60,7 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
           ->setContent($message)
           ->setConpherencePHID($conpherence->getPHID()));
 
-      id(new ConpherenceEditor())
+      id(new self())
         ->setActor($creator)
         ->setContentSource($source)
         ->setContinueOnNoEffect(true)

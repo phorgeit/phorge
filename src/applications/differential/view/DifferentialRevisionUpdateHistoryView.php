@@ -69,7 +69,6 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
     $max_id = $diff->getID();
     $revision_id = $diff->getRevisionID();
 
-    $idx = 0;
     $rows = array();
     $disable = false;
     $radios = array();
@@ -203,7 +202,7 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
         'radios' => $radios,
       ));
 
-    $table = id(new AphrontTableView($rows));
+    $table = new AphrontTableView($rows);
     $table->setHeaders(
       array(
         pht('Diff'),

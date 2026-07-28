@@ -34,7 +34,7 @@ final class PhabricatorOwnersPath extends PhabricatorOwnersDAO {
   }
 
   public static function newFromRef(array $ref) {
-    $path = new PhabricatorOwnersPath();
+    $path = new self();
     $path->repositoryPHID = $ref['repositoryPHID'];
 
     $raw_path = $ref['path'];

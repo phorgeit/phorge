@@ -33,7 +33,7 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
     $edit_policy = $app->getPolicy(
       PhabricatorCountdownDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorCountdown())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
@@ -125,6 +125,7 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

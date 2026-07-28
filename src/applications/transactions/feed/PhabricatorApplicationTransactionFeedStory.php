@@ -164,6 +164,15 @@ class PhabricatorApplicationTransactionFeedStory
     $author_handle = $this->getHandle($author_phid);
     $author_image = $author_handle->getImageURI();
 
+    if ($xaction->hasChangeDetails()) {
+      $view->addAction(
+        id(new PHUIIconView())
+          ->setTooltip(pht('Show Details'))
+          ->setIcon('fa-align-left')
+          ->setWorkflow(true)
+          ->setHref($xaction->getChangeDetailsURI()));
+    }
+
     if ($author_image) {
       $view->setImage($author_image);
       $view->setImageHref($author_handle->getURI());

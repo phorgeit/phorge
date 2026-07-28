@@ -4,6 +4,7 @@ final class PhabricatorProjectTransactionEditor
   extends PhabricatorApplicationTransactionEditor {
 
   private $isMilestone;
+  private $parentPHID;
 
   private function setIsMilestone($is_milestone) {
     $this->isMilestone = $is_milestone;
@@ -12,6 +13,15 @@ final class PhabricatorProjectTransactionEditor
 
   public function getIsMilestone() {
     return $this->isMilestone;
+  }
+
+  private function setParentPHID($phid) {
+    $this->parentPHID = $phid;
+    return $this;
+  }
+
+  private function getParentPHID() {
+    return $this->parentPHID;
   }
 
   public function getEditorApplicationClass() {
@@ -227,7 +237,7 @@ final class PhabricatorProjectTransactionEditor
           $member_type);
 
         if ($project_members) {
-          $editor = id(new PhabricatorEdgeEditor());
+          $editor = new PhabricatorEdgeEditor();
           foreach ($project_members as $phid) {
             $editor->addEdge($object->getPHID(), $member_type, $phid);
           }
@@ -357,14 +367,13 @@ final class PhabricatorProjectTransactionEditor
       // of the newly created milestone will be the same as the members of the
       // parent project, since this is the governing rule.
 
-      $parent = $copy->getParentProject();
-
       $parent = id(new PhabricatorProjectQuery())
         ->setViewer($this->getActor())
-        ->withPHIDs(array($parent->getPHID()))
+        ->withPHIDs(array($this->getParentPHID()))
         ->needMembers(true)
         ->executeOne();
       $members = $parent->getMemberPHIDs();
+      $copy->attachParentProject($parent);
 
       $hint = array_fuse($members);
     } else {
@@ -417,23 +426,23 @@ final class PhabricatorProjectTransactionEditor
     PhabricatorLiskDAO $object,
     array $xactions) {
 
-    $actor = $this->getActor();
-    $actor_phid = $actor->getPHID();
-
     $results = parent::expandTransactions($object, $xactions);
 
     $is_milestone = $object->isMilestone();
+    $parent_phid = $object->getParentProjectPHID();
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
         case PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE:
           if ($xaction->getNewValue() !== null) {
             $is_milestone = true;
+            $parent_phid = $xaction->getNewValue();
           }
           break;
       }
     }
 
     $this->setIsMilestone($is_milestone);
+    $this->setParentPHID($parent_phid);
 
     return $results;
   }

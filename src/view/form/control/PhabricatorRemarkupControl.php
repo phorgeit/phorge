@@ -271,13 +271,10 @@ final class PhabricatorRemarkupControl
       ),
     );
 
-    $can_use_macros = function_exists('imagettftext');
-
-    if ($can_use_macros) {
-      $can_use_macros = PhabricatorApplication::isClassInstalledForViewer(
+    $can_use_macros = function_exists('imagettftext') &&
+      PhabricatorApplication::isClassInstalledForViewer(
         PhabricatorMacroApplication::class,
         $viewer);
-    }
 
     if ($can_use_macros) {
       $actions[] = array(
@@ -296,7 +293,7 @@ final class PhabricatorRemarkupControl
     $actions['fa-book'] = array(
       'tip' => pht('Help'),
       'align' => 'right',
-      'href'  => '/reference/remarkup/',
+      'href'  => '/remarkup/',
     );
 
     $mode_actions = array();

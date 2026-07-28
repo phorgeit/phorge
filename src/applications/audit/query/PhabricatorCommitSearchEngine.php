@@ -12,8 +12,9 @@ final class PhabricatorCommitSearchEngine
   }
 
   public function newQuery() {
+    $include_audits = id(new PhabricatorAuditApplication())->isInstalled();
     return id(new DiffusionCommitQuery())
-      ->needAuditRequests(true)
+      ->needAuditRequests($include_audits)
       ->needCommitData(true)
       ->needIdentities(true)
       ->needDrafts(true);
@@ -236,7 +237,7 @@ final class PhabricatorCommitSearchEngine
 
     $bucket = $this->getResultBucket($query);
 
-    // hide "Auditors" on /diffusion/commit/query/all/ if Audit not installed
+    // hide "Auditors" on /diffusion/commit/query/all/ if Audit not enabled
     $show_auditors = id(new PhabricatorAuditApplication())->isInstalled();
     $template = id(new DiffusionCommitGraphView())
       ->setViewer($viewer)
@@ -279,16 +280,25 @@ final class PhabricatorCommitSearchEngine
       ->setContent($views);
   }
 
+  /**
+   * @return PHUIBigInfoView
+   */
   protected function getNewUserBody() {
-
-    $view = id(new PHUIBigInfoView())
-      ->setIcon('fa-check-circle-o')
-      ->setTitle(pht('Welcome to Audit'))
-      ->setDescription(
-        pht('Post-commit code review and auditing. Audits you are assigned '.
-            'to will appear here.'));
-
-      return $view;
+    if (id(new PhabricatorAuditApplication())->isInstalled()) {
+      $view = id(new PHUIBigInfoView())
+        ->setIcon('fa-check-circle-o')
+        ->setTitle(pht('Welcome to Audit'))
+        ->setDescription(
+          pht('Post-commit code review and auditing. Audits you are assigned '.
+              'to will appear here.'));
+    } else {
+      $view = id(new PHUIBigInfoView())
+        ->setIcon('fa-code')
+        ->setTitle(pht('Welcome to Diffusion'))
+        ->setDescription(
+          pht('Your authored repository commits will appear here.'));
+    }
+    return $view;
   }
 
 }

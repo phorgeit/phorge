@@ -15,7 +15,7 @@ final class PhabricatorColumnsEditField
   }
 
   protected function newControl() {
-    $control = id(new AphrontFormHandlesControl());
+    $control = new AphrontFormHandlesControl();
     $control->setIsInvisible(true);
 
     return $control;

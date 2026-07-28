@@ -50,8 +50,6 @@ final class PhabricatorPolicyRef
   }
 
   public function newCapabilityLink($object, $capability) {
-    $policy = $this->getPolicy();
-
     $uri = urisprintf(
       '/policy/explain/%s/%s/',
       $object->getPHID(),

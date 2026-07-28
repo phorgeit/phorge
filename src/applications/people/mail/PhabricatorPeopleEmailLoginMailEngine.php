@@ -8,7 +8,7 @@ final class PhabricatorPeopleEmailLoginMailEngine
 
     if ($recipient->getIsDisabled()) {
       $this->throwValidationException(
-        pht('User is Disabled'),
+        pht('User Account is Disabled'),
         pht(
           'You can not send an email login link to this email address '.
           'because the associated user account is disabled.'));

@@ -1,9 +1,10 @@
 /**
- * @provides javelin-behavior-phui-file-upload
  * @requires javelin-behavior
- *           javelin-stratcom
+ *           javelin-util
+ *           javelin-workflow
  *           javelin-dom
- *           phuix-dropdown-menu
+ *           phabricator-drag-and-drop-file-upload
+ * @provides javelin-behavior-phui-file-upload
  */
 
 JX.behavior('phui-file-upload', function(config) {

@@ -7,7 +7,7 @@ final class TokenGiveConduitAPIMethod extends TokenConduitAPIMethod {
   }
 
   public function getMethodDescription() {
-    return pht('Give or change a token.');
+    return pht('Give or change or remove a token.');
   }
 
   protected function defineParamTypes() {
@@ -21,19 +21,47 @@ final class TokenGiveConduitAPIMethod extends TokenConduitAPIMethod {
     return 'void';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-OBJECTPHID' => pht(
+        'Must pass a valid PHID for parameter "%s".',
+        'objectPHID'),
+      'ERR-BAD-TOKENPHID' => pht(
+        'Must pass a valid PHID for parameter "%s".',
+        'tokenPHID'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $content_source = $request->newContentSource();
+    $object_phid = $request->getValue('objectPHID');
+
+    $invalid = PhabricatorObjectQuery::loadInvalidPHIDsForViewer(
+      $request->getUser(),
+      array($object_phid));
+    if ($invalid) {
+      throw new ConduitException('ERR-BAD-OBJECTPHID');
+    }
+
 
     $editor = id(new PhabricatorTokenGivenEditor())
       ->setActor($request->getUser())
       ->setContentSource($content_source);
 
     if ($request->getValue('tokenPHID')) {
+      $token_phid = $request->getValue('tokenPHID');
+      $invalid = PhabricatorObjectQuery::loadInvalidPHIDsForViewer(
+        $request->getUser(),
+        array($token_phid));
+      if ($invalid) {
+        throw new ConduitException('ERR-BAD-TOKENPHID');
+      }
+
       $editor->addToken(
-        $request->getValue('objectPHID'),
-        $request->getValue('tokenPHID'));
+        $object_phid,
+        $token_phid);
     } else {
-      $editor->deleteToken($request->getValue('objectPHID'));
+      $editor->deleteToken($object_phid);
     }
   }
 

@@ -125,7 +125,7 @@ final class PhabricatorProjectEditEngine
     if ($is_milestone) {
       foreach ($fields as $key => $field) {
         $xaction_type = $field->getTransactionType();
-        if (isset($unavailable[$xaction_type])) {
+        if ($xaction_type !== null && isset($unavailable[$xaction_type])) {
           unset($fields[$key]);
         }
       }
@@ -317,9 +317,9 @@ final class PhabricatorProjectEditEngine
         ->setLabel(pht('Additional Hashtags'))
         ->setTransactionType(
             PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
-        ->setDescription(pht('Additional project slugs.'))
-        ->setConduitDescription(pht('Change project slugs.'))
-        ->setConduitTypeDescription(pht('New list of slugs.'))
+        ->setDescription(pht('Additional project tags.'))
+        ->setConduitDescription(pht('Change project tags.'))
+        ->setConduitTypeDescription(pht('New list of hashtags.'))
         ->setValue($slugs),
     );
 

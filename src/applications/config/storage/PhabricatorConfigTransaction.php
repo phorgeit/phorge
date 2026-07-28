@@ -143,6 +143,8 @@ final class PhabricatorConfigTransaction
         } else {
           return PhabricatorTransactions::COLOR_BLUE;
         }
+      default:
+        return null;
     }
   }
 

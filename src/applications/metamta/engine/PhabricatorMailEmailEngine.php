@@ -4,7 +4,6 @@ final class PhabricatorMailEmailEngine
   extends PhabricatorMailMessageEngine {
 
   public function newMessage() {
-    $mailer = $this->getMailer();
     $mail = $this->getMail();
 
     $message = new PhabricatorMailEmailMessage();

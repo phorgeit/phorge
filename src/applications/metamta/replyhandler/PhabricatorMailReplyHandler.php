@@ -33,6 +33,9 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser|null
+   */
   final public function getActor() {
     return $this->actor;
   }
@@ -371,8 +374,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
   /**
    * Remove recipients who do not have permission to view the mail receiver.
    *
-   * @param map<string, PhabricatorUser> $to Map of "To" users.
-   * @param map<string, PhabricatorUser> $cc Map of "CC" users.
+   * @param array<string, PhabricatorUser> $to Map of "To" users.
+   * @param array<string, PhabricatorUser> $cc Map of "CC" users.
    * @return array{array<string, PhabricatorUser>,
    *         array<string, PhabricatorUser>} Filtered user maps.
    */

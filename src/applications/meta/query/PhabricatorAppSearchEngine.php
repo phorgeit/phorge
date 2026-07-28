@@ -96,14 +96,14 @@ final class PhabricatorAppSearchEngine
           ->setValue($saved->getParameter('name')))
       ->appendChild(
         id(new AphrontFormSelectControl())
-          ->setLabel(pht('Installed'))
+          ->setLabel(pht('Enabled'))
           ->setName('installed')
           ->setValue($this->getBoolFromQuery($saved, 'installed'))
           ->setOptions(
             array(
               '' => pht('Show All Applications'),
-              'true' => pht('Show Installed Applications'),
-              'false' => pht('Show Uninstalled Applications'),
+              'true' => pht('Show Enabled Applications'),
+              'false' => pht('Show Disabled Applications'),
             )))
       ->appendChild(
         id(new AphrontFormSelectControl())
@@ -187,6 +187,7 @@ final class PhabricatorAppSearchEngine
     array $all_applications,
     PhabricatorSavedQuery $query,
     array $handles) {
+
     assert_instances_of($all_applications, PhabricatorApplication::class);
 
     $all_applications = msort($all_applications, 'getName');
@@ -211,7 +212,8 @@ final class PhabricatorAppSearchEngine
           idx($group_names, $group, $group));
       }
 
-      $list = new PHUIObjectItemListView();
+      $list = id(new PHUIObjectItemListView())
+        ->setViewer($this->getRequest()->getViewer());
 
       foreach ($applications as $application) {
         $icon = $application->getIcon();
@@ -272,7 +274,7 @@ final class PhabricatorAppSearchEngine
         }
 
         if (!$application->isInstalled()) {
-          $item->addAttribute(pht('Uninstalled'));
+          $item->addAttribute(pht('Disabled'));
           $item->setDisabled(true);
         }
 

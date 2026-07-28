@@ -28,7 +28,8 @@ final class DrydockAuthorizationListView extends AphrontView {
 
     $authorizations = $this->authorizations;
 
-    $view = new PHUIObjectItemListView();
+    $view = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $nodata = $this->getNoDataString();
     if ($nodata) {

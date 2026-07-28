@@ -35,7 +35,7 @@ final class HeraldTranscriptSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new HeraldTranscriptQuery());
+    $query = new HeraldTranscriptQuery();
 
     $object_monograms = $saved->getParameter('objectMonograms');
     if ($object_monograms) {
@@ -113,11 +113,13 @@ final class HeraldTranscriptSearchEngine
     array $transcripts,
     PhabricatorSavedQuery $query,
     array $handles) {
+
     assert_instances_of($transcripts, HeraldTranscript::class);
 
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($transcripts as $xscript) {
       $view_href = phutil_tag(
         'a',

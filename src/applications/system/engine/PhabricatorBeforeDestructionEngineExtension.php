@@ -70,7 +70,8 @@ abstract class PhabricatorBeforeDestructionEngineExtension extends Phobject {
   /**
    * Get all "Before Destruction Engine" extensions.
    *
-   * @return list<PhabricatorDestructionEngineExtension>
+   * @return array<string, PhabricatorDestructionEngineExtension> Class map of
+   *   all available extensions.
    */
   final public static function getAllExtensions(): array {
     $map = new PhutilClassMapQuery();

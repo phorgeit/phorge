@@ -69,7 +69,8 @@ final class PhabricatorCalendarExportSearchEngine
     assert_instances_of($exports, PhabricatorCalendarExport::class);
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($exports as $export) {
       $item = id(new PHUIObjectItemView())
         ->setViewer($viewer)

@@ -45,7 +45,7 @@ final class ManiphestTaskStatus extends ManiphestConstants {
   /**
    * Get the statuses and their command keywords.
    *
-   * @return map Statuses to lists of command keywords.
+   * @return array Map of statuses to lists of command keywords.
    */
   public static function getTaskStatusKeywordsMap() {
     $map = self::getEnabledStatusMap();

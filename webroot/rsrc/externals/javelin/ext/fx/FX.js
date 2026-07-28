@@ -1,6 +1,11 @@
 /**
+ * @requires javelin-color
+ *           javelin-install
+ *           javelin-util
  * @provides javelin-fx
- * @requires javelin-color javelin-install javelin-util
+ *
+ * @javelin-installs JX.FX
+ *
  * @javelin
  *
  * Based on moo.fx (moofx.mad4milk.net).

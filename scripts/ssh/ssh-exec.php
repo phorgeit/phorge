@@ -21,14 +21,14 @@ $ssh_log->setData(
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('execute SSH requests'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **ssh-exec** --phabricator-ssh-user __user__ [--ssh-command __commmand__]
 **ssh-exec** --phabricator-ssh-device __device__ [--ssh-command __commmand__]
     Execute authenticated SSH requests. This script is normally invoked
     via SSHD, but can be invoked manually for testing.
 
 EOSYNOPSIS
-);
+));
 
 $args->parseStandardArguments();
 $args->parse(

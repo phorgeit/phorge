@@ -57,7 +57,7 @@ final class PhameBlogSite extends PhameSite {
       return null;
     }
 
-    return id(new PhameBlogSite())->setBlog($blog);
+    return id(new self())->setBlog($blog);
   }
 
   public function new404Controller(AphrontRequest $request) {

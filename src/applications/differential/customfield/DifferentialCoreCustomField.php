@@ -10,7 +10,6 @@ abstract class DifferentialCoreCustomField
 
   private $value;
   private $fieldError;
-  private $fieldParser;
 
   abstract protected function readValueFromRevision(
     DifferentialRevision $revision);
@@ -48,7 +47,6 @@ abstract class DifferentialCoreCustomField
       $type,
       $xactions);
 
-    $transaction = null;
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
       if ($this->isCoreFieldRequired()) {

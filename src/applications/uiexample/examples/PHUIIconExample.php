@@ -14,24 +14,11 @@ final class PHUIIconExample extends PhabricatorUIExample {
     return pht('Catalogs');
   }
 
-  private function listTransforms() {
-    return array(
-      'ph-rotate-90',
-      'ph-rotate-180',
-      'ph-rotate-270',
-      'ph-flip-horizontal',
-      'ph-flip-vertical',
-      'ph-spin',
-    );
-  }
-
   public function renderExample() {
 
     $colors = PHUIIconView::getIconColors();
     $colors = array_merge(array(null), $colors);
     $fas = PHUIIconView::getIcons();
-
-    $trans = $this->listTransforms();
 
     $cicons = array();
     foreach ($colors as $color) {

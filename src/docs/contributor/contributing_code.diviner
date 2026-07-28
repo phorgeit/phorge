@@ -140,12 +140,9 @@ We do not accept pull requests on GitHub:
   - If you're comfortable enough with Phorge to contribute to it, you
     should also be comfortable using it to submit changes.
 
-Instead of sending a pull request, use `arc diff` to create a revision on the
+Instead of creating a pull request, use `arc diff` to create a revision on the
 upstream install. Your change will go through the normal Phorge review
 process.
-
-(GitHub does not allow repositories to disable pull requests, which is why
-it's technically possible to submit them.)
 
 
 Alternatives

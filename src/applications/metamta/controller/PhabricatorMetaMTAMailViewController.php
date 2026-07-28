@@ -248,7 +248,7 @@ final class PhabricatorMetaMTAMailViewController
           $delivery = pht('Voided');
         }
 
-        $reasons = id(new PHUIStatusListView());
+        $reasons = new PHUIStatusListView();
 
         $reason_codes = $actor['reasons'];
         if (!$reason_codes) {
@@ -369,7 +369,7 @@ final class PhabricatorMetaMTAMailViewController
         }
         $rules = isort($rules, 'strength');
 
-        $routing_detail = id(new PHUIStatusListView());
+        $routing_detail = new PHUIStatusListView();
         foreach ($rules as $rule) {
           $const = $rule['routingRule'];
           $phids = $rule['phids'];

@@ -5,12 +5,12 @@ require_once dirname(dirname(__FILE__)).'/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('regenerate Emoji data sheets'));
-$args->setSynopsis(<<<EOHELP
+$args->setSynopsis(pht(<<<EOHELP
 **emoji**
     Rebuild Emoji data sheets.
 
 EOHELP
-);
+));
 $args->parseStandardArguments();
 $args->parse(
   array(

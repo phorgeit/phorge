@@ -406,7 +406,6 @@ final class LegalpadDocumentSignController extends LegalpadController {
     array $errors) {
 
     $viewer = $this->getRequest()->getUser();
-    $data = $signature->getSignatureData();
 
     $form = id(new AphrontFormView())
       ->setUser($viewer);

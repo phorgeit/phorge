@@ -273,6 +273,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
   }
 
+  /**
+   * @return array<string,PhabricatorSearchField> Map of field name to a
+   *   subclass of PhabricatorSearchField
+   */
   protected function buildSearchFields() {
     $fields = array();
 
@@ -408,16 +412,22 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Return a list of field keys which should be hidden from the viewer.
    *
-    * @return list<string> Fields to hide.
+   * @return list<string> Fields to hide.
    */
   protected function getHiddenFields() {
     return array();
   }
 
+  /**
+   * @return array<string>
+   */
   public function getErrors() {
     return $this->errors;
   }
 
+  /**
+   * @param string $error
+   */
   public function addError($error) {
     $this->errors[] = $error;
     return $this;
@@ -673,7 +683,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       if (!$this->application) {
         throw new Exception(
           pht(
-            'Application "%s" is not installed!',
+            'Application "%s" is not enabled!',
             $class));
       }
     }
@@ -690,7 +700,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Load all available application search engines.
    *
-   * @return list<PhabricatorApplicationSearchEngine> All available engines.
+   * @return array<string, PhabricatorApplicationSearchEngine> Class map of all
+   *   available engines.
    * @task construct
    */
   public static function getAllEngines() {
@@ -972,6 +983,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
   /**
    * @task dates
+   * @return void
    */
   protected function buildDateRange(
     AphrontFormView $form,
@@ -1097,8 +1109,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
   /**
-   * @return array<string,PhabricatorObjectHandle> $results Array of pairs of
-   *   the object's PHID as key and the corresponding PhabricatorObjectHandle
+   * @return array<string, PhabricatorPolicyInterface> $results Array of pairs
+   * of the object's PHID as key and the object as value.
    */
   public function executeQuery(
     PhabricatorPolicyAwareQuery $query,
@@ -1121,6 +1133,20 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return;
   }
 
+  /**
+   * Convenience method to quickly get a result view in a controller.
+   *
+   * Note that the result is almost always
+   * PhabricatorApplicationSearchResultView, which //isn't// a View.
+   *
+   * @return PhabricatorApplicationSearchResultView|mixed
+   */
+  public function executeQueryAndRender(PhabricatorQuery $query) {
+    $saved = id(new PhabricatorSavedQuery());
+    $pager = $this->newPagerForSavedQuery($saved);
+    $results = $this->executeQuery($query, $pager);
+    return $this->renderResults($results, $saved);
+  }
 
 /* -(  Rendering  )---------------------------------------------------------- */
 
@@ -1167,6 +1193,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 /* -(  Application Search  )------------------------------------------------- */
 
 
+  /**
+   * @return array<string,PhabricatorSearchField> Map of field name to a
+   *   subclass of PhabricatorSearchField
+   */
   public function getSearchFieldsForConduit() {
     $standard_fields = $this->buildSearchFields();
 
@@ -1216,25 +1246,21 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       $saved_query = new PhabricatorSavedQuery();
     } else if ($this->isBuiltinQuery($query_key)) {
       $saved_query = $this->buildSavedQueryFromBuiltin($query_key);
+    } else if (strlen($query_key) !== PhabricatorHash::INDEX_DIGEST_LENGTH) {
+      throw new ConduitException('ERR-BAD-QUERYKEY');
     } else {
       $saved_query = id(new PhabricatorSavedQueryQuery())
         ->setViewer($viewer)
         ->withQueryKeys(array($query_key))
         ->executeOne();
       if (!$saved_query) {
-        throw new Exception(
-          pht(
-            'Query key "%s" does not correspond to a valid query.',
-            $query_key));
+      throw new ConduitException('ERR-BAD-QUERYKEY');
       }
     }
 
     $constraints = $request->getValue('constraints', array());
     if (!is_array($constraints)) {
-      throw new Exception(
-        pht(
-          'Parameter "constraints" must be a map of constraints, got "%s".',
-          phutil_describe_type($constraints)));
+      throw new ConduitException('ERR-INVALID-CONSTRAINTS-FORMAT');
     }
 
     $fields = $this->getSearchFieldsForConduit();
@@ -1254,10 +1280,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     foreach ($constraints as $key => $constraint) {
       if (empty($valid_constraints[$key])) {
-        throw new Exception(
-          pht(
-            'Constraint "%s" is not a valid constraint for this query.',
-            $key));
+        throw new ConduitException('ERR-INVALID-CONSTRAINT');
       }
     }
 
@@ -1285,10 +1308,12 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $attachment_specs = $request->getValue('attachments', array());
     if (!is_array($attachment_specs)) {
-      throw new Exception(
-        pht(
-          'Parameter "attachments" must be a map of attachments, got "%s".',
-          phutil_describe_type($attachment_specs)));
+      throw new ConduitException('ERR-INVALID-ATTACHMENTS-FORMAT');
+    }
+    foreach ($attachment_specs as $key => $attachment) {
+      if (empty($attachments[$key])) {
+        throw new ConduitException('ERR-INVALID-ATTACHMENT');
+      }
     }
 
     $attachments = array_select_keys(
@@ -1459,18 +1484,20 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
 
     if ($limit > 100) {
-      throw new Exception(
-        pht(
-          'Maximum page size for Conduit API method calls is 100, but '.
-          'this call specified %s.',
+      throw id(new ConduitException('ERR-INVALID-PAGE-SIZE'))
+        ->setErrorDescription(
+          pht(
+          'Maximum page size for Conduit API method calls is 100, but this '.
+          'call specified %s.',
           $limit));
     }
 
     if ($limit < 1) {
-      throw new Exception(
-        pht(
-          'Minimum page size for API searches is 1, but this call '.
-          'specified %s.',
+      throw id(new ConduitException('ERR-INVALID-PAGE-SIZE'))
+        ->setErrorDescription(
+          pht(
+          'Minimum page size for Conduit API method calls is 1, but this '.
+          'call specified %s.',
           $limit));
     }
 

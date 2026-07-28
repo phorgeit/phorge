@@ -37,7 +37,7 @@ final class PhabricatorAuditInlineComment
   public static function newFromModernComment(
     PhabricatorAuditTransactionComment $comment) {
 
-    $obj = new PhabricatorAuditInlineComment();
+    $obj = new self();
     $obj->setStorageObject($comment);
 
     return $obj;

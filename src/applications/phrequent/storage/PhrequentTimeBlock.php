@@ -223,7 +223,6 @@ final class PhrequentTimeBlock extends Phobject {
     $ranges = $this->getObjectTimeRanges();
 
     $results = array();
-    $active = null;
     foreach ($ranges as $phid => $slices) {
       if (!$include_inactive) {
         if (!$slices->getIsOngoing()) {

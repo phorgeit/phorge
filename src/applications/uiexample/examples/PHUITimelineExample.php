@@ -8,16 +8,17 @@ final class PHUITimelineExample extends PhabricatorUIExample {
   public function getDescription() {
     return pht(
       'Use %s to comments and transactions.',
-      hsprintf('<tt>PHUITimelineView</tt>'));
+      hsprintf('<code>PHUITimelineView</code>'));
   }
 
   public function renderExample() {
     $request = $this->getRequest();
     $user = $request->getUser();
+    $viewer_phid = $user->getPHID() ?? '';
 
     $handle = id(new PhabricatorHandleQuery())
       ->setViewer($user)
-      ->withPHIDs(array($user->getPHID()))
+      ->withPHIDs(array($viewer_phid))
       ->executeOne();
 
     $designer = id(new PHUIBadgeMiniView())
@@ -210,7 +211,7 @@ final class PHUITimelineExample extends PhabricatorUIExample {
       }
     }
 
-    $timeline = id(new PHUITimelineView());
+    $timeline = new PHUITimelineView();
     $timeline->setViewer($user);
     foreach ($events as $event) {
       $timeline->addEvent($event);

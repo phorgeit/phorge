@@ -57,7 +57,7 @@ final class HarbormasterTargetEngine extends Phobject {
    * This method creates the steps if they do not yet exist.
    *
    * @param list<string> $autotargets Autotarget keys, like `"core.arc.lint"`.
-   * @return map<string, object> Map of keys to step objects.
+   * @return array<string, object> Map of keys to step objects.
    */
   private function generateBuildStepMap(array $autotargets) {
     $viewer = $this->getViewer();
@@ -128,7 +128,7 @@ final class HarbormasterTargetEngine extends Phobject {
    * a list of autotarget keys.
    *
    * @param list<string> $autotargets Autotarget keys, like `"core.arc.lint"`.
-   * @return map<string, object> Map of keys to implementations.
+   * @return array<string, object> Map of keys to implementations.
    */
   private function getAutosteps(array $autotargets) {
     $all_steps = HarbormasterBuildStepImplementation::getImplementations();
@@ -155,8 +155,8 @@ final class HarbormasterTargetEngine extends Phobject {
    * If some targets or builds do not exist, they are created.
    *
    * @param HarbormasterBuildable $buildable A buildable.
-   * @param map<string, object> $step_map Map of keys to steps.
-   * @return map<string, object> Map of keys to targets.
+   * @param array<string, object> $step_map Map of keys to steps.
+   * @return array<string, object> Map of keys to targets.
    */
   private function generateBuildTargetMap(
     HarbormasterBuildable $buildable,

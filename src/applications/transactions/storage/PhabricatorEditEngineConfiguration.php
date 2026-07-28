@@ -32,7 +32,7 @@ final class PhabricatorEditEngineConfiguration
     PhabricatorUser $actor,
     PhabricatorEditEngine $engine) {
 
-    return id(new PhabricatorEditEngineConfiguration())
+    return id(new self())
       ->setSubtype(PhabricatorEditEngine::SUBTYPE_DEFAULT)
       ->setEngineKey($engine->getEngineKey())
       ->attachEngine($engine)
@@ -230,6 +230,9 @@ final class PhabricatorEditEngineConfiguration
     return $engine->getCreateURI($form_key);
   }
 
+  /**
+   * @return string Form identifier, e.g. 'default' or '10'
+   */
   public function getIdentifier() {
     $key = $this->getID();
     if (!$key) {
@@ -287,6 +290,9 @@ final class PhabricatorEditEngineConfiguration
     return $this->setProperty('defaults', $defaults);
   }
 
+  /**
+   * @return string The EditEngine's icon, e.g. 'fa-calendar' or 'fa-code'
+   */
   public function getIcon() {
     return $this->getEngine()->getIcon();
   }
@@ -311,6 +317,7 @@ final class PhabricatorEditEngineConfiguration
           ->getApplication()
           ->getPolicy($capability);
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

@@ -14,7 +14,6 @@
 
 .device-phone .differential-changeset {
   overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 .differential-diff {

@@ -24,8 +24,6 @@ final class PhabricatorEmojiDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   private function buildResults() {
-    $raw_query = $this->getRawQuery();
-
     $data = id(new PhabricatorEmojiRemarkupRule())->markupEmojiJSON();
     $emojis = phutil_json_decode($data);
 

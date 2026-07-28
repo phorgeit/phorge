@@ -363,6 +363,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   private function getPolicyFilter() {
     $filter = new PhabricatorPolicyFilter();
     $filter->setViewer($this->viewer);
+    $filter->setParentQuery($this);
     $capabilities = $this->getRequiredCapabilities();
     $filter->requireCapabilities($capabilities);
     $filter->raisePolicyExceptions($this->shouldRaisePolicyExceptions());
@@ -402,9 +403,12 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
     }
 
     // Mark this object as filtered so handles can render "Restricted" instead
-    // of "Unknown".
+    // of "Unknown". Skip this for objects which have no PHID, for example
+    // EditEngines of applications which do not support form customization.
     $phid = $object->getPHID();
-    $this->addPolicyFilteredPHIDs(array($phid => $phid));
+    if ($phid) {
+      $this->addPolicyFilteredPHIDs(array($phid => $phid));
+    }
 
     $this->getPolicyFilter()->rejectObject(
       $object,
@@ -435,7 +439,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * between objects which do not exist (or, at least, were filtered at the
    * content level) and objects which exist but aren't visible.
    *
-   * @return map<string, string> Map of object PHIDs which were filtered
+   * @return array<string, string> Map of object PHIDs which were filtered
    *   by policies.
    * @task exec
    */
@@ -509,7 +513,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * queries.
    *
    * @param list<string> $phids List of PHIDs to retrieve.
-   * @return $this
+   * @return array
    * @task workspace
    */
   public function getObjectsFromWorkspace(array $phids) {

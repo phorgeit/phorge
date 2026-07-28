@@ -9,7 +9,6 @@ final class CelerityStaticResourceResponse extends Phobject {
 
   private $symbols = array();
   private $needsResolve = true;
-  private $resolved;
   private $packaged;
   private $metadata = array();
   private $metadataBlock = 0;

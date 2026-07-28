@@ -302,6 +302,16 @@ abstract class AphrontBaseMySQLDatabaseConnection
             'connection (to database "%s")!',
             $this->getConfiguration('database')));
       }
+      if ($this->getWriteInReadOnlyConnection()) {
+          phlog(pht(
+            'Database write (to database "%s") though the connection is '.
+            'supposed to be read-only. Please file a bug report after '.
+            'carefully reviewing the query below for any private data.'.
+            "\n".
+            'First 256 characters of the query: %s',
+            $this->getConfiguration('database'),
+            mb_substr($raw_query, 0, 256)));
+      }
       AphrontWriteGuard::willWrite();
       return true;
     }

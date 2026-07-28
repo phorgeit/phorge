@@ -1,7 +1,8 @@
 /**
- * @provides javelin-behavior-remarkup-load-image
  * @requires javelin-behavior
+ *           javelin-dom
  *           javelin-request
+ * @provides javelin-behavior-remarkup-load-image
  */
 
 JX.behavior('remarkup-load-image', function(config) {

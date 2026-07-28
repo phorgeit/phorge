@@ -3,6 +3,9 @@
  *           javelin-dom
  *           phabricator-notification
  * @provides phabricator-file-upload
+ *
+ * @javelin-installs JX.PhabricatorFileUpload
+ *
  * @javelin
  */
 

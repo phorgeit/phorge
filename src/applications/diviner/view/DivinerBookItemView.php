@@ -12,6 +12,10 @@ final class DivinerBookItemView extends AphrontTagView {
     return $this;
   }
 
+  public function getTitle() {
+    return $this->title;
+  }
+
   public function setSubtitle($subtitle) {
     $this->subtitle = $subtitle;
     return $this;

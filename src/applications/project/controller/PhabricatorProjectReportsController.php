@@ -21,7 +21,6 @@ final class PhabricatorProjectReportsController
     }
 
     $project = $this->getProject();
-    $id = $project->getID();
 
     $nav = $this->newNavigation(
       $project,
@@ -36,7 +35,8 @@ final class PhabricatorProjectReportsController
       ->setProjects(array($project))
       ->buildChartPanel();
 
-    $chart_panel->setName(pht('%s: Burndown', $project->getName()));
+    $chart_panel->setName(pht('%s: Burnup / Burndown Rate',
+      $project->getName()));
 
     $chart_view = id(new PhabricatorDashboardPanelRenderingEngine())
       ->setViewer($viewer)

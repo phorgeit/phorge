@@ -31,7 +31,6 @@ final class PhabricatorSubscriptionsListController
       ->setViewer($viewer)
       ->withPHIDs($handle_phids)
       ->execute();
-    $object_handle = $handles[$phid];
 
     $dialog = id(new SubscriptionListDialogBuilder())
       ->setViewer($viewer)

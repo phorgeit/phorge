@@ -79,4 +79,31 @@ final class PhabricatorUserIconField
     return new ConduitStringParameterType();
   }
 
+  public function validateApplicationTransactions(
+    PhabricatorApplicationTransactionEditor $editor,
+    $type,
+    array $xactions) {
+
+    $errors = parent::validateApplicationTransactions(
+      $editor,
+      $type,
+      $xactions);
+
+    foreach ($xactions as $xaction) {
+      $new_icon = $xaction->getNewValue();
+      if (!PhabricatorPeopleIconSet::getIconName($new_icon)) {
+        $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $type,
+          pht('Invalid'),
+          pht(
+            'Value for "%s" is invalid: "%s".',
+            $this->getFieldName(),
+            $new_icon));
+        break;
+      }
+    }
+
+    return $errors;
+  }
+
 }

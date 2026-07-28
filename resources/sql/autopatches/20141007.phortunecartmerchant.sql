@@ -1,5 +1,1 @@
-ALTER TABLE {$NAMESPACE}_phortune.phortune_cart
-  ADD merchantPHID VARBINARY(64) NOT NULL;
-
-ALTER TABLE {$NAMESPACE}_phortune.phortune_cart
-  ADD KEY `key_merchant` (merchantPHID);
+/* This file is intentionally left empty, see T15726 */

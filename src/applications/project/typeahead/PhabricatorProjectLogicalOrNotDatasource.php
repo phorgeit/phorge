@@ -55,8 +55,8 @@ final class PhabricatorProjectLogicalOrNotDatasource
         'arguments' => pht('project'),
         'summary' => pht('Find results not in specific projects.'),
         'description' => pht(
-          'This function allows you to find results which are not in '.
-          'one or more projects. For example, use this query to find '.
+          'This function allows you to find results which are not tagged '.
+          'with one or more projects. For example, use this query to find '.
           'results which are not associated with a specific project:'.
           "\n\n".
           '> not(vanilla)'.

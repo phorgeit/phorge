@@ -312,6 +312,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
         // a little easier.
         $header_text = pht('%s %s', $panel->getMonogram(), $panel->getName());
         $header = id(new PHUIHeaderView())
+          ->setViewer($this->getViewer())
           ->setHeader($header_text);
         $header = $this->addPanelHeaderActions($header);
 
@@ -328,6 +329,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
       case self::HEADER_MODE_NORMAL:
       default:
         $header = id(new PHUIHeaderView())
+          ->setViewer($this->getViewer())
           ->setHeader($panel->getName());
         $panel_type = $panel->getImplementation();
         $header = $panel_type->adjustPanelHeader(

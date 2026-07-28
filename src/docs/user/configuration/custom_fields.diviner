@@ -107,7 +107,8 @@ When defining custom fields using a configuration option like
     users to filter objects by the field value.
   - **fulltext**: Index the text in this field as part of the object's global
     full-text index. This allows users to find the object by searching for
-    the field's contents using global search.
+    the field's contents using global search. Note that this has no effect when
+    the type of the field is `users`.
   - **caption**: A caption to display underneath the field (optional).
   - **required**: True if the user should be required to provide a value.
   - **options**: If type is set to **select**, provide options for the dropdown

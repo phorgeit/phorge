@@ -3,6 +3,9 @@
  *           javelin-dom
  *           javelin-json
  * @provides phabricator-remarkup-metadata
+ *
+ * @javelin-installs JX.RemarkupMetadata
+ *
  * @javelin
  */
 

@@ -15,7 +15,7 @@ final class PhabricatorPlatformSite extends PhabricatorSite {
     // can follow setup instructions.
     $base_uri = PhabricatorEnv::getEnvConfig('phabricator.base-uri');
     if (!phutil_nonempty_string($base_uri)) {
-      return new PhabricatorPlatformSite();
+      return new self();
     }
 
     $uris = array();
@@ -31,7 +31,7 @@ final class PhabricatorPlatformSite extends PhabricatorSite {
 
     $host = $request->getHost();
     if ($this->isHostMatch($host, $uris)) {
-      return new PhabricatorPlatformSite();
+      return new self();
     }
 
     return null;

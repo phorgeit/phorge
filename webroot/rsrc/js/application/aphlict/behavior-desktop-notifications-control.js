@@ -1,10 +1,9 @@
 /**
- * @provides javelin-behavior-desktop-notifications-control
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
- *           javelin-uri
  *           phabricator-notification
+ * @provides javelin-behavior-desktop-notifications-control
  */
 
 JX.behavior('desktop-notifications-control', function(config, statics) {

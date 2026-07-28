@@ -26,6 +26,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     PhabricatorTokenReceiverInterface,
     PhabricatorSubscribableInterface,
     PhabricatorFlaggableInterface,
+    PhorgeRestrictableInteractionInterface,
     PhabricatorPolicyInterface,
     PhabricatorDestructibleInterface,
     PhabricatorConduitResultInterface,
@@ -60,6 +61,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
   protected $storageFormat;
   protected $storageHandle;
 
+  /**
+   * @var int|null $ttl Temporary file lifetime
+   */
   protected $ttl;
   protected $isExplicitUpload = 1;
   protected $viewPolicy = PhabricatorPolicies::POLICY_USER;
@@ -80,7 +84,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $view_policy = $app->getPolicy(
       FilesDefaultViewCapability::CAPABILITY);
 
-    return id(new PhabricatorFile())
+    return id(new self())
       ->setViewPolicy($view_policy)
       ->setIsPartial(0)
       ->attachOriginalFile(null)
@@ -184,6 +188,14 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return 'F'.$this->getID();
   }
 
+  /**
+   * Whether the file is temporary
+   * @return bool
+   */
+  public function isTemporary() {
+    return $this->getTTL() !== null;
+  }
+
   public function scrambleSecret() {
     return $this->setSecretKey($this->generateSecretKey());
   }
@@ -246,7 +258,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
 
     // Check to see if a file with same hash already exists.
-    $file = id(new PhabricatorFile())->loadOneWhere(
+    $file = id(new self())->loadOneWhere(
       'contentHash = %s LIMIT 1',
       $hash);
     if (!$file) {
@@ -396,7 +408,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
         // If an engine is outright misconfigured (or misimplemented), raise
         // that immediately since it probably needs attention.
         throw $ex;
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         phlog($ex);
 
         // If an engine doesn't work, keep trying all the other valid engines
@@ -432,7 +444,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     try {
       $file->updateDimensions(false);
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       // Do nothing.
     }
 
@@ -682,7 +694,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
           return self::newFromFileData($body, $params);
         }
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         if ($redirects) {
           throw new Exception(
             pht(
@@ -769,7 +781,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $handle) {
 
     // Check to see if any files are using storage.
-    $usage = id(new PhabricatorFile())->loadAllWhere(
+    $usage = id(new self())->loadAllWhere(
       'storageEngine = %s AND storageHandle = %s LIMIT 1',
       $engine_identifier,
       $handle);
@@ -778,7 +790,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     if (!$usage) {
       try {
         $engine->deleteFile($handle);
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         // In the worst case, we're leaving some data stranded in a storage
         // engine, which is not a big deal.
         phlog($ex);
@@ -793,7 +805,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // instead of being able to deduplicate it.
 
     $hash = hash('sha256', $data, $raw_output = false);
-    if ($hash === false) {
+    // TODO: Remove condition check below once Phorge requires PHP 7.4.0, per
+    // https://www.php.net/manual/en/hash.installation.php
+    if (!$hash) {
       return null;
     }
 
@@ -905,6 +919,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return '/'.$this->getMonogram();
   }
 
+  /**
+   * @return string
+   */
   public function getBestURI() {
     if ($this->isViewableInBrowser()) {
       return $this->getViewURI();
@@ -1107,7 +1124,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   /**
    * Whether the file is listed as a viewable MIME type
-   * @return bool True if MIME type of the file is listed in the
+   * @return string|null MIME type of the file if it is listed in the
    * files.viewable-mime-types setting
    */
   public function getViewableMimeType() {
@@ -1242,7 +1259,6 @@ final class PhabricatorFile extends PhabricatorFileDAO
       }
     }
 
-    $build = array();
     foreach ($builtins as $key => $builtin) {
       if (isset($results[$key])) {
         continue;
@@ -1381,12 +1397,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     $stats = array();
 
-    $image_x = $this->getImageHeight();
-    $image_y = $this->getImageWidth();
+    $image_x = $this->getImageWidth();
+    $image_y = $this->getImageHeight();
 
     if ($image_x && $image_y) {
       $stats[] = pht(
-        "%d\xC3\x97%d px",
+        "%s\xC3\x97%s px",
         new PhutilNumber($image_x),
         new PhutilNumber($image_y));
     }
@@ -1532,7 +1548,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * This method is called both when creating a file from fresh data, and
    * when creating a new file which reuses existing storage.
    *
-   * @param map<string, mixed> $params Bag of parameters, see
+   * @param array<string, mixed> $params Bag of a map of parameters, see
    *   @{class:PhabricatorFile} for documentation.
    * @return $this
    */
@@ -1722,6 +1738,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return PhabricatorPolicies::POLICY_NOONE;
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
@@ -1781,6 +1798,17 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return array(
       $this->getAuthorPHID(),
     );
+  }
+
+
+/* -(  PhorgeRestrictableInteractionInterface  )----------------------------- */
+
+
+  public function disallowInteractions() {
+    if ($this->isTemporary()) {
+      return true;
+    }
+    return false;
   }
 
 

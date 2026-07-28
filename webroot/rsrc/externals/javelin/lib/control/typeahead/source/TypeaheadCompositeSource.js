@@ -3,6 +3,9 @@
  *           javelin-typeahead-source
  *           javelin-util
  * @provides javelin-typeahead-composite-source
+ *
+ * @javelin-installs JX.TypeaheadCompositeSource
+ *
  * @javelin
  */
 

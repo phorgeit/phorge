@@ -140,10 +140,6 @@
       "name": "Flags",
       "include": "(^src/applications/flag/)"
     },
-    "fund": {
-      "name": "Fund",
-      "include": "(^src/applications/fund/)"
-    },
     "harbormaster": {
       "name": "Harbormaster",
       "include": "(^src/applications/harbormaster/)"
@@ -231,10 +227,6 @@
     "pholio": {
       "name": "Pholio",
       "include": "(^src/applications/pholio/)"
-    },
-    "phortune": {
-      "name": "Phortune",
-      "include": "(^src/applications/phortune/)"
     },
     "phpast": {
       "name": "PHPAST",

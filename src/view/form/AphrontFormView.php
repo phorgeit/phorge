@@ -4,7 +4,6 @@ final class AphrontFormView extends AphrontView {
 
   private $action;
   private $method = 'POST';
-  private $header;
   private $data = array();
   private $encType;
   private $workflow;

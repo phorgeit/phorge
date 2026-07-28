@@ -32,7 +32,7 @@ final class PhabricatorProjectCardView extends AphrontTagView {
     $classes = array();
     $classes[] = 'project-card-view';
 
-    $color = $this->project->getColor();
+    $color = $this->project->getDisplayColor();
     $classes[] = 'project-card-'.$color;
 
     return array(
@@ -80,7 +80,7 @@ final class PhabricatorProjectCardView extends AphrontTagView {
       $description = $description_field->getFieldValue();
       if (phutil_nonempty_string($description)) {
         $description = PhabricatorMarkupEngine::summarizeSentence($description);
-        $description = id(new PHUIRemarkupView($viewer, $description));
+        $description = new PHUIRemarkupView($viewer, $description);
 
         $description = phutil_tag(
           'div',

@@ -108,7 +108,7 @@ final class DiffusionRepositoryPath extends Phobject {
   }
 
   public static function newFromDictionary(array $dict) {
-    $path = id(new DiffusionRepositoryPath())
+    $path = id(new self())
       ->setFullPath($dict['fullPath'])
       ->setPath($dict['path'])
       ->setHash($dict['hash'])

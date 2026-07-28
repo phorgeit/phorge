@@ -16,7 +16,8 @@ final class HarbormasterBuildLintMessage
 
   public static function initializeNewLintMessage(
     HarbormasterBuildTarget $build_target) {
-    return id(new HarbormasterBuildLintMessage())
+
+    return id(new self())
       ->setBuildTargetPHID($build_target->getPHID());
   }
 

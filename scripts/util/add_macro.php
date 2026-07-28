@@ -6,12 +6,12 @@ require_once $root.'/scripts/__init_script__.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('load files as image macros'));
-$args->setSynopsis(<<<EOHELP
+$args->setSynopsis(pht(<<<EOHELP
 **add_macro.php** __image__ [--as __name__]
     Add an image macro. This can be useful for importing a large number
     of macros.
 EOHELP
-);
+));
 $args->parseStandardArguments();
 
 $args->parse(

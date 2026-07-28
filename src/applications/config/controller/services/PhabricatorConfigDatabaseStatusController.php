@@ -535,8 +535,6 @@ final class PhabricatorConfigDatabaseStatusController
       ),
       $table->getIssues());
 
-    $box_header = pht('%s.%s', $database_name, $table_name);
-
     $properties = $this->buildConfigBoxView(pht('Properties'), $properties);
     $table = $this->buildConfigBoxView(pht('Database'), $table_view);
     $keys = $this->buildConfigBoxView(pht('Keys'), $keys_view);

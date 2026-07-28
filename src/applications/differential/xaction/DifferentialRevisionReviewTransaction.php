@@ -48,7 +48,7 @@ abstract class DifferentialRevisionReviewTransaction
     PhabricatorUser $viewer) {
 
     $reviewers = $revision->getReviewers();
-    foreach ($revision->getReviewers() as $reviewer) {
+    foreach ($reviewers as $reviewer) {
       if ($reviewer->hasAuthority($viewer)) {
         return true;
       }

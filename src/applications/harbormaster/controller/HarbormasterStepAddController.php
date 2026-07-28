@@ -45,6 +45,7 @@ final class HarbormasterStepAddController
     $enabled_groups = HarbormasterBuildStepGroup::getAllEnabledGroups();
     foreach ($enabled_groups as $group) {
       $list = id(new PHUIObjectItemListView())
+        ->setViewer($viewer)
         ->setNoDataString(
           pht('This group has no available build steps.'));
 

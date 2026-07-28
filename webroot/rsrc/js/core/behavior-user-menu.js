@@ -1,6 +1,9 @@
 /**
- * @provides javelin-behavior-user-menu
  * @requires javelin-behavior
+ *           javelin-dom
+ *           javelin-stratcom
+ *           phuix-dropdown-menu
+ * @provides javelin-behavior-user-menu
  */
 
 JX.behavior('user-menu', function(config) {

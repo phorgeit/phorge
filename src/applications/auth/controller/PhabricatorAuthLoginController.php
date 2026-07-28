@@ -159,9 +159,6 @@ final class PhabricatorAuthLoginController
         }
       }
     }
-
-    // This should be unreachable, but fail explicitly if we get here somehow.
-    return new Aphront400Response();
   }
 
   private function processLoginUser(PhabricatorExternalAccount $account) {

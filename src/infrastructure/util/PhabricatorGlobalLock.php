@@ -72,7 +72,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
     $full_name = "ph:{$namespace}:{$local}";
     $lock = self::getLock($full_name);
     if (!$lock) {
-      $lock = new PhabricatorGlobalLock($full_name);
+      $lock = new self($full_name);
       self::registerLock($lock);
 
       $lock->parameters = $parameters;

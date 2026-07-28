@@ -1,6 +1,8 @@
 /**
+ * @requires javelin-behavior
+ *           javelin-dom
+ *           javelin-stratcom
  * @provides javelin-behavior-linked-container
- * @requires javelin-behavior javelin-dom
  */
 
 JX.behavior('linked-container', function() {

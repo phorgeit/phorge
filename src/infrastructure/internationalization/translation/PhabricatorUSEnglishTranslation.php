@@ -14,7 +14,7 @@ final class PhabricatorUSEnglishTranslation
         'These configuration values are related:',
       ),
       '%s Answer(s)' => array('%s Answer', '%s Answers'),
-      'Show %d Comment(s)' => array('Show %d Comment', 'Show %d Comments'),
+      'Show %s Comment(s)' => array('Show %s Comment', 'Show %s Comments'),
 
       '%s DIFF LINK(S)' => array('DIFF LINK', 'DIFF LINKS'),
       'You successfully created %d diff(s).' => array(
@@ -365,7 +365,7 @@ final class PhabricatorUSEnglishTranslation
 
       '%s removed %s unsubscriber(s): %s.' => array(
         array(
-          '%s removed a unsubscriber: %3$s.',
+          '%s removed an unsubscriber: %3$s.',
           '%s removed unsubscribers: %3$s.',
         ),
       ),
@@ -525,7 +525,7 @@ final class PhabricatorUSEnglishTranslation
 
       '%s edited parent revision(s) for %s, '.
       'added %s: %s; removed %s: %s.' =>
-        '%s edited parent revisions for %s, added: %3$s; removed: %5$s.',
+        '%s edited parent revisions for %s, added: %4$s; removed: %6$s.',
 
       '%s added %s child revision(s): %s.' => array(
         array(
@@ -555,14 +555,13 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited child revision(s), added %s: %s; removed %s: %s.' => array(
+      '%s edited child revision(s), added %s: %s; removed %s: %s.' =>
         '%s edited child revisions, added: %3$s; removed: %5$s.',
-      ),
 
       '%s edited child revision(s) for %s, '.
-      'added %s: %s; removed %s: %s.' => array(
-        '%s edited child revisions for %s, added: %3$s; removed: %5$s.',
-      ),
+      'added %s: %s; removed %s: %s.' =>
+        '%s edited child revisions for %s, added: %4$s; removed: %6$s.',
+
 
       '%s added %s commit(s): %s.' => array(
         array(
@@ -630,7 +629,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited reverted change(s) for %s, added %s: %s; removed %s: %s.' =>
-        '%s edited reverted changes for %2$s, added: %4$s; removed: %6$s.',
+        '%s edited reverted changes for %s, added: %4$s; removed: %6$s.',
 
       '%s added %s reverting change(s): %s.' => array(
         array(
@@ -795,7 +794,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited task(s), added %s: %s; removed %s: %s.' =>
-        '%s edited tasks, added: %3$s; removed: $5$s',
+        '%s edited tasks, added: %3$s; removed: %5$s',
 
       '%s edited task(s) for %s, added %s: %s; removed %s: %s.' =>
         '%s edited tasks for %s: added: %4$s; removed: %6$s.',
@@ -948,11 +947,6 @@ final class PhabricatorUSEnglishTranslation
         'Related links:',
       ),
 
-      'You have %d unpaid invoice(s).' => array(
-        'You have an unpaid invoice.',
-        'You have unpaid invoices.',
-      ),
-
       'This server is configured with an email domain whitelist (in %s), so '.
       'only users with a verified email address at one of these %s '.
       'allowed domain(s) will be able to register an account: %s' => array(
@@ -1029,7 +1023,7 @@ final class PhabricatorUSEnglishTranslation
             '%s marked %s inline comments as done and an inline comment '.
             'as not done.',
             '%s marked %s inline comments as done and %s inline comments '.
-            'as done.',
+            'as not done.',
           ),
         ),
       ),
@@ -1282,14 +1276,14 @@ final class PhabricatorUSEnglishTranslation
 
       'Not enough process slots to schedule the other %s '.
       'repository(s) for updates yet.' => array(
-        'Not enough process slots to schedule the other '.'
-        repository for update yet.',
+        'Not enough process slots to schedule the other '.
+        'repository for update yet.',
         'Not enough process slots to schedule the other %s '.
         'repositories for updates yet.',
       ),
 
 
-      '%s updated %s, added %d: %s.' =>
+      '%s updated %s, added %s: %s.' =>
         '%s updated %s, added: %4$s.',
 
       '%s updated %s, removed %s: %s.' =>
@@ -1298,7 +1292,7 @@ final class PhabricatorUSEnglishTranslation
       '%s updated %s, added %s: %s; removed %s: %s.' =>
         '%s updated %s, added: %4$s; removed: %6$s.',
 
-      '%s updated %s for %s, added %d: %s.' =>
+      '%s updated %s for %s, added %s: %s.' =>
         '%s updated %s for %s, added: %5$s.',
 
       '%s updated %s for %s, removed %s: %s.' =>
@@ -1307,8 +1301,8 @@ final class PhabricatorUSEnglishTranslation
       '%s updated %s for %s, added %s: %s; removed %s: %s.' =>
         '%s updated %s for %s, added: %5$s; removed; %7$s.',
 
-      '%s updated JIRA issue(s): added %d %s; removed %d %s.' =>
-        '%s updated JIRA issues: added %3$s; removed: %5$s.',
+      '%s updated JIRA issue(s): added %s: %s; removed %s: %s.' =>
+        '%s updated JIRA issues: added: %3$s; removed: %5$s.',
 
       'Permanently destroyed %s object(s).' => array(
         'Permanently destroyed %s object.',
@@ -1412,74 +1406,6 @@ final class PhabricatorUSEnglishTranslation
 
       '%s accepted this revision as %s reviewer(s): %s.' =>
         '%s accepted this revision as: %3$s.',
-
-      '%s added %s merchant manager(s): %s.' => array(
-        array(
-          '%s added a merchant manager: %3$s.',
-          '%s added merchant managers: %3$s.',
-        ),
-      ),
-
-      '%s added %s merchant manager(s) to %s: %s.' => array(
-        array(
-          '%s added a merchant manager to %3$s: %4$s.',
-          '%s added merchant managers to %3$s: %4$s.',
-        ),
-      ),
-
-      '%s removed %s merchant manager(s): %s.' => array(
-        array(
-          '%s removed a merchant manager: %3$s.',
-          '%s removed merchant managers: %3$s.',
-        ),
-      ),
-
-      '%s removed %s merchant manager(s) from %s: %s.' => array(
-        array(
-          '%s removed a merchant manager from %s: %4$s.',
-          '%s removed merchant managers from %s: %4$s.',
-        ),
-      ),
-      '%s edited %s merchant manager(s), added %s: %s; removed %s: %s.' =>
-        '%s edited merchant managers, added: %4$s; removed: %6$s.',
-      '%s edited %s merchant manager(s) for %s, '.
-          'added %s: %s; removed %s: %s.' =>
-        '%s edited merchant managers for %3$s, added: %5$s; removed: %7$s.',
-
-      '%s added %s account manager(s): %s.' => array(
-        array(
-          '%s added an account manager: %3$s.',
-          '%s added account managers: %3$s.',
-        ),
-      ),
-
-      '%s added %s account manager(s) to %s: %s.' => array(
-        array(
-          '%s added an account manager to %3$s: %4$s.',
-          '%s added account managers to %3$s: %4$s.',
-        ),
-      ),
-
-      '%s removed %s account manager(s): %s.' => array(
-        array(
-          '%s removed an account manager: %3$s.',
-          '%s removed account managers: %3$s.',
-        ),
-      ),
-
-      '%s removed %s account manager(s) from %s: %s.' => array(
-        array(
-          '%s removed an account manager from %3$s: %4$s.',
-          '%s removed account managers from %3$s: %4$s.',
-        ),
-      ),
-
-      '%s edited %s account manager(s), added %s: %s; removed %s: %s.' =>
-       '%s edited account managers, added: %4$s; removed: %6$s;',
-
-      '%s edited %s account manager(s) for %s, added %s: %s; removed %s: %s.' =>
-       '%s edited account managers for %3$s, added: %5$s; removed: %7$s;',
-
 
       'You are about to apply a bulk edit which will affect '.
       '%s object(s).' => array(
@@ -1634,14 +1560,14 @@ final class PhabricatorUSEnglishTranslation
       '%s updated %s attached file(s), removed %s: %s; modified %s: %s.' =>
         '%s updated attached files, removed %4$s; modified: %6$s.',
 
-      '%s added %d JIRA issue(s): %s.' =>
+      '%s added %s JIRA issue(s): %s.' =>
       array(
         array(
             '%s added a JIRA issue: %3$s.',
             '%s added JIRA issues: %3$s.',
         ),
       ),
-      '%s removed %d JIRA issue(s): %s.' =>
+      '%s removed %s JIRA issue(s): %s.' =>
       array(
         array(
             '%s removed a JIRA issue: %3$s.',
@@ -1729,12 +1655,12 @@ final class PhabricatorUSEnglishTranslation
         array(
           array(
               '%s moved %s on a board: %4$s.',
-              '%s moved %s on %s boards: %4$s.',
+              '%s moved %s on %s boards: %s.',
           ),
         ),
       ),
       'Found %s modified file(s) (of %s total).' => array(
-          'Found %s modified file (of %2$s total).',
+          'Found %s modified file (of %s total).',
           'Found %s modified files (of %s total).',
       ),
      'Really delete these %s audit(s)? '.
@@ -1756,9 +1682,9 @@ final class PhabricatorUSEnglishTranslation
           'Reset %s action.',
           'Reset %s actions.',
       ),
-      'Rebuilding %d resource source(s).' => array(
-          'Rebuilding %d resource source.',
-          'Rebuilding %d resource sources.',
+      'Rebuilding %s resource source(s).' => array(
+          'Rebuilding %s resource source.',
+          'Rebuilding %s resource sources.',
       ),
       'Detected %s serious issue(s) with the schemata.' => array(
           'Detected a serious issue with the schemata.',
@@ -1780,9 +1706,9 @@ final class PhabricatorUSEnglishTranslation
           'Rebuilding %s changeset for diff ID %d.',
           'Rebuilding %s changesets for diff ID %d.',
       ),
-      'This file has %d collapsed inline comment(s).' => array(
+      'This file has %s collapsed inline comment(s).' => array(
           'This file has one collapsed inline comment.',
-          'This file has %d collapsed inline comments.',
+          'This file has %s collapsed inline comments.',
       ),
       'This file took too long to load from the repository '.
       '(more than %s second(s)).' => array(
@@ -1812,7 +1738,7 @@ final class PhabricatorUSEnglishTranslation
       'You may be able to retry later. (%s)' =>
       array(
           'Failed to acquire write lock after waiting %s second. '.
-          'You may be able to retry later. (%2$s)',
+          'You may be able to retry later. (%s)',
           'Failed to acquire write lock after waiting %s seconds. '.
           'You may be able to retry later. (%s)',
       ),
@@ -1904,14 +1830,6 @@ final class PhabricatorUSEnglishTranslation
             'Respecting "%s": waiting for %s second to poll GitHub.',
             'Respecting "%s": waiting for %s seconds to poll GitHub.',
         ),
-      ),
-      'You can view this account because you control '.
-      '%d merchant(s) it has a relationship with: %s.' =>
-      array(
-          'You can view this account because you control '.
-          'a merchant it has a relationship with: %s.',
-          'You can view this account because you control '.
-          '%d merchants it has a relationship with: %s.',
       ),
       'Used on %s active column(s).' =>
       array(
@@ -2022,15 +1940,15 @@ final class PhabricatorUSEnglishTranslation
           'Query timed out after %s second!',
           'Query timed out after %s seconds!',
       ),
-      'Failed to write %d byte(s) to file "%s".' =>
+      'Failed to write %s byte(s) to file "%s".' =>
       array(
-          'Failed to write %d byte to file "%2$s".',
-          'Failed to write %d bytes to file "%s".',
+          'Failed to write %s byte to file "%s".',
+          'Failed to write %s bytes to file "%s".',
       ),
-      'Failed to write %d byte(s) to "%s".' =>
+      'Failed to write %s byte(s) to "%s".' =>
       array(
-          'Failed to write %d byte to "%2$s".',
-          'Failed to write %d bytes to "%s".',
+          'Failed to write %s byte to "%s".',
+          'Failed to write %s bytes to "%s".',
       ),
       'This lock was most recently acquired by '.
       'a process (%s) %s second(s) ago.' =>
@@ -2094,9 +2012,9 @@ final class PhabricatorUSEnglishTranslation
          'Source names must not be longer than %s character.',
          'Source names must not be longer than %s characters.',
       ),
-      'Mock image names must not be longer than %s character(s).' => array(
-         'Mock image names must not be longer than %s character.',
-         'Mock image names must not be longer than %s characters.',
+      'Mock image titles must not be longer than %s character(s).' => array(
+         'Mock image titles must not be longer than %s character.',
+         'Mock image titles must not be longer than %s characters.',
       ),
       'Mock names must not be longer than %s character(s).' => array(
          'Mock names must not be longer than %s character.',
@@ -2125,7 +2043,7 @@ final class PhabricatorUSEnglishTranslation
       '%s Lines' => array('%s Line', '%s Lines'),
       "# Client already read from service (%s bytes), ".
       "unable to retry.\n" => array(
-        "# Client already read from service (%s byte), unable to retry\n.",
+        "# Client already read from service (%s byte), unable to retry.\n",
         "# Client already read from service (%s bytes), unable to retry.\n",
       ),
       "# Client already wrote to service (%s bytes), ".
@@ -2177,7 +2095,7 @@ final class PhabricatorUSEnglishTranslation
       'Processed %s file(s), encountered %s error(s).' => array(
         array(
           'Processed %s file, encountered %s error.',
-          'Processed %s files, encountered %s errors.',
+          'Processed %s file, encountered %s errors.',
         ),
         array(
           'Processed %s files, encountered %s error.',
@@ -2220,12 +2138,12 @@ final class PhabricatorUSEnglishTranslation
       ),
       'Set API poll TTL to +%s second(s) (%s second(s) from now).' => array(
         array(
-          'Set API poll TTL to +%s second (%s second from now)',
-          'Set API poll TTL to +%s second (%s seconds from now)',
+          'Set API poll TTL to +%s second (%s second from now).',
+          'Set API poll TTL to +%s second (%s seconds from now).',
         ),
         array(
-          'Set API poll TTL to +%s seconds (%s second from now)',
-          'Set API poll TTL to +%s seconds (%s seconds from now)',
+          'Set API poll TTL to +%s seconds (%s second from now).',
+          'Set API poll TTL to +%s seconds (%s seconds from now).',
         ),
       ),
       '%s changed %s ignored attribute(s), added %s: %s; removed %s: %s.' =>
@@ -2289,18 +2207,14 @@ final class PhabricatorUSEnglishTranslation
         'Done, compacted %s edge transaction.',
         'Done, compacted %s edge transactions.',
       ),
-      '%d line(s)' => array(
-        '%d line',
-        '%d line(s)',
-      ),
       'Adjusted **%s** create statements and **%s** use statements.' => array(
         array(
-          'Adjusted %s create statement and %s use statement.',
-          'Adjusted %s create statement and %s use statements.',
+          'Adjusted **%s** create statement and **%s** use statement.',
+          'Adjusted **%s** create statement and **%s** use statements.',
         ),
         array(
-          'Adjusted %s create statements and %s use statement.',
-          'Adjusted %s create statements and %s use statements.',
+          'Adjusted **%s** create statements and **%s** use statement.',
+          'Adjusted **%s** create statements and **%s** use statements.',
         ),
       ),
       'Analyzed %d table(s).' => array(
@@ -2363,6 +2277,30 @@ final class PhabricatorUSEnglishTranslation
         array(
           '%s Read [%s byte]',
           '%s Read [%s bytes]',
+        ),
+      ),
+      'The locale `%s` defines a translation for the key `%s`, which has '.
+      'at least %s level(s) of arrays, however the source message has only '.
+      '%s parameter(s).' => array(
+        array(
+          array(
+            array(
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s level of arrays, however the source message '.
+              'has only %s parameter.',
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s level of arrays, however the source message '.
+              'has only %s parameters.',
+            ),
+            array(
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s levels of arrays, however the source message '.
+              'has only %s parameter.',
+              'The locale `%s` defines a translation for the key `%s`, which '.
+              'has at least %s levels of arrays, however the source message '.
+              'has only %s parameters.',
+            ),
+          ),
         ),
       ),
     );

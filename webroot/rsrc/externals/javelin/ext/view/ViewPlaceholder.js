@@ -44,14 +44,14 @@
  *   trigger_id: id of containing view that must be rendered first
  * }
  *
- * @provides javelin-behavior-view-placeholder
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-view-renderer
  *           javelin-install
+ * @provides javelin-behavior-view-placeholder
+ *
+ * @javelin-installs JX.ViewPlaceholder
  */
-
-
 
 JX.behavior('view-placeholder', function(config) {
   JX.ViewPlaceholder.register(config.trigger_id, config.id, function() {

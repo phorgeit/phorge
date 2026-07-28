@@ -30,7 +30,7 @@ final class DrydockRepositoryOperation extends DrydockDAO
   public static function initializeNewOperation(
     DrydockRepositoryOperationType $op) {
 
-    return id(new DrydockRepositoryOperation())
+    return id(new self())
       ->setOperationState(self::STATE_WAIT)
       ->setOperationType($op->getOperationConstant())
       ->setIsDismissed(0);

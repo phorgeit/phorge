@@ -62,6 +62,7 @@ abstract class PhabricatorProjectUserListView
     $no_data = $this->getNoDataString();
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setNoDataString($no_data);
 
     $limit = $this->getLimit();

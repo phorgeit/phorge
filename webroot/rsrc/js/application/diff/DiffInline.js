@@ -1,7 +1,21 @@
 /**
- * @provides phabricator-diff-inline
  * @requires javelin-dom
+ *           javelin-install
+ *           javelin-request
+ *           javelin-stratcom
+ *           javelin-util
+ *           javelin-workflow
  *           phabricator-diff-inline-content-state
+ *           phabricator-shaped-request
+ *           phabricator-textareautils
+ *           phuix-action-view
+ *           phuix-action-list-view
+ *           phuix-button-view
+ *           phuix-dropdown-menu
+ * @provides phabricator-diff-inline
+ *
+ * @javelin-installs JX.DiffInline
+ *
  * @javelin
  */
 

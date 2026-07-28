@@ -127,7 +127,9 @@ final class PhabricatorFileSearchEngine
   protected function getRequiredHandlePHIDsForResultList(
     array $files,
     PhabricatorSavedQuery $query) {
-    return mpull($files, 'getAuthorPHID');
+
+    // Remove non-manually created files which do not have an author
+    return mpull(mfilter($files, 'getAuthorPHID'), 'getAuthorPHID');
   }
 
   /**
@@ -172,6 +174,7 @@ final class PhabricatorFileSearchEngine
       }
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObject($file)
         ->setObjectName("F{$id}")
         ->setHeader($name)

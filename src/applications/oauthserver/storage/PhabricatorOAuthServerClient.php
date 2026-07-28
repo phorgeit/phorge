@@ -27,7 +27,7 @@ final class PhabricatorOAuthServerClient
   }
 
   public static function initializeNewClient(PhabricatorUser $actor) {
-    return id(new PhabricatorOAuthServerClient())
+    return id(new self())
       ->setCreatorPHID($actor->getPHID())
       ->setSecret(Filesystem::readRandomCharacters(32))
       ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
@@ -83,6 +83,7 @@ final class PhabricatorOAuthServerClient
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

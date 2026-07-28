@@ -103,8 +103,12 @@ final class DiffusionCommitGraphView
     return $drequest->getRepository();
   }
 
+  /**
+   * @return PHUIObjectItemListView
+   */
   public function newObjectItemListView() {
-    $list_view = id(new PHUIObjectItemListView());
+    $list_view = id(new PHUIObjectItemListView())
+      ->setViewer($this->getViewer());
 
     $item_views = $this->newObjectItemViews();
     foreach ($item_views as $item_view) {
@@ -181,7 +185,7 @@ final class DiffusionCommitGraphView
         $this->addBuildAction($item_view, $hash);
       }
 
-      // hide Audit entry on /diffusion/commit/query/all if Audit not installed
+      // hide Audit entry on /diffusion/commit/query/all if Audit is disabled
       if (id(new PhabricatorAuditApplication())->isInstalled()) {
         $this->addAuditAction($item_view, $hash);
       }
@@ -300,6 +304,7 @@ final class DiffusionCommitGraphView
         $rows);
     } else {
       $table = id(new PHUIObjectItemListView())
+        ->setViewer($this->getViewer())
         ->setNoDataString($this->noDataString);
     }
 
@@ -503,8 +508,6 @@ final class DiffusionCommitGraphView
   }
 
   private function addBuildAction(PHUIObjectItemView $item, $hash) {
-    $is_disabled = true;
-
     $buildable = null;
 
     $commit = $this->getCommit($hash);

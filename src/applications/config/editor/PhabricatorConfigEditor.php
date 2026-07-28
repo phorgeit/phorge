@@ -129,7 +129,7 @@ final class PhabricatorConfigEditor
            'value' => $value,
         ));
 
-    $editor = id(new PhabricatorConfigEditor())
+    $editor = id(new self())
       ->setActor($user)
       ->setContinueOnNoEffect(true)
       ->setContentSource($source);
@@ -154,7 +154,7 @@ final class PhabricatorConfigEditor
           'value' => null,
         ));
 
-    $editor = id(new PhabricatorConfigEditor())
+    $editor = id(new self())
       ->setActor($user)
       ->setContinueOnNoEffect(true)
       ->setContentSource($source);

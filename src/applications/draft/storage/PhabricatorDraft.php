@@ -51,7 +51,7 @@ final class PhabricatorDraft extends PhabricatorDraftDAO {
 
   public static function newFromUserAndKey(PhabricatorUser $user, $key) {
     if ($user->getPHID() && strlen($key)) {
-      $draft = id(new PhabricatorDraft())->loadOneWhere(
+      $draft = id(new self())->loadOneWhere(
         'authorPHID = %s AND draftKey = %s',
         $user->getPHID(),
         $key);
@@ -60,7 +60,7 @@ final class PhabricatorDraft extends PhabricatorDraftDAO {
       }
     }
 
-    $draft = new PhabricatorDraft();
+    $draft = new self();
     if ($user->getPHID()) {
       $draft
         ->setAuthorPHID($user->getPHID())
@@ -80,7 +80,7 @@ final class PhabricatorDraft extends PhabricatorDraftDAO {
       return null;
     }
 
-    $draft = id(new PhabricatorDraft())
+    $draft = id(new self())
       ->setAuthorPHID($user->getPHID())
       ->setDraftKey($request->getStr('__draft__'));
 

@@ -313,7 +313,7 @@ final class DifferentialChangesetEngine extends Phobject {
           }
 
           $file = ($best_file == $changeset->getFilename() ? '' : $best_file);
-          for ($i = $best_length; $i--; ) {
+          for ($i = $best_length; $i--;) {
             $type = idx($types[$best_file], $best_line + $best_offset - $i);
             $copies[$line + $best_offset - $i] = ($best_length < $min_lines
               ? array() // Ignore short blocks.

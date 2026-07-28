@@ -1,6 +1,7 @@
 <?php
 
-abstract class PhutilRemarkupBlockInterpreter extends Phobject {
+abstract class PhutilRemarkupBlockInterpreter extends Phobject
+  implements PhorgeRemarkupDocumentationProducer {
 
   private $engine;
 
@@ -31,6 +32,10 @@ abstract class PhutilRemarkupBlockInterpreter extends Phobject {
         ),
         $string);
     }
+  }
+
+  public function getRemarkupDocumentationObject() {
+    return null;
   }
 
 }

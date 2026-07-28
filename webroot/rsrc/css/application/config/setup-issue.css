@@ -50,7 +50,7 @@
   border-radius: 3px;
 }
 
-.setup-issue tt {
+.setup-issue samp {
   color: {$blacktext};
   background: {$greybackground};
   padding: 2px 4px;
@@ -122,7 +122,7 @@
   padding: 12px 0;
 }
 
-.setup-issue-config > pre > tt {
+.setup-issue-config > pre > samp {
   user-select: none;
   margin-right: 0.5em;
 }

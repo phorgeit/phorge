@@ -12,7 +12,6 @@
   border-color: {$thinblueborder};
   border-style: solid;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .device-phone .conpherence-participant-pane {

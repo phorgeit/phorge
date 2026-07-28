@@ -1,7 +1,10 @@
 /**
- * @provides javelin-behavior-phabricator-oncopy
  * @requires javelin-behavior
  *           javelin-dom
+ *           javelin-magical-init
+ *           javelin-stratcom
+ *           javelin-util
+ * @provides javelin-behavior-phabricator-oncopy
  */
 
 JX.behavior('phabricator-oncopy', function() {

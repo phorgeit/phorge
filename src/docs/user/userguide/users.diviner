@@ -86,20 +86,20 @@ email the list receives, and customize which actions the list is notified about.
     a "Mailing List" note.
 
 
-Disabled Users
-==============
+Disabled User Accounts
+======================
 
-**Disabled Users** are accounts that are no longer active. Generally, when
+**Disabled Accounts** are accounts that are no longer active. Generally, when
 someone leaves a project (e.g., leaves your company, or their internship or
 contract ends) you should disable their account to terminate their access to
-the system. Disabled users:
+the system. Disabled user accounts:
 
   - can not login;
   - can not access the Conduit API;
   - do not receive email; and
   - appear with lower precedence in the UI when selecting users, with a
     "Disabled" note (because it usually does not make sense to, for example,
-    assign a task to a disabled user).
+    assign a task to a disabled user account).
 
 While users can also be deleted, it is strongly recommended that you disable
 them instead, particularly if they interacted with any objects in the system.

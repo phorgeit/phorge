@@ -188,7 +188,7 @@ final class AphrontTableView extends AphrontView {
           if ($sort_value == $this->sortSelected) {
             if ($this->sortReverse) {
               $sort_glyph_class = 'aphront-table-up-sort';
-            } else if (!$this->sortReverse) {
+            } else {
               $sort_value = '-'.$sort_value;
             }
             $classes[] = 'aphront-table-view-sortable-selected';

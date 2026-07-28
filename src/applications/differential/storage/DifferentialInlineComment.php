@@ -44,7 +44,7 @@ final class DifferentialInlineComment
   public static function newFromModernComment(
     DifferentialTransactionComment $comment) {
 
-    $obj = new DifferentialInlineComment();
+    $obj = new self();
     $obj->setStorageObject($comment);
 
     return $obj;

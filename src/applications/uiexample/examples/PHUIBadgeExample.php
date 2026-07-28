@@ -132,7 +132,7 @@ final class PHUIBadgeExample extends PhabricatorUIExample {
 
     $badges3[] = id(new PHUIBadgeMiniView())
       ->setIcon('fa-heart')
-      ->setHeader(pht('Funder'))
+      ->setHeader(pht('Supporter'))
       ->setQuality(PhabricatorBadgesQuality::UNCOMMON);
 
     $badges3[] = id(new PHUIBadgeMiniView())

@@ -98,7 +98,7 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
   }
 
   /**
-   * @return PHUITagView
+   * @return PhutilSafeHTML|string|array
    */
   protected function renderObjectRef(
     $object,
@@ -294,8 +294,8 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
    * @phpstan-type RemarkupReference array{offset: string,
    *                                       id: string, tail: string}
    * @param   string  $text Text to match rules against.
-   * @return  map<string, RemarkupReference[]>  Matches, suitable for writing
-   *          unit tests against.
+   * @return  array<string, RemarkupReference[]> Map of matches, suitable for
+   *          writing unit tests against.
    */
   public function extractReferences($text) {
     $embed_matches = null;
@@ -378,6 +378,16 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     ));
   }
 
+  /**
+   * @param array<string|int> $params Array with the keys: type, id, anchor,
+   *   original, and quote.depth
+   *
+   * @return string Plain string as-entered if string matches an object but the
+   * object is not available (e.g. non-existent, its application is uninstalled
+   * or not available for the viewer, or the entered monogram is listed in
+   * `remarkup.ignored-object-names`). Otherwise a Remarkup token in  the format
+   * `<0x01>1234Z`. See @{class:PhutilRemarkupBlockStorage} for the latter.
+   */
   private function markupObject(array $params) {
     if (!$this->shouldMarkupObject($params)) {
       return $params['original'];

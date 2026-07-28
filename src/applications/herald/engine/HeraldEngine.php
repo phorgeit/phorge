@@ -45,7 +45,7 @@ final class HeraldEngine extends Phobject {
   }
 
   public static function loadAndApplyRules(HeraldAdapter $adapter) {
-    $engine = new HeraldEngine();
+    $engine = new self();
 
     $rules = $engine->loadRulesForAdapter($adapter);
     $effects = $engine->applyRules($rules, $adapter);
@@ -263,7 +263,7 @@ final class HeraldEngine extends Phobject {
    * @param array<HeraldEffect> $effects
    * @param HeraldAdapter $adapter
    * @param array<HeraldRule> $rules
-   * @return array
+   * @return void
    */
   public function applyEffects(
     array $effects,
@@ -729,7 +729,7 @@ final class HeraldEngine extends Phobject {
     }
 
     // The author must be able to create rules for the adapter's content type.
-    // In particular, this means that the application must be installed and
+    // In particular, this means that the application must be enabled and
     // accessible to the user. For example, if a user writes a Differential
     // rule and then loses access to Differential, this disables the rule.
     $enabled = HeraldAdapter::getEnabledAdapterMap($rule->getAuthor());

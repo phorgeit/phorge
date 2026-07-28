@@ -155,28 +155,12 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
     $canvas = imagecreatetruecolor(400, 400);
 
     $image_fill = imagefill($canvas, 0, 0, $color_const);
-    if (!$image_fill) {
-      throw new Exception(
-        pht('Failed to save builtin avatar image data (imagefill).'));
-    }
 
     $border_thickness = imagesetthickness($canvas, 64);
-    if (!$border_thickness) {
-      throw new Exception(
-        pht('Failed to save builtin avatar image data (imagesetthickness).'));
-    }
 
     $image_rectangle = imagerectangle($canvas, 0, 0, 400, 400, $true_border);
-    if (!$image_rectangle) {
-      throw new Exception(
-        pht('Failed to save builtin avatar image data (imagerectangle).'));
-    }
 
     $image_copy = imagecopy($canvas, $img, 0, 0, 0, 0, 400, 400);
-    if (!$image_copy) {
-      throw new Exception(
-        pht('Failed to save builtin avatar image data (imagecopy).'));
-    }
 
     return PhabricatorImageTransformer::saveImageDataInAnyFormat(
       $canvas,

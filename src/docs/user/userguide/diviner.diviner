@@ -35,7 +35,7 @@ look like this:
     "title" : "Example Documentation",
     "short" : "Example Docs",
     "root" : ".",
-    "uri.source" : "http://example.com/diffusion/X/browse/master/%f$%l",
+    "uri.source" : "https://example.com/diffusion/X/browse/master/%f$%l",
     "rules" : {
       "(\\.diviner$)" : "DivinerArticleAtomizer"
     },
@@ -76,7 +76,7 @@ The properties in this file are:
     repository browser so that you can quickly jump to the definition of a class
     or function. To do this, it uses a URI pattern which you specify here.
     Normally, this URI should point at a repository browser like Diffusion.
-    For example, `"http://repobrowser.yourcompany.com/%f#%l"`. You can use these
+    For example, `"https://repobrowser.example.com/%f#%l"`. You can use these
     conversions in the URI, which will be replaced at runtime:
       - `%f`: Replaced with the name of the file.
       - `%l`: Replaced with the line number.

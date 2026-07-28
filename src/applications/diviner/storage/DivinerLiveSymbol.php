@@ -120,12 +120,23 @@ final class DivinerLiveSymbol extends DivinerDAO
     return $this;
   }
 
+  /**
+   * @return string|null
+   */
   public function getURI() {
+    $bookname = $this->getBook()->getName();
     $parts = array(
       'book',
-      $this->getBook()->getName(),
-      $this->getType(),
+      $bookname,
     );
+
+    // Special handle methods which require the URI path to include their class
+    $atom_type = $this->getType();
+    if ($atom_type === DivinerAtom::TYPE_METHOD) {
+      return $this->getMethodURI($parts, $bookname);
+    }
+
+    $parts[] = $atom_type;
 
     if ($this->getContext()) {
       $parts[] = $this->getContext();
@@ -138,6 +149,47 @@ final class DivinerLiveSymbol extends DivinerDAO
     }
 
     return '/'.implode('/', $parts).'/';
+  }
+
+  /**
+   * @return string|null
+   */
+  private function getMethodURI(array $parts, string $bookname) {
+    $atom = $this->getAtom();
+
+    // Ghost items do not have an atom and thus should not link to anything
+    if ($atom === null) {
+      return null;
+    }
+
+    $method_class_name = $this->getMethodClassname();
+    if (substr($method_class_name, -9) === 'Interface') {
+      $parts[] = phutil_escape_uri_path_component(DivinerAtom::TYPE_INTERFACE);
+    } else {
+      $parts[] = phutil_escape_uri_path_component(DivinerAtom::TYPE_CLASS);
+    }
+
+    $parts[] = phutil_escape_uri_path_component($method_class_name);
+    $parts[] = '#'.DivinerAtom::TYPE_METHOD;
+    $parts[] = $this->getName();
+
+    return '/'.implode('/', $parts);
+  }
+
+  /**
+   * Get the name of the class in which the method is defined
+   * @return string
+   */
+  public function getMethodClassname() {
+    if (!$this->getType() === DivinerAtom::TYPE_METHOD) {
+      throw new Exception(
+        pht("Symbol '%s' is not a method!", $this->getName()));
+    }
+    $atom_file = $this->getAtom()->getFile();
+    if ($this->getBook()->getName() === 'javelin') {
+      return 'JX.'.basename($atom_file, '.js');
+    }
+    return basename($atom_file, '.php');
   }
 
   public function getSortKey() {

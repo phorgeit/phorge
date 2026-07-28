@@ -97,7 +97,7 @@ final class DiffusionRepositoryTag extends Phobject {
   public static function newFromConduit(array $dicts) {
     $tags = array();
     foreach ($dicts as $dict) {
-      $tag = id(new DiffusionRepositoryTag())
+      $tag = id(new self())
         ->setAuthor($dict['author'])
         ->setEpoch($dict['epoch'])
         ->setCommitIdentifier($dict['commitIdentifier'])

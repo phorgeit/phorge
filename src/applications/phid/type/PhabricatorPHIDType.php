@@ -169,10 +169,10 @@ abstract class PhabricatorPHIDType extends Phobject {
 
 
   /**
-   * Get all PHID types of applications installed for a given viewer.
+   * Get all PHID types of applications enabled for a given viewer.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @return array<string, PhabricatorPHIDType> Map of constants to installed
+   * @return array<string, PhabricatorPHIDType> Map of constants to enabled
    *  types.
    */
   public static function getAllInstalledTypes(PhabricatorUser $viewer) {
@@ -186,12 +186,12 @@ abstract class PhabricatorPHIDType extends Phobject {
 
       if ($app_class === null) {
         // If the PHID type isn't bound to an application, include it as
-        // installed.
+        // enabled.
         $installed_types[$key] = $type;
         continue;
       }
 
-      // Otherwise, we need to check if this application is installed before
+      // Otherwise, we need to check if this application is enabled before
       // including the PHID type.
       $app_classes[$app_class][$key] = $type;
     }
@@ -211,6 +211,15 @@ abstract class PhabricatorPHIDType extends Phobject {
     return $installed_types;
   }
 
+
+  final public function __toString() {
+    try {
+      return $this->getTypeConstant();
+    } catch (Throwable $ex) {
+      // Throwing from __toString before php 7.4 didn't provide a stack-trace.
+      return '????';
+    }
+  }
 
   /**
    * Get all PHID types of an application.

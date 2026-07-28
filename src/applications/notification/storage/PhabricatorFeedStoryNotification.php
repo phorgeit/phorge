@@ -45,7 +45,7 @@ final class PhabricatorFeedStoryNotification extends PhabricatorFeedDAO {
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
-    $notification_table = new PhabricatorFeedStoryNotification();
+    $notification_table = new self();
     $conn = $notification_table->establishConnection('w');
 
     queryfx(

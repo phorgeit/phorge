@@ -1,17 +1,15 @@
 /**
- * @provides javelin-behavior-aphlict-listen
  * @requires javelin-behavior
  *           javelin-aphlict
  *           javelin-stratcom
  *           javelin-request
  *           javelin-uri
  *           javelin-dom
- *           javelin-json
  *           javelin-router
- *           javelin-util
  *           javelin-leader
  *           javelin-sound
  *           phabricator-notification
+ * @provides javelin-behavior-aphlict-listen
  */
 
 JX.behavior('aphlict-listen', function(config) {

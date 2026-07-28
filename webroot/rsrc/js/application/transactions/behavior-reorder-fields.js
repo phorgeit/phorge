@@ -1,10 +1,9 @@
 /**
- * @provides javelin-behavior-editengine-reorder-fields
  * @requires javelin-behavior
  *           javelin-stratcom
- *           javelin-workflow
  *           javelin-dom
  *           phabricator-draggable-list
+ * @provides javelin-behavior-editengine-reorder-fields
  */
 
 JX.behavior('editengine-reorder-fields', function(config) {

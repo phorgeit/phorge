@@ -39,4 +39,28 @@ final class PhabricatorProjectIconTransaction
     return PhabricatorProjectIconSet::getIconIcon($new);
   }
 
+  public function validateTransactions($object, array $xactions) {
+    $errors = array();
+
+    if (!$xactions) {
+      return $errors;
+    }
+
+    foreach ($xactions as $xaction) {
+      $new_icon = $xaction->getNewValue();
+      if (!PhabricatorProjectIconSet::getIconName($new_icon)) {
+        $errors[] = new PhabricatorApplicationTransactionValidationError(
+          self::TRANSACTIONTYPE,
+          pht('Invalid'),
+          pht(
+            'Value for "%s" is invalid: "%s".',
+            self::TRANSACTIONTYPE,
+            $new_icon));
+        break;
+      }
+    }
+
+    return $errors;
+  }
+
 }

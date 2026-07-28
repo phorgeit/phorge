@@ -11,13 +11,14 @@ final class ManiphestQueryConduitAPIMethod extends ManiphestConduitAPIMethod {
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "maniphest.search" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '05/2026',
+      'maniphest.search');
   }
 
   protected function defineParamTypes() {
@@ -47,7 +48,7 @@ final class ManiphestQueryConduitAPIMethod extends ManiphestConduitAPIMethod {
       'authorPHIDs'       => 'optional list<phid>',
       'projectPHIDs'      => 'optional list<phid>',
       'ccPHIDs'           => 'optional list<phid>',
-      'fullText'          => 'optional string',
+      'fullText'          => 'unsupported',
 
       'status'            => 'optional '.$status_const,
       'order'             => 'optional '.$order_const,
@@ -59,6 +60,17 @@ final class ManiphestQueryConduitAPIMethod extends ManiphestConduitAPIMethod {
 
   protected function defineReturnType() {
     return 'list';
+  }
+
+  protected function defineErrorTypes() {
+    return array(
+      'ERR_FULLTEXT' => pht(
+        'Parameter "%s" is no longer supported. Use method '.
+        '"%s" with the "%s" constraint instead.',
+        'fullText',
+        'maniphest.search',
+        'query'),
+    );
   }
 
   protected function execute(ConduitAPIRequest $request) {
@@ -102,10 +114,7 @@ final class ManiphestQueryConduitAPIMethod extends ManiphestConduitAPIMethod {
 
     $full_text = $request->getValue('fullText');
     if ($full_text) {
-      throw new Exception(
-        pht(
-          'Parameter "fullText" is no longer supported. Use method '.
-          '"maniphest.search" with the "query" constraint instead.'));
+      throw new ConduitException('ERR_FULLTEXT');
     }
 
     $status = $request->getValue('status');

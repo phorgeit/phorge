@@ -366,6 +366,9 @@ final class DifferentialChangesetParser extends Phobject {
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   private function loadCache() {
     $render_cache_key = $this->getRenderCacheKey();
     if (!$render_cache_key) {
@@ -957,7 +960,7 @@ final class DifferentialChangesetParser extends Phobject {
           $shield_text,
           ' ',
           pht(
-            'This file has %d collapsed inline comment(s).',
+            'This file has %s collapsed inline comment(s).',
             new PhutilNumber($collapsed_count)),
         );
       }
@@ -1844,7 +1847,8 @@ final class DifferentialChangesetParser extends Phobject {
       return array(
         $document_engine,
         $old_ref,
-        $new_ref);
+        $new_ref,
+      );
     }
 
     return null;

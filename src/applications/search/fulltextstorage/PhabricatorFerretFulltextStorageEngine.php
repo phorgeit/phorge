@@ -4,7 +4,6 @@ final class PhabricatorFerretFulltextStorageEngine
   extends PhabricatorFulltextStorageEngine {
 
   private $fulltextTokens = array();
-  private $engineLimits;
 
   /**
    * @return string Engine identifier string: "mysql"
@@ -63,7 +62,7 @@ final class PhabricatorFerretFulltextStorageEngine
       $search_engine = $engine->newSearchEngine()
         ->setViewer($viewer);
 
-      // Ignore result objects from SearchEngines belonging to uninstalled apps
+      // Ignore result objects from SearchEngines belonging to disabled apps
       $app_class = $search_engine->getApplicationClassName();
       $app = PhabricatorApplication::isClassInstalled($app_class);
       if (!$app) {

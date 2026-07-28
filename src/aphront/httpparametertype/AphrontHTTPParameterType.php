@@ -209,7 +209,8 @@ abstract class AphrontHTTPParameterType extends Phobject {
   /**
    * Get a list of all available parameter types.
    *
-   * @return list<AphrontHTTPParameterType> List of all available types.
+   * @return array<string, AphrontHTTPParameterType> Class map of all available
+   *   types.
    * @task util
    */
   final public static function getAllTypes() {

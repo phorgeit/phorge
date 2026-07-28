@@ -46,7 +46,7 @@ final class PhabricatorCustomFieldHeraldField extends HeraldField {
         $full_key = PhabricatorHash::digestToLength($full_key, $limit);
       }
 
-      $map[$full_key] = id(new PhabricatorCustomFieldHeraldField())
+      $map[$full_key] = id(new self())
         ->setCustomField($field);
     }
 

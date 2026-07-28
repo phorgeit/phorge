@@ -22,9 +22,18 @@ final class FlagEditConduitAPIMethod extends FlagConduitAPIMethod {
     return 'dict';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-PHID' => pht('Must pass a PHID.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $user = $request->getUser()->getPHID();
     $phid = $request->getValue('objectPHID');
+    if ($phid === null) {
+      throw new ConduitException('ERR-BAD-PHID');
+    }
     $new = false;
 
     $flag = id(new PhabricatorFlag())->loadOneWhere(

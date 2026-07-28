@@ -1,5 +1,10 @@
 /**
+ * @requires javelin-dom
+ *           javelin-install
  * @provides phabricator-darkmessage
+ *
+ * @javelin-installs JX.DarkMessage
+ *
  * @javelin
  */
 

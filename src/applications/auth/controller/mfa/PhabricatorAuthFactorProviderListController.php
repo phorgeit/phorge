@@ -13,7 +13,8 @@ final class PhabricatorAuthFactorProviderListController
       ->setViewer($viewer)
       ->execute();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($providers as $provider) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName($provider->getObjectName())

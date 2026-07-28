@@ -63,18 +63,6 @@ final class PHUITagView extends AphrontTagView {
     return $this;
   }
 
-  /**
-   * This method has been deprecated, use @{method:setColor} instead.
-   *
-   * @deprecated
-   */
-  public function setShade($shade) {
-    phlog(
-      pht('Deprecated call to setShade(), use setColor() instead.'));
-    $this->color = $shade;
-    return $this;
-  }
-
   public function setColor($color) {
     $this->color = $color;
     return $this;

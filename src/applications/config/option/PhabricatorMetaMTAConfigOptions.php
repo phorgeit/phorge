@@ -19,11 +19,15 @@ final class PhabricatorMetaMTAConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorMetaMTAApplication::class;
+  }
+
   public function getOptions() {
     $send_as_user_desc = $this->deformat(pht(<<<EODOC
 When a user takes an action which generates an email notification (like
 commenting on a Differential revision), the "From" address can either be set
-to the user's email address (like "alincoln@logcabin.com") or the
+to the user's email address (like "alincoln@example.com") or the
 "metamta.default-address" address.
 
 The user experience is generally better if the user's real address is used as
@@ -133,9 +137,9 @@ EODOC
 
     $adapter_description = $this->deformat(pht(<<<EODOC
 Adapter class to use to transmit mail to the MTA. The default uses
-PHPMailerLite, which will invoke "sendmail". This is appropriate if sendmail
-actually works on your host, but if you haven't configured mail it may not be so
-great. A number of other mailers are available (e.g., SES, SendGrid, SMTP,
+PHPMailer, which will invoke "mail". This is appropriate if mail actually
+works on your host, but if you haven't configured mail it may not be so great.
+A number of other mailers are available (e.g., SES, SendGrid, SMTP, Sendmail,
 custom mailers). This option is deprecated in favor of 'cluster.mailers'.
 EODOC
 ));

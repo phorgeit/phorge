@@ -89,7 +89,9 @@ final class PhabricatorSubscriptionsUIEventListener
           ->setIcon('fa-plus-circle');
       }
 
-      if (!$user->isLoggedIn()) {
+      if (!$user->isLoggedIn() ||
+          ($object instanceof PhorgeRestrictableInteractionInterface &&
+          $object->disallowInteractions())) {
         $sub_action->setDisabled(true);
       }
     }

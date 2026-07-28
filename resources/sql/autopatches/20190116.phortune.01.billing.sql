@@ -1,3 +1,1 @@
-ALTER TABLE {$NAMESPACE}_phortune.phortune_account
-  ADD billingName VARCHAR(255) NOT NULL COLLATE {$COLLATE_TEXT},
-  ADD billingAddress LONGTEXT NOT NULL COLLATE {$COLLATE_TEXT};
+/* This file is intentionally left empty, see T15726 */

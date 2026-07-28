@@ -21,10 +21,19 @@ final class FileQueryChunksConduitAPIMethod
     return 'list<wild>';
   }
 
+  protected function defineErrorTypes() {
+    return array(
+      'ERR-BAD-PHID' => pht('Must pass a PHID.'),
+    );
+  }
+
   protected function execute(ConduitAPIRequest $request) {
     $viewer = $request->getUser();
 
     $file_phid = $request->getValue('filePHID');
+    if (!$file_phid) {
+      throw new ConduitException('ERR-BAD-PHID');
+    }
     $file = $this->loadFileByPHID($viewer, $file_phid);
     $chunks = $this->loadFileChunks($viewer, $file);
 

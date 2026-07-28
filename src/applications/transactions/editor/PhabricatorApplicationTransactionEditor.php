@@ -101,7 +101,7 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * Get the class name for the application this editor is a part of.
    *
-   * Uninstalling the application will disable the editor.
+   * Disabling the application will disable the editor.
    *
    * @return class-string<PhabricatorApplication> Editor's application
    *   class name.
@@ -1300,12 +1300,14 @@ abstract class PhabricatorApplicationTransactionEditor
 
       // TODO: Once everything is on EditEngine, just use getIsNewObject() to
       // figure this out instead.
-      $mark_as_create = false;
-      $create_type = PhabricatorTransactions::TYPE_CREATE;
-      foreach ($xactions as $xaction) {
-        if ($xaction->getTransactionType() == $create_type) {
-          $mark_as_create = true;
-          break;
+      $mark_as_create = $is_new;
+      if (!$mark_as_create) {
+        $create_type = PhabricatorTransactions::TYPE_CREATE;
+        foreach ($xactions as $xaction) {
+          if ($xaction->getTransactionType() == $create_type) {
+            $mark_as_create = true;
+            break;
+          }
         }
       }
 
@@ -2260,7 +2262,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @param PhabricatorLiskDAO $object
    * @param array<PhabricatorApplicationTransaction> $xactions
    * @param array<PhabricatorTransactionRemarkupChange> $remarkup_changes
-   * @return PhabricatorApplicationTransaction
+   * @return PhabricatorApplicationTransaction|null
    */
   private function newFileTransaction(
     PhabricatorLiskDAO $object,
@@ -3241,6 +3243,9 @@ abstract class PhabricatorApplicationTransactionEditor
     return $errors;
   }
 
+  /**
+   * @return PhabricatorLiskDAO An enhanced copy of the input object
+   */
   protected function adjustObjectForPolicyChecks(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -4684,9 +4689,9 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string,mixed> $state Map of values to encode.
-   * @param map<string,string> $encodings Map of encodings to apply.
-   * @return map<string,mixed> Map of encoded values.
+   * @param array<string,mixed> $state Map of values to encode.
+   * @param array<string,string> $encodings Map of encodings to apply.
+   * @return array<string,mixed> Map of encoded values.
    *
    * @task workers
    */
@@ -4701,22 +4706,8 @@ abstract class PhabricatorApplicationTransactionEditor
           // The mechanics of this encoding (serialize + base64) are a little
           // awkward, but it allows us encode arrays and still be JSON-safe
           // with binary data.
-
           $value = @serialize($value);
-          if ($value === false) {
-            throw new Exception(
-              pht(
-                'Failed to serialize() value for key "%s".',
-                $key));
-          }
-
           $value = base64_encode($value);
-          if ($value === false) {
-            throw new Exception(
-              pht(
-                'Failed to base64 encode value for key "%s".',
-                $key));
-          }
           break;
       }
       $state[$key] = $value;
@@ -4731,9 +4722,9 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string, mixed> $state Map of encoded values.
-   * @param map<string, string> $encodings Map of encodings.
-   * @return map<string, mixed> Map of decoded values.
+   * @param array<string, mixed> $state Map of encoded values.
+   * @param array<string, string> $encodings Map of encodings.
+   * @return array<string, mixed> Map of decoded values.
    *
    * @task workers
    */
@@ -4963,7 +4954,7 @@ abstract class PhabricatorApplicationTransactionEditor
       ->withProxyPHIDs($removed_phids)
       ->execute();
     if (!$proxy_columns) {
-      return array();
+      return;
     }
 
     $proxy_phids = mpull($proxy_columns, 'getPHID');
@@ -5124,7 +5115,6 @@ abstract class PhabricatorApplicationTransactionEditor
     $this->stampTemplates = $this->newMailStampTemplates($object);
 
     $extensions = $this->newMailExtensions($object);
-    $stamps = array();
     foreach ($extensions as $extension) {
       $extension->newMailStamps($object, $xactions);
     }
@@ -5314,6 +5304,11 @@ abstract class PhabricatorApplicationTransactionEditor
     }
   }
 
+  /**
+   * This can only apply to Differential Revisions which are drafts.
+   *
+   * @return bool
+   */
   private function hasWarnings($object, $xaction) {
     // TODO: For the moment, this is a very un-modular hack to support
     // a small number of warnings related to draft revisions. See PHI433.

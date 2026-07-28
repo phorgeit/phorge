@@ -48,7 +48,7 @@ final class CelerityResourceMap extends Phobject {
             $name));
       }
 
-      $instance = new CelerityResourceMap($resources_list[$name]);
+      $instance = new self($resources_list[$name]);
       self::$instances[$name] = $instance;
     }
 

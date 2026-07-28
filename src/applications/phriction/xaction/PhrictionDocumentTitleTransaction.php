@@ -29,11 +29,7 @@ final class PhrictionDocumentTitleTransaction
     $new = $this->getNewValue();
 
     if ($old === null) {
-      if ($this->getMetadataValue('stub:create:phid')) {
-        return pht('Stubbed');
-      } else {
-        return pht('Created');
-      }
+      return pht('Created');
     }
     return pht('Retitled');
   }
@@ -43,17 +39,9 @@ final class PhrictionDocumentTitleTransaction
     $new = $this->getNewValue();
 
     if ($old === null) {
-      if ($this->getMetadataValue('stub:create:phid')) {
-        return pht(
-          '%s stubbed out this document when creating %s.',
-          $this->renderAuthor(),
-          $this->renderHandle(
-            $this->getMetadataValue('stub:create:phid')));
-      } else {
-        return pht(
-          '%s created this document.',
-          $this->renderAuthor());
-      }
+      return pht(
+        '%s created this document.',
+        $this->renderAuthor());
     }
 
     return pht(

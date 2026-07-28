@@ -28,7 +28,7 @@ final class ManiphestNameIndex extends ManiphestDAO {
   }
 
   public static function updateIndex($phid, $name) {
-    $table = new ManiphestNameIndex();
+    $table = new self();
     $conn_w = $table->establishConnection('w');
     queryfx(
       $conn_w,

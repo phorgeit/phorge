@@ -46,11 +46,18 @@ final class PhabricatorMailTarget extends Phobject {
     return $this->replyTo;
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @return $this
+   */
   public function setViewer($viewer) {
     $this->viewer = $viewer;
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser|null
+   */
   public function getViewer() {
     return $this->viewer;
   }
@@ -91,11 +98,25 @@ final class PhabricatorMailTarget extends Phobject {
       }
     }
 
+    // List the PHIDs of everybody involved, as-is, in headers.
+    // Mail headers will help modern email clients in easily applying
+    // custom filters and actions.
+    // Example use cases:
+    // - Apply loud audio notification for boss emails;
+    // - Star emails mentioning your fired predecessor, etc.
     $mail->addPHIDHeaders('X-Phabricator-To', $this->rawToPHIDs);
     $mail->addPHIDHeaders('X-Phabricator-Cc', $this->rawCCPHIDs);
 
+    // Also prepare readable names of involved recipients
+    // for the recipients list (metamta.recipients.show-hints)
+    // in the mail footer.
     $to_handles = $viewer->loadHandles($this->rawToPHIDs);
     $cc_handles = $viewer->loadHandles($this->rawCCPHIDs);
+
+    // Early have simple arrays, because later we need
+    // array functions, like mpull().
+    $to_handles = iterator_to_array($to_handles);
+    $cc_handles = iterator_to_array($cc_handles);
 
     $body .= "\n";
     $body .= $this->getRecipientsSummary($to_handles, $cc_handles);
@@ -127,16 +148,19 @@ final class PhabricatorMailTarget extends Phobject {
     return $mail;
   }
 
+  /**
+   * Get the recipients list, in plain-text format.
+   * @param array<PhabricatorObjectHandle> $to_handles
+   * @param array<PhabricatorObjectHandle> $cc_handles
+   * @return string Multi-line plain-text.
+   */
   private function getRecipientsSummary(
-    PhabricatorHandleList $to_handles,
-    PhabricatorHandleList $cc_handles) {
+    array $to_handles,
+    array $cc_handles): string {
 
     if (!PhabricatorEnv::getEnvConfig('metamta.recipients.show-hints')) {
       return '';
     }
-
-    $to_handles = iterator_to_array($to_handles);
-    $cc_handles = iterator_to_array($cc_handles);
 
     $body = '';
 
@@ -153,16 +177,19 @@ final class PhabricatorMailTarget extends Phobject {
     return $body;
   }
 
+  /**
+   * Get the recipients list, in HTML-text format.
+   * @param array<PhabricatorObjectHandle> $to_handles
+   * @param array<PhabricatorObjectHandle> $cc_handles
+   * @return PhutilSafeHTML
+   */
   private function getRecipientsSummaryHTML(
-    PhabricatorHandleList $to_handles,
-    PhabricatorHandleList $cc_handles) {
+    array $to_handles,
+    array $cc_handles) {
 
     if (!PhabricatorEnv::getEnvConfig('metamta.recipients.show-hints')) {
       return '';
     }
-
-    $to_handles = iterator_to_array($to_handles);
-    $cc_handles = iterator_to_array($cc_handles);
 
     $body = array();
     if ($to_handles) {

@@ -32,7 +32,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new DivinerAtomQuery());
+    $query = new DivinerAtomQuery();
 
     $books = $saved->getParameter('bookPHIDs');
     if ($books) {
@@ -53,6 +53,8 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
     if ($types) {
       $query->withTypes($types);
     }
+
+    $query->needAtoms(true);
 
     return $query;
   }
@@ -144,10 +146,25 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
       $type = $symbol->getType();
       $type_name = DivinerAtom::getAtomTypeNameString($type);
 
+      // DivinerPublisher::shouldGenerateDocumentForAtom() returns false for
+      // files as there is no good target URI for them, thus do not link them
+      if ($type === DivinerAtom::TYPE_FILE) {
+        $href = null;
+        $summary = $symbol->getSummary();
+      } else {
+        // Set an explanatory summary for ghost items
+        $href = $symbol->getURI();
+        if ($href === null) {
+          $summary = pht('This atom no longer exists.');
+        } else {
+          $summary = $symbol->getSummary();
+        }
+      }
+
       $item = id(new PHUIObjectItemView())
         ->setHeader($symbol->getTitle())
-        ->setHref($symbol->getURI())
-        ->addAttribute($symbol->getSummary())
+        ->setHref($href)
+        ->addAttribute($summary)
         ->addIcon('none', $type_name);
 
       $list->addItem($item);

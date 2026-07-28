@@ -4,7 +4,6 @@ abstract class PhabricatorFerretEngine extends Phobject {
 
   private $fieldMap = array();
   private $ferretFunctions;
-  private $templateObject;
 
   /**
    * @return string Application name in lower-case, e.g. 'maniphest'

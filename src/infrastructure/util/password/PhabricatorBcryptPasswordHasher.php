@@ -20,7 +20,9 @@ final class PhabricatorBcryptPasswordHasher
   }
 
   public function getInstallInstructions() {
-    return pht('Upgrade to PHP 5.5.0 or newer.');
+    // This should always be available since PHP 5.5, but do something useful
+    // anyway.
+    return pht('To use BCrypt, make the password_hash() function available.');
   }
 
   public function getStrength() {
@@ -66,9 +68,8 @@ final class PhabricatorBcryptPasswordHasher
   }
 
   private function getBcryptCost() {
-    // NOTE: The default cost is "10", but my laptop can do a hash of cost
-    // "12" in about 300ms. Since server hardware is often virtualized or old,
-    // just split the difference.
+    // NOTE: The default cost is "12" as of 2026; it was "10" in 2014. Since
+    // server hardware is often virtualized or old, we went for "11" in 2014.
     return 11;
   }
 

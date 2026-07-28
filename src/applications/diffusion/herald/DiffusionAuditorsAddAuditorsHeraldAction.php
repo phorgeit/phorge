@@ -9,7 +9,7 @@ final class DiffusionAuditorsAddAuditorsHeraldAction
     return pht('Add auditors');
   }
 
-  // hide "Add auditors" Herald action if Audit not installed
+  // hide "Add auditors" Herald action if Audit is disabled
   public function supportsRuleType($rule_type) {
     if (id(new PhabricatorAuditApplication())->isInstalled()) {
       return ($rule_type != HeraldRuleTypeConfig::RULE_TYPE_PERSONAL);

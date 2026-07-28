@@ -135,7 +135,8 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
       ->setUser($viewer);
 
     foreach ($usertimes as $usertime) {
-      $item = new PHUIObjectItemView();
+      $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer);
       if ($usertime->getObjectPHID() === null) {
         $item->setHeader($usertime->getNote());
       } else {

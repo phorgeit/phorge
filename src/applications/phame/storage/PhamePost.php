@@ -37,7 +37,7 @@ final class PhamePost extends PhameDAO
     PhabricatorUser $blogger,
     PhameBlog $blog) {
 
-    $post = id(new PhamePost())
+    $post = id(new self())
       ->setBloggerPHID($blogger->getPHID())
       ->setBlogPHID($blog->getPHID())
       ->attachBlog($blog)
@@ -231,6 +231,7 @@ final class PhamePost extends PhameDAO
       case PhabricatorPolicyCapability::CAN_INTERACT:
         return $this->getInteractPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {
@@ -243,6 +244,8 @@ final class PhamePost extends PhameDAO
       case PhabricatorPolicyCapability::CAN_INTERACT:
         return false;
     }
+
+    return false;
   }
 
   public function describeAutomaticCapability($capability) {

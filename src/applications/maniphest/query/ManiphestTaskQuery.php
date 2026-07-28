@@ -714,6 +714,10 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     }
 
     if ($this->parentTaskIDs !== null) {
+      if (!ctype_digit(implode('', $this->parentTaskIDs))) {
+        throw new PhutilSearchQueryCompilerSyntaxException(
+          pht('Task IDs must be integer numbers.'));
+      }
       $joins[] = qsprintf(
         $conn,
         'JOIN %T e_has_parent
@@ -729,6 +733,10 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     }
 
     if ($this->subtaskIDs !== null) {
+      if (!ctype_digit(implode('', $this->subtaskIDs))) {
+        throw new PhutilSearchQueryCompilerSyntaxException(
+          pht('Task IDs must be integer numbers.'));
+      }
       $joins[] = qsprintf(
         $conn,
         'JOIN %T e_has_subtask

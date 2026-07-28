@@ -25,35 +25,6 @@ final class PhrictionTransaction
     return PhrictionDocumentTransactionType::class;
   }
 
-  public function getRequiredHandlePHIDs() {
-    $phids = parent::getRequiredHandlePHIDs();
-    $new = $this->getNewValue();
-    switch ($this->getTransactionType()) {
-      case PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE:
-      case PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE:
-        $phids[] = $new['phid'];
-        break;
-      case PhrictionDocumentTitleTransaction::TRANSACTIONTYPE:
-        if ($this->getMetadataValue('stub:create:phid')) {
-          $phids[] = $this->getMetadataValue('stub:create:phid');
-        }
-        break;
-    }
-
-    return $phids;
-  }
-
-  public function shouldHideForMail(array $xactions) {
-    switch ($this->getTransactionType()) {
-      case PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE:
-      case PhrictionDocumentMoveAwayTransaction::TRANSACTIONTYPE:
-        return true;
-      case PhrictionDocumentTitleTransaction::TRANSACTIONTYPE:
-        return $this->getMetadataValue('stub:create:phid', false);
-    }
-    return parent::shouldHideForMail($xactions);
-  }
-
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {

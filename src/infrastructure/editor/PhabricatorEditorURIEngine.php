@@ -103,6 +103,7 @@ final class PhabricatorEditorURIEngine
       'n' => array(
         'name' => pht('Repository Short Name'),
         'example' => 'arcanist',
+        'optional' => true,
       ),
       'd' => array(
         'name' => pht('Repository ID'),
@@ -115,6 +116,7 @@ final class PhabricatorEditorURIEngine
       'r' => array(
         'name' => pht('Repository Callsign'),
         'example' => 'XYZ',
+        'optional' => true,
       ),
       '%' => array(
         'name' => pht('Literal Percent Symbol'),
@@ -141,13 +143,10 @@ final class PhabricatorEditorURIEngine
 
     $variables = array(
       'r' => $this->escapeToken($repository->getCallsign()),
-      'n' => null,
+      'n' => $this->escapeToken($repository->getRepositorySlug()),
       'd' => $this->escapeToken($repository->getID()),
       'p' => $this->escapeToken($repository->getPHID()),
     );
-    if ($repository->getRepositorySlug()) {
-      $variables['n'] = $this->escapeToken($repository->getRepositorySlug());
-    }
 
     return $this->newTokensWithVariables($tokens, $variables);
   }
@@ -278,6 +277,10 @@ final class PhabricatorEditorURIEngine
   }
 
   private function escapeToken($token) {
+    if ($token === null) {
+      return null;
+    }
+
     // Paths are user controlled, so a clever user could potentially make
     // editor links do surprising things with paths containing "/../".
 
@@ -290,22 +293,34 @@ final class PhabricatorEditorURIEngine
 
   private function newStringFromTokens(array $tokens) {
     $result = array();
+    $variable_definitions = self::getVariableDefinitions();
 
     foreach ($tokens as $token) {
       $token_type = $token['type'];
       $token_value = $token['value'];
 
-      $is_literal = ($token_type === 'literal');
-      if (!$is_literal) {
-        throw new Exception(
-          pht(
-            'Editor pattern token list can not be converted into a string: '.
-            'it still contains a non-literal token ("%s", of type "%s").',
-            $token_value,
-            $token_type));
-      }
+      switch ($token_type) {
+        case 'literal':
+          $result[] = $token_value;
+          break;
 
-      $result[] = $token_value;
+        case 'variable':
+          $is_optional =
+            idxv($variable_definitions, array($token_value, 'optional'));
+          if ($is_optional) {
+            $result[] = '';
+            break;
+          }
+          // fallthrough
+
+        default:
+          throw new Exception(
+            pht(
+              'Editor pattern token list can not be converted into a string: '.
+              'it still contains a non-literal token ("%s", of type "%s").',
+              $token_value,
+              $token_type));
+      }
     }
 
     $result = implode('', $result);

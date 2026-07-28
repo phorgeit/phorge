@@ -15,7 +15,7 @@ final class PhameBlogParentSiteTransaction
 
   public function getTitle() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s set this blog\'s parent site to %s.',
         $this->renderAuthor(),
@@ -31,7 +31,7 @@ final class PhameBlogParentSiteTransaction
 
   public function getTitleForFeed() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s set %s blog\'s parent site to %s.',
         $this->renderAuthor(),

@@ -48,9 +48,14 @@ abstract class PhabricatorApplicationConfigurationPanel
     PhabricatorApplication $application);
 
   abstract public function buildConfigurationPagePanel();
-  abstract public function handlePanelRequest(
+
+  public function handlePanelRequest(
     AphrontRequest $request,
-    PhabricatorController $controller);
+    PhabricatorController $controller) {
+
+    return new Aphront404Response();
+  }
+
 
   public static function loadAllPanels() {
     return id(new PhutilClassMapQuery())
@@ -61,6 +66,7 @@ abstract class PhabricatorApplicationConfigurationPanel
 
   public static function loadAllPanelsForApplication(
     PhabricatorApplication $application) {
+
     $panels = self::loadAllPanels();
 
     $application_panels = array();

@@ -383,7 +383,6 @@ final class PHUITimelineEventView extends AphrontView {
     $show_badges = false;
 
     $group_titles = array();
-    $group_items = array();
     $group_children = array();
     foreach ($events as $event) {
       if ($event->shouldRenderEventTitle()) {
@@ -528,8 +527,7 @@ final class PHUITimelineEventView extends AphrontView {
         'div',
         array(
           'class' => 'phui-timeline-event-view '.
-                     'phui-timeline-spacer '.
-                     'phui-timeline-spacer-bold',
+                     'phui-timeline-spacer',
         ));
     }
 
@@ -750,7 +748,7 @@ final class PHUITimelineEventView extends AphrontView {
           ));
 
       if (!$is_admin && !$can_interact) {
-        $remove_item->setDisabled(!$is_admin && !$can_interact);
+        $remove_item->setDisabled(true);
       } else {
         $remove_item->setColor(PhabricatorActionView::RED);
       }

@@ -3,6 +3,15 @@
 final class PhabricatorXHPASTViewRunController
   extends PhabricatorXHPASTViewController {
 
+  protected function buildApplicationCrumbs() {
+    return parent::buildApplicationCrumbs()
+      ->addAction(
+        id(new PHUIListItemView())
+          ->setName(pht('Use PHPAST'))
+          ->setHref('/phpast/')
+          ->setIcon('fa-random'));
+  }
+
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
@@ -34,7 +43,7 @@ final class PhabricatorXHPASTViewRunController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormTextAreaControl())
           ->setLabel(pht('Source'))
@@ -63,6 +72,13 @@ final class PhabricatorXHPASTViewRunController
 
     return $this->newPage()
       ->setTitle($title)
+      ->setCrumbs(
+        id(new PHUICrumbsView())
+          ->addAction(
+            id(new PHUIListItemView())
+              ->setName(pht('Use PHPAST'))
+              ->setHref('/phpast/')
+              ->setIcon('fa-random')))
       ->appendChild($view);
 
   }

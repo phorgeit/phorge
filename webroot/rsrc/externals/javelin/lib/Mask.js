@@ -2,6 +2,9 @@
  * @requires javelin-install
  *           javelin-dom
  * @provides javelin-mask
+ *
+ * @javelin-installs JX.Mask
+ *
  * @javelin
  */
 

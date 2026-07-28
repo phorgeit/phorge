@@ -1,8 +1,5 @@
 <?php
 
-/**
- * NOTE: This is very new and unstable.
- */
 final class PhutilSpriteSheet extends Phobject {
 
   const MANIFEST_VERSION = 1;
@@ -29,6 +26,9 @@ final class PhutilSpriteSheet extends Phobject {
     return $this;
   }
 
+  /**
+   * @param string $header
+   */
   public function setCSSHeader($header) {
     $this->generated = false;
     $this->cssHeader = $header;

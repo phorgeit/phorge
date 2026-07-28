@@ -36,7 +36,7 @@ final class PhabricatorAuthNeedsMultiFactorController
       ->getPanelKey();
 
     $panel_key = $request->getURIData('pageKey');
-    if (!strlen($panel_key)) {
+    if (!phutil_nonempty_string($panel_key)) {
       $panel_key = $multifactor_key;
     }
 

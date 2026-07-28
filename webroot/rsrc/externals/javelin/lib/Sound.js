@@ -1,6 +1,11 @@
 /**
  * @requires javelin-install
+ *           javelin-util
+ *           javelin-dom
  * @provides javelin-sound
+ *
+ * @javelin-installs JX.Sound
+ *
  * @javelin
  */
 

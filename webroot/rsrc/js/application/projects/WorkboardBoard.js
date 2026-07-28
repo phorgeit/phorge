@@ -1,15 +1,23 @@
 /**
- * @provides javelin-workboard-board
  * @requires javelin-install
  *           javelin-dom
  *           javelin-util
  *           javelin-stratcom
  *           javelin-workflow
+ *           javelin-sound
+ *           javelin-json
+ *           javelin-vector
+ *           javelin-request
  *           phabricator-draggable-list
  *           javelin-workboard-column
  *           javelin-workboard-header-template
  *           javelin-workboard-card-template
  *           javelin-workboard-order-template
+ *           phabricator-keyboard-shortcut
+ * @provides javelin-workboard-board
+ *
+ * @javelin-installs JX.WorkboardBoard
+ *
  * @javelin
  */
 
@@ -129,12 +137,16 @@ JX.install('WorkboardBoard', {
     start: function() {
       this._setupDragHandlers();
 
-      // TODO: This is temporary code to make it easier to debug this workflow
-      // by pressing the "R" key.
-      var on_reload = JX.bind(this, this._reloadCards);
-      new JX.KeyboardShortcut('R', 'Reload Card State (Prototype)')
-        .setHandler(on_reload)
-        .register();
+      // Make it easier to debug this workflow by pressing the "R" key
+      // when in developer mode.
+      var root = document.documentElement;
+      window.__DEV__ = !!root.getAttribute('data-developer-mode');
+      if (__DEV__) {
+        var on_reload = JX.bind(this, this._reloadCards);
+        new JX.KeyboardShortcut('R', 'Reload Card State (Prototype)')
+          .setHandler(on_reload)
+          .register();
+      }
 
       var board_phid = this.getPHID();
 

@@ -2,8 +2,6 @@
 
 final class PhabricatorAWSSESFuture extends PhutilAWSFuture {
 
-  private $parameters;
-
   public function getServiceName() {
     return 'ses';
   }

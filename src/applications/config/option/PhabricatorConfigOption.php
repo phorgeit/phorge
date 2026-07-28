@@ -97,6 +97,7 @@ final class PhabricatorConfigOption
     return $this;
   }
 
+  /** @return PhabricatorApplicationConfigOptions */
   public function getGroup() {
     return $this->group;
   }
@@ -207,7 +208,6 @@ final class PhabricatorConfigOption
   /**
    * Get the type key.
    *
-   * @param string $type Type key.
    * @return string|null
    */
   public function getType() {

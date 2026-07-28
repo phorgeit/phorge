@@ -128,6 +128,7 @@ final class LegalpadDocumentSearchEngine
       $title = $document->getTitle();
 
       $item = id(new PHUIObjectItemView())
+        ->setViewer($viewer)
         ->setObjectName($document->getMonogram())
         ->setHeader($title)
         ->setHref('/'.$document->getMonogram())

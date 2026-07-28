@@ -7,6 +7,7 @@ abstract class AlmanacController
     AlmanacPropertyInterface $object) {
 
     $viewer = $this->getViewer();
+    $object_phid = $object->getPHID();
     $properties = $object->getAlmanacProperties();
 
     $this->requireResource('almanac-css');
@@ -69,7 +70,7 @@ abstract class AlmanacController
 
       $params = array(
         'key' => $key,
-        'objectPHID' => $object->getPHID(),
+        'objectPHID' => $object_phid,
       );
 
       $delete_uri = new PhutilURI($delete_base, $params);
@@ -135,9 +136,8 @@ abstract class AlmanacController
           'action',
         ));
 
-    $phid = $object->getPHID();
     $add_uri = id(new PhutilURI($edit_base))
-      ->replaceQueryParam('objectPHID', $object->getPHID());
+      ->replaceQueryParam('objectPHID', $object_phid);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,

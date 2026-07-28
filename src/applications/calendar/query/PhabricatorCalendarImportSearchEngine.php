@@ -66,7 +66,8 @@ final class PhabricatorCalendarImportSearchEngine
     assert_instances_of($imports, PhabricatorCalendarImport::class);
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($imports as $import) {
       $item = id(new PHUIObjectItemView())
         ->setViewer($viewer)

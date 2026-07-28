@@ -483,8 +483,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
    *
    * @param   AphrontRequest $request HTTP request.
    * @param   string         $mode Request mode string.
-   * @param   map            $attributes (optional) Additional parameters, see
-   *   above.
+   * @param   array          $attributes (optional) Map of additional
+   *   parameters, see above.
    * @return  PhutilSafeHTML Log in button.
    */
   protected function renderStandardLoginButton(
@@ -501,7 +501,6 @@ abstract class PhabricatorAuthProvider extends Phobject {
       ));
 
     $viewer = $request->getUser();
-    $adapter = $this->getAdapter();
 
     if ($mode == 'link') {
       $button_text = pht('Link External Account');

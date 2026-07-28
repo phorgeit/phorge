@@ -3,7 +3,6 @@
 abstract class PhabricatorIndexEngineExtension extends Phobject {
 
   private $parameters;
-  private $forceFullReindex;
 
   public function setParameters(array $parameters) {
     $this->parameters = $parameters;

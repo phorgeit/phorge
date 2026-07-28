@@ -1,6 +1,13 @@
 /**
- * @requires javelin-install javelin-event javelin-util javelin-magical-init
+ * @requires javelin-install
+ *           javelin-event
+ *           javelin-util
+ *           javelin-magical-init
+ *           javelin-behavior
  * @provides javelin-stratcom
+ *
+ * @javelin-installs JX.Stratcom
+ *
  * @javelin
  */
 
@@ -74,13 +81,13 @@ JX.install('Stratcom', {
      * Dispatch a simple event that does not have a corresponding native event
      * object. It is unusual to call this directly. Generally, you will instead
      * dispatch events from an object using the invoke() method present on all
-     * objects. See @{JX.Base.invoke()} for documentation.
+     * objects. See @{method:invoke} in @{class:JX.Base} for documentation.
      *
      * @param  string       Event type.
      * @param  string|list? Optionally, a sigil path to attach to the event.
      *                      This is rarely meaningful for simple events.
      * @param  object?      Optionally, arbitrary data to send with the event.
-     * @return @{JX.Event}  The event object which was dispatched to listeners.
+     * @return JX.Event     The event object which was dispatched to listeners.
      *                      The main use of this is to test whether any
      *                      listeners prevented the event.
      * @task invoke
@@ -534,16 +541,6 @@ JX.install('Stratcom', {
           case 'frameable':
             frameable = !!data;
             break;
-        }
-      }
-
-      // If the initializer tags did not explicitly allow framing, framebust.
-      // This protects us from clickjacking attacks on older versions of IE.
-      // The "X-Frame-Options" and "Content-Security-Policy" headers provide
-      // more modern variations of this protection.
-      if (!frameable) {
-        if (window.top != window.self) {
-          window.top.location.replace(window.self.location.href);
         }
       }
     },

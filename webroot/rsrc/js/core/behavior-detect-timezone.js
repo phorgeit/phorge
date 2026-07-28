@@ -1,8 +1,12 @@
 /**
- * @provides javelin-behavior-detect-timezone
  * @requires javelin-behavior
  *           javelin-uri
+ *           javelin-util
+ *           javelin-request
+ *           javelin-stratcom
+ *           javelin-workflow
  *           phabricator-notification
+ * @provides javelin-behavior-detect-timezone
  */
 
 JX.behavior('detect-timezone', function(config) {

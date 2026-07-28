@@ -4,6 +4,9 @@
  *           javelin-dom
  *           javelin-vector
  * @provides phabricator-tooltip
+ *
+ * @javelin-installs JX.Tooltip
+ *
  * @javelin
  */
 

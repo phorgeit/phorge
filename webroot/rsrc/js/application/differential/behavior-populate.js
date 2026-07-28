@@ -1,12 +1,14 @@
 /**
- * @provides javelin-behavior-differential-populate
  * @requires javelin-behavior
  *           javelin-dom
+ *           javelin-quicksand
  *           javelin-stratcom
  *           phabricator-tooltip
+ *           phabricator-phtize
  *           phabricator-diff-changeset-list
- *           phabricator-diff-changeset
  *           phuix-formation-view
+ * @provides javelin-behavior-differential-populate
+ *
  * @javelin
  */
 

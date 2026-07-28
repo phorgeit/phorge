@@ -41,6 +41,13 @@ final class PhabricatorProjectBoardViewController
     if ($project->getHasWorkboard()) {
       $layout_engine = $state->getLayoutEngine();
       $columns = $layout_engine->getColumns($board_phid);
+    } else {
+      // Avoid setting up from scratch if board existed but got disabled
+      $columns = id(new PhabricatorProjectColumnQuery())
+        ->setViewer($viewer)
+        ->withProjectPHIDs(array($project->getPHID()))
+        ->withIsProxyColumn(false)
+        ->execute();
     }
 
     if (!$columns || !$project->getHasWorkboard()) {
@@ -345,13 +352,6 @@ final class PhabricatorProjectBoardViewController
 
     $manage_menu = $this->buildManageMenu($project, $state->getShowHidden());
 
-    $header_link = phutil_tag(
-      'a',
-      array(
-        'href' => $this->getApplicationURI('profile/'.$project->getID().'/'),
-      ),
-      $project->getName());
-
     $board_box = id(new PHUIBoxView())
       ->appendChild($board)
       ->addClass('project-board-wrapper');
@@ -444,8 +444,6 @@ final class PhabricatorProjectBoardViewController
 
       $items[] = $item;
     }
-
-    $id = $project->getID();
 
     $save_uri = $state->newWorkboardURI('default/sort/');
 
@@ -543,8 +541,6 @@ final class PhabricatorProjectBoardViewController
       $items[] = $item;
     }
 
-    $id = $project->getID();
-
     $filter_uri = $state->newWorkboardURI('filter/');
 
     $items[] = id(new PhabricatorActionView())
@@ -589,6 +585,9 @@ final class PhabricatorProjectBoardViewController
     return $filter_button;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildManageMenu(
     PhabricatorProject $project,
     $show_hidden) {
@@ -679,8 +678,10 @@ final class PhabricatorProjectBoardViewController
     return $manage_button;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildFullscreenMenu() {
-
     $up = id(new PHUIListItemView())
       ->setIcon('fa-arrows-alt')
       ->setHref('#')
@@ -697,6 +698,9 @@ final class PhabricatorProjectBoardViewController
     return $up;
   }
 
+  /**
+   * @return PHUIIconView
+   */
   private function buildColumnMenu(
     PhabricatorProject $project,
     PhabricatorProjectColumn $column) {
@@ -941,18 +945,18 @@ final class PhabricatorProjectBoardViewController
           ->setProjectPHID($project->getPHID())
           ->save();
 
-          $xactions = array();
-          $xactions[] = id(new PhabricatorProjectTransaction())
-            ->setTransactionType(
-                PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
-            ->setNewValue(1);
+        $xactions = array();
+        $xactions[] = id(new PhabricatorProjectTransaction())
+          ->setTransactionType(
+              PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
+          ->setNewValue(1);
 
-          id(new PhabricatorProjectTransactionEditor())
-            ->setActor($viewer)
-            ->setContentSourceFromRequest($request)
-            ->setContinueOnNoEffect(true)
-            ->setContinueOnMissingFields(true)
-            ->applyTransactions($project, $xactions);
+        id(new PhabricatorProjectTransactionEditor())
+          ->setActor($viewer)
+          ->setContentSourceFromRequest($request)
+          ->setContinueOnNoEffect(true)
+          ->setContinueOnMissingFields(true)
+          ->applyTransactions($project, $xactions);
 
         return id(new AphrontRedirectResponse())
           ->setURI($board_uri);

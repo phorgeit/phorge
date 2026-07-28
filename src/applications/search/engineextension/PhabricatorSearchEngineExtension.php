@@ -104,9 +104,8 @@ abstract class PhabricatorSearchEngineExtension extends Phobject {
   }
 
   /**
-   * @return map<string, PhabricatorSearchEngineExtension> Array of
-   *   PhabricatorSearchEngineExtension extension keys and the
-   *   PhabricatorSearchEngineExtension subclasses
+   * @return array<string, PhabricatorSearchEngineExtension> Class map of all
+   *   available extension types.
    */
   final public static function getAllExtensions() {
     return id(new PhutilClassMapQuery())

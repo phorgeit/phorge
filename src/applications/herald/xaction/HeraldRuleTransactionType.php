@@ -1,4 +1,10 @@
 <?php
 
 abstract class HeraldRuleTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhabricatorModularTransactionType {
+
+  protected function renderObjectType() {
+    return pht('rule');
+  }
+
+}

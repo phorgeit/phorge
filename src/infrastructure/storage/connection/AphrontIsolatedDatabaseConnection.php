@@ -129,4 +129,12 @@ final class AphrontIsolatedDatabaseConnection
     return $this->transcript;
   }
 
+  /**
+   * Force the next query to fail with a simulated error. This should be used
+   * ONLY for unit tests. Unimplemented in this very child class.
+   */
+  public function simulateErrorOnNextQuery($error) {
+    return $this;
+  }
+
 }

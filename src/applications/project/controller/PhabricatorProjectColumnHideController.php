@@ -36,8 +36,6 @@ final class PhabricatorProjectColumnHideController
       return new Aphront404Response();
     }
 
-    $column_phid = $column->getPHID();
-
     $view_uri = $project->getWorkboardURI();
     $view_uri = new PhutilURI($view_uri);
     foreach ($request->getPassthroughRequestData() as $key => $value) {

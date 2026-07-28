@@ -36,7 +36,7 @@ final class PhabricatorAuthLogoutConduitAPIMethod
     $viewer = $request->getUser();
 
     // Destroy all web sessions.
-    $engine = id(new PhabricatorAuthSessionEngine());
+    $engine = new PhabricatorAuthSessionEngine();
     $engine->terminateLoginSessions($viewer);
 
     // If we were called via OAuth, destroy the OAuth token.

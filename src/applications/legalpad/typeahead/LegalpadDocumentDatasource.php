@@ -21,8 +21,6 @@ final class LegalpadDocumentDatasource extends PhabricatorTypeaheadDatasource {
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
-
     $results = array();
 
     $documents = id(new LegalpadDocumentQuery())

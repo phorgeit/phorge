@@ -116,7 +116,7 @@ Practically, these are the differences you'll see based on your setting:
 == History Mutability: Mercurial ==
 
 Before version 2.2, stock Mercurial has no history mutation commands, so
-this setting has no effect. With Mercurial 2.2. or newer, making history
+this setting has no effect. With Mercurial 2.2 or newer, making history
 //mutable// means:
 
   - **Mutable** (versions 2.2 and newer)

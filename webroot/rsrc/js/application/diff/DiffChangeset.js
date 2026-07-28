@@ -1,5 +1,4 @@
 /**
- * @provides phabricator-diff-changeset
  * @requires javelin-dom
  *           javelin-util
  *           javelin-stratcom
@@ -11,7 +10,11 @@
  *           phabricator-diff-inline
  *           phabricator-diff-path-view
  *           phuix-button-view
- *           javelin-external-editor-link-engine
+ *           javelin-magical-init
+ * @provides phabricator-diff-changeset
+ *
+ * @javelin-installs JX.DiffChangeset
+ *
  * @javelin
  */
 

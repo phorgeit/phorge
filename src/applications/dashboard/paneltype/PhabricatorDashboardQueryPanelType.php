@@ -106,7 +106,6 @@ final class PhabricatorDashboardQueryPanelType
     $results_view = $engine->renderResults($results, $saved);
 
     $is_overheated = $query->getIsOverheated();
-    $overheated_view = null;
     if ($is_overheated) {
       $content = $results_view->getContent();
 
@@ -156,6 +155,7 @@ final class PhabricatorDashboardQueryPanelType
         $content = $results_view->getContent();
 
         $more_list = id(new PHUIObjectItemListView())
+          ->setViewer($viewer)
           ->setAllowEmptyList(true);
 
         $more_list->newTailButton()
@@ -169,6 +169,9 @@ final class PhabricatorDashboardQueryPanelType
     return $results_view;
   }
 
+  /**
+   * @return PHUIHeaderView
+   */
   public function adjustPanelHeader(
     PhabricatorUser $viewer,
     PhabricatorDashboardPanel $panel,

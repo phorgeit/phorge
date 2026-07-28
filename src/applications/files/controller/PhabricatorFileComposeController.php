@@ -84,7 +84,6 @@ final class PhabricatorFileComposeController
         array(
           'class' => 'button-grey profile-image-button',
           'sigil' => 'has-tooltip compose-select-color',
-          'style' => 'margin: 0 8px 8px 0',
           'meta' => array(
             'color' => $color,
             'tip' => $quip,
@@ -104,7 +103,6 @@ final class PhabricatorFileComposeController
         array(
           'class' => 'button-grey profile-image-button',
           'sigil' => 'has-tooltip compose-select-icon',
-          'style' => 'margin: 0 8px 8px 0',
           'meta' => array(
             'icon' => $icon,
             'tip' => $quip,

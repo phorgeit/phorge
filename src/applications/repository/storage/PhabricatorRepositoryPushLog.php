@@ -58,7 +58,7 @@ final class PhabricatorRepositoryPushLog
   private $repository = self::ATTACHABLE;
 
   public static function initializeNewLog(PhabricatorUser $viewer) {
-    return id(new PhabricatorRepositoryPushLog())
+    return id(new self())
       ->setPusherPHID($viewer->getPHID());
   }
 

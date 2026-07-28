@@ -13,7 +13,6 @@ final class PhamePostViewController
     $moved = $request->getStr('moved');
 
     $post = $this->getPost();
-    $blog = $this->getBlog();
 
     $is_live = $this->getIsLive();
     $is_external = $this->getIsExternal();

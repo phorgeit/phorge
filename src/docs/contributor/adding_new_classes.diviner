@@ -206,7 +206,7 @@ This will automatically regenerate the static map of the library.
 What You Can Extend And Invoke
 ==============================
 
-Arcanist and Pohrge are strict about extensibility of classes and
+Arcanist and Phorge are strict about extensibility of classes and
 visibility of methods and properties. Most classes are marked `final`, and
 methods have the minimum required visibility (protected or private). The goal
 of this strictness is to make it clear what you can safely extend, access, and

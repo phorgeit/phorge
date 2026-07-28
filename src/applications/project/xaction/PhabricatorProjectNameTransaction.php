@@ -71,7 +71,7 @@ final class PhabricatorProjectNameTransaction
 
     $max_length = $object->getColumnMaximumByteLength('name');
     foreach ($xactions as $xaction) {
-      $new_value = $xaction->getNewValue();
+      $new_value = $xaction->getNewValue() ?? '';
       $new_value = trim($new_value); // Strip surrounding whitespace
       $xaction->setNewValue($new_value);
       $new_length = strlen($new_value);

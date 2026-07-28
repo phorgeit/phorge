@@ -92,7 +92,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     $default_icon = PhabricatorProjectIconSet::getDefaultIconKey();
     $default_color = PhabricatorProjectIconSet::getDefaultColorKey();
 
-    return id(new PhabricatorProject())
+    return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setIcon($default_icon)
       ->setColor($default_color)
@@ -131,6 +131,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
       case PhabricatorPolicyCapability::CAN_JOIN:
         return $this->getJoinPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
@@ -144,7 +145,8 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
     switch ($capability) {
       case PhabricatorPolicyCapability::CAN_VIEW:
-        if ($this->isUserMember($viewer->getPHID())) {
+        $viewer_phid = $viewer->getPHID();
+        if ($viewer_phid && $this->isUserMember($viewer_phid)) {
           // Project members can always view a project.
           return true;
         }
@@ -376,14 +378,6 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     return $this->assertAttached($this->slugs);
   }
 
-  public function getColor() {
-    if ($this->isArchived()) {
-      return PHUITagView::COLOR_DISABLED;
-    }
-
-    return $this->color;
-  }
-
   public function getURI() {
     $id = $this->getID();
     return "/project/view/{$id}/";
@@ -609,6 +603,10 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function getDisplayColor() {
+    if ($this->isArchived()) {
+      return PHUITagView::COLOR_DISABLED;
+    }
+
     if ($this->isMilestone()) {
       return $this->getParentProject()->getColor();
     }
@@ -641,26 +639,44 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     return $this;
   }
 
+  /**
+   * @return string Workboard default sort, e.g. 'natural'
+   */
   public function getDefaultWorkboardSort() {
     return $this->getProperty('workboard.sort.default');
   }
 
+  /**
+   * @param string $sort Workboard default sort
+   */
   public function setDefaultWorkboardSort($sort) {
     return $this->setProperty('workboard.sort.default', $sort);
   }
 
+  /**
+   * @return string Workboard default filter, e.g. 'assigned'
+   */
   public function getDefaultWorkboardFilter() {
     return $this->getProperty('workboard.filter.default');
   }
 
+  /**
+   * @param string $filter Workboard default filter
+   */
   public function setDefaultWorkboardFilter($filter) {
     return $this->setProperty('workboard.filter.default', $filter);
   }
 
+  /**
+   * @return string Workboard background color, e.g. 'pink'
+   */
   public function getWorkboardBackgroundColor() {
     return $this->getProperty('workboard.background');
   }
 
+  /**
+   * @param string $color Workboard background color
+   */
   public function setWorkboardBackgroundColor($color) {
     return $this->setProperty('workboard.background', $color);
   }
@@ -863,7 +879,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('slug')
         ->setType('string')
-        ->setDescription(pht('Primary slug/hashtag.')),
+        ->setDescription(pht('Primary hashtag.')),
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('subtype')
         ->setType('string')
@@ -942,6 +958,8 @@ final class PhabricatorProject extends PhabricatorProjectDAO
         ->setAttachmentKey('watchers'),
       id(new PhabricatorProjectsAncestorsSearchEngineAttachment())
         ->setAttachmentKey('ancestors'),
+      id(new PhabricatorProjectsSlugsSearchEngineAttachment())
+        ->setAttachmentKey('slugs'),
     );
   }
 

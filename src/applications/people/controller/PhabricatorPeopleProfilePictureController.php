@@ -76,7 +76,7 @@ final class PhabricatorPeopleProfilePictureController
           $e_file = pht('Not Supported');
           $errors[] = $supported_formats_message;
         } else {
-          $xformed = $xform->executeTransformExplicit($file);
+          $xformed = $xform->getOrExecuteTransformExplicit($file);
         }
       }
 

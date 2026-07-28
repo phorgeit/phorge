@@ -3,7 +3,6 @@
 abstract class PhabricatorProjectController extends PhabricatorController {
 
   private $project;
-  private $profileMenu;
   private $profileMenuEngine;
 
   protected function setProject(PhabricatorProject $project) {

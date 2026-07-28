@@ -94,7 +94,7 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
     // Filter out any rules that have invalid adapters, or have adapters the
     // viewer isn't permitted to see or use (for example, Differential rules
-    // if the user can't use Differential or Differential is not installed).
+    // if the user can't use Differential or Differential is disabled).
     $types = HeraldAdapter::getEnabledAdapterMap($this->getViewer());
     foreach ($rules as $key => $rule) {
       if (empty($types[$rule->getContentType()])) {

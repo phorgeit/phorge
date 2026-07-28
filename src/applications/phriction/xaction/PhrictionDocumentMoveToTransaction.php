@@ -105,4 +105,8 @@ final class PhrictionDocumentMoveToTransaction
     return true;
   }
 
+  public function shouldHideForMail() {
+    return true;
+  }
+
 }

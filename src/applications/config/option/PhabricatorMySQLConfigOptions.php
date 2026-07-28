@@ -19,6 +19,10 @@ final class PhabricatorMySQLConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('mysql.host', 'string', 'localhost')

@@ -100,69 +100,6 @@ final class PhabricatorMultiColumnUIExample extends PhabricatorUIExample {
       ->setFluidLayout(true)
       ->setBorder(true);
 
-    $shipping = id(new PHUIFormLayoutView())
-      ->setUser($user)
-      ->setFullWidth(true)
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('Name'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('name-input'))
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('Address'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('address-input'))
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('City/State'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('city-input'))
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('Country'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('country-input'))
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('Postal Code'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('postal-input'));
-
-    $cc = id(new PHUIFormLayoutView())
-      ->setUser($user)
-      ->setFullWidth(true)
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('Card Number'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('number-input')
-        ->setError(''))
-      ->appendChild(
-        id(new AphrontFormTextControl())
-        ->setLabel(pht('CVC'))
-        ->setDisableAutocomplete(true)
-        ->setSigil('cvc-input')
-        ->setError(''))
-      ->appendChild(
-        id(new PhortuneMonthYearExpiryControl())
-        ->setLabel(pht('Expiration'))
-        ->setUser($user)
-        ->setError(''));
-
-    $shipping_title = pht('Shipping Address');
-    $billing_title = pht('Billing Address');
-    $cc_title = pht('Payment Information');
-
-    $head6 = id(new PHUIHeaderView())
-      ->setHeader(pht("Let's Go Shopping"));
-    $layout6 = id(new AphrontMultiColumnView())
-      ->addColumn(hsprintf('<h1>%s</h1>%s', $shipping_title, $shipping))
-      ->addColumn(hsprintf('<h1>%s</h1>%s', $billing_title, $shipping))
-      ->addColumn(hsprintf('<h1>%s</h1>%s', $cc_title, $cc))
-      ->setFluidLayout(true)
-      ->setBorder(true);
-
     $wrap1 = phutil_tag(
       'div',
         array(
@@ -198,13 +135,6 @@ final class PhabricatorMultiColumnUIExample extends PhabricatorUIExample {
         ),
         $layout5);
 
-    $wrap6 = phutil_tag(
-      'div',
-        array(
-          'class' => 'ml',
-        ),
-        $layout6);
-
     return phutil_tag(
       'div',
         array(),
@@ -219,8 +149,6 @@ final class PhabricatorMultiColumnUIExample extends PhabricatorUIExample {
           $wrap4,
           $head5,
           $wrap5,
-          $head6,
-          $wrap6,
         ));
   }
 }

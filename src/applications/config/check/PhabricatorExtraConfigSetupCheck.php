@@ -77,7 +77,7 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
 
       if ($found_local) {
         $command = hsprintf(
-          '<tt>%s $</tt>./bin/config delete %s',
+          '<samp>%s $</samp><kbd>./bin/config delete %s</kbd>',
           PlatformSymbols::getPlatformServerPath(),
           $key);
         $issue->addCommand($command);
@@ -87,7 +87,7 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
         $issue->addPhabricatorConfig($key);
 
         $command = hsprintf(
-          '<tt>%s $</tt>./bin/config delete --database %s',
+          '<samp>%s $</samp><kbd>./bin/config delete --database %s</kbd>',
           PlatformSymbols::getPlatformServerPath(),
           $key);
         $issue->addCommand($command);
@@ -178,7 +178,7 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
           ),
           $doc_name));
       $command = hsprintf(
-        '<tt>%s $</tt>%s',
+        '<samp>%s $</samp><kbd>%s</kbd>',
         PlatformSymbols::getPlatformServerPath(),
         csprintf(
           './bin/config delete --database %R',

@@ -132,19 +132,17 @@ final class PhabricatorAuthRegisterController
 
       // If the account source provided an email, but another account already
       // has that email, just pretend we didn't get an email.
-      if ($default_email !== null) {
-        $same_email = id(new PhabricatorUserEmail())->loadOneWhere(
-          'address = %s',
-          $default_email);
-        if ($same_email) {
-          if ($invite) {
-            // We're allowing this to continue. The fact that we loaded the
-            // invite means that the address is nonprimary and unverified and
-            // we're OK to steal it.
-          } else {
-            $show_existing = $default_email;
-            $default_email = null;
-          }
+      $same_email = id(new PhabricatorUserEmail())->loadOneWhere(
+        'address = %s',
+        $default_email);
+      if ($same_email) {
+        if ($invite) {
+          // We're allowing this to continue. The fact that we loaded the
+          // invite means that the address is nonprimary and unverified and
+          // we're OK to steal it.
+        } else {
+          $show_existing = $default_email;
+          $default_email = null;
         }
       }
     }
@@ -582,7 +580,7 @@ final class PhabricatorAuthRegisterController
           ->setError($e_captcha));
     }
 
-    $submit = id(new AphrontFormSubmitControl());
+    $submit = new AphrontFormSubmitControl();
 
     if ($is_setup) {
       $submit
@@ -699,7 +697,6 @@ final class PhabricatorAuthRegisterController
     // do meaningful policy checks anyway since they have not registered yet.
     // Reaching this means the user holds the account secret key and the
     // registration secret key, and thus has permission to view the image.
-
     $file = id(new PhabricatorFileQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
       ->withPHIDs(array($phid))
@@ -710,7 +707,7 @@ final class PhabricatorAuthRegisterController
 
     $xform = PhabricatorFileTransform::getTransformByKey(
       PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
-    return $xform->executeTransformExplicit($file);
+    return $xform->getOrExecuteTransformExplicit($file);
   }
 
   protected function renderError($message) {

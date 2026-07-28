@@ -13,6 +13,11 @@ final class PHUICurtainObjectRefListView
     );
   }
 
+  /**
+   * Set the message shown when the curtain is empty.
+   * @param string|null $empty_message User message, or null.
+   * @return self
+   */
   public function setEmptyMessage($empty_message) {
     $this->emptyMessage = $empty_message;
     return $this;

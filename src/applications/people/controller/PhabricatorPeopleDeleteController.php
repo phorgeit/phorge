@@ -28,7 +28,7 @@ final class PhabricatorPeopleDeleteController
           'command line:'))
       ->appendCommand(
         hsprintf(
-          '<tt>%s $</tt> %s',
+          '<samp>%s $</samp><kbd>%s</kbd>',
           PlatformSymbols::getPlatformServerPath(),
           csprintf(
             './bin/remove destroy %R',

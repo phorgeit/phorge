@@ -16,7 +16,8 @@ final class PhabricatorAuthMessageListController
       ->execute();
     $messages = mpull($messages, null, 'getMessageKey');
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($types as $type) {
       $message = idx($messages, $type->getMessageTypeKey());
 

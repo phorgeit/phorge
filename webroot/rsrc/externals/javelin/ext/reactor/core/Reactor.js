@@ -1,7 +1,10 @@
 /**
- * @provides javelin-reactor
  * @requires javelin-install
  *           javelin-util
+ * @provides javelin-reactor
+ *
+ * @javelin-installs JX.Reactor
+ *
  * @javelin
  */
 

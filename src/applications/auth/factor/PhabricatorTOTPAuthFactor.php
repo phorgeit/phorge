@@ -309,7 +309,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
       throw new Exception(
         pht(
           'Reached TOTP challenge validation with an unexpected number of '.
-          'unexpired challenges (%d), expected exactly one.',
+          'unexpired challenges (%s), expected exactly one.',
           phutil_count($challenges)));
     }
 

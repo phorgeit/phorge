@@ -58,14 +58,11 @@ will use to connect to the replica database server the `REPLICATION CLIENT`
 privilege, Phorge's status console can give you more information about
 replica health and state.
 
-**Copying Data to Replicas**: Phorge currently uses a mixture of MyISAM
-and InnoDB tables, so it can be difficult to guarantee that a dump is wholly
-consistent and suitable for loading into a replica because MySQL uses different
-consistency mechanisms for the different storage engines.
+**Copying Data to Replicas**: Phorge uses InnoDB tables if available.
+Phorge still allows MyISAM for older database server software.
 
-An approach you may want to consider to limit downtime but still produce a
-consistent dump is to leave Phorge running but configured in read-only
-mode while dumping:
+An approach you may want to consider to limit downtime and produce a dump is
+to leave Phorge running but configured in read-only mode while dumping:
 
   - Stop all the daemons.
   - Set `cluster.read-only` to `true` and deploy the new configuration. The

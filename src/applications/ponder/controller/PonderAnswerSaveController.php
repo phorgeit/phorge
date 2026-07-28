@@ -54,7 +54,7 @@ final class PonderAnswerSaveController extends PonderController {
 
     // Answer Editor
 
-    $template = id(new PonderAnswerTransaction());
+    $template = new PonderAnswerTransaction();
     $xactions = array();
 
     $xactions[] = id(clone $template)

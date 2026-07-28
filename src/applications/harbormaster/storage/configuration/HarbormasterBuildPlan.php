@@ -36,7 +36,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
     $edit_policy = $app->getPolicy(
       HarbormasterBuildPlanDefaultEditCapability::CAPABILITY);
 
-    return id(new HarbormasterBuildPlan())
+    return id(new self())
       ->setName('')
       ->setPlanStatus(self::STATUS_ACTIVE)
       ->attachBuildSteps(array())
@@ -221,6 +221,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
         }
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

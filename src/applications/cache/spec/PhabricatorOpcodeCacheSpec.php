@@ -3,7 +3,7 @@
 final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
 
   public static function getActiveCacheSpec() {
-    $spec = new PhabricatorOpcodeCacheSpec();
+    $spec = new self();
 
     if (extension_loaded('Zend OPcache')) {
       $spec->initOpcacheSpec();

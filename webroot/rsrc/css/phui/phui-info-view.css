@@ -45,7 +45,7 @@ div.phui-info-view.phui-info-severity-plain {
   margin-left: 24px;
 }
 
-.phui-info-view-body tt {
+.phui-info-view-body code {
   color: {$blacktext};
   background: rgba({$alphablue},0.1);
   padding: 1px 4px;

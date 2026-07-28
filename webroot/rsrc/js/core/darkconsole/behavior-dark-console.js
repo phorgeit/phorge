@@ -1,6 +1,8 @@
 /**
- * @provides javelin-behavior-dark-console
  * @requires javelin-behavior
+ *           javelin-aphlict
+ *           javelin-leader
+ *           javelin-json
  *           javelin-stratcom
  *           javelin-util
  *           javelin-dom
@@ -8,6 +10,7 @@
  *           phabricator-keyboard-shortcut
  *           phabricator-darklog
  *           phabricator-darkmessage
+ * @provides javelin-behavior-dark-console
  */
 
 JX.behavior('dark-console', function(config, statics) {

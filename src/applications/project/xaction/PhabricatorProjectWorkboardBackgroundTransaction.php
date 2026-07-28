@@ -23,4 +23,8 @@ final class PhabricatorProjectWorkboardBackgroundTransaction
     return true;
   }
 
+  public function shouldHideForMail() {
+    return true;
+  }
+
 }

@@ -46,7 +46,9 @@ final class LiskIsolationTestCase extends PhabricatorTestCase {
 
     try {
       $method = new ReflectionMethod($dao, 'establishLiveConnection');
-      $method->setAccessible(true);
+      if (PHP_VERSION_ID < 80100) {
+        $method->setAccessible(true);
+      }
       $method->invoke($dao, 'r');
 
       $this->assertFailure(

@@ -16,12 +16,6 @@ final class PhabricatorProjectSubprojectsController
     }
 
     $project = $this->getProject();
-    $id = $project->getID();
-
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
 
     $allows_subprojects = $project->supportsSubprojects();
     $allows_milestones = $project->supportsMilestones();

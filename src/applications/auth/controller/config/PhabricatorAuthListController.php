@@ -10,7 +10,8 @@ final class PhabricatorAuthListController
       ->setViewer($viewer)
       ->execute();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     $can_manage = $this->hasApplicationCapability(
         AuthManageProvidersCapability::CAPABILITY);
     $is_locked = PhabricatorEnv::getEnvConfig('auth.lock-config');

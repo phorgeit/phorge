@@ -23,6 +23,14 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
       return new Aphront400Response();
     }
 
+    if ($object instanceof PhorgeRestrictableInteractionInterface &&
+        $object->disallowInteractions()) {
+      return $this->buildErrorResponse(
+        pht('Temporary Object'),
+        pht('This object is temporary and cannot receive tokens.'),
+        $handle->getURI());
+    }
+
     if (!PhabricatorPolicyFilter::canInteract($viewer, $object)) {
       $lock = PhabricatorEditEngineLock::newForObject($viewer, $object);
 
@@ -139,6 +147,19 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
     $dialog->addSubmitButton(pht('Rescind Token'));
 
     return $dialog;
+  }
+
+  private function buildErrorResponse($title, $message, $uri) {
+    $request = $this->getRequest();
+    $viewer = $request->getUser();
+
+    $dialog = id(new AphrontDialogView())
+      ->setUser($viewer)
+      ->setTitle($title)
+      ->appendChild($message)
+      ->addCancelButton($uri);
+
+    return id(new AphrontDialogResponse())->setDialog($dialog);
   }
 
 }

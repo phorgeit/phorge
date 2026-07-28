@@ -119,6 +119,10 @@ final class PhrictionContent
         ->setKey('version')
         ->setType('int')
         ->setDescription(pht('Content version.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('description')
+        ->setType('string')
+        ->setDescription(pht('Edit Notes of the version.')),
     );
   }
 
@@ -126,6 +130,7 @@ final class PhrictionContent
     return array(
       'documentPHID' => $this->getDocument()->getPHID(),
       'version' => (int)$this->getVersion(),
+      'description' => $this->getDescription(),
     );
   }
 

@@ -27,12 +27,11 @@ final class PhabricatorDashboardInstallController
     }
 
     $this->setDashboard($dashboard);
-    $cancel_uri = $dashboard->getURI();
 
     $workflow_key = $request->getURIData('workflowKey');
 
     $workflows = PhabricatorDashboardInstallWorkflow::getAllWorkflows();
-    if (!isset($workflows[$workflow_key])) {
+    if ($workflow_key === null || !isset($workflows[$workflow_key])) {
       return $this->newWorkflowDialog($dashboard, $workflows);
     }
 

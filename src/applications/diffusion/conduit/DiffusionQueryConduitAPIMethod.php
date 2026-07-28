@@ -8,7 +8,6 @@ abstract class DiffusionQueryConduitAPIMethod
   }
 
   private $diffusionRequest;
-  private $repository;
 
   protected function setDiffusionRequest(DiffusionRequest $request) {
     $this->diffusionRequest = $request;

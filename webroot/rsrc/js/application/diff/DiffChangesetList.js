@@ -1,8 +1,27 @@
 /**
- * @provides phabricator-diff-changeset-list
  * @requires javelin-install
+ *           javelin-behavior-device
+ *           javelin-dom
+ *           javelin-external-editor-link-engine
+ *           javelin-magical-init
+ *           javelin-stratcom
+ *           javelin-uri
+ *           javelin-util
+ *           javelin-vector
+ *           javelin-workflow
+ *           phuix-action-view
+ *           phuix-action-list-view
  *           phuix-button-view
+ *           phuix-dropdown-menu
+ *           phuix-icon-view
+ *           phabricator-diff-changeset
  *           phabricator-diff-tree-view
+ *           phabricator-keyboard-shortcut
+ *           phabricator-notification
+ * @provides phabricator-diff-changeset-list
+ *
+ * @javelin-installs JX.DiffChangesetList
+ *
  * @javelin
  */
 

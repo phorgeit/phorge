@@ -193,7 +193,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       }
 
       if ($names) {
-        $xatoms = id(new DivinerAtomQuery())
+        $xatoms = id(new self())
           ->setViewer($this->getViewer())
           ->withNames($names)
           ->withGhosts(false)
@@ -263,7 +263,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       $child_hashes = $this->getAllChildHashes($atoms, $this->needExtends);
 
       if ($child_hashes) {
-        $children = id(new DivinerAtomQuery())
+        $children = id(new self())
           ->setViewer($this->getViewer())
           ->withNodeHashes($child_hashes)
           ->needAtoms($this->needAtoms)
@@ -447,7 +447,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    *                                 hashes of.
    * @param bool                     $recurse_up True to collect children of
    *                                 extended atoms, as well.
-   * @return map<string, string>     Hashes of atoms' children.
+   * @return array<string, string>   Map of hashes of atoms' children.
    */
   private function getAllChildHashes(array $symbols, $recurse_up) {
     assert_instances_of($symbols, DivinerLiveSymbol::class);
@@ -478,7 +478,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    *
    * @param array<DivinerLiveSymbol> $symbols List of symbols to attach
    *   children to.
-   * @param map<string, DivinerLiveSymbol> $children Map of symbols, keyed by
+   * @param array<string, DivinerLiveSymbol> $children Map of symbols, keyed by
    *   node hash.
    * @param bool $recurse_up True to attach children to extended atoms, as
    *   well.

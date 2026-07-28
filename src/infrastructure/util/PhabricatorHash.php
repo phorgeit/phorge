@@ -210,7 +210,10 @@ final class PhabricatorHash extends Phobject {
 
     // Although "hash_hmac()" is documented as returning `false` when it fails,
     // it can also return `null` if you pass an object as the "$message".
-    if ($result === false || $result === null) {
+
+    // TODO: Update condition check once Phorge requires PHP 8.0.0, per
+    // https://www.php.net/manual/en/function.hash-hmac.php
+    if (!$result) {
       throw new Exception(
         pht('Unable to compute HMAC-SHA256 digest of message.'));
     }
@@ -239,14 +242,16 @@ final class PhabricatorHash extends Phobject {
       $cache->setKey($cache_key, $hmac_key);
     }
 
-    // The "hex2bin()" function doesn't exist until PHP 5.4.0 so just
-    // implement it inline.
-    $result = '';
-    for ($ii = 0; $ii < strlen($hmac_key); $ii += 2) {
-      $result .= pack('H*', substr($hmac_key, $ii, 2));
+    try {
+      return hex2bin($hmac_key);
+    } catch (Throwable $ex) {
+      throw new Exception(
+        pht(
+          'Invalid Named HMAC Key %s',
+          $hmac_name),
+        0,
+        $ex);
     }
-
-    return $result;
   }
 
   private static function newHMACKey($hmac_name) {

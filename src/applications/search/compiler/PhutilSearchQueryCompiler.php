@@ -461,6 +461,9 @@ final class PhutilSearchQueryCompiler
       $present_tokens = array();
       $absent_tokens = array();
       foreach ($results as $result) {
+        if (!isset($result['function'])) {
+          continue;
+        }
         $function = $result['function'];
 
         if ($result['operator'] === self::OPERATOR_ABSENT) {

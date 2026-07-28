@@ -54,26 +54,29 @@ final class PhabricatorPeopleProfileRevisionsController
   private function buildRevisionsView(PhabricatorUser $user) {
     $viewer = $this->getViewer();
 
-    $revisions = id(new DifferentialRevisionQuery())
-      ->setViewer($viewer)
-      ->withAuthors(array($user->getPHID()))
-      ->needFlags(true)
-      ->needDrafts(true)
-      ->needReviewers(true)
-      ->setLimit(100)
-      ->execute();
 
-    $list = id(new DifferentialRevisionListView())
+    $engine = id(new DifferentialRevisionSearchEngine())
       ->setViewer($viewer)
-      ->setNoBox(true)
-      ->setRevisions($revisions)
       ->setNoDataString(pht('No recent revisions.'));
 
-    $view = id(new PHUIObjectBoxView())
+    $query = $engine->newQuery()
+      ->withAuthors(array($user->getPHID()))
+      ->needDrafts(true)
+      ->needReviewers(true)
+      ->setLimit(100);
+
+    $results = $engine->executeQueryAndRender($query);
+
+    // The thing that's returned from `engine->renderResults` is a
+    // `PhabricatorApplicationSearchResultView`, which //isn't// a View and
+    // cannot be rendered directly.
+    // In //this case//, I know the result is in in `getContent()`.
+    $list = $results->getContent();
+
+    return id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Recent Revisions'))
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->appendChild($list);
-
-    return $view;
   }
+
 }

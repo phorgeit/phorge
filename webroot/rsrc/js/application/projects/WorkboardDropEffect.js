@@ -1,7 +1,11 @@
 /**
- * @provides javelin-workboard-drop-effect
  * @requires javelin-install
  *           javelin-dom
+ *           phuix-icon-view
+ * @provides javelin-workboard-drop-effect
+ *
+ * @javelin-installs JX.WorkboardDropEffect
+ *
  * @javelin
  */
 

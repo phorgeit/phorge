@@ -81,9 +81,7 @@ EOHELP
           id(new DifferentialRevision())->getCustomFieldBaseClass())
         ->setDescription(
           pht(
-            "Select and reorder revision fields.\n\n".
-            "NOTE: This feature is under active development and subject ".
-            "to change.")),
+            'Select and reorder revision fields.')),
       $this->newOption('differential.require-test-plan-field', 'bool', true)
         ->setBoolOptions(
           array(

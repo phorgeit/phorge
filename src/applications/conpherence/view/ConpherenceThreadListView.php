@@ -163,11 +163,6 @@ final class ConpherenceThreadListView extends AphrontView {
         $search_icon,
       ));
 
-    $new_icon = id(new PHUIIconView())
-      ->setIcon('fa-plus-square')
-      ->setHref('/conpherence/new/')
-      ->setWorkflow(true);
-
     $custom = phutil_tag_div('grouped', array($rooms, $icons));
 
     $item = id(new PHUIListItemView())

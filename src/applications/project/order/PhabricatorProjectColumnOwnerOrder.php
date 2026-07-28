@@ -148,7 +148,7 @@ final class PhabricatorProjectColumnOwnerOrder
       $owner_icon = 'fa-user';
       $owner_color = 'bluegrey';
 
-      $icon_view = id(new PHUIIconView());
+      $icon_view = new PHUIIconView();
 
       if ($owner_image) {
         $icon_view->setImage($owner_image);

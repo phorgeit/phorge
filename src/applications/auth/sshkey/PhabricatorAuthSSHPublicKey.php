@@ -14,7 +14,7 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
   }
 
   public static function newFromStoredKey(PhabricatorAuthSSHKey $key) {
-    $public_key = new PhabricatorAuthSSHPublicKey();
+    $public_key = new self();
     $public_key->type = $key->getKeyType();
     $public_key->body = $key->getKeyBody();
     $public_key->comment = $key->getKeyComment();
@@ -77,7 +77,7 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
           $type_list));
     }
 
-    $public_key = new PhabricatorAuthSSHPublicKey();
+    $public_key = new self();
     $public_key->type = $type;
     $public_key->body = $body;
     $public_key->comment = $comment;

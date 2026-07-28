@@ -14,7 +14,7 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
   }
 
   public static function getActiveCacheSpec() {
-    $spec = new PhabricatorDataCacheSpec();
+    $spec = new self();
 
     if (extension_loaded('apcu')) {
       $spec->initAPCuSpec();

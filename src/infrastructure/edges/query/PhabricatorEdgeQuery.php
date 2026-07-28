@@ -127,7 +127,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * @return list<string> List of destination PHIDs.
    */
   public static function loadDestinationPHIDs($src_phid, $edge_type) {
-    $edges = id(new PhabricatorEdgeQuery())
+    $edges = id(new self())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(array($edge_type))
       ->execute();
@@ -146,7 +146,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * @return mixed  Edge annotation, or null.
    */
   public static function loadSingleEdgeData($src_phid, $edge_type, $dest_phid) {
-    $edges = id(new PhabricatorEdgeQuery())
+    $edges = id(new self())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(array($edge_type))
       ->withDestinationPHIDs(array($dest_phid))

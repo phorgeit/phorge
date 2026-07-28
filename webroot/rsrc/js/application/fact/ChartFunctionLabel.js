@@ -1,5 +1,8 @@
 /**
+ * @requires javelin-install
  * @provides javelin-chart-function-label
+ *
+ * @javelin-installs JX.ChartFunctionLabel
  */
 JX.install('ChartFunctionLabel', {
 

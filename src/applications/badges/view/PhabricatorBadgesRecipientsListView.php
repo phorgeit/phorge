@@ -46,6 +46,7 @@ final class PhabricatorBadgesRecipientsListView extends AphrontView {
       ->addActionLink($award_button);
 
     $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
       ->setNoDataString(pht('This badge does not have any recipients.'))
       ->setFlush(true);
 

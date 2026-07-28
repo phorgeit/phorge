@@ -20,7 +20,6 @@ final class PhabricatorFerretFulltextEngineExtension
     $object,
     PhabricatorSearchAbstractDocument $document) {
 
-    $phid = $document->getPHID();
     $engine = $object->newFerretEngine();
 
     $is_closed = 0;

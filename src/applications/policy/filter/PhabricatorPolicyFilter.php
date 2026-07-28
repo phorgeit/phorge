@@ -3,13 +3,11 @@
 final class PhabricatorPolicyFilter extends Phobject {
 
   private $viewer;
-  private $objects;
   private $capabilities;
   private $raisePolicyExceptions;
-  private $userProjects;
   private $customPolicies = array();
-  private $objectPolicies = array();
   private $forcedPolicy;
+  private $parentQuery;
 
   public static function mustRetainCapability(
     PhabricatorUser $user,
@@ -29,7 +27,8 @@ final class PhabricatorPolicyFilter extends Phobject {
     PhabricatorUser $user,
     PhabricatorPolicyInterface $object,
     $capability) {
-    $filter = id(new PhabricatorPolicyFilter())
+
+    $filter = id(new self())
       ->setViewer($user)
       ->requireCapabilities(array($capability))
       ->raisePolicyExceptions(true)
@@ -67,7 +66,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     $capability,
     $forced_policy) {
 
-    id(new PhabricatorPolicyFilter())
+    id(new self())
       ->setViewer($viewer)
       ->requireCapabilities(array($capability))
       ->raisePolicyExceptions(true)
@@ -75,12 +74,15 @@ final class PhabricatorPolicyFilter extends Phobject {
       ->apply(array($object));
   }
 
+  /**
+   * @return bool
+   */
   public static function hasCapability(
     PhabricatorUser $user,
     PhabricatorPolicyInterface $object,
     $capability) {
 
-    $filter = new PhabricatorPolicyFilter();
+    $filter = new self();
     $filter->setViewer($user);
     $filter->requireCapabilities(array($capability));
     $result = $filter->apply(array($object));
@@ -88,6 +90,9 @@ final class PhabricatorPolicyFilter extends Phobject {
     return (count($result) == 1);
   }
 
+  /**
+   * @return bool
+   */
   public static function canInteract(
     PhabricatorUser $user,
     PhabricatorPolicyInterface $object) {
@@ -115,6 +120,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
   private static function getRequiredInteractCapabilities(
     PhabricatorPolicyInterface $object) {
+
     $capabilities = $object->getCapabilities();
     $capabilities = array_fuse($capabilities);
 
@@ -133,6 +139,11 @@ final class PhabricatorPolicyFilter extends Phobject {
     }
 
     return $require;
+  }
+
+  public function setParentQuery(PhabricatorPolicyAwareQuery $query) {
+    $this->parentQuery = $query;
+    return $this;
   }
 
   public function setViewer(PhabricatorUser $user) {
@@ -182,15 +193,15 @@ final class PhabricatorPolicyFilter extends Phobject {
     $objects = $this->applyApplicationChecks($objects);
 
     $filtered = array();
-    $viewer_phid = $viewer->getPHID();
 
-    if (empty($this->userProjects[$viewer_phid])) {
-      $this->userProjects[$viewer_phid] = array();
-    }
+    $need_policies = array(
+      // we always just load the global rules.
+      PhabricatorPolicies::POLICY_PUBLIC => array(),
+      PhabricatorPolicies::POLICY_USER => array(),
+      PhabricatorPolicies::POLICY_ADMIN => array(),
+      PhabricatorPolicies::POLICY_NOONE => array(),
+    );
 
-    $need_projects = array();
-    $need_policies = array();
-    $need_objpolicies = array();
     foreach ($objects as $key => $object) {
       $object_capabilities = $object->getCapabilities();
       foreach ($capabilities as $capability) {
@@ -204,69 +215,11 @@ final class PhabricatorPolicyFilter extends Phobject {
         }
 
         $policy = $this->getObjectPolicy($object, $capability);
-
-        if (PhabricatorPolicyQuery::isObjectPolicy($policy)) {
-          $need_objpolicies[$policy][] = $object;
-          continue;
-        }
-
-        $type = phid_get_type($policy);
-        if ($type == PhabricatorProjectProjectPHIDType::TYPECONST) {
-          $need_projects[$policy] = $policy;
-          continue;
-        }
-
-        if ($type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
-          $need_policies[$policy][] = $object;
-          continue;
-        }
+        $need_policies[$policy][] = $object;
       }
     }
 
-    if ($need_objpolicies) {
-      $this->loadObjectPolicies($need_objpolicies);
-    }
-
-    if ($need_policies) {
-      $this->loadCustomPolicies($need_policies);
-    }
-
-    // If we need projects, check if any of the projects we need are also the
-    // objects we're filtering. Because of how project rules work, this is a
-    // common case.
-    if ($need_projects) {
-      foreach ($objects as $object) {
-        if ($object instanceof PhabricatorProject) {
-          $project_phid = $object->getPHID();
-          if (isset($need_projects[$project_phid])) {
-            $is_member = $object->isUserMember($viewer_phid);
-            $this->userProjects[$viewer_phid][$project_phid] = $is_member;
-            unset($need_projects[$project_phid]);
-          }
-        }
-      }
-    }
-
-    if ($need_projects) {
-      $need_projects = array_unique($need_projects);
-
-      // NOTE: We're using the omnipotent user here to avoid a recursive
-      // descent into madness. We don't actually need to know if the user can
-      // see these projects or not, since: the check is "user is member of
-      // project", not "user can see project"; and membership implies
-      // visibility anyway. Without this, we may load other projects and
-      // re-enter the policy filter and generally create a huge mess.
-
-      $projects = id(new PhabricatorProjectQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
-        ->withMemberPHIDs(array($viewer->getPHID()))
-        ->withPHIDs($need_projects)
-        ->execute();
-
-      foreach ($projects as $project) {
-        $this->userProjects[$viewer_phid][$project->getPHID()] = true;
-      }
-    }
+    $this->loadCustomPolicies($need_policies);
 
     foreach ($objects as $key => $object) {
       foreach ($capabilities as $capability) {
@@ -484,11 +437,11 @@ final class PhabricatorPolicyFilter extends Phobject {
 
     $caught = null;
     try {
-      $result = id(new PhabricatorPolicyFilter())
+      $result = id(new self())
         ->setViewer($viewer)
         ->requireCapabilities($capabilities)
         ->apply($objects);
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       $caught = $ex;
     }
 
@@ -501,6 +454,9 @@ final class PhabricatorPolicyFilter extends Phobject {
     return $result;
   }
 
+  /**
+   * @return bool
+   */
   private function checkCapability(
     PhabricatorPolicyInterface $object,
     $capability) {
@@ -545,59 +501,10 @@ final class PhabricatorPolicyFilter extends Phobject {
       return true;
     }
 
-    switch ($policy) {
-      case PhabricatorPolicies::POLICY_PUBLIC:
-        return true;
-      case PhabricatorPolicies::POLICY_USER:
-        if ($viewer->getPHID()) {
-          return true;
-        } else {
-          $this->rejectObject($object, $policy, $capability);
-        }
-        break;
-      case PhabricatorPolicies::POLICY_ADMIN:
-        if ($viewer->getIsAdmin()) {
-          return true;
-        } else {
-          $this->rejectObject($object, $policy, $capability);
-        }
-        break;
-      case PhabricatorPolicies::POLICY_NOONE:
-        $this->rejectObject($object, $policy, $capability);
-        break;
-      default:
-        if (PhabricatorPolicyQuery::isObjectPolicy($policy)) {
-          if ($this->checkObjectPolicy($policy, $object)) {
-            return true;
-          } else {
-            $this->rejectObject($object, $policy, $capability);
-            break;
-          }
-        }
-
-        $type = phid_get_type($policy);
-        if ($type == PhabricatorProjectProjectPHIDType::TYPECONST) {
-          if (!empty($this->userProjects[$viewer->getPHID()][$policy])) {
-            return true;
-          } else {
-            $this->rejectObject($object, $policy, $capability);
-          }
-        } else if ($type == PhabricatorPeopleUserPHIDType::TYPECONST) {
-          if ($viewer->getPHID() == $policy) {
-            return true;
-          } else {
-            $this->rejectObject($object, $policy, $capability);
-          }
-        } else if ($type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
-          if ($this->checkCustomPolicy($policy, $object)) {
-            return true;
-          } else {
-            $this->rejectObject($object, $policy, $capability);
-          }
-        } else {
-          // Reject objects with unknown policies.
-          $this->rejectObject($object, false, $capability);
-        }
+    if ($this->checkCustomPolicy($policy, $object)) {
+      return true;
+    } else {
+      $this->rejectObject($object, $policy, $capability);
     }
 
     return false;
@@ -607,6 +514,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     PhabricatorPolicyInterface $object,
     $policy,
     $capability) {
+
     $viewer = $this->viewer;
 
     if (!$this->raisePolicyExceptions) {
@@ -726,45 +634,18 @@ final class PhabricatorPolicyFilter extends Phobject {
     throw $exception;
   }
 
-  private function loadObjectPolicies(array $map) {
-    $viewer = $this->viewer;
-    $viewer_phid = $viewer->getPHID();
-
-    $rules = PhabricatorPolicyQuery::getObjectPolicyRules(null);
-
-    // Make sure we have clean, empty policy rule objects.
-    foreach ($rules as $key => $rule) {
-      $rules[$key] = clone $rule;
-    }
-
-    $results = array();
-    foreach ($map as $key => $object_list) {
-      $rule = idx($rules, $key);
-      if (!$rule) {
-        continue;
-      }
-
-      foreach ($object_list as $object_key => $object) {
-        if (!$rule->canApplyToObject($object)) {
-          unset($object_list[$object_key]);
-        }
-      }
-
-      $rule->willApplyRules($viewer, array(), $object_list);
-      $results[$key] = $rule;
-    }
-
-    $this->objectPolicies[$viewer_phid] = $results;
-  }
-
   private function loadCustomPolicies(array $map) {
     $viewer = $this->viewer;
-    $viewer_phid = $viewer->getPHID();
+    $viewer_phid = $viewer->getPHID() ?? 'ANONYMOUS';
 
-    $custom_policies = id(new PhabricatorPolicyQuery())
+    $policy_query = id(new PhabricatorPolicyQuery())
       ->setViewer($viewer)
-      ->withPHIDs(array_keys($map))
-      ->execute();
+      ->needPolicyDetails(false)
+      ->withPHIDs(array_keys($map));
+    if ($this->parentQuery) {
+      $policy_query->setParentQuery($this->parentQuery);
+    }
+    $custom_policies = $policy_query->execute();
     $custom_policies = mpull($custom_policies, null, 'getPHID');
 
     $classes = array();
@@ -808,33 +689,18 @@ final class PhabricatorPolicyFilter extends Phobject {
       $this->customPolicies[$viewer_phid] = array();
     }
 
-    $this->customPolicies[$viewer->getPHID()] += $custom_policies;
+    $this->customPolicies[$viewer_phid] += $custom_policies;
   }
 
-  private function checkObjectPolicy(
-    $policy_phid,
-    PhabricatorPolicyInterface $object) {
-    $viewer = $this->viewer;
-    $viewer_phid = $viewer->getPHID();
-
-    $rule = idx($this->objectPolicies[$viewer_phid], $policy_phid);
-    if (!$rule) {
-      return false;
-    }
-
-    if (!$rule->canApplyToObject($object)) {
-      return false;
-    }
-
-    return $rule->applyRule($viewer, null, $object);
-  }
-
+  /**
+   * @return bool
+   */
   private function checkCustomPolicy(
     $policy_phid,
     PhabricatorPolicyInterface $object) {
 
     $viewer = $this->viewer;
-    $viewer_phid = $viewer->getPHID();
+    $viewer_phid = $viewer->getPHID() ?? 'ANONYMOUS';
 
     $policy = idx($this->customPolicies[$viewer_phid], $policy_phid);
     if (!$policy) {

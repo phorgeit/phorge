@@ -44,7 +44,7 @@ final class PhabricatorMetaMTAApplicationEmail
   }
 
   public static function initializeNewAppEmail(PhabricatorUser $actor) {
-    return id(new PhabricatorMetaMTAApplicationEmail())
+    return id(new self())
       ->setSpacePHID($actor->getDefaultSpacePHID())
       ->setConfigData(array());
   }

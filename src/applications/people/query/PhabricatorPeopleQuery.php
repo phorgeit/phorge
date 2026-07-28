@@ -25,9 +25,7 @@ final class PhabricatorPeopleQuery
 
   private $needPrimaryEmail;
   private $needProfile;
-  private $needProfileImage;
   private $needAvailability;
-  private $needBadgeAwards;
   private $cacheKeys = array();
 
   public function withIDs(array $ids) {

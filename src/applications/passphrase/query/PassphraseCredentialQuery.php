@@ -11,6 +11,12 @@ final class PassphraseCredentialQuery
   private $credentialTypes;
   private $providesTypes;
   private $isDestroyed;
+
+  /**
+   * @var array|null
+   */
+  private $authorPHIDs;
+
   private $allowConduit;
   private $nameContains;
 
@@ -38,6 +44,17 @@ final class PassphraseCredentialQuery
 
   public function withIsDestroyed($destroyed) {
     $this->isDestroyed = $destroyed;
+    return $this;
+  }
+
+  /**
+   * Find objects created by at least one of these authors.
+   *
+   * @param array $authors Author PHIDs
+   * @return $this
+   */
+  public function withAuthors(array $authors) {
+    $this->authorPHIDs = $authors;
     return $this;
   }
 
@@ -138,6 +155,13 @@ final class PassphraseCredentialQuery
         $conn,
         'c.isDestroyed = %d',
         (int)$this->isDestroyed);
+    }
+
+    if ($this->authorPHIDs) {
+      $where[] = qsprintf(
+        $conn,
+        'c.authorPHID in (%Ls)',
+        $this->authorPHIDs);
     }
 
     if ($this->allowConduit !== null) {

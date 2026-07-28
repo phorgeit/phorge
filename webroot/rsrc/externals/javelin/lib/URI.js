@@ -1,10 +1,11 @@
 /**
- * @provides javelin-uri
  * @requires javelin-install
  *           javelin-util
  *           javelin-stratcom
+ * @provides javelin-uri
  *
  * @javelin-installs JX.$U
+ * @javelin-installs JX.URI
  *
  * @javelin
  */
@@ -13,10 +14,10 @@
  * Handy convenience function that returns a @{class:JX.URI} instance. This
  * allows you to write things like:
  *
- *   JX.$U('http://zombo.com/').getDomain();
+ *   JX.$U('https://example.com/').getDomain();
  *
  * @param string            Unparsed URI.
- * @return  @{class:JX.URI} JX.URI instance.
+ * @return JX.URI           JX.URI instance.
  */
 JX.$U = function(uri) {
   return new JX.URI(uri);
@@ -25,17 +26,17 @@ JX.$U = function(uri) {
 /**
  * Convert a string URI into a maleable object.
  *
- *   var uri = new JX.URI('http://www.example.com/asdf.php?a=b&c=d#anchor123');
+ *   var uri = new JX.URI('https://www.example.com/asdf.php?a=b&c=d#anchor12');
  *   uri.getProtocol();    // http
  *   uri.getDomain();      // www.example.com
  *   uri.getPath();        // /asdf.php
  *   uri.getQueryParams(); // {a: 'b', c: 'd'}
- *   uri.getFragment();    // anchor123
+ *   uri.getFragment();    // anchor12
  *
  * ...and back into a string:
  *
  *   uri.setFragment('clowntown');
- *   uri.toString() // http://www.example.com/asdf.php?a=b&c=d#clowntown
+ *   uri.toString() // https://www.example.com/asdf.php?a=b&c=d#clowntown
  */
 JX.install('URI', {
   statics : {
@@ -131,7 +132,7 @@ JX.install('URI', {
      * Remove a query key by setting it undefined
      *
      * @param map
-     * @return @{JX.URI} self
+     * @return JX.URI self
      */
     addQueryParams : function(map) {
       JX.copy(this.getQueryParams(), map);
@@ -144,7 +145,7 @@ JX.install('URI', {
      *
      * @param string
      * @param wild
-     * @return @{JX.URI} self
+     * @return JX.URI self
      */
     setQueryParam : function(key, value) {
       var map = {};

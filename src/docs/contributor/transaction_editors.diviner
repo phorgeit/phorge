@@ -33,7 +33,7 @@ mutation code, it's //very// large and complex.
 The best way to get a transaction editor for an object type is to instantiate or
 get an object of that type, which must implement
 @{interface:PhabricatorApplicationTransactionInterface}, and call
-@{method:PhabricatorApplicationTransactionInterface::getApplicationTransactionEditor}.
+@{method:getApplicationTransactionEditor} in that very interface class.
 
 Editors operate in one of two modes: real or live, and "preview". Of course the
 "live" mode actually applies mutations and triggers email, etc. The preview mode
@@ -65,7 +65,7 @@ clarify this relationship:
 $xactions = array();
 // ManiphestTransaction inherits from PhabricatorModularTransaction.
 $xactions[] = (new ManiphestTransaction())
-  // You set the transaction type to a constant, and then the editor intantiates
+  // Set the transaction type to a constant, and then the editor instantiates
   // the appropriate transaction type class to perform the mutation.
   ->setTransactionType(ManiphestTaskTitleTransaction::TRANSACTIONTYPE)
   // The value to set on the object. See below for a discussion of new/old
@@ -149,7 +149,7 @@ omnipotent viewer is used.
 This is not helpful for implementing new types because it attaches them to the
 transaction objects for internal purposes, not the transaction //types.//
 Transaction types can always access the actor the editor is using
-@{method:PhabricatorModularTransactionType::getActor}.
+@{method:getActor} in @{class:PhabricatorModularTransactionType}.
 
 5. **Transactions are "expanded".**
 
@@ -279,7 +279,7 @@ Someone ought to write some prose for this.
 This is kinda interesting. The editor can decide if there are herald rules
 that need running based on all the transactions applied. If there are any,
 then the editor must provide a @{class:HeraldAdapter} by some means. The
-adapter then runs it's rules and afterwards the editor can generate further
+adapter then runs its rules and afterwards the editor can generate further
 transactions for the object for things like rules that automatically assign
 tasks with titles starting with "[LOL]" to the team's intern.
 Finally, the herald editor is run to commit those transactions.
@@ -321,25 +321,24 @@ For simple object types, the majority of the logic will go into the transaction
 types. There are a few methods that are largely mandatory to implement to have
 any kind of reasonable logic.
 
-The most important is
-@{method:PhabricatorModularTransactionType::validateTransactions}. This is where
-you'll ensure that the changes are well formed. Logic like ensuring a maximum
-length for a value, or that it's a PHID should go here. This method will be
-called with //all// of the transactions of this type that will be applied to the
-object, so this is also where you could ensure that only one "Title" transaction
-is applied.
+The most important is @{method:validateTransactions} in
+@{class:PhabricatorModularTransactionType}. This is where you'll ensure that the
+changes are well formed. Logic like ensuring a maximum length for a value, or
+that it's a PHID should go here. This method will be called with //all// of the
+transactions of this type that will be applied to the object, so this is also
+where you could ensure that only one "Title" transaction is applied.
 
-Next is @{method:PhabricatorModularTransactionType::generateOldValue}. Typically
-the implementation of this will just return the value already on the object, but
-can also always return `null` if that's challenging or not meaningful to do.
+Next is @{method:generateOldValue} in
+@{class:PhabricatorModularTransactionType}. Typically the implementation of this
+will just return the value already on the object, but can also always return
+`null` if that's challenging or not meaningful to do.
 
 There are two methods you can implement to actually perform mutations. The
-first, and most common is
-@{method:PhabricatorModularTransactionType::applyInternalEffects}. This method
-should be used to mutate the actual object being edited. The second is
-@{method:PhabricatorModularTransactionType::applyExternalEffects} which is where
-you should place mutations that affect other objects such as caches or internal
-state.
+first, and most common is @{method:applyInternalEffects} in
+@{class:PhabricatorModularTransactionType}. This method should be used to mutate
+he actual object being edited. The second is @{method:applyExternalEffects} in
+@{class:PhabricatorModularTransactionType} which is where you should place
+mutations that affect other objects such as caches or internal state.
 
 NOTE: It's important that your transaction types are **stateless**! Because of
 how the types are cloned inside the base editor, it's very challenging or

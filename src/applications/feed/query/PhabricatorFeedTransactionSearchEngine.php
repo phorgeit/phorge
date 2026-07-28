@@ -21,6 +21,11 @@ final class PhabricatorFeedTransactionSearchEngine
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors')),
+      id(new PhabricatorSearchStringListField())
+        ->setLabel(pht('Object PHIDs'))
+        ->setKey('objectPHIDs')
+        ->setAliases(array('objectPhid'))
+        ->setPlaceholder(pht('Comma separated list of PHIDs or object names.')),
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Object Types'))
         ->setKey('objectTypes')
@@ -44,6 +49,10 @@ final class PhabricatorFeedTransactionSearchEngine
 
     if ($map['objectTypes']) {
       $query->withObjectTypes($map['objectTypes']);
+    }
+
+    if ($map['objectPHIDs']) {
+      $query->withObjectPHIDs($map['objectPHIDs']);
     }
 
     $created_min = $map['createdStart'];
@@ -91,25 +100,26 @@ final class PhabricatorFeedTransactionSearchEngine
   }
 
   /**
-   * @param array<PhabricatorApplicationTransaction> $objects
+   * @param array<PhabricatorApplicationTransaction> $xactions
    * @param PhabricatorSavedQuery $query
    * @param array<PhabricatorObjectHandle> $handles
    */
   protected function renderResultList(
-    array $objects,
+    array $xactions,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($objects, PhabricatorApplicationTransaction::class);
+
+    assert_instances_of($xactions, PhabricatorApplicationTransaction::class);
 
     $viewer = $this->requireViewer();
 
     $handle_phids = array();
-    foreach ($objects as $object) {
-      $author_phid = $object->getAuthorPHID();
+    foreach ($xactions as $xaction) {
+      $author_phid = $xaction->getAuthorPHID();
       if ($author_phid !== null) {
         $handle_phids[] = $author_phid;
       }
-      $object_phid = $object->getObjectPHID();
+      $object_phid = $xaction->getObjectPHID();
       if ($object_phid !== null) {
         $handle_phids[] = $object_phid;
       }
@@ -118,13 +128,13 @@ final class PhabricatorFeedTransactionSearchEngine
     $handles = $viewer->loadHandles($handle_phids);
 
     $rows = array();
-    foreach ($objects as $object) {
-      $author_phid = $object->getAuthorPHID();
-      $object_phid = $object->getObjectPHID();
+    foreach ($xactions as $xaction) {
+      $author_phid = $xaction->getAuthorPHID();
+      $object_phid = $xaction->getObjectPHID();
 
       try {
-        $title = $object->getTitle();
-      } catch (Exception $ex) {
+        $title = $xaction->getTitle();
+      } catch (Throwable $ex) {
         $title = null;
       }
 
@@ -132,7 +142,7 @@ final class PhabricatorFeedTransactionSearchEngine
         $handles[$author_phid]->renderLink(),
         $handles[$object_phid]->renderLink(),
         AphrontTableView::renderSingleDisplayLine($title),
-        phabricator_datetime($object->getDateCreated(), $viewer),
+        phabricator_datetime($xaction->getDateCreated(), $viewer),
       );
     }
 
@@ -214,7 +224,7 @@ final class PhabricatorFeedTransactionSearchEngine
         $description = $xaction
           ->setRenderingTarget(PhabricatorApplicationTransaction::TARGET_TEXT)
           ->getTitle();
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         $description = null;
       }
       $xaction->setRenderingTarget($old_target);

@@ -177,7 +177,7 @@ final class HarbormasterBuildableViewController
       $targets = $build->getBuildTargets();
 
       if ($targets) {
-        $target_list = id(new PHUIStatusListView());
+        $target_list = new PHUIStatusListView();
         foreach ($targets as $target) {
           $status = $target->getTargetStatus();
           $icon = HarbormasterBuildTarget::getBuildTargetStatusIcon($status);

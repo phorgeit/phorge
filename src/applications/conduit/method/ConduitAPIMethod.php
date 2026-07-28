@@ -26,7 +26,8 @@ abstract class ConduitAPIMethod
    * @task info
    */
   public function getMethodSummary() {
-    return $this->getMethodDescription();
+    return PhabricatorMarkupEngine::summarize(
+      $this->getMethodDescription());
   }
 
 
@@ -162,6 +163,14 @@ abstract class ConduitAPIMethod
     return idx($this->getErrorTypes(), $error_code, pht('Unknown Error'));
   }
 
+  /**
+   * Whether the Conduit method can called by an OAuth client. This may require
+   * to first grant the client access to the specific OAuth scope.
+   *
+   * @return string One of the SCOPE_* consts defined in ConduitAPIMethod (or
+   * in theory a string representing an OAuth scope if the Phorge OAuthServer
+   * implements that)
+   */
   public function getRequiredScope() {
     return self::SCOPE_NEVER;
   }
@@ -269,7 +278,7 @@ abstract class ConduitAPIMethod
 
   /**
    * Optionally, return a @{class:PhabricatorApplication} which this call is
-   * part of. The call will be disabled when the application is uninstalled.
+   * part of. The call will be disabled when the application is disabled.
    *
    * @return PhabricatorApplication|null  Related application.
    */

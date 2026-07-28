@@ -6,7 +6,6 @@ final class PHUIFeedStoryView extends AphrontView {
   private $image;
   private $imageHref;
   private $appIcon;
-  private $phid;
   private $epoch;
   private $viewed;
   private $href;
@@ -138,6 +137,10 @@ final class PHUIFeedStoryView extends AphrontView {
     return $this->href;
   }
 
+  /**
+   * @param PhabricatorUser|null $user
+   * @return PhutilSafeHTML
+   */
   public function renderNotification($user) {
     $classes = array(
       'phabricator-notification',

@@ -2,6 +2,11 @@
 
 final class CeleritySpriteGenerator extends Phobject {
 
+  /**
+   * Build the sprite sheet of token images used by the Token application
+   *
+   * @return PhutilSpriteSheet
+   */
   public function buildTokenSheet() {
     $icons = $this->getDirectoryList('tokens_1x');
     $scales = array(
@@ -34,6 +39,11 @@ final class CeleritySpriteGenerator extends Phobject {
     return $sheet;
   }
 
+  /**
+   * Build the sprite sheet of authentication provider logos
+   *
+   * @return PhutilSpriteSheet
+   */
   public function buildLoginSheet() {
     $icons = $this->getDirectoryList('login_1x');
     $scales = array(
@@ -71,6 +81,9 @@ final class CeleritySpriteGenerator extends Phobject {
     return $root.'/resources/sprite/'.$to_path;
   }
 
+  /**
+   * @return array<string> File names of the images, without file extension
+   */
   private function getDirectoryList($dir) {
     $path = $this->getPath($dir);
 
@@ -92,6 +105,9 @@ final class CeleritySpriteGenerator extends Phobject {
     return $result;
   }
 
+  /**
+   * @return PhutilSpriteSheet
+   */
   private function buildSheet(
     $name,
     $has_retina,

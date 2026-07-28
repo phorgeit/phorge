@@ -59,12 +59,14 @@ final class PhabricatorTokenGivenSearchEngine
       $tokens = mpull($tokens, null, 'getPHID');
     }
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
+
     foreach ($tokens_given as $token_given) {
       $handle = $handles[$token_given->getObjectPHID()];
       $token = idx($tokens, $token_given->getTokenPHID());
 
-      $item = id(new PHUIObjectItemView());
+      $item = new PHUIObjectItemView();
       $item->setHeader($handle->getFullName());
       $item->setHref($handle->getURI());
 

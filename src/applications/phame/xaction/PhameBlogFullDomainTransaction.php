@@ -22,7 +22,7 @@ final class PhameBlogFullDomainTransaction
 
   public function getTitle() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s set this blog\'s full domain to %s.',
         $this->renderAuthor(),
@@ -38,7 +38,7 @@ final class PhameBlogFullDomainTransaction
 
   public function getTitleForFeed() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s set %s blog\'s full domain to %s.',
         $this->renderAuthor(),

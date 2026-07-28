@@ -43,7 +43,7 @@ final class HarbormasterBuildLog
   public static function initializeNewBuildLog(
     HarbormasterBuildTarget $build_target) {
 
-    return id(new HarbormasterBuildLog())
+    return id(new self())
       ->setBuildTargetPHID($build_target->getPHID())
       ->setDuration(null)
       ->setLive(1)

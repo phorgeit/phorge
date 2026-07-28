@@ -4,6 +4,9 @@
  *           javelin-dom
  *           javelin-util
  * @provides multirow-row-manager
+ *
+ * @javelin-installs JX.MultirowRowManager
+ *
  * @javelin
  */
 

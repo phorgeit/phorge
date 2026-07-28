@@ -17,7 +17,8 @@ final class DrydockLeaseListView extends AphrontView {
     $leases = $this->leases;
     $viewer = $this->getUser();
 
-    $view = new PHUIObjectItemListView();
+    $view = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     foreach ($leases as $lease) {
       $item = id(new PHUIObjectItemView())

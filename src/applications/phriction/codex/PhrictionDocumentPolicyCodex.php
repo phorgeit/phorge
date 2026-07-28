@@ -4,7 +4,6 @@ final class PhrictionDocumentPolicyCodex
   extends PhabricatorPolicyCodex {
 
   public function getPolicySpecialRuleDescriptions() {
-    $object = $this->getObject();
     $strongest_policy = $this->getStrongestPolicy();
 
     $rules = array();

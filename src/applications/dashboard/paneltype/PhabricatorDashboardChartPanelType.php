@@ -49,6 +49,9 @@ final class PhabricatorDashboardChartPanelType
     return $engine->newChartView();
   }
 
+  /**
+   * @return PHUIHeaderView
+   */
   public function adjustPanelHeader(
     PhabricatorUser $viewer,
     PhabricatorDashboardPanel $panel,

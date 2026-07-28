@@ -30,11 +30,15 @@ abstract class PhabricatorDashboardPanelType extends Phobject {
     return true;
   }
 
+  /**
+   * @return PHUIHeaderView
+   */
   public function adjustPanelHeader(
     PhabricatorUser $viewer,
     PhabricatorDashboardPanel $panel,
     PhabricatorDashboardPanelRenderingEngine $engine,
     PHUIHeaderView $header) {
+
     return $header;
   }
 

@@ -4,7 +4,7 @@
 
 .phui-timeline-view {
   padding: 0 16px;
-  background: linear-gradient(to right, #d5d8e1 1px, transparent 1px);
+  background: linear-gradient(to right, {$timeline} 1px, transparent 1px);
   background-position: 96px;
 }
 
@@ -57,7 +57,7 @@
 
 .device-phone .phui-timeline-minor-event,
 .device-tablet .phui-timeline-minor-event {
-  padding-left: 3px;
+  margin-left: 5px;
 }
 
 .phui-timeline-major-event .phui-timeline-content {
@@ -74,7 +74,7 @@
 }
 
 .phui-timeline-minor-event .phui-timeline-title {
-  padding: 1px 8px 4px 33px;
+  padding: 1px 8px 4px 32px;
 }
 
 .phui-timeline-title a {
@@ -269,7 +269,7 @@
 
 .phui-timeline-title .phui-timeline-extra a {
   font-weight: normal;
-  color: {$lightgreytext};
+  color: {$greytext};
 }
 
 .phui-timeline-title .phui-timeline-value,
@@ -345,9 +345,6 @@
 
 .phui-timeline-shell.anchor-target {
   background: {$lightyellow};
-  border-width: 0 1px 0 0;
-  border-style: solid;
-  border-color: {$yellow};
   padding: 4px;
   margin: -4px;
 }

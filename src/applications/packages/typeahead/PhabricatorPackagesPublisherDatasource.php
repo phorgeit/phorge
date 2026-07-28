@@ -17,9 +17,8 @@ final class PhabricatorPackagesPublisherDatasource
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
 
-    $publisher_query = id(new PhabricatorPackagesPublisherQuery());
+    $publisher_query = new PhabricatorPackagesPublisherQuery();
     $publishers = $this->executeQuery($publisher_query);
 
     $results = array();

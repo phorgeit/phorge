@@ -77,7 +77,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
 
   /**
    * @param PhabricatorProfileMenuItemConfiguration $config
-   * @param array<PhabricatorProfileMenuItemView> $list
+   * @return array<PhabricatorProfileMenuItemView>
    */
   final public function getMenuItemViewList(
     PhabricatorProfileMenuItemConfiguration $config) {

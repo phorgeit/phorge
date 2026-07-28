@@ -329,7 +329,7 @@ final class PhabricatorSMSAuthFactor
   }
 
   private function newSMSChallengeCode() {
-    $value = Filesystem::readRandomInteger(0, 99999999);
+    $value = random_int(0, 99999999);
     $value = sprintf('%08d', $value);
     return $value;
   }

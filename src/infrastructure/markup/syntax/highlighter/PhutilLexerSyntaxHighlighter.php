@@ -10,7 +10,6 @@ final class PhutilLexerSyntaxHighlighter extends PhutilSyntaxHighlighter {
   }
 
   public function getHighlightFuture($source) {
-    $strip = false;
     $state = 'start';
     $lang = idx($this->config, 'language');
 

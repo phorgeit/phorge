@@ -1,13 +1,13 @@
 /**
- * @provides javelin-behavior-project-boards
  * @requires javelin-behavior
  *           javelin-dom
- *           javelin-util
- *           javelin-vector
+ *           javelin-quicksand
+ *           javelin-sound
  *           javelin-stratcom
- *           javelin-workflow
  *           javelin-workboard-controller
  *           javelin-workboard-drop-effect
+ *           phuix-dropdown-menu
+ * @provides javelin-behavior-project-boards
  */
 
 JX.behavior('project-boards', function(config, statics) {

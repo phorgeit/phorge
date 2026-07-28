@@ -332,7 +332,6 @@ final class ManiphestTaskDetailController extends ManiphestController {
     $viewer = $this->getViewer();
 
     $id = $task->getID();
-    $phid = $task->getPHID();
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
@@ -539,7 +538,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
       ->setViewer($this->getViewer())
       ->getMentionsView();
 
-    if (!$view ) {
+    if (!$view) {
       return null;
     }
 

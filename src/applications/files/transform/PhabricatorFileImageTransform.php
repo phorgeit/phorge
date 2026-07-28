@@ -12,7 +12,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
    * Get an estimate of the transformed dimensions of a file.
    *
    * @param PhabricatorFile $file File to transform.
-   * @return list<int, int>|null Width and height, if available.
+   * @return array{0:int, 1:int}|null Width and height, if available.
    */
   public function getTransformedDimensions(PhabricatorFile $file) {
     return null;
@@ -98,13 +98,6 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     $errors = $trap->getErrorsAsString();
     $trap->destroy();
 
-    if ($ok === false) {
-      throw new Exception(
-        pht(
-          'Failed to imagecopyresampled() image: %s',
-          $errors));
-    }
-
     $data = PhabricatorImageTransformer::saveImageDataInAnyFormat(
       $dst,
       $this->file->getMimeType());
@@ -118,7 +111,10 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
 
     $out = new TempFile();
 
-    $future = new ExecFuture('convert %s %Ls %s', $tmp, $argv, $out);
+    $binary = id(new PhabricatorImagemagickSetupCheck())
+      ->getImageMagickBinaryName();
+
+    $future = new ExecFuture('%s %s %Ls %s', $binary, $tmp, $argv, $out);
     // Don't spend more than 60 seconds resizing; just fail if it takes longer
     // than that.
     $future->setTimeout(60)->resolvex();
@@ -161,7 +157,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
    *
    * @param int $w Desired image width.
    * @param int $h Desired image height.
-   * @return resource New image resource.
+   * @return GdImage|resource New GD image resource.
    */
   protected function newEmptyImage($w, $h) {
     $w = (int)$w;
@@ -187,12 +183,6 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     $ok = @imagesavealpha($img, true);
     $errors = $trap->getErrorsAsString();
     $trap->destroy();
-    if ($ok === false) {
-      throw new Exception(
-        pht(
-          'Unable to imagesavealpha() a new empty image: %s',
-          $errors));
-    }
 
     $trap = new PhutilErrorTrap();
     $color = @imagecolorallocatealpha($img, 255, 255, 255, 127);
@@ -209,12 +199,6 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     $ok = @imagefill($img, 0, 0, $color);
     $errors = $trap->getErrorsAsString();
     $trap->destroy();
-    if ($ok === false) {
-      throw new Exception(
-        pht(
-          'Unable to imagefill() a new empty image: %s',
-          $errors));
-    }
 
     return $img;
   }
@@ -223,7 +207,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Get the pixel dimensions of the image being transformed.
    *
-   * @return list<int, int> Width and height of the image.
+   * @return array{0:int, 1:int} Width and height of the image.
    */
   protected function getImageDimensions() {
     if ($this->imageX === null) {
@@ -235,7 +219,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
       $errors = $trap->getErrorsAsString();
       $trap->destroy();
 
-      if (($x === false) || ($y === false) || ($x <= 0) || ($y <= 0)) {
+      if (($x <= 0) || ($y <= 0)) {
         throw new Exception(
           pht(
             'Unable to determine image dimensions with '.
@@ -283,7 +267,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Get the GD image resource for the image being transformed.
    *
-   * @return resource GD image resource.
+   * @return GdImage|resource GD image resource.
    */
   protected function getImage() {
     if ($this->image !== null) {
@@ -372,7 +356,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
    * @return array<int> Maximum width and height
    */
   public function getMaxTransformDimensions() {
-    return array(4096, 4096);
+    return array(8160, 6144);
   }
 
   private function shouldUseImagemagick() {

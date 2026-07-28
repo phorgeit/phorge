@@ -69,9 +69,6 @@ final class ConpherenceRoomPreferencesController
     $receive = idx($sounds,
       ConpherenceRoomSettings::SOUND_RECEIVE,
       $map[ConpherenceRoomSettings::SOUND_RECEIVE]);
-    $mention = idx($sounds,
-      ConpherenceRoomSettings::SOUND_MENTION,
-      $map[ConpherenceRoomSettings::SOUND_MENTION]);
 
     $form = id(new AphrontFormView())
       ->setUser($viewer)

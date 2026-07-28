@@ -69,7 +69,8 @@ final class PhabricatorMarkupEngine extends Phobject {
     $field,
     PhabricatorUser $viewer,
     $context_object = null) {
-    return id(new PhabricatorMarkupEngine())
+
+    return id(new self())
       ->setViewer($viewer)
       ->setContextObject($context_object)
       ->addObject($object, $field)

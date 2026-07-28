@@ -134,8 +134,8 @@ final class PhabricatorMetaMTAMail
   public function addRawTos(array $raw_email) {
 
     // Strip addresses down to bare emails, since the MailAdapter API currently
-    // requires we pass it just the address (like `alincoln@logcabin.org`), not
-    // a full string like `"Abraham Lincoln" <alincoln@logcabin.org>`.
+    // requires we pass it just the address (like `alincoln@example.com`), not
+    // a full string like `"Abraham Lincoln" <alincoln@example.com>`.
     foreach ($raw_email as $key => $email) {
       $object = new PhutilEmailAddress($email);
       $raw_email[$key] = $object->getAddress();

@@ -55,11 +55,6 @@ final class PholioImageDescriptionTransaction
     return null;
   }
 
-  public function shouldHide() {
-    $old = $this->getOldValue();
-    return ($old === array(null => null));
-  }
-
   public function hasChangeDetailView() {
     return true;
   }

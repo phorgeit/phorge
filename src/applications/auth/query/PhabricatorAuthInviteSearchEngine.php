@@ -22,7 +22,7 @@ final class PhabricatorAuthInviteSearchEngine
   }
 
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorAuthInviteQuery());
+    $query = new PhabricatorAuthInviteQuery();
 
     return $query;
   }

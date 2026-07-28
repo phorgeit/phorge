@@ -76,11 +76,12 @@ final class HarbormasterArtifactSearchEngine
     array $artifacts,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($artifacts, HarbormasterBuildArtifact::class);
 
+    assert_instances_of($artifacts, HarbormasterBuildArtifact::class);
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
     foreach ($artifacts as $artifact) {
       $id = $artifact->getID();
 

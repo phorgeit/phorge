@@ -42,11 +42,13 @@ final class PassphraseCredentialRevealController
       } else if (!strlen($secret->openEnvelope())) {
         $body = pht('This credential has an empty secret.');
       } else {
+        Javelin::initBehavior('select-on-click');
         $body = id(new PHUIFormLayoutView())
           ->appendChild(
             id(new AphrontFormTextAreaControl())
               ->setLabel(pht('Plaintext'))
               ->setReadOnly(true)
+              ->setSigil('select-on-click')
               ->setCustomClass('PhabricatorMonospaced')
               ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_TALL)
               ->setValue($secret->openEnvelope()));

@@ -1,10 +1,10 @@
 /**
- * @provides javelin-behavior-conpherence-search
  * @requires javelin-behavior
  *           javelin-dom
- *           javelin-util
- *           javelin-workflow
+ *           javelin-request
  *           javelin-stratcom
+ *           javelin-uri
+ * @provides javelin-behavior-conpherence-search
  */
 
 JX.behavior('conpherence-search', function() {

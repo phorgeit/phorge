@@ -5,7 +5,6 @@ final class PHUIDocumentView extends AphrontTagView {
   private $header;
   private $bookname;
   private $bookdescription;
-  private $fluid;
   private $toc;
   private $foot;
   private $curtain;
@@ -20,11 +19,6 @@ final class PHUIDocumentView extends AphrontTagView {
   public function setBook($name, $description) {
     $this->bookname = $name;
     $this->bookdescription = $description;
-    return $this;
-  }
-
-  public function setFluid($fluid) {
-    $this->fluid = $fluid;
     return $this;
   }
 
@@ -57,12 +51,7 @@ final class PHUIDocumentView extends AphrontTagView {
   }
 
   protected function getTagAttributes() {
-    $classes = array();
-
-    $classes[] = 'phui-document-container';
-    if ($this->fluid) {
-      $classes[] = 'phui-document-fluid';
-    }
+    $classes = array('phui-document-container');
     if ($this->foot) {
       $classes[] = 'document-has-foot';
     }

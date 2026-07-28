@@ -12,13 +12,14 @@ final class DifferentialCreateCommentConduitAPIMethod
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "differential.revision.edit" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2026',
+      'differential.revision.edit');
   }
 
   protected function defineParamTypes() {
@@ -26,8 +27,8 @@ final class DifferentialCreateCommentConduitAPIMethod
       'revision_id'    => 'required revisionid',
       'message'        => 'optional string',
       'action'         => 'optional string',
-      'silent'         => 'optional bool',
-      'attach_inlines' => 'optional bool',
+      'silent'         => 'unsupported',
+      'attach_inlines' => 'unsupported',
     );
   }
 

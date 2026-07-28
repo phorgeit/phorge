@@ -164,7 +164,8 @@ abstract class PhabricatorGarbageCollector extends Phobject {
   /**
    * Load all of the available garbage collectors.
    *
-   * @return list<PhabricatorGarbageCollector> Garbage collectors.
+   * @return array<string, PhabricatorGarbageCollector> Class map of all
+   *   available garbage collectors.
    * @task collect
    */
   final public static function getAllCollectors() {

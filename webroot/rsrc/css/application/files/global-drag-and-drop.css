@@ -19,3 +19,7 @@
   border-radius: 18px;
 
 }
+
+.global-upload-instructions-hidden {
+  display: none;
+}

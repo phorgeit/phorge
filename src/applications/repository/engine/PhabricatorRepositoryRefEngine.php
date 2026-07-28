@@ -199,7 +199,7 @@ final class PhabricatorRepositoryRefEngine
     }
 
     if ($updates) {
-      $position_table = id(new PhabricatorRepositoryRefPosition());
+      $position_table = new PhabricatorRepositoryRefPosition();
       $conn = $position_table->establishConnection('w');
 
       $position_table->openTransaction();

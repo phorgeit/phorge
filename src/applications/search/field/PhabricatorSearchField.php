@@ -322,7 +322,7 @@ abstract class PhabricatorSearchField extends Phobject {
   public function appendToForm(AphrontFormView $form) {
     $control = $this->renderControl();
     if ($control !== null) {
-      $form->appendControl($this->renderControl());
+      $form->appendControl($control);
     }
     return $this;
   }

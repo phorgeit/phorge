@@ -47,6 +47,14 @@ final class PhabricatorSubscriptionsEditController
         $handle->getURI());
     }
 
+    if ($object instanceof PhorgeRestrictableInteractionInterface &&
+        $object->disallowInteractions()) {
+      return $this->buildErrorResponse(
+        pht('Temporary Object'),
+        pht('This object is temporary and cannot be subscribed to.'),
+        $handle->getURI());
+    }
+
     if ($object instanceof PhabricatorApplicationTransactionInterface) {
       if ($is_add) {
         $xaction_value = array(

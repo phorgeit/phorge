@@ -3,6 +3,9 @@
  *           javelin-dom
  *           javelin-fx
  * @provides phabricator-busy
+ *
+ * @javelin-installs JX.Busy
+ *
  * @javelin
  */
 

@@ -99,6 +99,13 @@ abstract class PhabricatorPolicyRule extends Phobject {
     return true;
   }
 
+  /**
+   * Some rules ("Global") shouldn't be manually selected in the editor - return
+   * `true` to hide them from the relevant UIs.
+   */
+  public function shouldHideFromUI() {
+    return false;
+  }
 
 /* -(  Transaction Hints  )-------------------------------------------------- */
 

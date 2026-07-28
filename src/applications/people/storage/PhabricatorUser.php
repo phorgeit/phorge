@@ -25,8 +25,6 @@ final class PhabricatorUser
 
   const SESSION_TABLE = 'phabricator_session';
   const NAMETOKEN_TABLE = 'user_nametoken';
-  const MAXIMUM_USERNAME_LENGTH = 64;
-  const MAXIMUM_REALNAME_LENGTH = 256;
 
   protected $userName;
   protected $realName;
@@ -529,10 +527,12 @@ final class PhabricatorUser
   }
 
   public static function describeValidUsername($bad_username) {
-    if (strlen($bad_username) > self::MAXIMUM_USERNAME_LENGTH) {
+    $maximum_username_length = id(new self())
+      ->getColumnMaximumByteLength('userName');
+    if (strlen($bad_username) > $maximum_username_length) {
       return pht(
         'Usernames must have no more than %s characters.',
-         new PhutilNumber(self::MAXIMUM_USERNAME_LENGTH));
+         new PhutilNumber($maximum_username_length));
     }
     if (strpos($bad_username, ' ') !== false) {
       return pht('Usernames cannot contain spaces. Please replace them '.
@@ -555,7 +555,9 @@ final class PhabricatorUser
     //  - Unit tests, obviously.
     //  - describeValidUsername() method, above.
 
-    if (strlen($username) > self::MAXIMUM_USERNAME_LENGTH) {
+    $maximum_username_length = id(new self())
+      ->getColumnMaximumByteLength('userName');
+    if (strlen($username) > $maximum_username_length) {
       return false;
     }
 
@@ -563,13 +565,17 @@ final class PhabricatorUser
   }
 
   public static function describeValidRealName() {
+    $maximum_realname_length = id(new self())
+      ->getColumnMaximumByteLength('realName');
     return pht(
-      'Real Name must have no more than %d characters.',
-      new PhutilNumber(self::MAXIMUM_REALNAME_LENGTH));
+      'Real Name must have no more than %s characters.',
+      new PhutilNumber($maximum_realname_length));
   }
 
   public static function validateRealName($realname) {
-    return strlen($realname) <= self::MAXIMUM_REALNAME_LENGTH;
+    $maximum_realname_length = id(new self())
+      ->getColumnMaximumByteLength('realName');
+    return strlen($realname) <= $maximum_realname_length;
   }
 
   public static function getDefaultProfileImageURI() {
@@ -692,7 +698,7 @@ final class PhabricatorUser
     if (!$email) {
       return null;
     }
-    return id(new PhabricatorUser())->loadOneWhere(
+    return id(new self())->loadOneWhere(
       'phid = %s',
       $email->getUserPHID());
   }
@@ -922,7 +928,7 @@ final class PhabricatorUser
   public static function getOmnipotentUser() {
     static $user = null;
     if (!$user) {
-      $user = new PhabricatorUser();
+      $user = new self();
       $user->omnipotent = true;
       $user->makeEphemeral();
     }
@@ -1013,6 +1019,9 @@ final class PhabricatorUser
 /* -(  CSRF  )--------------------------------------------------------------- */
 
 
+  /**
+   * @return string|null
+   */
   public function getCSRFToken() {
     if ($this->isOmnipotent()) {
       // We may end up here when called from the daemons. The omnipotent user
@@ -1038,6 +1047,9 @@ final class PhabricatorUser
     return $this;
   }
 
+  /**
+   * @return PhabricatorAuthCSRFEngine
+   */
   private function newCSRFEngine() {
     if ($this->getPHID()) {
       $vec = $this->getPHID().$this->getAccountSecret();
@@ -1084,12 +1096,16 @@ final class PhabricatorUser
           return PhabricatorPolicies::POLICY_NOONE;
         }
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
     return $this->getPHID() && ($viewer->getPHID() === $this->getPHID());
   }
 
+  /**
+   * @return string|null
+   */
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
       case PhabricatorPolicyCapability::CAN_EDIT:
@@ -1191,6 +1207,9 @@ final class PhabricatorUser
 /* -(  PhabricatorSSHPublicKeyInterface  )----------------------------------- */
 
 
+  /**
+   * @return string
+   */
   public function getSSHPublicKeyManagementURI(PhabricatorUser $viewer) {
     if ($viewer->getPHID() == $this->getPHID()) {
       // If the viewer is managing their own keys, take them to the normal
@@ -1420,6 +1439,9 @@ final class PhabricatorUser
 /* -(  PhabricatorAuthPasswordHashInterface  )------------------------------- */
 
 
+  /**
+   * @return PhutilOpaqueEnvelope
+   */
   public function newPasswordDigest(
     PhutilOpaqueEnvelope $envelope,
     PhabricatorAuthPassword $password) {
@@ -1505,6 +1527,9 @@ final class PhabricatorUser
     return new PhutilOpaqueEnvelope($digest);
   }
 
+  /**
+   * @return array<string>
+   */
   public function newPasswordBlocklist(
     PhabricatorUser $viewer,
     PhabricatorAuthPasswordEngine $engine) {

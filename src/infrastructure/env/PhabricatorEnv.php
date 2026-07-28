@@ -68,11 +68,30 @@ final class PhabricatorEnv extends Phobject {
    * @phutil-external-symbol class PhabricatorStartup
    */
   public static function initializeWebEnvironment() {
-    self::initializeCommonEnvironment(false);
+    self::initializeCommonEnvironment(false, false);
+
+    // Set up en_US locale for now so that, for instance, if you haven't
+    // set up your database at all it says "Run this command" rather than
+    // "Run these 1 command(s)"
+    // If there aren't any setup problems, then this will get overwritten with
+    // the logged-in user's locale or the locale specified in global default
+    // settings by PhabricatorAuthSessionEngine::willServeRequestForUser
+    // which is called from PhabricatorController:willBeginExecution
+    self::setLocaleCode('en_US');
+
   }
 
-  public static function initializeScriptEnvironment($config_optional) {
-    self::initializeCommonEnvironment($config_optional);
+  public static function initializeScriptEnvironment(
+    $config_optional,
+    $no_extensions) {
+    self::initializeCommonEnvironment($config_optional, $no_extensions);
+
+    // Set the default locale for command-line scripts
+    self::setLocaleCode(self::getEnvConfig('locale.command'));
+
+    // If a script has a --locale argument then go through our system for
+    // setting locales
+    PhutilArgumentParser::setLocaleCallback(array(__CLASS__, 'setLocaleCode'));
 
     // NOTE: This is dangerous in general, but we know we're in a script context
     // and are not vulnerable to CSRF.
@@ -88,11 +107,13 @@ final class PhabricatorEnv extends Phobject {
   }
 
 
-  private static function initializeCommonEnvironment($config_optional) {
+  private static function initializeCommonEnvironment(
+    $config_optional,
+    $no_extensions) {
     PhutilErrorHandler::initialize();
 
     self::resetUmask();
-    self::buildConfigurationSourceStack($config_optional);
+    self::buildConfigurationSourceStack($config_optional, $no_extensions);
 
     // Force a valid timezone. If both PHP and Phabricator configuration are
     // invalid, use UTC.
@@ -131,10 +152,6 @@ final class PhabricatorEnv extends Phobject {
     }
 
     PhabricatorEventEngine::initialize();
-
-    // TODO: Add a "locale.default" config option once we have some reasonable
-    // defaults which aren't silly nonsense.
-    self::setLocaleCode('en_US');
 
     // Load the preamble utility library if we haven't already. On web
     // requests this loaded earlier, but we want to load it for non-web
@@ -179,7 +196,8 @@ final class PhabricatorEnv extends Phobject {
     }
   }
 
-  private static function buildConfigurationSourceStack($config_optional) {
+  private static function buildConfigurationSourceStack(
+    $config_optional, $no_extensions) {
     self::dropConfigCache();
 
     $stack = new PhabricatorConfigStackSource();
@@ -203,8 +221,10 @@ final class PhabricatorEnv extends Phobject {
     // If the install overrides the database adapter, we might need to load
     // the database adapter class before we can push on the database config.
     // This config is locked and can't be edited from the web UI anyway.
-    foreach (self::getEnvConfig('load-libraries') as $library) {
-      phutil_load_library($library);
+    if (!$no_extensions) {
+      foreach (self::getEnvConfig('load-libraries') as $library) {
+        phutil_load_library($library);
+      }
     }
 
     // Drop any class map caches, since they will have generated without

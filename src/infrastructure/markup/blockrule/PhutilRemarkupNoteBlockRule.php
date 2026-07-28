@@ -124,4 +124,43 @@ final class PhutilRemarkupNoteBlockRule extends PhutilRemarkupBlockRule {
 
     return $regex;
   }
+
+  public function getRemarkupDocumentationObject() {
+    $content = <<<EOT
+
+You can use the `NOTE:`, `WARNING:` or `IMPORTANT:` elements to call attention
+to an important idea.
+
+For example, write this:
+
+```
+NOTE: Best practices in proton pack operation include not crossing the streams.
+```
+
+...to produce this:
+
+NOTE: Best practices in proton pack operation include not crossing the streams.
+
+Using `WARNING:` or `IMPORTANT:` at the beginning of the line changes the
+color of the callout:
+
+WARNING: Crossing the streams can result in total protonic reversal!
+
+IMPORTANT: Don't cross the streams!
+
+In addition, you can use `(NOTE)`, `(WARNING)`, or `(IMPORTANT)` to get the
+same effect but without `(NOTE)`, `(WARNING)`, or `(IMPORTANT)` appearing in
+the rendered result. For example, this callout uses `(NOTE)`:
+
+(NOTE) Dr. Egon Spengler is the best resource for additional proton pack
+  questions.
+
+EOT;
+
+    return id(new PhorgeRemarkupSimpleDocumentation())
+      ->setTitle(pht('Notes and Warnings'))
+      ->setRuleInstance($this)
+      ->setContent($content);
+  }
+
 }

@@ -19,8 +19,6 @@ final class PhabricatorUserUsernameTransaction
 
   public function applyExternalEffects($object, $value) {
     $actor = $this->getActor();
-    $user = $object;
-
     $old_username = $this->getOldValue();
     $new_username = $this->getNewValue();
 

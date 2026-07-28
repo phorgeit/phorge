@@ -211,11 +211,14 @@ final class PhabricatorMemeEngine extends Phobject {
       return null;
     }
 
+    $binary = id(new PhabricatorImagemagickSetupCheck())
+      ->getImageMagickBinaryName();
+
     // Test of the GIF is an animated GIF. If it's a flat GIF, we'll fall
     // back to GD.
     $input = new TempFile();
     Filesystem::writeFile($input, $template_data);
-    list($err, $out) = exec_manual('convert %s info:', $input);
+    list($err, $out) = exec_manual('%s %s info:', $binary, $input);
     if ($err) {
       return null;
     }
@@ -231,7 +234,8 @@ final class PhabricatorMemeEngine extends Phobject {
     $output = new TempFile();
 
     $future = new ExecFuture(
-      'convert %s -coalesce +adjoin %s_%s',
+      '%s %s -coalesce +adjoin %s_%s',
+      $binary,
       $input,
       $input,
       '%09d');
@@ -250,7 +254,8 @@ final class PhabricatorMemeEngine extends Phobject {
     }
 
     $future = new ExecFuture(
-      'convert -dispose background -loop 0 %Ls %s',
+      '%s -dispose background -loop 0 %Ls %s',
+      $binary,
       $output_files,
       $output);
     $future->setTimeout(10)->resolvex();
@@ -270,7 +275,6 @@ final class PhabricatorMemeEngine extends Phobject {
 
     $metrics = $this->getMetrics($dx, $dy);
     $font = $this->getFont();
-    $size = $metrics['size'];
 
     $above = $this->getAboveText();
     if ($above !== null && phutil_nonempty_string(trim($above))) {
@@ -332,27 +336,29 @@ final class PhabricatorMemeEngine extends Phobject {
         $all_fit = true;
         $text_metrics = array();
         foreach ($texts as $key => $text) {
-          $box = imagettfbbox($cursor, 0, $font, $text);
-          $height = abs($box[3] - $box[5]);
-          $width = abs($box[0] - $box[2]);
+          if (phutil_nonempty_string($text)) {
+            $box = imagettfbbox($cursor, 0, $font, $text);
+            $height = abs($box[3] - $box[5]);
+            $width = abs($box[0] - $box[2]);
 
-          // This is the number of pixels below the baseline that the
-          // text extends, for example if it has a "y".
-          $descend = $box[3];
+            // This is the number of pixels below the baseline that the
+            // text extends, for example if it has a "y".
+            $descend = $box[3];
 
-          if (($height + $margin_y) > $dim_y) {
-            $all_fit = false;
-            break;
+            if (($height + $margin_y) > $dim_y) {
+              $all_fit = false;
+              break;
+            }
+
+            if (($width + $margin_x) > $dim_x) {
+              $all_fit = false;
+              break;
+            }
+
+            $text_metrics[$key]['width'] = $width;
+            $text_metrics[$key]['height'] = $height;
+            $text_metrics[$key]['descend'] = $descend;
           }
-
-          if (($width + $margin_x) > $dim_x) {
-            $all_fit = false;
-            break;
-          }
-
-          $text_metrics[$key]['width'] = $width;
-          $text_metrics[$key]['height'] = $height;
-          $text_metrics[$key]['descend'] = $descend;
         }
 
         if ($all_fit || $best === null) {

@@ -1,5 +1,4 @@
 /**
- * @provides javelin-behavior-pholio-mock-view
  * @requires javelin-behavior
  *           javelin-util
  *           javelin-stratcom
@@ -11,7 +10,9 @@
  *           javelin-workflow
  *           javelin-mask
  *           javelin-behavior-device
+ *           javelin-quicksand
  *           phabricator-keyboard-shortcut
+ * @provides javelin-behavior-pholio-mock-view
  */
 JX.behavior('pholio-mock-view', function(config, statics) {
   var is_dragging = false;

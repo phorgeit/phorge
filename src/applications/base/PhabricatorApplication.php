@@ -156,7 +156,7 @@ abstract class PhabricatorApplication
    */
   final public function isFirstParty() {
     $where = id(new ReflectionClass($this))->getFileName();
-    $root = phutil_get_library_root('phabricator');
+    $root = phutil_get_library_root('phorge');
 
     if (!Filesystem::isDescendant($where, $root)) {
       return false;
@@ -293,6 +293,11 @@ abstract class PhabricatorApplication
 /* -(  Email Integration  )-------------------------------------------------- */
 
 
+  /**
+   * Whether the application supports inbound email
+   *
+   * @return bool
+   */
   public function supportsEmailIntegration() {
     return false;
   }
@@ -366,6 +371,9 @@ abstract class PhabricatorApplication
     return $selected;
   }
 
+  /**
+   * @return array<PhabricatorApplication>
+   */
   final public static function getAllApplications() {
     static $applications;
 
@@ -390,6 +398,9 @@ abstract class PhabricatorApplication
     return $applications;
   }
 
+  /**
+   * @return array<PhabricatorApplication>
+   */
   final public static function getAllInstalledApplications() {
     $all_applications = self::getAllApplications();
     $apps = array();
@@ -404,15 +415,14 @@ abstract class PhabricatorApplication
     return $apps;
   }
 
-
   /**
-   * Determine if an application is installed, by application class name.
+   * Determine if an application is enabled, by application class name.
    *
-   * To check if an application is installed //and// available to a particular
+   * To check if an application is enabled //and// available to a particular
    * viewer, user @{method:isClassInstalledForViewer}.
    *
    * @param class-string<PhabricatorApplication> $class Application class name.
-   * @return bool   True if the class is installed.
+   * @return bool   True if the application is enabled.
    * @task meta
    */
   final public static function isClassInstalled($class) {
@@ -421,15 +431,15 @@ abstract class PhabricatorApplication
 
 
   /**
-   * Determine if an application is installed and available to a viewer, by
+   * Determine if an application is enabled and available to a viewer, by
    * application class name.
    *
-   * To check if an application is installed at all, use
+   * To check if an application is enabled at all, use
    * @{method:isClassInstalled}.
    *
    * @param class-string<PhabricatorApplication> $class Application class name.
    * @param PhabricatorUser $viewer Viewing user.
-   * @return bool True if the class is installed for the viewer.
+   * @return bool True if the application is enabled for the viewer.
    * @task meta
    */
   final public static function isClassInstalledForViewer(
@@ -451,7 +461,7 @@ abstract class PhabricatorApplication
       } else {
         $application = self::getByClass($class);
         if (!$application->canUninstall()) {
-          // If the application can not be uninstalled, always allow viewers
+          // If the application can not be disabled, always allow viewers
           // to see it. In particular, this allows logged-out viewers to see
           // Settings and load global default settings even if the install
           // does not allow public viewers.
@@ -468,28 +478,6 @@ abstract class PhabricatorApplication
     }
 
     return $result;
-  }
-
-  /**
-   * Determine if an application is installed at all, and if a viewer is given
-   * if the application is available to a viewer, by application class name.
-   *
-   * To check if an application is installed at all, use
-   * @{method:isClassInstalled}.
-   *
-   * @param class-string<PhabricatorApplication> $class Application class name.
-   * @param PhabricatorUser|null $viewer Viewing user.
-   * @return bool True if the class is installed or if the installed class is
-   * available to the viewer when a viewer is given.
-   * @task meta
-   */
-  final public static function isClassInstalledForViewerIfAny(
-    $class,
-    ?PhabricatorUser $viewer) {
-
-    return $viewer
-      ? self::isClassInstalledForViewer($class, $viewer)
-      : self::isClassInstalled($class);
   }
 
 /* -(  PhabricatorPolicyInterface  )----------------------------------------- */

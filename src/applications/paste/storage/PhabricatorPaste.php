@@ -41,7 +41,7 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
     $view_policy = $app->getPolicy(PasteDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(PasteDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorPaste())
+    return id(new self())
       ->setTitle('')
       ->setStatus(self::STATUS_ACTIVE)
       ->setAuthorPHID($actor->getPHID())

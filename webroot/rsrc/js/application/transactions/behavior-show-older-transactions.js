@@ -1,15 +1,32 @@
 /**
- * @provides javelin-behavior-phabricator-show-older-transactions
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
- *           phabricator-busy
+ *           javelin-json
+ *           javelin-router
+ *           javelin-util
+ *           javelin-workflow
+ *           phabricator-keyboard-shortcut
+ * @provides javelin-behavior-phabricator-show-older-transactions
  */
 
 JX.behavior('phabricator-show-older-transactions', function(config) {
 
   function get_hash() {
     return window.location.hash.replace(/^#/, '');
+  }
+
+/**
+ * @param {string|number}
+ * @return bool
+ */
+  function anchor_exists(id) {
+    try {
+      JX.$(id);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   function hash_is_hidden() {
@@ -23,14 +40,8 @@ JX.behavior('phabricator-show-older-transactions', function(config) {
     if (!hash.match(/^\d+$/)) {
       return false;
     }
-
-    var id = 'anchor-'+hash;
-    try {
-      JX.$(id);
-    } catch (not_found_exception) {
-      return true;
-    }
-    return false;
+    // Some Conpherence anchors have a prefix string; see T16456
+    return !(anchor_exists(hash) || anchor_exists('anchor-'+hash));
   }
 
   function check_hash() {

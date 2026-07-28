@@ -17,6 +17,7 @@
  * @task herald       Integration with Herald
  */
 abstract class PhabricatorCustomField extends Phobject {
+  use PhorgeCustomFieldMetaTrait;
 
   private $viewer;
   private $object;
@@ -729,7 +730,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Build and populate storage for a string index.
    *
-   * @param string $value String to index.
+   * @param string|null $value String to index.
    * @return PhabricatorCustomFieldStringIndexStorage Populated storage.
    * @task appsearch
    */

@@ -16,7 +16,7 @@ final class DrydockCommand
   private $commandTarget = self::ATTACHABLE;
 
   public static function initializeNewCommand(PhabricatorUser $author) {
-    return id(new DrydockCommand())
+    return id(new self())
       ->setAuthorPHID($author->getPHID())
       ->setIsConsumed(0);
   }

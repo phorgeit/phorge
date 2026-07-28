@@ -61,6 +61,10 @@ details > summary.phui-header-shell::marker {
   content: none;
 }
 
+details > summary.phui-header-shell::-webkit-details-marker {
+  display: none;
+}
+
 .device-phone details > summary.phui-header-shell::after,
 .device-tablet details > summary.phui-header-shell::after {
   font-family: FontAwesome;
@@ -185,6 +189,9 @@ details > summary.phui-header-shell::marker {
   font-weight: normal;
   font-size: {$biggerfontsize};
   margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .phui-header-subheader .phui-icon-view {
@@ -207,17 +214,15 @@ details > summary.phui-header-shell::marker {
 .phui-header-subheader .phui-tag-core {
   padding: 3px 9px;
   border-radius: 3px;
-  background: rgba({$alphablue}, 0.1);
   margin-right: 8px;
-  border-color: transparent;
-  line-height: 28px;
+  margin-bottom: 8px;
 }
-
 
 .phui-header-subheader .phui-tag-view,
 .phui-header-subheader .phui-tag-type-shade .phui-tag-core {
   border: none;
   font-weight: normal;
+  margin-bottom: 8px;
 }
 
 .policy-header-callout.policy-adjusted-special {

@@ -23,4 +23,8 @@ final class PhabricatorProjectSortTransaction
     return true;
   }
 
+  public function shouldHideForMail() {
+    return true;
+  }
+
 }

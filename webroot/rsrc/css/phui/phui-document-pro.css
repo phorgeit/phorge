@@ -218,8 +218,7 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   }
 
 .device-phone .phui-document-view-pro .phui-header-subheader {
-  display: block;
-  padding: 8px 0 0 0;
+  display: flex;
 }
 
 .phui-document-view-pro .phui-info-view {
@@ -245,6 +244,15 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
 
   .phui-document-view-pro .phabricator-remarkup-embed-image-wide img {
     max-width: inherit;
+  }
+
+  .phui-document-view-pro .phui-document-toc {
+    position: sticky;
+  }
+
+  .phui-document-view-pro .phui-document-toc-list {
+    left: 20px;
+    top: 34px;
   }
 }
 
@@ -306,6 +314,11 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
 }
 
 @media (min-width: 1792px) {
+  .device-desktop .phui-document-content-outer {
+    display: table;
+    width: calc(100% - 300px);
+  }
+
   div.phui-document-view.phui-document-view-pro.has-curtain {
     max-width: 1332px;
     left: 50px;
@@ -354,6 +367,10 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
     margin-left: 175px;
   }
 
+  .printable div.has-curtain div.phui-list-sidenav.phui-document-toc-list {
+    display: none;
+  }
+
   .device-desktop .has-curtain div.phui-document-content-view {
     display: block;
   }
@@ -382,5 +399,9 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   div.phui-document-view-pro div.phui-document-toc-content
   span.visual-only.phui-icon-view.phui-font-fa {
     text-indent: 0px;
+  }
+
+  div.phui-document-view-pro .phui-info-view {
+    margin-left: 300px;
   }
 }

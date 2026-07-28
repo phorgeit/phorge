@@ -226,7 +226,8 @@ final class PhrictionDiffController extends PhrictionController {
     $phids = mpull($content, 'getAuthorPHID');
     $handles = $this->loadViewerHandles($phids);
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $first = true;
     foreach ($content as $c) {

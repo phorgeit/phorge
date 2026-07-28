@@ -265,7 +265,8 @@ abstract class DifferentialChangesetRenderer extends Phobject {
   }
 
   /**
-   * @param array<PhabricatorInlineComment> $new_comments
+   * @param array<int,array<PhabricatorInlineComment>> $new_comments Mapping of
+   *   line number to an array of new comments
    */
   public function setNewComments(array $new_comments) {
     foreach ($new_comments as $line_number => $comments) {
@@ -280,7 +281,8 @@ abstract class DifferentialChangesetRenderer extends Phobject {
   }
 
   /**
-   * @param array<PhabricatorInlineComment> $old_comments
+   * @param array<int,array<PhabricatorInlineComment>> $old_comments Mapping of
+   *   line number to an array of old comments
    */
   public function setOldComments(array $old_comments) {
     foreach ($old_comments as $line_number => $comments) {
@@ -454,7 +456,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
    *
    * @param   string        $message Message explaining why the diff is hidden.
    * @param   string|null   $force Force mode, see above.
-   * @return  string        Shield markup.
+   * @return  string|null   Shield markup.
    */
   abstract public function renderShield($message, $force = 'default');
 
@@ -531,7 +533,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
         }
       }
 
-      if (isset($hunk_starts[$ospec['line']])) {
+      if ($ospec['line'] !== null  && isset($hunk_starts[$ospec['line']])) {
         $primitives[] = array(
           'type' => 'no-context',
         );

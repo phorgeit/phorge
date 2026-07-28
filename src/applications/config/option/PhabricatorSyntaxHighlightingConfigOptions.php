@@ -19,6 +19,10 @@ final class PhabricatorSyntaxHighlightingConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorSystemApplication::class;
+  }
+
   public function getOptions() {
     $caches_href = PhabricatorEnv::getDoclink('Managing Caches');
 

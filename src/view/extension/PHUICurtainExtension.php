@@ -41,10 +41,16 @@ abstract class PHUICurtainExtension extends Phobject {
       ->execute();
   }
 
+  /**
+   * @return PHUICurtainPanelView
+   */
   protected function newPanel() {
     return new PHUICurtainPanelView();
   }
 
+  /**
+   * @return array<PHUICurtainPanelView>
+   */
   final public static function buildExtensionPanels(
     PhabricatorUser $viewer,
     $object) {

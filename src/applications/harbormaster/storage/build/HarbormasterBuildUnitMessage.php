@@ -20,7 +20,8 @@ final class HarbormasterBuildUnitMessage
 
   public static function initializeNewUnitMessage(
     HarbormasterBuildTarget $build_target) {
-    return id(new HarbormasterBuildUnitMessage())
+
+    return id(new self())
       ->setBuildTargetPHID($build_target->getPHID());
   }
 
@@ -376,6 +377,7 @@ final class HarbormasterBuildUnitMessage
       case PhabricatorPolicyCapability::CAN_VIEW:
         return PhabricatorPolicies::getMostOpenPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

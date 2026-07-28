@@ -178,10 +178,6 @@ final class PhabricatorAuditEditor
     }
     $object->attachAudits($commit->getAudits());
 
-    $actor_phid = $this->getActingAsPHID();
-    $actor_is_author = ($object->getAuthorPHID()) &&
-      ($actor_phid == $object->getAuthorPHID());
-
     $import_status_flag = null;
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
@@ -712,7 +708,7 @@ final class PhabricatorAuditEditor
       PhabricatorAuditTransaction::MAILTAG_ADD_CCS =>
         pht("A commit's subscribers change."),
       PhabricatorAuditTransaction::MAILTAG_PROJECTS =>
-        pht("A commit's projects change."),
+        pht("A commit's associated projects change."),
       PhabricatorAuditTransaction::MAILTAG_COMMENT =>
         pht('Someone comments on a commit.'),
       PhabricatorAuditTransaction::MAILTAG_OTHER =>

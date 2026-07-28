@@ -174,7 +174,7 @@ Mailgun Setup
 =============
 
 To use Mailgun, you need a Mailgun account. You can sign up at
-<http://www.mailgun.com>. Provided you have such an account, configure it
+<https://www.mailgun.com>. Provided you have such an account, configure it
 like this:
 
   - Configure a mail domain according to Mailgun's instructions.

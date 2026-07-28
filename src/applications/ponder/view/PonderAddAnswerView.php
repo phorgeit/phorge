@@ -4,7 +4,6 @@ final class PonderAddAnswerView extends AphrontView {
 
   private $question;
   private $actionURI;
-  private $draft;
 
   public function setQuestion($question) {
     $this->question = $question;
@@ -42,7 +41,6 @@ final class PonderAddAnswerView extends AphrontView {
              but you can still leave a new answer.'));
     }
 
-    $box_style = null;
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('New Answer'))
       ->addClass('ponder-add-answer-header');

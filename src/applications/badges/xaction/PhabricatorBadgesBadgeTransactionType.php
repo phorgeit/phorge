@@ -1,4 +1,10 @@
 <?php
 
 abstract class PhabricatorBadgesBadgeTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhabricatorModularTransactionType {
+
+  protected function renderObjectType() {
+    return pht('badge');
+  }
+
+}

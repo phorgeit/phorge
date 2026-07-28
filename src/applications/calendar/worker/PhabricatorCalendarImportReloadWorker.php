@@ -32,7 +32,7 @@ final class PhabricatorCalendarImportReloadWorker extends PhabricatorWorker {
   }
 
   /**
-   * @return PhabricatorCalendarImportQuery
+   * @return PhabricatorCalendarImport
    */
   private function loadImport() {
     $viewer = PhabricatorUser::getOmnipotentUser();

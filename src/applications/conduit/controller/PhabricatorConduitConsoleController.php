@@ -139,7 +139,7 @@ final class PhabricatorConduitConsoleController
 
     $viewer = $this->getViewer();
 
-    $description_properties = id(new PHUIPropertyListView());
+    $description_properties = new PHUIPropertyListView();
 
     $description_properties->addTextContent(
       new PHUIRemarkupView($viewer, $method->getMethodDescription()));
@@ -162,6 +162,7 @@ final class PhabricatorConduitConsoleController
   /**
    * @param ConduitAPIMethod $method
    * @param array<ConduitAPIDocumentationPage> $documentation_pages
+   * @return AphrontSideNavFilterView
    */
   private function newNavigationView(
     ConduitAPIMethod $method,
@@ -212,10 +213,13 @@ final class PhabricatorConduitConsoleController
     return $nav;
   }
 
+  /**
+   * @return PHUIPropertyListView
+   */
   private function buildMethodProperties(ConduitAPIMethod $method) {
     $viewer = $this->getViewer();
 
-    $view = id(new PHUIPropertyListView());
+    $view = new PHUIPropertyListView();
 
     $status = $method->getMethodStatus();
     $reason = $method->getMethodStatusDescription();

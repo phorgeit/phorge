@@ -99,25 +99,21 @@ function phabricator_datetimezone($epoch, $user) {
   return pht('%s (%s)', $datetime, $timezone);
 }
 
+
 /**
- * This function does not usually need to be called directly. Instead, call
- * @{function:phabricator_date}, @{function:phabricator_time}, or
- * @{function:phabricator_datetime}.
- *
+ * Applies the user's timezone preferences to convert the give
+ * epoch (number of seconds since January 1, 1970) to a DateTime object
  * @param int $epoch Unix epoch timestamp.
  * @param PhabricatorUser $user User viewing the timestamp.
- * @param string $format Date format, as per DateTime class.
- * @return string Formatted, local date/time.
+ * @return ?DateTime
  */
-function phabricator_format_local_time($epoch, $user, $format) {
+function phorge_localize_time($epoch, $user) {
   if (!$epoch) {
     // If we're missing date information for something, the DateTime class will
-    // throw an exception when we try to construct an object. Since this is a
-    // display function, just return an empty string.
-    return '';
+    // throw an exception when we try to construct an object.
+    return null;
   }
-
-  $user_zone = $user->getTimezoneIdentifier();
+    $user_zone = $user->getTimezoneIdentifier();
 
   static $zones = array();
   if (empty($zones[$user_zone])) {
@@ -140,6 +136,24 @@ function phabricator_format_local_time($epoch, $user, $format) {
   }
 
   $date->setTimezone($zone);
+  return $date;
+}
 
+/**
+ * This function does not usually need to be called directly. Instead, call
+ * @{function:phabricator_date}, @{function:phabricator_time}, or
+ * @{function:phabricator_datetime}.
+ *
+
+ * @param string $format Date format, as per DateTime class.
+ * @return string Formatted, local date/time.
+ */
+function phabricator_format_local_time($epoch, $user, $format) {
+  $date = phorge_localize_time($epoch, $user);
+  if (!$date) {
+    // If we're missing date information for something, display that as
+    // an empty string
+    return '';
+  }
   return PhutilTranslator::getInstance()->translateDate($format, $date);
 }

@@ -11,13 +11,14 @@ final class ManiphestUpdateConduitAPIMethod extends ManiphestConduitAPIMethod {
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "maniphest.edit" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '05/2026',
+      'maniphest.edit');
   }
 
   protected function defineErrorTypes() {
@@ -60,10 +61,14 @@ final class ManiphestUpdateConduitAPIMethod extends ManiphestConduitAPIMethod {
     $task = $query->executeOne();
 
     $params = $request->getAllParameters();
+
+    // Strip non-actions for the next validation.
     unset($params['id']);
     unset($params['phid']);
 
-    if (call_user_func_array('coalesce', $params) === null) {
+    // Require at least one non-null action.
+    $param_values = array_values($params);
+    if (call_user_func_array('coalesce', $param_values) === null) {
       throw new ConduitException('ERR-NO-EFFECT');
     }
 

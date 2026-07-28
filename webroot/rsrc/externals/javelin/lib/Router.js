@@ -1,7 +1,10 @@
 /**
- * @provides javelin-router
  * @requires javelin-install
  *           javelin-util
+ * @provides javelin-router
+ *
+ * @javelin-installs JX.Router
+ *
  * @javelin
  */
 

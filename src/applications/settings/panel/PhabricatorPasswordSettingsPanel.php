@@ -186,7 +186,7 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
         id(new AphrontFormSubmitControl())
           ->setValue(pht('Change Password')));
 
-    $properties = id(new PHUIPropertyListView());
+    $properties = new PHUIPropertyListView();
 
     $properties->addProperty(
       pht('Current Algorithm'),

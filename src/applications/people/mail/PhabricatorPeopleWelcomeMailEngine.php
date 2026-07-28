@@ -28,7 +28,7 @@ final class PhabricatorPeopleWelcomeMailEngine
 
     if ($recipient->getIsDisabled()) {
       $this->throwValidationException(
-        pht('User is Disabled'),
+        pht('User Account is Disabled'),
         pht(
           'You can not send welcome mail to this user because their account '.
           'is disabled.'));

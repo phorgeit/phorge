@@ -1,9 +1,10 @@
 /**
- * @provides javelin-behavior-remarkup-preview
  * @requires javelin-behavior
+ *           javelin-behavior-device
  *           javelin-dom
  *           javelin-util
  *           phabricator-shaped-request
+ * @provides javelin-behavior-remarkup-preview
  */
 
 JX.behavior('remarkup-preview', function(config) {

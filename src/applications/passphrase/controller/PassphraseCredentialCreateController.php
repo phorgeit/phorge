@@ -14,7 +14,7 @@ final class PassphraseCredentialCreateController extends PassphraseController {
 
     if ($request->isFormPost()) {
       $type = $request->getStr('type');
-      if (empty($types[$type])) {
+      if ($type === null || empty($types[$type])) {
         $errors[] = pht('You must choose a credential type.');
         $e_type = pht('Required');
       }

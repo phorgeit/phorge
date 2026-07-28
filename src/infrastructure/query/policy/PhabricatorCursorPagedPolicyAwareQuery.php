@@ -25,7 +25,6 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   private $rawCursorRow;
 
   private $applicationSearchConstraints = array();
-  private $internalPaging;
   private $orderVector;
   private $groupVector;
   private $builtinOrder;
@@ -132,12 +131,18 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this->newPagingMapFromPartialObject($object);
   }
 
+  /**
+   * @return array{0: string, 1: int}
+   */
   protected function newPagingMapFromPartialObject($object) {
     return array(
       'id' => (int)$object->getID(),
     );
   }
 
+  /**
+   * @return string Cursor
+   */
   private function getExternalCursorStringForResult($object) {
     $cursor = $this->newExternalCursorStringForResult($object);
 
@@ -171,6 +176,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this;
   }
 
+  /**
+   * @return PhabricatorQueryCursor
+   */
   private function getInternalCursorObject() {
     return $this->internalCursorObject;
   }
@@ -181,6 +189,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this;
   }
 
+  /**
+   * @return PhabricatorQueryCursor
+   */
   private function getInternalCursorFromExternalCursor(
     $cursor_string) {
 
@@ -390,12 +401,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     $this->setLimit($limit + 1);
 
-    $after_id = phutil_string_cast($pager->getAfterID());
-    $before_id = phutil_string_cast($pager->getBeforeID());
+    $after_id = $pager->getAfterID();
+    $before_id = $pager->getBeforeID();
 
-    if (phutil_nonempty_string($after_id)) {
+    if ($after_id) {
       $this->setExternalCursorString($after_id);
-    } else if (phutil_nonempty_string($before_id)) {
+    } else if ($before_id) {
       $this->setExternalCursorString($before_id);
       $this->setIsQueryOrderReversed(true);
     }
@@ -725,8 +736,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * This method will then return a composable clause for inclusion in WHERE.
    *
    * @param AphrontDatabaseConnection $conn Connection query will execute on.
-   * @param list<map> $columns Column description dictionaries.
-   * @param map $options Additional construction options.
+   * @param list<array> $columns Column description dictionaries.
+   * @param array $options Map of additional construction options.
    * @return string Query clause.
    * @task paging
    */
@@ -764,7 +775,6 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     $clauses = array();
     $accumulated = array();
-    $last_key = last_key($columns);
     foreach ($columns as $key => $column) {
       $type = $column['type'];
 
@@ -957,7 +967,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @phpstan-type BuiltinOrder array{name: string, vector: string[],
    *                                  aliases?: string[]}
-   * @return map<string,BuiltinOrder> Map from builtin order keys to
+   * @return array<string,BuiltinOrder> Map from builtin order keys to
    *                                    specification.
    *
    * @task order
@@ -2053,7 +2063,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
       $value = $raw_token->getValue();
 
-      $length = count(phutil_utf8v($value));
+      $length = phutil_utf8_strlen($value);
 
       if ($raw_token->getOperator() == $op_sub) {
         $is_substring = true;
@@ -2476,7 +2486,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $this->ngrams[] = array(
         'index' => $index,
         'value' => $value,
-        'length' => count(phutil_utf8v($value)),
+        'length' => phutil_utf8_strlen($value),
       );
     }
 

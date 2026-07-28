@@ -23,8 +23,6 @@ final class DiffusionPullLogListView extends AphrontView {
         $handle_phids[] = $event->getPullerPHID();
       }
     }
-    $handles = $viewer->loadHandles($handle_phids);
-
     // Only administrators can view remote addresses.
     $remotes_visible = $viewer->getIsAdmin();
 

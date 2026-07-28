@@ -39,8 +39,6 @@ final class DifferentialGetRevisionConduitAPIMethod
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $diff = null;
-
     $revision_id = $request->getValue('revision_id');
     $revision = id(new DifferentialRevisionQuery())
       ->withIDs(array($revision_id))

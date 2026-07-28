@@ -143,7 +143,6 @@ final class AlmanacDeviceViewController
 
   private function buildSSHKeysTable(AlmanacDevice $device) {
     $viewer = $this->getViewer();
-    $id = $device->getID();
     $device_phid = $device->getPHID();
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(

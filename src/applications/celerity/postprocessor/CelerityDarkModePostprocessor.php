@@ -8,7 +8,7 @@ final class CelerityDarkModePostprocessor
   }
 
   public function getPostprocessorName() {
-    return pht('Dark Mode (Experimental)');
+    return pht('Dark Mode');
   }
 
   public function buildVariables() {
@@ -27,7 +27,7 @@ final class CelerityDarkModePostprocessor
       'dropshadow' => '0 2px 12px rgba(0, 0, 0, .20)',
 
       // Anchors
-      'anchor' => '#3498db',
+      'anchor' => '#46b2ff',
 
       // Base Colors
       'red'           => '#c0392b',
@@ -233,7 +233,8 @@ final class CelerityDarkModePostprocessor
 
       'navigation-menu-selection-background' => 'rgba(255, 255, 255,.2)',
       'navigation-menu-hover-background' => 'rgba(255,255,255,.1)',
-      'workboard-column-background' => 'rgba(60,90,120,.55)',
+      'workboard-column-background-milestone' => 'rgba(60,90,120,.55)',
+      'workboard-column-disabled-card' => 'rgba(90,150,210,.1)',
       'form-inset-background' => '#1c293b',
 
       // Buttons

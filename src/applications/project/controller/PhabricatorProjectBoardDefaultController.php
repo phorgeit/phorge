@@ -48,8 +48,6 @@ final class PhabricatorProjectBoardDefaultController
         return new Aphront404Response();
     }
 
-    $id = $project->getID();
-
     if ($request->isFormPost()) {
       $xactions = array();
 

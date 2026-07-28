@@ -352,7 +352,6 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     }
 
     $root = dirname(phutil_get_library_root('phorge'));
-    $config_root = $this->getConfig('root');
 
     $bar = id(new PhutilConsoleProgressBar())
       ->setTotal(count($file_atomizers));

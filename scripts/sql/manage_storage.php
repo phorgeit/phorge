@@ -6,7 +6,7 @@ require_once $root.'/scripts/init/init-setup.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage storage and schemata'));
-$args->setSynopsis(<<<EOHELP
+$args->setSynopsis(pht(<<<EOHELP
 **storage** __workflow__ [__options__]
 Manage database storage and schema versioning.
 
@@ -16,7 +16,7 @@ Initialize or upgrade storage.
 **storage** upgrade --user __root__ --password __hunter2__
 Use administrative credentials for schema changes.
 EOHELP
-);
+));
 $args->parseStandardArguments();
 
 $default_namespace  = PhabricatorLiskDAO::getDefaultStorageNamespace();
@@ -69,14 +69,6 @@ try {
         'name'    => 'dryrun',
         'help'    => pht(
           'Do not actually change anything, just show what would be changed.'),
-      ),
-      array(
-        'name'    => 'disable-utf8mb4',
-        'help'    => pht(
-          'Disable %s, even if the database supports it. This is an '.
-          'advanced feature used for testing internal changes; you '.
-          'should not normally use this flag.',
-          'utf8mb4'),
       ),
     ));
 } catch (PhutilArgumentUsageException $ex) {
@@ -202,8 +194,7 @@ foreach ($refs as $ref) {
     ->setHost($default_host)
     ->setPort($default_port)
     ->setPassword($password)
-    ->setNamespace($args->getArg('namespace'))
-    ->setDisableUTF8MB4($args->getArg('disable-utf8mb4'));
+    ->setNamespace($args->getArg('namespace'));
   PhabricatorEnv::overrideConfig('mysql.user', $api->getUser());
 
   $ref->setUser($selected_user);

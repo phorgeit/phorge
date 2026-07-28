@@ -130,7 +130,7 @@ final class PhabricatorProjectDatasource
         ->setURI($proj->getURI())
         ->setPHID($phid)
         ->setIcon($proj->getDisplayIconIcon())
-        ->setColor($proj->getColor())
+        ->setColor($proj->getDisplayColor())
         ->setPriorityType('proj')
         ->setClosed($closed);
 

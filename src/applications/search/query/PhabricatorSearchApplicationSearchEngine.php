@@ -95,12 +95,6 @@ final class PhabricatorSearchApplicationSearchEngine
     AphrontFormView $form,
     PhabricatorSavedQuery $saved) {
 
-    $options = array();
-    $author_value = null;
-    $owner_value = null;
-    $subscribers_value = null;
-    $project_value = null;
-
     $author_phids = $saved->getParameter('authorPHIDs', array());
     $owner_phids = $this->readOwnerPHIDs($saved);
     $subscriber_phids = $saved->getParameter('subscriberPHIDs', array());
@@ -169,7 +163,7 @@ final class PhabricatorSearchApplicationSearchEngine
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('projectPHIDs')
-          ->setLabel(pht('Tags'))
+          ->setLabel(pht('Project Tags'))
           ->setDatasource(new PhabricatorProjectDatasource())
           ->setValue($project_phids));
   }
@@ -266,8 +260,9 @@ final class PhabricatorSearchApplicationSearchEngine
     $fulltext_tokens = $result_set->getFulltextTokens();
 
     $viewer = $this->requireViewer();
-    $list = new PHUIObjectItemListView();
-    $list->setNoDataString(pht('No results found.'));
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
+      ->setNoDataString(pht('No results found.'));
 
     if ($results) {
       $objects = id(new PhabricatorObjectQuery())

@@ -125,7 +125,9 @@ final class PHUIIconView extends AphrontTagView {
       if ($this->headSize) {
         $classes[] = $this->headSize;
       }
-      $style = 'background-image: url('.$this->image.');';
+      if ($this->image) {
+        $style = 'background-image: url('.$this->image.');';
+      }
     }
     if ($this->text) {
       $classes[] = 'phui-icon-has-text';

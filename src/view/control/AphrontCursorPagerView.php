@@ -29,25 +29,37 @@ final class AphrontCursorPagerView extends AphrontView {
 
   public function readFromRequest(AphrontRequest $request) {
     $this->uri = $request->getRequestURI();
-    $this->afterID = $request->getStr('after');
-    $this->beforeID = $request->getStr('before');
+    $this->afterID = $request->getInt('after');
+    $this->beforeID = $request->getInt('before');
     return $this;
   }
 
+  /**
+   * @param int $after_id
+   */
   public function setAfterID($after_id) {
     $this->afterID = $after_id;
     return $this;
   }
 
+  /**
+   * @return int|null
+   */
   public function getAfterID() {
     return $this->afterID;
   }
 
+  /**
+   * @param int $before_id
+   */
   public function setBeforeID($before_id) {
     $this->beforeID = $before_id;
     return $this;
   }
 
+  /**
+   * @return int|null
+   */
   public function getBeforeID() {
     return $this->beforeID;
   }

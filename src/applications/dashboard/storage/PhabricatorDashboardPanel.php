@@ -23,7 +23,7 @@ final class PhabricatorDashboardPanel
   protected $properties = array();
 
   public static function initializeNewPanel(PhabricatorUser $actor) {
-    return id(new PhabricatorDashboardPanel())
+    return id(new self())
       ->setName('')
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
@@ -103,7 +103,11 @@ final class PhabricatorDashboardPanel
   }
 
   public function getEditEngineFields() {
-    return $this->requireImplementation()->getEditEngineFields($this);
+    $panel_type = $this->getPanelType();
+    if ($panel_type && $this->getImplementation()) {
+      return $this->getImplementation()->getEditEngineFields($this);
+    }
+    return array();
   }
 
   public function newHeaderEditActions(
@@ -145,6 +149,7 @@ final class PhabricatorDashboardPanel
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

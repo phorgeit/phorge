@@ -6,12 +6,12 @@ require_once $root.'/scripts/init/init-setup.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage internationalization'));
-$args->setSynopsis(<<<EOSYNOPSIS
+$args->setSynopsis(pht(<<<EOSYNOPSIS
 **i18n** __command__ [__options__]
     Manage translations and internationalization.
 
 EOSYNOPSIS
-  );
+  ));
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())

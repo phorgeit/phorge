@@ -20,7 +20,8 @@ final class DiffusionPathChangeQuery extends Phobject {
 
   public static function newFromDiffusionRequest(
     DiffusionRequest $request) {
-    $query = new DiffusionPathChangeQuery();
+
+    $query = new self();
     $query->request = $request;
 
     return $query;

@@ -19,9 +19,11 @@ final class PhabricatorSystemDebugUIEventListener
     $viewer = $event->getUser();
     $object = $event->getValue('object');
 
-    if (!PhabricatorEnv::getEnvConfig('phabricator.developer-mode')) {
+    $is_dev = $viewer->getUserSetting(PhorgeDeveloperToolsSettings::SETTINGKEY);
+    if (!$is_dev) {
       return;
     }
+
 
     if (!$object || !$object->getPHID()) {
       // If we have no object, or the object doesn't have a PHID, we can't
@@ -43,6 +45,11 @@ final class PhabricatorSystemDebugUIEventListener
       ->setIcon('fa-address-card-o')
       ->setName(pht('View Hovercard'))
       ->setHref(urisprintf('/search/hovercard/?names=%s', $phid));
+
+    $submenu[] = id(new PhabricatorActionView())
+      ->setIcon('fa-list')
+      ->setName(pht('View full transaction history'))
+      ->setHref(urisprintf('/feed/transactions?objectPHIDs=%s', $phid));
 
     if ($object instanceof DifferentialRevision) {
       $submenu[] = id(new PhabricatorActionView())

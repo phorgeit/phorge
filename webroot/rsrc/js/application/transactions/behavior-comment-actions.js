@@ -1,12 +1,16 @@
 /**
- * @provides javelin-behavior-comment-actions
  * @requires javelin-behavior
- *           javelin-stratcom
- *           javelin-workflow
+ *           javelin-behavior-device
  *           javelin-dom
+ *           javelin-json
+ *           javelin-request
+ *           javelin-stratcom
+ *           javelin-util
+ *           javelin-vector
  *           phuix-form-control-view
  *           phuix-icon-view
- *           javelin-behavior-phabricator-gesture
+ *           phabricator-shaped-request
+ * @provides javelin-behavior-comment-actions
  */
 
 JX.behavior('comment-actions', function(config) {

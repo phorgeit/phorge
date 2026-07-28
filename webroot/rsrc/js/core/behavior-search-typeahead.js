@@ -1,14 +1,18 @@
 /**
- * @provides javelin-behavior-phabricator-search-typeahead
  * @requires javelin-behavior
  *           javelin-typeahead-ondemand-source
  *           javelin-typeahead
  *           javelin-dom
+ *           javelin-request
  *           javelin-uri
  *           javelin-util
  *           javelin-stratcom
  *           phabricator-prefab
+ *           phuix-action-view
+ *           phuix-action-list-view
+ *           phuix-dropdown-menu
  *           phuix-icon-view
+ * @provides javelin-behavior-phabricator-search-typeahead
  */
 
 JX.behavior('phabricator-search-typeahead', function(config) {

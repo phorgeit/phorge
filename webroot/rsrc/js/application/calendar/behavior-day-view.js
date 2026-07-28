@@ -1,6 +1,12 @@
 /**
+ * @requires javelin-behavior
+ *           javelin-dom
+ *           javelin-stratcom
+ *           javelin-uri
+ *           javelin-vector
+ *           javelin-workflow
+ *           phuix-icon-view
  * @provides javelin-behavior-day-view
- * @requires phuix-icon-view
  */
 JX.behavior('day-view', function(config) {
 

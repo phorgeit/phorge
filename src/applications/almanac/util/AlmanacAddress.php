@@ -30,7 +30,7 @@ final class AlmanacAddress extends Phobject {
   }
 
   public static function newFromParts($network_phid, $address, $port) {
-    $addr = new AlmanacAddress();
+    $addr = new self();
 
     $addr->networkPHID = $network_phid;
     $addr->address = $address;

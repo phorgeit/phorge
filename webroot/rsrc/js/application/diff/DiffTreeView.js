@@ -1,6 +1,11 @@
 /**
- * @provides phabricator-diff-tree-view
  * @requires javelin-dom
+ *           javelin-install
+ *           phabricator-diff-path-view
+ * @provides phabricator-diff-tree-view
+ *
+ * @javelin-installs JX.DiffTreeView
+ *
  * @javelin
  */
 

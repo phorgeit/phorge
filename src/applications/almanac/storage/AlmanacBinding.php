@@ -21,7 +21,7 @@ final class AlmanacBinding
   private $almanacProperties = self::ATTACHABLE;
 
   public static function initializeNewBinding(AlmanacService $service) {
-    return id(new AlmanacBinding())
+    return id(new self())
       ->setServicePHID($service->getPHID())
       ->attachService($service)
       ->attachAlmanacProperties(array())

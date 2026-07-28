@@ -1,8 +1,11 @@
 /**
- * @provides phabricator-keyboard-shortcut
  * @requires javelin-install
  *           javelin-util
  *           phabricator-keyboard-shortcut-manager
+ * @provides phabricator-keyboard-shortcut
+ *
+ * @javelin-installs JX.KeyboardShortcut
+ *
  * @javelin
  */
 

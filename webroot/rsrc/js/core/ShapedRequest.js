@@ -4,6 +4,9 @@
  *           javelin-request
  *           javelin-router
  * @provides phabricator-shaped-request
+ *
+ * @javelin-installs JX.PhabricatorShapedRequest
+ *
  * @javelin
  */
 

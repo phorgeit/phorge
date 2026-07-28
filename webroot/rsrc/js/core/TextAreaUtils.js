@@ -3,6 +3,9 @@
  *           javelin-dom
  *           javelin-vector
  * @provides phabricator-textareautils
+ *
+ * @javelin-installs JX.TextAreaUtils
+ *
  * @javelin
  */
 

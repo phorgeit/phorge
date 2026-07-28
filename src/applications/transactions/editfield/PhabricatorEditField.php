@@ -426,12 +426,12 @@ abstract class PhabricatorEditField extends Phobject {
         }
       }
 
+      $form->appendControl($control);
+
       $instructions = $this->getControlInstructions();
       if (phutil_nonempty_string($instructions)) {
         $form->appendRemarkupInstructions($instructions);
       }
-
-      $form->appendControl($control);
     }
     return $this;
   }

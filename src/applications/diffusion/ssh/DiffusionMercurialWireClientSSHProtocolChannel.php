@@ -79,7 +79,6 @@ final class DiffusionMercurialWireClientSSHProtocolChannel
   protected function decodeStream($data) {
     $this->buffer .= $data;
 
-    $out = array();
     $messages = array();
 
     while (true) {

@@ -84,7 +84,7 @@ abstract class PhabricatorDraftEngine
     $has_draft = $this->hasAnyDraftContent();
 
     $draft_type = PhabricatorObjectHasDraftEdgeType::EDGECONST;
-    $editor = id(new PhabricatorEdgeEditor());
+    $editor = new PhabricatorEdgeEditor();
 
     if ($has_draft) {
       $editor->addEdge($object_phid, $draft_type, $viewer_phid);

@@ -51,11 +51,6 @@ final class PhabricatorTokensToken extends PhabricatorTokenDAO
   }
 
   public static function initializeNewToken(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
-      ->setViewer($actor)
-      ->withClasses(array(PhabricatorTokensApplication::class))
-      ->executeOne();
-
     $token = id(new self())
       ->setCreatorPHID($actor->getPHID())
       ->setStatus(self::STATUS_ACTIVE)

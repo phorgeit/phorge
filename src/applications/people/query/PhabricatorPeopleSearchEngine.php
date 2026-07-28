@@ -46,12 +46,12 @@ final class PhabricatorPeopleSearchEngine
         ->setKey('isDisabled')
         ->setOptions(
           pht('(Show All)'),
-          pht('Show Only Disabled Users'),
-          pht('Hide Disabled Users'))
+          pht('Show Only Disabled Accounts'),
+          pht('Hide Disabled Accounts'))
         ->setDescription(
           pht(
-            'Pass true to find only disabled users, or false to omit '.
-            'disabled users.')),
+            'Pass true to find only disabled accounts, or false to omit '.
+            'disabled accounts.')),
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Bots'))
         ->setKey('isBot')
@@ -250,7 +250,8 @@ final class PhabricatorPeopleSearchEngine
     $request = $this->getRequest();
     $viewer = $this->requireViewer();
 
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     $is_approval = ($query->getQueryKey() == 'approval');
 

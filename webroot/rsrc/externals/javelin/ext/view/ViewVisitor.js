@@ -1,7 +1,9 @@
 /**
- * @provides javelin-view-visitor
  * @requires javelin-install
  *           javelin-util
+ * @provides javelin-view-visitor
+ *
+ * @javelin-installs JX.ViewVisitor
  *
  * Add new behaviors to views without changing the view classes themselves.
  *

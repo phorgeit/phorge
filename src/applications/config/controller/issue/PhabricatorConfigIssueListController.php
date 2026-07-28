@@ -74,7 +74,8 @@ final class PhabricatorConfigIssueListController
    */
   private function buildIssueList(array $issues, $group, $fonticon) {
     assert_instances_of($issues, PhabricatorSetupIssue::class);
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($this->getViewer());
     $list->setBig(true);
     $ignored_items = array();
     $items = 0;

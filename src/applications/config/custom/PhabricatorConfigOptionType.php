@@ -2,6 +2,20 @@
 
 abstract class PhabricatorConfigOptionType extends Phobject {
 
+  private $viewer;
+
+  public function setViewer(PhabricatorUser $viewer) {
+    $this->viewer = $viewer;
+    return $this;
+  }
+
+  protected function getViewer() {
+    if (!$this->viewer) {
+      throw new PhutilInvalidStateException('setViewer');
+    }
+    return $this->viewer;
+  }
+
   public function validateOption(PhabricatorConfigOption $option, $value) {
     return;
   }

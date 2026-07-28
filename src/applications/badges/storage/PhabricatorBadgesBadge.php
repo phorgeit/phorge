@@ -43,7 +43,7 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
     $edit_policy =
       $app->getPolicy(PhabricatorBadgesDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorBadgesBadge())
+    return id(new self())
       ->setIcon(self::DEFAULT_ICON)
       ->setQuality(PhabricatorBadgesQuality::DEFAULT_QUALITY)
       ->setCreatorPHID($actor->getPHID())
@@ -111,6 +111,7 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

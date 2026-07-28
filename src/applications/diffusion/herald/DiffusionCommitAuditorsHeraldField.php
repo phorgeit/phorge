@@ -5,7 +5,7 @@ final class DiffusionCommitAuditorsHeraldField
 
   const FIELDCONST = 'diffusion.commit.auditors';
 
-  // hide "Auditors" Herald condition if Audit not installed
+  // hide "Auditors" Herald condition if Audit is disabled
   public function supportsObject($object) {
     if (id(new PhabricatorAuditApplication())->isInstalled()) {
       return ($object instanceof PhabricatorRepositoryCommit);

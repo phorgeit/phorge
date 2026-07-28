@@ -64,7 +64,6 @@ final class PhabricatorProjectReportsProfileMenuItem
     PhabricatorProfileMenuItemConfiguration $config) {
     $project = $config->getProfileObject();
 
-    $id = $project->getID();
     $uri = $project->getReportsURI();
     $name = $this->getDisplayName($config);
 

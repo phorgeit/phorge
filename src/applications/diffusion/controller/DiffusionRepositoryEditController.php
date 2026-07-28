@@ -14,7 +14,7 @@ final class DiffusionRepositoryEditController
 
       $vcs = $request->getStr('vcs');
       $vcs_types = PhabricatorRepositoryType::getRepositoryTypeMap();
-      if (empty($vcs_types[$vcs])) {
+      if (!$vcs || empty($vcs_types[$vcs])) {
         return $this->buildVCSTypeResponse();
       }
 

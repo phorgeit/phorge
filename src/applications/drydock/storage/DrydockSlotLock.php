@@ -48,7 +48,7 @@ final class DrydockSlotLock extends DrydockDAO {
    * @task info
    */
   public static function loadLocks($owner_phid) {
-    return id(new DrydockSlotLock())->loadAllWhere(
+    return id(new self())->loadAllWhere(
       'ownerPHID = %s',
       $owner_phid);
   }
@@ -91,7 +91,7 @@ final class DrydockSlotLock extends DrydockDAO {
       return array();
     }
 
-    $table = new DrydockSlotLock();
+    $table = new self();
     $conn_r = $table->establishConnection('r');
 
     $indexes = array();
@@ -99,7 +99,7 @@ final class DrydockSlotLock extends DrydockDAO {
       $indexes[] = PhabricatorHash::digestForIndex($lock);
     }
 
-    return id(new DrydockSlotLock())->loadAllWhere(
+    return id(new self())->loadAllWhere(
       'lockIndex IN (%Ls)',
       $indexes);
   }
@@ -124,7 +124,7 @@ final class DrydockSlotLock extends DrydockDAO {
       return;
     }
 
-    $table = new DrydockSlotLock();
+    $table = new self();
     $conn_w = $table->establishConnection('w');
 
     $sql = array();
@@ -163,7 +163,7 @@ final class DrydockSlotLock extends DrydockDAO {
    * @task locks
    */
   public static function releaseLocks($owner_phid) {
-    $table = new DrydockSlotLock();
+    $table = new self();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

@@ -77,11 +77,6 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
     return $this;
   }
 
-  public function setInstructions($instructions) {
-    $this->instructions = $instructions;
-    return $this;
-  }
-
   public function setInitialPHIDs(array $initial_phids) {
     $this->initialPHIDs = $initial_phids;
     return $this;
@@ -125,14 +120,6 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
         $label);
     }
 
-    $instructions = null;
-    if ($this->instructions) {
-      $instructions = phutil_tag(
-        'p',
-        array('class' => 'phabricator-object-selector-instructions'),
-        $this->instructions);
-    }
-
     $search_box = phabricator_form(
       $user,
       array(
@@ -169,7 +156,6 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
         array(
           phutil_tag_div('phabricator-object-selector-header', $this->header),
           phutil_tag('div', array('id' => $current_id)),
-          $instructions,
         )));
 
     $dialog = new AphrontDialogView();

@@ -174,15 +174,13 @@ final class PhabricatorStartup {
     }
 
     $msg = ">>> UNRECOVERABLE FATAL ERROR <<<\n\n";
-    if ($event) {
-      // Even though we should be emitting this as text-plain, escape things
-      // just to be sure since we can't really be sure what the program state
-      // is when we get here.
-      $msg .= htmlspecialchars(
-        $event['message']."\n\n".$event['file'].':'.$event['line'],
-        ENT_QUOTES,
-        'UTF-8');
-    }
+    // Even though we should be emitting this as text-plain, escape things
+    // just to be sure since we can't really be sure what the program state
+    // is when we get here.
+    $msg .= htmlspecialchars(
+      $event['message']."\n\n".$event['file'].':'.$event['line'],
+      ENT_QUOTES,
+      'UTF-8');
 
     // flip dem tables
     $msg .= "\n\n\n";
@@ -514,8 +512,8 @@ final class PhabricatorStartup {
    * Adjustments here primarily impact the environment as seen by subprocesses.
    * The environment is forwarded explicitly by @{class:ExecFuture}.
    *
-   * @param map<string, mixed> $env Input `$_ENV`.
-   * @return map<string, string> Suitable `$_ENV`.
+   * @param array<string, mixed> $env Map of input `$_ENV`.
+   * @return array<string, string> Map of suitable `$_ENV`.
    * @task validation
    */
   private static function filterEnvSuperglobal(array $env) {
@@ -694,8 +692,8 @@ final class PhabricatorStartup {
   /**
    * Tear down rate limiting and allow limits to score the request.
    *
-   * @param map<string, mixed> $request_state Additional, freeform request
-   *   state.
+   * @param array<string, mixed> $request_state Map of an additional, freeform
+   *   request state.
    * @return void
    * @task ratelimit
    */

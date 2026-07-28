@@ -1,7 +1,9 @@
 /**
- * @provides phuix-action-list-view
  * @requires javelin-install
  *           javelin-dom
+ * @provides phuix-action-list-view
+ *
+ * @javelin-installs JX.PHUIXActionListView
  */
 
 JX.install('PHUIXActionListView', {

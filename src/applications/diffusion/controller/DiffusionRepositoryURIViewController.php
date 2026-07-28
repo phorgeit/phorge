@@ -119,15 +119,6 @@ final class DiffusionRepositoryURIViewController
     $remove_uri = $repository->getPathURI("uri/credential/{$id}/remove/");
     $has_credential = (bool)$uri->getCredentialPHID();
 
-    if ($uri->isBuiltin()) {
-      $can_credential = false;
-    } else if (!$uri->newCommandEngine()->isCredentialSupported()) {
-      $can_credential = false;
-    } else {
-      $can_credential = true;
-    }
-
-    $can_update = ($can_edit && $can_credential);
     $can_remove = ($can_edit && $has_credential);
 
     if ($has_credential) {

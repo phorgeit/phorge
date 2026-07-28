@@ -56,6 +56,11 @@
     "nolint": {
       "type": "nolint"
     },
+    "phpast": {
+      "type": "phpast",
+      "include": "(\\.php$)",
+      "standard": "phutil.phpast"
+    },
     "phutil-library": {
       "type": "phutil-library",
       "include": "(\\.php$)"
@@ -83,6 +88,10 @@
       "include": "(\\.php$)",
       "standard": "phutil.xhpast",
       "xhpast.php-version": "7.2.25"
+    },
+    "phorge-modular-xact": {
+      "type": "phorge-modular-xact",
+      "include": "(\\.*Trans.*\\.php$)"
     }
   }
 }

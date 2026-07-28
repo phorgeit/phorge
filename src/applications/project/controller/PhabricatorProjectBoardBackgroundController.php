@@ -76,7 +76,6 @@ final class PhabricatorProjectBoardBackgroundController
       ),
     );
 
-    $groups = array();
     $options = PhabricatorProjectWorkboardBackgroundColor::getOptions();
     $option_groups = igroup($options, 'group');
 

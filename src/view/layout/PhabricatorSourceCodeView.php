@@ -109,8 +109,6 @@ final class PhabricatorSourceCodeView extends AphrontView {
     $wrote_anchor = false;
 
     $coverage = $this->getCoverage();
-    $coverage_count = count($coverage);
-    $coverage_data = ipull($coverage, 'data');
 
     // TODO: Modularize this properly, see T13125.
     $coverage_map = array(

@@ -14,11 +14,18 @@ final class AlmanacInterfaceNetworkTransaction
   }
 
   public function getTitle() {
-    return pht(
-      '%s changed the network for this interface from %s to %s.',
-      $this->renderAuthor(),
-      $this->renderOldHandle(),
-      $this->renderNewHandle());
+    if (phutil_nonempty_string($this->getOldValue())) {
+      return pht(
+        '%s changed the network for this interface from %s to %s.',
+        $this->renderAuthor(),
+        $this->renderOldHandle(),
+        $this->renderNewHandle());
+    } else {
+      return pht(
+        '%s set the network for this interface to %s.',
+        $this->renderAuthor(),
+        $this->renderNewHandle());
+    }
   }
 
   public function validateTransactions($object, array $xactions) {

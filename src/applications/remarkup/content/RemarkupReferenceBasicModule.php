@@ -1,0 +1,577 @@
+<?php
+
+final class RemarkupReferenceBasicModule extends PhorgeRemarkupReferenceModule {
+
+  public function getModuleKey() {
+    return 'remarkup';
+  }
+
+  public function getModuleOrder() {
+    return 1000;
+  }
+
+  public function getTitle() {
+    return 'Basic Syntax';
+  }
+
+  public function getContent() {
+    $content = <<<EOTEXT
+= Remarkup Reference
+Explains how to make bold text; this makes your words louder so you can win
+arguments.
+
+= Overview =
+
+Phorge uses a lightweight markup language called "Remarkup", similar to
+other lightweight markup languages like Markdown and Wiki markup.
+
+This document describes how to format text using Remarkup.
+
+= Quick Reference =
+
+All the syntax is explained in more detail below, but this is a quick guide to
+formatting text in Remarkup.
+
+These are inline styles, and can be applied to most text:
+
+  **bold** //italic// `monospaced` ##monospaced## ~~deleted~~ __underlined__
+  !!highlighted!!
+  D123 T123 rX123           # Link to Objects
+  {D123} {T123}             # Link to Objects (Full Name)
+  {F123}                    # Embed Images
+  {M123}                    # Embed Pholio Mock
+  @username                 # Mention a User
+  #project                  # Mention a Project
+  [[wiki page]]             # Link to Phriction
+  [[wiki page | name]]      # Named link to Phriction
+  https://xyz/               # Link to web
+  [[https://xyz/ | name]]    # Named link to web
+  [name](https://xyz/)       # Alternate Link
+
+These are block styles, and must be separated from surrounding text by
+empty lines:
+
+  = Large Header =
+
+  == Smaller Header ==
+
+  ## This is a Header As Well
+
+  Also a Large Header
+  ===================
+
+  Also a Smaller Header
+  ---------------------
+
+  > Quoted Text
+
+  Use `- ` or `* ` for bulleted lists, and `# ` for numbered lists.
+  Use ``` or indent two spaces for code.
+  Use %%% for a literal block.
+  Use | ... | ... for tables.
+
+= Basic Styling =
+
+Format **basic text styles** like this:
+
+  **bold text**
+  //italic text//
+  `monospaced text`
+  ##monospaced text##
+  ~~deleted text~~
+  __underlined text__
+  !!highlighted text!!
+
+Those produce **bold text**, //italic text//, `monospaced text`, ##monospaced
+text##, ~~deleted text~~, __underlined text__, and !!highlighted text!!
+respectively.
+
+= Layout =
+
+Make **headers** like this:
+
+  = Large Header =
+
+  == Smaller Header ==
+
+  ===== Very Small Header =====
+
+  Alternate Large Header
+  ======================
+
+  Alternate Smaller Header
+  ------------------------
+
+You can optionally omit the trailing `=` signs -- that is, these are the same:
+
+  == Smaller Header ==
+
+  == Smaller Header
+
+This produces headers like the ones in this document. Make sure you have an
+empty line before and after the header.
+
+Lists
+=====
+
+Make **lists** by beginning each item with a `-` or a `*`:
+
+  lang=text
+  - milk
+  - eggs
+  - bread
+
+  * duck
+  * duck
+  * goose
+
+This produces a list like this:
+
+  - milk
+  - eggs
+  - bread
+
+(Note that you need to put a space after the `-` or `*`.)
+
+You can make numbered lists with a `#` instead of `-` or `*`:
+
+  # Articuno
+  # Zapdos
+  # Moltres
+
+Numbered lists can also be started with `1.` or `1)`. If you use a number other
+than `1`, the list will start at that number instead. For example, this:
+
+```
+  200) OK
+  201) Created
+  202) Accepted
+```
+
+...produces this:
+
+  200) OK
+  201) Created
+  202) Accepted
+
+You can also nest lists:
+
+```- Body
+  - Head
+  - Arm
+    - Elbow
+    - Hand
+      # Thumb
+      # Index
+      # Middle
+      # Ring
+      # Pinkie
+  - Leg
+    - Knee
+    - Foot```
+
+...which produces:
+
+  - Body
+  - Head
+  - Arm
+    - Elbow
+    - Hand
+      # Thumb
+      # Index
+      # Middle
+      # Ring
+      # Pinkie
+  - Leg
+    - Knee
+    - Foot
+
+If you prefer, you can indent lists using multiple characters to show indent
+depth, like this:
+
+```- Tree
+-- Branch
+--- Twig```
+
+As expected, this produces:
+
+- Tree
+-- Branch
+--- Twig
+
+You can add checkboxes to items by prefacing them with `[ ]` or `[X]`, like
+this:
+
+```
+  - [X] Preheat oven to 450 degrees.
+  - [ ] Zest 35 lemons.
+```
+
+When rendered, this produces:
+
+  - [X] Preheat oven to 450 degrees.
+  - [ ] Zest 35 lemons.
+
+Code Blocks
+===========
+
+Make **code blocks** by indenting two spaces:
+
+`  f(x, y);`
+
+You can also use three backticks to enclose the code block:
+
+  lang=text
+  ```
+  f(x, y);
+  g(f);
+  ```
+
+You can specify a language for syntax highlighting with `lang=xxx`:
+
+  lang=text
+  lang=html
+  <a href="#">...</a>
+
+When using fenced code blocks (triple backticks) you can append the
+language right after the backticks, like this: ##```html##
+
+This will highlight the block using a highlighter for that language, if one is
+available (in most cases, this means you need to configure Pygments):
+
+  lang=html
+  <a href="#">...</a>
+
+You can also use a `COUNTEREXAMPLE` header to show that a block of code is
+bad and shouldn't be copied:
+
+  lang=text
+  COUNTEREXAMPLE
+  function f() {
+    global \$\$variable_variable;
+  }
+
+This produces a block like this:
+
+  COUNTEREXAMPLE
+  function f() {
+    global \$\$variable_variable;
+  }
+
+You can use `lines=N` to limit the vertical size of a chunk of code, and
+`name=some_name.ext` to give it a name. For example, this:
+
+  lang=text
+  lang=html, name=example.html, lines=12, counterexample
+  ...
+
+...produces this:
+
+  lang=html, name=example.html, lines=12, counterexample
+  <p>Apple</p>
+  <p>Apricot</p>
+  <p>Avocado</p>
+  <p>Banana</p>
+  <p>Bilberry</p>
+  <p>Blackberry</p>
+  <p>Blackcurrant</p>
+  <p>Blueberry</p>
+  <p>Currant</p>
+  <p>Cherry</p>
+  <p>Cherimoya</p>
+  <p>Clementine</p>
+  <p>Date</p>
+  <p>Damson</p>
+  <p>Durian</p>
+  <p>Eggplant</p>
+  <p>Elderberry</p>
+  <p>Feijoa</p>
+  <p>Gooseberry</p>
+  <p>Grape</p>
+  <p>Grapefruit</p>
+  <p>Guava</p>
+  <p>Huckleberry</p>
+  <p>Jackfruit</p>
+  <p>Jambul</p>
+  <p>Kiwi fruit</p>
+  <p>Kumquat</p>
+  <p>Legume</p>
+  <p>Lemon</p>
+  <p>Lime</p>
+  <p>Lychee</p>
+  <p>Mandarine</p>
+  <p>Mango</p>
+  <p>Mangostine</p>
+  <p>Melon</p>
+
+
+
+Dividers
+========
+
+You can divide sections by putting three or more dashes on a line by
+themselves. This creates a divider or horizontal rule similar to an `<hr />`
+tag, like this one:
+
+---
+
+The dashes need to appear on their own line and be separated from other
+content. For example, like this:
+
+```
+This section will be visually separated.
+
+---
+
+On an entirely different topic, ...
+```
+
+
+= Linking URIs =
+
+URIs are automatically linked: https://phorge.it/
+
+If you have a URI with problematic characters in it, like
+"`https://example.com/,`", you can surround it with angle brackets:
+
+  <https://example.com/,>
+
+This will force the parser to consume the whole URI: <https://example.com/,>
+
+You can also use create named links, where you choose the displayed text. These
+work within Phorge or on the internet at large:
+
+  [[/herald/transcript/ | Herald Transcripts]]
+  [[https://boring.example.com/ | exciting example]]
+
+Markdown-style links are also supported:
+
+  [Example](https://www.example.com)
+
+= Quoting Text =
+
+To quote text, preface it with an `>`:
+
+  > This is quoted text.
+
+This appears like this:
+
+> This is quoted text.
+
+= Embedding Media =
+
+If you set a configuration flag, you can embed media directly in text:
+
+  - **remarkup.enable-embedded-youtube**: allows you to paste in YouTube videos
+    and have them render inline.
+
+This option is disabled by default because it has security and/or
+silliness implications. Carefully read the description before enabling it.
+
+= Image Macros =
+
+You can upload image macros (More Applications -> Macro) which will replace text
+strings with the image you specify. For instance, you could upload an image of a
+dancing banana to create a macro named "peanutbutterjellytime", and then any
+time you type that string on a separate line it will be replaced with the image
+of a dancing banana.
+
+= Memes =
+
+You can also use image macros in the context of memes. For example, if you
+have an image macro named `grumpy`, you can create a meme by doing the
+following:
+
+  {meme, src = grumpy, above = toptextgoeshere, below = bottomtextgoeshere}
+
+By default, the font used to create the text for the meme is `tuffy.ttf`. For
+the more authentic feel of `impact.ttf`, you simply have to place the Impact
+TrueType font in the Phorge subfolder `/resources/font/`. If Remarkup
+detects the presence of `impact.ttf`, it will automatically use it.
+
+
+= Phriction Documents =
+
+You can link to Phriction documents with a name or path:
+
+  Make sure you sign and date your [[legal/Letter of Marque and Reprisal]]!
+
+By default, the link will render with the document title as the link name.
+With a pipe (`|`), you can retitle the link. Use this to mislead your
+opponents:
+
+  Check out these [[legal/boring_documents/ | exciting legal documents]]!
+
+Links to pages which do not exist are shown in red. Links to pages which exist
+but which the viewer does not have permission to see are shown with a lock
+icon, and the link will not disclose the page title.
+
+If you begin a link path with `./` or `../`, the remainder of the path will be
+evaluated relative to the current wiki page. For example, if you are writing
+content for the document `fruit/` a link to `[[./guava]]` is the same as a link
+to `[[fruit/guava]]` from elsewhere.
+
+Relative links may use `../` to transverse up the document tree. From the
+`produce/vegetables/` page, you can use `[[../fruit/guava]]` to link to the
+`produce/fruit/guava` page.
+
+Relative links do not work when used outside of wiki pages. For example,
+you can't use a relative link in a comment on a task, because there is no
+reasonable place for the link to start resolving from.
+
+When documents are moved, relative links are not automatically updated: they
+are preserved as currently written. After moving a document, you may need to
+review and adjust any relative links it contains.
+
+
+= Literal Blocks =
+
+To place text in a literal block use `%%%`:
+
+  %%%Text that won't be processed by remarkup
+  [[https://www.example.com | example]]
+  %%%
+
+Remarkup will not process the text inside of literal blocks (other than to
+escape HTML and preserve line breaks).
+
+= Tables =
+
+Remarkup supports simple table syntax. For example, this:
+
+```
+| Fruit  | Color  | Price   | Peel?
+| -----  | -----  | -----   | -----
+| Apple  | red    | `\$0.93` | no
+| Banana | yellow | `\$0.19` | **YES**
+```
+
+...produces this:
+
+| Fruit  | Color  | Price   | Peel?
+| -----  | -----  | -----   | -----
+| Apple  | red    | `\$0.93` | no
+| Banana | yellow | `\$0.19` | **YES**
+
+Remarkup also supports a simplified HTML table syntax. For example, this:
+
+```
+<table>
+  <tr>
+    <th>Fruit</th>
+    <th>Color</th>
+    <th>Price</th>
+    <th>Peel?</th>
+  </tr>
+  <tr>
+    <td>Apple</td>
+    <td>red</td>
+    <td>`\$0.93`</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>Banana</td>
+    <td>yellow</td>
+    <td>`\$0.19`</td>
+    <td>**YES**</td>
+  </tr>
+</table>
+```
+
+...produces this:
+
+<table>
+  <tr>
+    <th>Fruit</th>
+    <th>Color</th>
+    <th>Price</th>
+    <th>Peel?</th>
+  </tr>
+  <tr>
+    <td>Apple</td>
+    <td>red</td>
+    <td>`\$0.93`</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>Banana</td>
+    <td>yellow</td>
+    <td>`\$0.19`</td>
+    <td>**YES**</td>
+  </tr>
+</table>
+
+Some general notes about this syntax:
+
+  - your tags must all be properly balanced;
+  - your tags must NOT include attributes (`<td>` is OK, `<td style="...">` is
+    not);
+  - you can use other Remarkup rules (like **bold**, //italics//, etc.) inside
+    table cells.
+
+Navigation Sequences
+====================
+
+You can use `{nav ...}` to render a stylized navigation sequence when helping
+someone to locate something. This can be useful when writing documentation.
+For example, you could give someone directions to purchase lemons:
+
+{nav icon=home, name=Home >
+Grocery Store >
+Produce Section >
+icon=lemon-o, name=Lemons}
+
+To render this example, use this markup:
+
+```
+{nav icon=home, name=Home >
+Grocery Store >
+Produce Section >
+icon=lemon-o, name=Lemons}
+```
+
+In general:
+
+  - Separate sections with `>`.
+  - Each section can just have a name to add an element to the navigation
+    sequence, or a list of key-value pairs.
+  - Supported keys are `icon`, `name`, `type` and `href`.
+  - The `type` option can be set to `instructions` to indicate that an element
+    is asking the user to make a choice or follow specific instructions.
+
+
+Anchors
+========
+
+You can use `{anchor #xyz}` to create a document anchor and later link to
+it directly with `#xyz` in the URI.
+
+Headers also automatically create named anchors.
+
+If you navigate to `#xyz` in your browser location bar, the page will scroll
+to the first anchor with "xyz" as a prefix of the anchor name.
+
+
+= Fullscreen Mode =
+
+Remarkup editors provide a fullscreen composition mode. This can make it easier
+to edit large blocks of text, or improve focus by removing distractions. You can
+exit **Fullscreen** mode by clicking the button again or by pressing escape.
+EOTEXT;
+
+    // TODO move this to own page, or remove completely. It's relatively fresh.
+
+    $remarkup_syntax_documentation_providers = id(new PhutilClassMapQuery())
+      ->setAncestorClass(RemarkupSyntaxDocumentationProvider::class)
+      ->execute();
+
+    // add custom Remarkup help
+    $content .= "\r\n\r\n";
+    foreach ($remarkup_syntax_documentation_providers as $doc_provider) {
+      $content .= $doc_provider->getDocumentation()."\r\n\r\n";
+    }
+
+    return $content;
+  }
+
+}

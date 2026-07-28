@@ -27,6 +27,11 @@ final class PhabricatorEditEngineConfigurationQuery
     return $this;
   }
 
+  /**
+   * @param array<string> $engine_keys EditEngine keys, e.g. 'maniphest.task'
+   *   or 'calendar.event'
+   * @return $this
+   */
   public function withEngineKeys(array $engine_keys) {
     $this->engineKeys = $engine_keys;
     return $this;
@@ -37,21 +42,37 @@ final class PhabricatorEditEngineConfigurationQuery
     return $this;
   }
 
+  /**
+   * @param array<string> $identifiers Form identifiers, e.g. 'default' or '10'
+   * @return $this
+   */
   public function withIdentifiers(array $identifiers) {
     $this->identifiers = $identifiers;
     return $this;
   }
 
+  /**
+   * @param bool $default Whether to query Create Forms
+   * @return $this
+   */
   public function withIsDefault($default) {
     $this->default = $default;
     return $this;
   }
 
+  /**
+   * @param bool $edit Whether to query Edit Forms
+   * @return $this
+   */
   public function withIsEdit($edit) {
     $this->isEdit = $edit;
     return $this;
   }
 
+  /**
+   * @param bool $disabled Whether to query disabled Forms
+   * @return $this
+   */
   public function withIsDisabled($disabled) {
     $this->disabled = $disabled;
     return $this;
@@ -131,7 +152,7 @@ final class PhabricatorEditEngineConfigurationQuery
     if ($this->ids !== null) {
       $ids = array_fuse($this->ids);
       foreach ($page as $key => $config) {
-        if (empty($ids[$config->getID()])) {
+        if (!$config->getID() || empty($ids[$config->getID()])) {
           unset($page[$key]);
         }
       }
@@ -140,7 +161,7 @@ final class PhabricatorEditEngineConfigurationQuery
     if ($this->phids !== null) {
       $phids = array_fuse($this->phids);
       foreach ($page as $key => $config) {
-        if (empty($phids[$config->getPHID()])) {
+        if (!$config->getPHID() || empty($phids[$config->getPHID()])) {
           unset($page[$key]);
         }
       }
@@ -182,10 +203,13 @@ final class PhabricatorEditEngineConfigurationQuery
     if ($this->identifiers !== null) {
       $identifiers = array_fuse($this->identifiers);
       foreach ($page as $key => $config) {
-        if (isset($identifiers[$config->getBuiltinKey()])) {
+        $config_builtin_key = $config->getBuiltinKey();
+        $config_id = $config->getID();
+        if ($config_builtin_key !== null &&
+          isset($identifiers[$config_builtin_key])) {
           continue;
         }
-        if (isset($identifiers[$config->getID()])) {
+        if ($config_id !== null && isset($identifiers[$config_id])) {
           continue;
         }
         unset($page[$key]);
@@ -206,6 +230,9 @@ final class PhabricatorEditEngineConfigurationQuery
     return $page;
   }
 
+  /**
+   * @param array<PhabricatorEditEngineConfiguration> $configs
+   */
   protected function willFilterPage(array $configs) {
     $engine_keys = mpull($configs, 'getEngineKey');
 

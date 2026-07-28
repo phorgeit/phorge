@@ -1,6 +1,10 @@
 <?php
 
-abstract class PhutilRemarkupRule extends Phobject {
+/**
+ * @task documentation  Documentation in the Reference App
+ */
+abstract class PhutilRemarkupRule extends Phobject
+  implements PhorgeRemarkupDocumentationProducer {
 
   private $engine;
   private $replaceCallback;
@@ -127,6 +131,15 @@ abstract class PhutilRemarkupRule extends Phobject {
       $classes[] = 'remarkup-link-ext';
     }
     return implode(' ', $classes);
+  }
+
+
+  /**
+   * @task documentation
+   * @return PhorgeRemarkupDocumentation|null
+   */
+  public function getRemarkupDocumentationObject() {
+    return null;
   }
 
 }

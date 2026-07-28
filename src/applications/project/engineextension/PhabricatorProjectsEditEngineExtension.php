@@ -50,7 +50,7 @@ final class PhabricatorProjectsEditEngineExtension
 
     $projects_field = id(new PhabricatorProjectsEditField())
       ->setKey('projectPHIDs')
-      ->setLabel(pht('Tags'))
+      ->setLabel(pht('Project Tags'))
       ->setEditTypeKey('projects')
       ->setAliases(array('project', 'projects', 'tag', 'tags'))
       ->setIsCopyable(true)

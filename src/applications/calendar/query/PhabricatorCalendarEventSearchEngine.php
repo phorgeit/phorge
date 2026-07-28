@@ -15,11 +15,18 @@ final class PhabricatorCalendarEventSearchEngine
     return PhabricatorCalendarApplication::class;
   }
 
+  /**
+   * @return PhabricatorCalendarEventQuery
+   */
   public function newQuery() {
     $viewer = $this->requireViewer();
 
-    return id(new PhabricatorCalendarEventQuery())
-      ->needRSVPs(array($viewer->getPHID()));
+    $query = new PhabricatorCalendarEventQuery();
+    if ($viewer->getPHID()) {
+      $query->needRSVPs(array($viewer->getPHID()));
+    }
+
+    return $query;
   }
 
   protected function shouldShowOrderField() {
@@ -103,6 +110,9 @@ final class PhabricatorCalendarEventSearchEngine
     return $query;
   }
 
+  /**
+   * @return PhabricatorCalendarEventQuery
+   */
   protected function buildQueryFromParameters(array $map) {
     $query = $this->newQuery();
     $viewer = $this->requireViewer();
@@ -279,6 +289,12 @@ final class PhabricatorCalendarEventSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   * @return PhabricatorApplicationSearchResultView
+   */
   protected function renderResultList(
     array $events,
     PhabricatorSavedQuery $query,
@@ -298,6 +314,7 @@ final class PhabricatorCalendarEventSearchEngine
   /**
    * @param array<PhabricatorCalendarEvent> $events
    * @param PhabricatorSavedQuery $query
+   * @return PhabricatorApplicationSearchResultView
    */
   private function buildCalendarListView(
     array $events,
@@ -305,7 +322,8 @@ final class PhabricatorCalendarEventSearchEngine
 
     assert_instances_of($events, PhabricatorCalendarEvent::class);
     $viewer = $this->requireViewer();
-    $list = new PHUIObjectItemListView();
+    $list = id(new PHUIObjectItemListView())
+      ->setViewer($viewer);
 
     foreach ($events as $event) {
       if ($event->getIsGhostEvent()) {
@@ -351,6 +369,7 @@ final class PhabricatorCalendarEventSearchEngine
   /**
    * @param array<PhabricatorCalendarEvent> $events
    * @param PhabricatorSavedQuery $query
+   * @return PhabricatorApplicationSearchResultView
    */
   private function buildCalendarMonthView(
     array $events,
@@ -428,6 +447,11 @@ final class PhabricatorCalendarEventSearchEngine
       ->setHeader($header);
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   * @return PhabricatorApplicationSearchResultView
+   */
   private function buildCalendarDayView(
     array $events,
     PhabricatorSavedQuery $query) {
@@ -506,7 +530,7 @@ final class PhabricatorCalendarEventSearchEngine
    * @param string|null $range_start Epoch
    * @param string|null $range_end Epoch
    * @param string $display View, such as "month" or "day"
-   * @return array<string|int, string|int, string|int> YYYY, M, D
+   * @return array<string|int> Three values: YYYY, M, D
    */
   private function getDisplayYearAndMonthAndDay(
     $range_start,
@@ -660,7 +684,9 @@ final class PhabricatorCalendarEventSearchEngine
     );
   }
 
-
+  /**
+   * @return PhabricatorApplicationSearchResultView
+   */
   private function newResultView($content = null) {
     // If we aren't rendering a dashboard panel, activate global drag-and-drop
     // so you can import ".ics" files by dropping them directly onto the

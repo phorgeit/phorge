@@ -266,7 +266,6 @@ final class PhabricatorChartRenderingEngine
 
   private function newWireData($is_tabular) {
     $chart = $this->getStoredChart();
-    $chart_key = $chart->getChartKey();
 
     $chart_engine = PhabricatorChartEngine::newFromChart($chart)
       ->setViewer($this->getViewer());
@@ -293,10 +292,6 @@ final class PhabricatorChartRenderingEngine
     }
 
     $domain = $this->getDomain($functions);
-
-    $axis = id(new PhabricatorChartAxis())
-      ->setMinimumValue($domain->getMin())
-      ->setMaximumValue($domain->getMax());
 
     $data_query = id(new PhabricatorChartDataQuery())
       ->setMinimumValue($domain->getMin())

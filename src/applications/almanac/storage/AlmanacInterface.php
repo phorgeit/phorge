@@ -18,7 +18,7 @@ final class AlmanacInterface
   private $network = self::ATTACHABLE;
 
   public static function initializeNewInterface() {
-    return id(new AlmanacInterface());
+    return id(new self());
   }
 
   protected function getConfiguration() {

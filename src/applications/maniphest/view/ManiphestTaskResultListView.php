@@ -52,14 +52,11 @@ final class ManiphestTaskResultListView extends ManiphestView {
     }
 
     $group_parameter = nonempty($query->getParameter('group'), 'priority');
-    $order_parameter = nonempty($query->getParameter('order'), 'priority');
 
     $groups = $this->groupTasks(
       $tasks,
       $group_parameter,
       $this->handles);
-
-    $result = array();
 
     $lists = array();
     foreach ($groups as $group => $list) {
@@ -214,13 +211,13 @@ final class ManiphestTaskResultListView extends ManiphestView {
       '');
 
     $editor = hsprintf(
-        '<table class="maniphest-batch-editor-layout">'.
-          '<tr>'.
-            '<td>%s%s</td>'.
-            '<td id="batch-select-status-cell">%s</td>'.
-            '<td class="batch-select-submit-cell">%s%s</td>'.
-          '</tr>'.
-        '</table>',
+        '<div class="maniphest-batch-editor-layout">'.
+          '<div class="batch-select-left">'.
+            '%s%s'.
+          '</div>'.
+          '<div id="batch-select-status-cell">%s</div>'.
+          '<div class="batch-select-submit-cell">%s%s</div>'.
+        '</div>',
       $select_all,
       $select_none,
       '',

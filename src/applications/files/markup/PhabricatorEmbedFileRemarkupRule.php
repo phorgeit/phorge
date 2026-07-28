@@ -11,6 +11,9 @@ final class PhabricatorEmbedFileRemarkupRule
     return 'F';
   }
 
+  /**
+   * @array<PhabricatorFile>
+   */
   protected function loadObjects(array $ids) {
     $engine = $this->getEngine();
 
@@ -104,6 +107,10 @@ final class PhabricatorEmbedFileRemarkupRule
     }
   }
 
+  /**
+   * @param string $option_string File display options. See "Embedding Images"
+   *   in @{article:Remarkup Reference}
+   */
   private function getFileOptions($option_string) {
     $options = array(
       'size' => null,
@@ -198,7 +205,8 @@ final class PhabricatorEmbedFileRemarkupRule
       $alt = $options['alt'];
     }
 
-    if (!phutil_nonempty_string($alt)) {
+    // PhutilSimpleOptions returns a bool if the option is set without a value
+    if (is_bool($alt) || !phutil_nonempty_string($alt)) {
       $alt = $file->getAltText();
     }
 

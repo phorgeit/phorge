@@ -1,14 +1,15 @@
 /**
- * @provides conpherence-thread-manager
  * @requires javelin-dom
  *           javelin-util
  *           javelin-stratcom
  *           javelin-install
  *           javelin-aphlict
  *           javelin-workflow
- *           javelin-router
- *           javelin-behavior-device
- *           javelin-vector
+ *           javelin-leader
+ *           phabricator-shaped-request
+ * @provides conpherence-thread-manager
+ *
+ * @javelin-installs JX.ConpherenceThreadManager
  */
 JX.install('ConpherenceThreadManager', {
 

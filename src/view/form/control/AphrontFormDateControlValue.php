@@ -60,7 +60,7 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   public static function newFromRequest(AphrontRequest $request, $key) {
-    $value = new AphrontFormDateControlValue();
+    $value = new self();
     $value->viewer = $request->getViewer();
 
     $date = $request->getStr($key.'_d', '');
@@ -90,7 +90,7 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   public static function newFromEpoch(PhabricatorUser $viewer, $epoch) {
-    $value = new AphrontFormDateControlValue();
+    $value = new self();
     $value->viewer = $viewer;
 
     if (!$epoch) {
@@ -118,7 +118,8 @@ final class AphrontFormDateControlValue extends Phobject {
   public static function newFromDictionary(
     PhabricatorUser $viewer,
     array $dictionary) {
-    $value = new AphrontFormDateControlValue();
+
+    $value = new self();
     $value->viewer = $viewer;
 
     $value->valueDate = idx($dictionary, 'd');
@@ -166,10 +167,14 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   private function formatTime($epoch, $format) {
-    return phabricator_format_local_time(
-      $epoch,
-      $this->viewer,
-      $format);
+    $date = phorge_localize_time($epoch, $this->viewer);
+    if (!$date) {
+      return '';
+    }
+    // Call DateTime->format directly (bypassing PhutilTranslator)
+    // so that getFormattedDateFromParts below can decode the parts
+    // back into a DateTime
+    return $date->format($format);
   }
 
   public function getEpoch() {
@@ -268,7 +273,7 @@ final class AphrontFormDateControlValue extends Phobject {
     $time) {
 
     $zone = $this->getTimezone();
-    $date_time = id(new DateTime("{$year}-{$month}-{$day} {$time}", $zone));
+    $date_time = new DateTime("{$year}-{$month}-{$day} {$time}", $zone);
 
     return array(
       $date_time->format($this->getDateFormat()),
@@ -326,7 +331,7 @@ final class AphrontFormDateControlValue extends Phobject {
     $normalized = preg_replace('/day\z/', '', $normalized);
     $normalized = preg_replace('/s\z/', '', $normalized);
 
-    if (isset($colloquial[$normalized])) {
+    if ($normalized !== null && isset($colloquial[$normalized])) {
       return $colloquial[$normalized];
     }
 
@@ -365,7 +370,15 @@ final class AphrontFormDateControlValue extends Phobject {
     if (isset($colloquial[$normalized])) {
       $time = $colloquial[$normalized];
     }
-
+    // Convert localized times to English
+    $am = pht('AM');
+    if ($am !== 'AM') {
+      $time = preg_replace('/'.preg_quote($am).'$/', 'AM', $time);
+    }
+    $pm = pht('PM');
+    if ($pm !== 'PM') {
+      $time = preg_replace('/'.preg_quote($pm).'$/', 'PM', $time);
+    }
     return $time;
   }
 

@@ -17,6 +17,7 @@ final class PhabricatorConfigSettingsListController
 
     $show_core = ($is_core || $is_all);
     $show_advanced = ($is_advanced || $is_all);
+    $show_apps_config = $is_all;
 
     if ($is_core) {
       $title = pht('Core Settings');
@@ -26,34 +27,67 @@ final class PhabricatorConfigSettingsListController
       $title = pht('All Settings');
     }
 
-    $db_values = id(new PhabricatorConfigEntry())
-      ->loadAllWhere('namespace = %s', 'default');
-    $db_values = mpull($db_values, null, 'getConfigKey');
-
-    $list = id(new PHUIObjectItemListView())
-      ->setBig(true)
+    $list = id(new PhorgeConfigOptionListView())
+      ->setViewer($viewer)
       ->setFlush(true);
 
-    $rows = array();
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
-    ksort($options);
-    foreach ($options as $option) {
-      $key = $option->getKey();
+    static $system_applications = array(
+      PhabricatorAuthApplication::class,
+      PhabricatorDaemonsApplication::class,
+      PhabricatorFilesApplication::class,
+      PhabricatorMetaMTAApplication::class,
+      PhabricatorNotificationsApplication::class,
+      PhabricatorPolicyApplication::class,
+      PhabricatorSystemApplication::class,
+      PhorgeExtensionsApplication::class,
+    );
 
-      $is_advanced = (bool)$option->getLocked();
-      if ($is_advanced && !$show_advanced) {
-        continue;
-      }
+    if ($show_apps_config) {
+      $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+      $change_notice = null;
 
-      if (!$is_advanced && !$show_core) {
-        continue;
-      }
+    } else {
+      $options =
+        PhabricatorApplicationConfigOptions::loadOptionsForApplications(
+          $system_applications);
 
-      $db_value = idx($db_values, $key);
+      $notice = array(
+        pht(
+          'Application-specific settings are moved into dedicated pages '.
+          'found under %s > %s.',
+          pht('Applications'),
+          pht('Configure')),
+        phutil_tag('br'),
+        pht(
+          'All settings (system and applications) are available under "%s" in '.
+          'the navigation menu.',
+          pht('All Settings')),
+      );
 
-      $item = $this->newConfigOptionView($option, $db_value);
-      $list->addItem($item);
+      $change_notice = id(new PHUIActionPanelView())
+        ->setIcon('fa-server')
+        ->setHeader(array(pht('Notice')))
+        ->setHref('/applications/')
+        ->setSubHeader($notice)
+        ->setState(PHUIActionPanelView::COLOR_PINK);
     }
+
+    ksort($options);
+
+    foreach ($options as $key => $option) {
+      $is_advanced = (bool)$option->getLocked();
+      if ($is_advanced && $show_advanced) {
+        continue;
+      }
+
+      if (!$is_advanced && $show_core) {
+        continue;
+      }
+
+      unset($options[$key]);
+    }
+
+    $list->setOptions($options);
 
     $header = $this->buildHeaderView($title);
 
@@ -62,6 +96,7 @@ final class PhabricatorConfigSettingsListController
 
     $content = id(new PHUITwoColumnView())
       ->setHeader($header)
+      ->setSubheader($change_notice)
       ->setFooter($list);
 
     $nav = $this->newNavigation($filter);
@@ -71,50 +106,6 @@ final class PhabricatorConfigSettingsListController
       ->setCrumbs($crumbs)
       ->setNavigation($nav)
       ->appendChild($content);
-  }
-
-  private function newConfigOptionView(
-    PhabricatorConfigOption $option,
-    ?PhabricatorConfigEntry $stored_value = null) {
-
-    $summary = $option->getSummary();
-
-    $stack = PhabricatorEnv::getConfigSourceStack();
-    $stack = $stack->getStack();
-    $key = $option->getKey();
-    $byline = null;
-    foreach ($stack as $source) {
-      $value = $source->getKeys(array($key));
-      if ($value) {
-        $byline = $source->getName();
-        break;
-      }
-    }
-
-    $item = id(new PHUIObjectItemView())
-      ->setHeader($option->getKey())
-      ->setClickable(true)
-      ->addByline($byline)
-      ->setHref('/config/edit/'.$option->getKey().'/')
-      ->addAttribute($summary);
-
-    $color = null;
-    if ($stored_value && !$stored_value->getIsDeleted()) {
-      $item->setEffect('visited');
-      $color = 'violet';
-    }
-
-    if ($option->getHidden()) {
-      $item->setStatusIcon('fa-eye-slash', pht('Hidden'));
-    } else if ($option->getLocked()) {
-      $item->setStatusIcon('fa-lock '.$color, pht('Locked'));
-    } else if ($color) {
-      $item->setStatusIcon('fa-pencil '.$color, pht('Editable'));
-    } else {
-      $item->setStatusIcon('fa-circle-o grey', pht('Default'));
-    }
-
-    return $item;
   }
 
 }

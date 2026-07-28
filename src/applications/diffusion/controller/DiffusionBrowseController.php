@@ -2,8 +2,6 @@
 
 final class DiffusionBrowseController extends DiffusionController {
 
-  private $lintCommit;
-  private $lintMessages;
   private $corpusButtons = array();
 
   public function shouldAllowPublic() {
@@ -450,8 +448,6 @@ final class DiffusionBrowseController extends DiffusionController {
     $show_editor) {
 
     $viewer = $this->getViewer();
-    $base_uri = $this->getRequest()->getRequestURI();
-
     $repository = $drequest->getRepository();
     $path = $drequest->getPath();
     $line = nonempty((int)$drequest->getLine(), 1);
@@ -928,8 +924,10 @@ final class DiffusionBrowseController extends DiffusionController {
 
     $recent = (PhabricatorTime::getNow() - phutil_units('30 days in seconds'));
 
-    $revisions = id(new DifferentialRevisionQuery())
-      ->setViewer($viewer)
+    $engine = id(new DifferentialRevisionSearchEngine())
+      ->setViewer($viewer);
+
+    $query = $engine->newQuery()
       ->withPaths(array($path))
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->withIsOpen(true)
@@ -937,21 +935,16 @@ final class DiffusionBrowseController extends DiffusionController {
       ->setOrder(DifferentialRevisionQuery::ORDER_MODIFIED)
       ->setLimit(10)
       ->needReviewers(true)
-      ->needFlags(true)
-      ->needDrafts(true)
-      ->execute();
+      ->needDrafts(true);
 
-    if (!$revisions) {
+    $results = $engine->executeQueryAndRender($query);
+    $list = $results->getContent();
+    if ($list->isEmpty()) {
       return null;
     }
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Recent Open Revisions'));
-
-    $list = id(new DifferentialRevisionListView())
-      ->setViewer($viewer)
-      ->setRevisions($revisions)
-      ->setNoBox(true);
 
     $view = id(new PHUIObjectBoxView())
       ->setHeader($header)

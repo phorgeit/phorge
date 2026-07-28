@@ -1,5 +1,9 @@
 /**
+ * @requires javelin-install
  * @provides phabricator-darklog
+ *
+ * @javelin-installs JX.DarkLog
+ *
  * @javelin
  */
 

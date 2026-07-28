@@ -167,6 +167,6 @@ abstract class PhabricatorApplicationTransactionDetailView
 
     private function buildDiff() {
       $engine = new PhutilProseDifferenceEngine();
-      return $engine->getDiff($this->oldText, $this->newText);
+      return $engine->getDiff($this->oldText ?? '', $this->newText);
     }
 }

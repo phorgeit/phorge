@@ -1,10 +1,13 @@
 /**
- * @provides phabricator-keyboard-shortcut-manager
  * @requires javelin-install
  *           javelin-util
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-vector
+ * @provides phabricator-keyboard-shortcut-manager
+ *
+ * @javelin-installs JX.KeyboardShortcutManager
+ *
  * @javelin
  */
 

@@ -19,7 +19,6 @@ final class PHUIHeaderView extends AphrontTagView {
   private $actionLinks = array();
   private $buttonBar = null;
   private $policyObject;
-  private $epoch;
   private $actionItems = array();
   private $href;
   private $actionList;
@@ -128,6 +127,14 @@ final class PHUIHeaderView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Render a tag (PHUITagView) in this header
+   *
+   * @param string $name Text displayed in the tag
+   * @param string $icon Icon in the tag
+   * @param string $color Tag color
+   * @return $this
+   */
   public function setStatus($icon, $color, $name) {
 
     // TODO: Normalize "closed/archived" to constants.
@@ -139,11 +146,18 @@ final class PHUIHeaderView extends AphrontTagView {
       ->setName($name)
       ->setIcon($icon)
       ->setColor($color)
+      ->setBackgroundColor(PHUITagView::TYPE_OBJECT)
       ->setType(PHUITagView::TYPE_SHADE);
 
     return $this->addProperty(self::PROPERTY_STATUS, $tag);
   }
 
+  /**
+   * Add a PHUITagView to this header showing "Updated..." with a timestamp
+   *
+   * @param int $epoch Epoch value of current timestamp
+   * @return $this
+   */
   public function setEpoch($epoch) {
     $age = time() - $epoch;
     $age = floor($age / (60 * 60 * 24));
@@ -168,6 +182,10 @@ final class PHUIHeaderView extends AphrontTagView {
     return $this->href;
   }
 
+  /**
+   * Get the HTML tag
+   * @return string
+   */
   protected function getTagName() {
     if ($this->collapsible) {
       return 'summary';
@@ -262,13 +280,12 @@ final class PHUIHeaderView extends AphrontTagView {
       }
     }
 
-    $viewer = $this->getUser();
-
     $left = array();
     $right = array();
 
     $space_header = null;
-    if ($viewer) {
+    if ($this->policyObject) {
+      $viewer = $this->getViewer();
       $space_header = id(new PHUISpacesNamespaceContextView())
         ->setViewer($viewer)
         ->setObject($this->policyObject);
@@ -439,6 +456,11 @@ final class PHUIHeaderView extends AphrontTagView {
       $header_row);
   }
 
+  /**
+   * Render a tag in this header describing the object policy
+   *
+   * @return string|null HTML markup which renders a tag, or null
+   */
   private function renderPolicyProperty(PhabricatorPolicyInterface $object) {
     $viewer = $this->getUser();
 
@@ -479,7 +501,7 @@ final class PHUIHeaderView extends AphrontTagView {
     }
 
     $container_classes = array();
-    $container_classes[] = 'policy-header-callout';
+    $container_classes[] = 'policy-header-callout phui-tag-color-object';
     $phid = $object->getPHID();
 
     $policy_name = array($policy->getShortName());

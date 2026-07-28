@@ -26,6 +26,10 @@ final class PhabricatorWorkerBulkJobSearchEngine
       $query->withAuthorPHIDs($map['authorPHIDs']);
     }
 
+    if ($map['status']) {
+      $query->withStatuses(array($map['status']));
+    }
+
     return $query;
   }
 
@@ -35,6 +39,16 @@ final class PhabricatorWorkerBulkJobSearchEngine
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors')),
+      id(new PhabricatorSearchSelectField())
+        ->setKey('status')
+        ->setLabel(pht('Status'))
+        ->setOptions(array(
+          '' => pht('All'),
+          PhabricatorWorkerBulkJob::STATUS_CONFIRM => pht('Confirming'),
+          PhabricatorWorkerBulkJob::STATUS_WAITING => pht('Waiting'),
+          PhabricatorWorkerBulkJob::STATUS_RUNNING => pht('Running'),
+          PhabricatorWorkerBulkJob::STATUS_COMPLETE => pht('Complete'),
+          )),
     );
   }
 

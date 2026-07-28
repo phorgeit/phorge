@@ -21,7 +21,7 @@ final class HarbormasterBuild extends HarbormasterDAO
   private $unprocessedMessages = self::ATTACHABLE;
 
   public static function initializeNewBuild(PhabricatorUser $actor) {
-    return id(new HarbormasterBuild())
+    return id(new self())
       ->setBuildStatus(HarbormasterBuildStatus::STATUS_INACTIVE)
       ->setBuildGeneration(0);
   }

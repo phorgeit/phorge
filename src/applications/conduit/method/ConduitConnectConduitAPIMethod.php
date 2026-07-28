@@ -14,6 +14,17 @@ final class ConduitConnectConduitAPIMethod extends ConduitAPIMethod {
     return true;
   }
 
+  public function getMethodStatus() {
+    return self::METHOD_STATUS_DEPRECATED;
+  }
+
+  public function getMethodStatusDescription() {
+    return pht(
+      'This method has been deprecated since %s in favor of token-based '.
+      'authentication.',
+      '02/2026');
+  }
+
   public function getMethodDescription() {
     return pht('Connect a session-based client.');
   }

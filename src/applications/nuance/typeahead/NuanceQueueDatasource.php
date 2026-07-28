@@ -17,8 +17,6 @@ final class NuanceQueueDatasource
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
-
     $results = array();
 
     // TODO: Make this use real typeahead logic.

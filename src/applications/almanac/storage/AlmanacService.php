@@ -34,7 +34,7 @@ final class AlmanacService
           $type));
     }
 
-    return id(new AlmanacService())
+    return id(new self())
       ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
       ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN)
       ->attachAlmanacProperties(array())
@@ -202,6 +202,7 @@ final class AlmanacService
       case PhabricatorPolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
+    return PhabricatorPolicies::getFallbackPolicy($capability);
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {

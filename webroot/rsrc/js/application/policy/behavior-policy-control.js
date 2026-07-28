@@ -1,13 +1,15 @@
 /**
- * @provides javelin-behavior-policy-control
  * @requires javelin-behavior
  *           javelin-dom
+ *           javelin-uri
  *           javelin-util
  *           phuix-dropdown-menu
  *           phuix-action-list-view
  *           phuix-action-view
  *           javelin-workflow
  *           phuix-icon-view
+ * @provides javelin-behavior-policy-control
+ *
  * @javelin
  */
 JX.behavior('policy-control', function(config) {
@@ -42,7 +44,7 @@ JX.behavior('policy-control', function(config) {
         var phid = config.order[group][jj];
 
         var onselect;
-        if (group == 'custom') {
+        if (group == 'custom' || phid == config.customKey) {
           onselect = JX.bind(null, function(phid) {
             var uri = get_custom_uri(phid, config.capability);
 
@@ -58,7 +60,7 @@ JX.behavior('policy-control', function(config) {
               .start();
 
           }, phid);
-        } else if (phid == config.projectKey) {
+        } else if (phid.startsWith(config.selectPrefix)) {
           onselect = JX.bind(null, function(phid) {
             var uri = get_custom_uri(phid, config.capability);
 

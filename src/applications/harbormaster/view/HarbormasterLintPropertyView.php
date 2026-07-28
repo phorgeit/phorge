@@ -39,14 +39,14 @@ final class HarbormasterLintPropertyView extends AphrontView {
       $line = $message->getLine();
 
       $href = null;
-      if (strlen(idx($this->pathURIMap, $path))) {
+      if (phutil_nonempty_string(idx($this->pathURIMap, $path))) {
         $href = $this->pathURIMap[$path].max($line, 1);
       }
 
       $severity = $this->renderSeverity($message->getSeverity());
 
       $location = $path.':'.$line;
-      if (strlen($href)) {
+      if (phutil_nonempty_string($href)) {
         $location = phutil_tag(
           'a',
           array(

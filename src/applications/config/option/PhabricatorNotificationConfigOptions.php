@@ -19,6 +19,10 @@ final class PhabricatorNotificationConfigOptions
     return 'core';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorNotificationsApplication::class;
+  }
+
   public function getOptions() {
     $servers_type = 'cluster.notifications';
     $servers_help = $this->deformat(pht(<<<EOTEXT

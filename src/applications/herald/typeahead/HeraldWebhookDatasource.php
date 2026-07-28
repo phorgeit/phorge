@@ -17,7 +17,6 @@ final class HeraldWebhookDatasource
 
   public function loadResults() {
     $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
 
     $hooks = id(new HeraldWebhookQuery())
       ->setViewer($viewer)

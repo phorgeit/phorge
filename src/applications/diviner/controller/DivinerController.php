@@ -19,6 +19,9 @@ abstract class DivinerController extends PhabricatorController {
         case DivinerAtom::TYPE_FUNCTION:
           $title = $symbol->getTitle().'()';
           break;
+        case DivinerAtom::TYPE_METHOD:
+          $title = $symbol->getMethodClassname().'::'.$symbol->getTitle().'()';
+          break;
         default:
           $title = $symbol->getTitle();
           break;
@@ -33,7 +36,9 @@ abstract class DivinerController extends PhabricatorController {
       $list[] = $item;
     }
 
-    return $list;
+    $sorted_list = msort($list, 'getTitle');
+
+    return $sorted_list;
   }
 
 }

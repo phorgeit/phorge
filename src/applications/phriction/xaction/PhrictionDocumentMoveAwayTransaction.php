@@ -40,7 +40,7 @@ final class PhrictionDocumentMoveAwayTransaction
     return pht(
       '%s moved this document to %s.',
       $this->renderAuthor(),
-      $this->renderObject($new['phid']));
+      $this->renderHandle($new['phid']));
   }
 
   public function getTitleForFeed() {
@@ -50,7 +50,7 @@ final class PhrictionDocumentMoveAwayTransaction
       '%s moved %s to %s.',
       $this->renderAuthor(),
       $this->renderObject(),
-      $this->renderObject($new['phid']));
+      $this->renderHandle($new['phid']));
   }
 
   public function getIcon() {
@@ -58,6 +58,10 @@ final class PhrictionDocumentMoveAwayTransaction
   }
 
   public function shouldHideForFeed() {
+    return true;
+  }
+
+  public function shouldHideForMail() {
     return true;
   }
 

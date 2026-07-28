@@ -79,6 +79,16 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
       }
     }
 
+    $suggestion_volume = pht(
+     'If you set one of the Play options, audio volume will automatically '.
+     'increase when scrolling closer to the Macro, and decrease when '.
+     'scrolling away.');
+
+    $suggestion_click = pht(
+     'If the audio does not play, you may need to reload the page and '.
+     'interact with it (for example, click somewhere), or check your web '.
+     'permissions as modern browsers may block audio autoplay.');
+
     $form = id(new AphrontFormView())
       ->addHiddenInput('behaviorForm', 1)
       ->setUser($viewer);
@@ -107,6 +117,12 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
       pht(
         'Play audio continuously, treating the macro as an audio source. '.
         'Best for ambient sounds.'));
+
+    $options->setCaption(
+      implode(' ', array(
+        $suggestion_volume,
+        $suggestion_click,
+      )));
 
     $form->appendChild($options);
     $form->appendChild(

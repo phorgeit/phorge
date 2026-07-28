@@ -268,7 +268,7 @@ final class PhabricatorCalendarNotificationEngine
         pht(
           '%s is starting in %s minute(s), at %s.',
           $event->getEvent()->getName(),
-          $event->getDisplayMinutes(),
+          new PhutilNumber($event->getDisplayMinutes()),
           $event->getDisplayTimeWithTimezone()));
 
       $body->addLinkSection(

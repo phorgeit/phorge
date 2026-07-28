@@ -59,10 +59,10 @@ final class PhutilRemarkupHyperlinkRule extends PhutilRemarkupRule {
     // Anything else we match "ungreedily", which means we'll look for
     // stuff that's probably puncutation or otherwise not part of the URL and
     // not link it. This lets someone write "QuicK! Go to
-    // http://www.example.com/!". We also apply some paren balancing rules.
+    // https://www.example.com/!". We also apply some paren balancing rules.
 
     // NOTE: We're explicitly avoiding capturing stored blocks, so text like
-    // `http://www.example.com/[[x | y]]` doesn't get aggressively captured.
+    // `https://www.example.com/[[x | y]]` doesn't get aggressively captured.
 
     $text = preg_replace_callback(
       $bare_pattern,
@@ -162,8 +162,8 @@ final class PhutilRemarkupHyperlinkRule extends PhutilRemarkupRule {
     // handle the two common paren cases, Wikipedia links and English language
     // parentheticals, e.g.:
     //
-    //  http://en.wikipedia.org/wiki/Noun_(disambiguation)
-    //  (see also http://www.example.com)
+    //  https://en.wikipedia.org/wiki/Noun_(disambiguation)
+    //  (see also https://www.example.com)
     //
     // We could apply a craftier heuristic here which tries to actually balance
     // the parens, but this is probably sufficient.

@@ -78,7 +78,6 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
       case DrydockResourceStatus::STATUS_BROKEN:
         $this->destroyResource($resource);
         break;
-        break;
     }
 
     $this->yieldIfExpiringResource($resource);
@@ -120,10 +119,6 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
 
     $commands = $this->loadCommands($resource->getPHID());
     foreach ($commands as $command) {
-      if (!$resource->canReceiveCommands()) {
-        break;
-      }
-
       $this->processResourceCommand($resource, $command);
 
       $command

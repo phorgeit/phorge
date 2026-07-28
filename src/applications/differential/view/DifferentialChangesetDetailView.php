@@ -138,8 +138,6 @@ final class DifferentialChangesetDetailView extends AphrontView {
 
     $display_filename = $changeset->getDisplayFilename();
     $display_icon = FileTypeIcon::getFileIcon($display_filename);
-    $icon = id(new PHUIIconView())
-      ->setIcon($display_icon);
 
     $changeset_id = $this->changeset->getID();
 
@@ -246,7 +244,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
           'tip' => pht('Copy file path'),
           'text' => $display_filename,
           'successMessage' => pht('File path copied.'),
-          'errorMessage' => pht('Copy of file path failed.'),
+          'errorMessage' => pht('Copying failed.'),
         ));
 
     return javelin_tag(

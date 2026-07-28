@@ -17,7 +17,7 @@ final class CelerityManagementMapWorkflow
 
     $this->log(
       pht(
-        'Rebuilding %d resource source(s).',
+        'Rebuilding %s resource source(s).',
         phutil_count($resources_map)));
 
     foreach ($resources_map as $name => $resources) {

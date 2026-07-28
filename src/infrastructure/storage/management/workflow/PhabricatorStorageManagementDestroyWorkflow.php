@@ -29,7 +29,7 @@ final class PhabricatorStorageManagementDestroyWorkflow
       if ($args->getArg('unittest-fixtures')) {
         $warning = pht(
           'Are you completely sure you really want to destroy all unit '.
-          'test fixure data on host "%s"? This operation can not be undone.',
+          'test fixture data on host "%s"? This operation can not be undone.',
           $host_display);
 
         echo tsprintf(

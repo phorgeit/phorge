@@ -24,6 +24,7 @@ final class DivinerMainController extends DivinerController {
       ->setIcon('fa-search');
 
     $header = id(new PHUIHeaderView())
+      ->setViewer($viewer)
       ->setHeader(pht('Documentation Books'))
       ->addActionLink($query_button);
 

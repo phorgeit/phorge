@@ -12,8 +12,9 @@ final class PhluxListController extends PhluxController {
 
     $vars = $query->executeWithCursorPager($pager);
 
-    $view = new PHUIObjectItemListView();
-    $view->setFlush(true);
+    $view = id(new PHUIObjectItemListView())
+      ->setViewer($viewer)
+      ->setFlush(true);
     foreach ($vars as $var) {
       $key = $var->getVariableKey();
 

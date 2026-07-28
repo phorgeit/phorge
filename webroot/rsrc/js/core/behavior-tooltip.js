@@ -1,9 +1,9 @@
 /**
- * @provides javelin-behavior-phabricator-tooltips
  * @requires javelin-behavior
- *           javelin-behavior-device
  *           javelin-stratcom
  *           phabricator-tooltip
+ * @provides javelin-behavior-phabricator-tooltips
+ *
  * @javelin
  */
 

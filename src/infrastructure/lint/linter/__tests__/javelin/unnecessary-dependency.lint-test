@@ -1,0 +1,13 @@
+/**
+ * @requires javelin-install
+ *           javelin-workflow
+ * @provides javelin-test-unnecessary-dependency
+ *
+ * @javelin-installs JX.Test
+ *
+ * @javelin
+ */
+
+JX.install('Test', {});
+~~~~~~~~~~
+error:1:0:JAVELIN3

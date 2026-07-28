@@ -431,7 +431,7 @@ final class PhabricatorStorageManagementDumpWorkflow
     if ($ok !== strlen($data)) {
       throw new Exception(
         pht(
-          'Failed to write %d byte(s) to file "%s".',
+          'Failed to write %s byte(s) to file "%s".',
           new PhutilNumber(strlen($data)),
           $output_file));
     }

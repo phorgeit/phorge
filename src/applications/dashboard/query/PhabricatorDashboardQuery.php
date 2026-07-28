@@ -42,9 +42,6 @@ final class PhabricatorDashboardQuery
   }
 
   protected function didFilterPage(array $dashboards) {
-
-    $phids = mpull($dashboards, 'getPHID');
-
     if ($this->canEdit) {
       $dashboards = id(new PhabricatorPolicyFilter())
         ->setViewer($this->getViewer())

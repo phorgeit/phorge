@@ -104,8 +104,15 @@
   width: 100%;
 }
 
-.aphront-form-cvc-input input {
-  width: 64px;
+/* Reduce from 100% to 85% to avoid linebreak when displaying a Copy button */
+.aphront-form-input.has-copy-button input[type="text"],
+.aphront-form-input.has-copy-button textarea {
+  width: 85%;
+}
+
+.aphront-form-input.has-copy-button .button {
+  vertical-align: middle;
+  margin-left: 4px;
 }
 
 .aphront-form-input textarea {
@@ -157,17 +164,19 @@
 }
 
 .aphront-form-instructions {
-  width: 60%;
+  font-size: {$smallerfontsize};
+  color: {$bluetext};
+  margin-right: 20%;
   margin-left: 20%;
-  padding: 12px 4px;
-  color: {$darkbluetext};
+  line-height: 16px;
+  padding: 2px 4px 12px;
 }
 
 .device .aphront-form-instructions,
 .phui-form-full-width .aphront-form-instructions {
   width: auto;
   margin: 0;
-  padding: 12px 8px 8px;
+  padding: 2px 8px 12px;
 }
 
 .aphront-form-control-markup .aphront-form-input {

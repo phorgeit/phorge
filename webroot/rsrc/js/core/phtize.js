@@ -1,7 +1,9 @@
 /**
- * @provides phabricator-phtize
  * @requires javelin-util
+ * @provides phabricator-phtize
+ *
  * @javelin-installs JX.phtize
+ *
  * @javelin
  */
 
