@@ -142,12 +142,6 @@ final class PhabricatorFeedSearchEngine
 
     $builder = new PhabricatorFeedBuilder($objects);
 
-    if ($this->isPanelContext()) {
-      $builder->setShowHovercards(false);
-    } else {
-      $builder->setShowHovercards(true);
-    }
-
     $builder->setUser($this->requireViewer());
     $view = $builder->buildView();
 

@@ -16,7 +16,6 @@ abstract class PhabricatorFeedStory
 
   private $data;
   private $hasViewed;
-  private $hovercard = false;
   private $renderingTarget = PhabricatorApplicationTransaction::TARGET_HTML;
 
   private $handles = array();
@@ -199,11 +198,6 @@ abstract class PhabricatorFeedStory
     }
 
     return $this->markupFieldOutput[$field];
-  }
-
-  public function setHovercard($hover) {
-    $this->hovercard = $hover;
-    return $this;
   }
 
   public function setRenderingTarget($target) {

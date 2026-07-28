@@ -189,7 +189,6 @@ final class PhabricatorProjectProfileController
 
     $builder = new PhabricatorFeedBuilder($stories);
     $builder->setUser($this->getRequest()->getUser());
-    $builder->setShowHovercards(true);
     $view = $builder->buildView();
 
     return $view;

@@ -280,7 +280,6 @@ final class PhabricatorPeopleProfileViewController
 
     $builder = new PhabricatorFeedBuilder($stories);
     $builder->setUser($viewer);
-    $builder->setShowHovercards(true);
     $builder->setNoDataString(pht('To begin on such a grand journey, '.
       'requires but just a single step.'));
     $view = $builder->buildView();
