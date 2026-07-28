@@ -17,7 +17,8 @@
  * parameters.
  *
  * @param string $tag The name of the tag, like `a` or `div`.
- * @param array<string, string> $attributes (optional) A map of tag attributes.
+ * @param array<string|int, string|int|float|bool> $attributes (optional) A map
+ *   of tag attributes.
  * @param mixed $content (optional) Content to put in the tag.
  * @return PhutilSafeHTML Tag object.
  */
