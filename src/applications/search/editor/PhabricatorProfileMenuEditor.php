@@ -87,6 +87,11 @@ final class PhabricatorProfileMenuEditor
     return parent::applyCustomExternalTransaction($object, $xaction);
   }
 
+  /**
+   * @param PhabricatorProfileMenuItemConfiguration $object
+   * @param string $type
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function validateTransaction(
     PhabricatorLiskDAO $object,
     $type,

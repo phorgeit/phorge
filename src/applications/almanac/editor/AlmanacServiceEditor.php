@@ -24,6 +24,10 @@ final class AlmanacServiceEditor
     return $types;
   }
 
+  /**
+   * @param AlmanacService $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function validateAllTransactions(
     PhabricatorLiskDAO $object,
     array $xactions) {

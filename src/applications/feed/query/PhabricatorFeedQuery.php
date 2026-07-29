@@ -158,9 +158,14 @@ final class PhabricatorFeedQuery
     );
   }
 
+  /**
+   * @param PhabricatorFeedQuery $subquery
+   * @param PhabricatorQueryCursor $cursor
+   */
   protected function applyExternalCursorConstraintsToQuery(
     PhabricatorCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
+
     $subquery->withChronologicalKeys(array($cursor));
   }
 

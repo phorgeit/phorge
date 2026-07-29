@@ -1015,9 +1015,14 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     return $cursor_object;
   }
 
+  /**
+   * @param ManiphestTaskQuery $subquery
+   * @param PhabricatorQueryCursor $cursor
+   */
   protected function applyExternalCursorConstraintsToQuery(
     PhabricatorCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
+
     list($task_id, $group_phid) = $this->parseCursor($cursor);
 
     $subquery->withIDs(array($task_id));

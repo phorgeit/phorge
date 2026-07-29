@@ -167,6 +167,10 @@ final class PhabricatorNotificationQuery
     );
   }
 
+  /**
+   * @param PhabricatorNotificationQuery $subquery
+   * @param PhabricatorQueryCursor $cursor
+   */
   protected function applyExternalCursorConstraintsToQuery(
     PhabricatorCursorPagedPolicyAwareQuery $subquery,
     $cursor) {

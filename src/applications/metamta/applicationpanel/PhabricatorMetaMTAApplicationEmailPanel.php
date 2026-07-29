@@ -49,6 +49,10 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     return $box;
   }
 
+  /**
+   * @param AphrontRequest $request
+   * @param PhabricatorApplicationPanelController $controller
+   */
   public function handlePanelRequest(
     AphrontRequest $request,
     PhabricatorController $controller) {

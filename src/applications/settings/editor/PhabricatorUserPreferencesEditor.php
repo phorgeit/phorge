@@ -73,6 +73,10 @@ final class PhabricatorUserPreferencesEditor
     return parent::getCustomTransactionNewValue($object, $xaction);
   }
 
+  /**
+   * @param PhabricatorUserPreferences $object
+   * @param PhabricatorApplicationTransaction $xaction
+   */
   protected function applyCustomInternalTransaction(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {

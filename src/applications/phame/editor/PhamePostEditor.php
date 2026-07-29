@@ -28,18 +28,28 @@ final class PhamePostEditor
     return $types;
   }
 
+  /**
+   * @param PhamePost $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function shouldSendMail(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     if ($object->isDraft() || ($object->isArchived())) {
       return false;
     }
     return true;
   }
 
+  /**
+   * @param PhamePost $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function shouldPublishFeedStory(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     if ($object->isDraft() || $object->isArchived()) {
       return false;
     }
@@ -74,6 +84,10 @@ final class PhamePostEditor
       ->setMailReceiver($object);
   }
 
+  /**
+   * @param PhamePost $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildMailBody(
     PhabricatorLiskDAO $object,
     array $xactions) {

@@ -67,6 +67,10 @@ final class DiffusionURIEditor
     return parent::getCustomTransactionNewValue($object, $xaction);
   }
 
+  /**
+   * @param PhabricatorRepositoryURI $object
+   * @param PhabricatorApplicationTransaction $xaction
+   */
   protected function applyCustomInternalTransaction(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {
@@ -153,6 +157,11 @@ final class DiffusionURIEditor
     return parent::applyCustomExternalTransaction($object, $xaction);
   }
 
+  /**
+   * @param PhabricatorRepositoryURI $object
+   * @param string $type
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function validateTransaction(
     PhabricatorLiskDAO $object,
     $type,

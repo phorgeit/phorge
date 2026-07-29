@@ -36,6 +36,9 @@ final class HeraldRuleEditor
     return $types;
   }
 
+  /**
+   * @param HeraldRule $object
+   */
   protected function getMailTo(PhabricatorLiskDAO $object) {
     $phids = array();
 

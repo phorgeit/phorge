@@ -37,6 +37,9 @@ final class PhabricatorUserIconField
     return true;
   }
 
+  /**
+   * @param PhabricatorUser $object
+   */
   public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
     $this->value = $object->loadUserProfile()->getIcon();
   }

@@ -343,6 +343,10 @@ final class PhabricatorProjectTransactionEditor
     return $slugs;
   }
 
+  /**
+   * @param PhabricatorProject $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function adjustObjectForPolicyChecks(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -422,6 +426,10 @@ final class PhabricatorProjectTransactionEditor
     return $copy;
   }
 
+  /**
+   * @param PhabricatorProject $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function expandTransactions(
     PhabricatorLiskDAO $object,
     array $xactions) {

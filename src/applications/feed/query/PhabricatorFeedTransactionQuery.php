@@ -230,6 +230,10 @@ final class PhabricatorFeedTransactionQuery
     return (string)$object->getPHID();
   }
 
+  /**
+   * @param PhabricatorFeedTransactionQuery $subquery
+   * @param PhabricatorQueryCursor $cursor
+   */
   protected function applyExternalCursorConstraintsToQuery(
     PhabricatorCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
