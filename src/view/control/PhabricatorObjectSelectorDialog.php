@@ -16,7 +16,6 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
   private $title;
   private $header;
   private $buttonText;
-  private $instructions;
 
   public function setUser($user) {
     $this->user = $user;

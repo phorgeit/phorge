@@ -5,7 +5,6 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
   private $viewer;
   private $boardPHIDs;
   private $objectPHIDs = array();
-  private $boards;
   private $columnMap = array();
   private $objectColumnMap = array();
   private $boardLayout = array();

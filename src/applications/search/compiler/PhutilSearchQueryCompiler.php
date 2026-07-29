@@ -4,7 +4,6 @@ final class PhutilSearchQueryCompiler
   extends Phobject {
 
   private $operators = '+ -><()~*:""&|';
-  private $query;
   private $stemmer;
   private $enableFunctions = false;
 
