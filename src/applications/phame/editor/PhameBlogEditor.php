@@ -100,6 +100,10 @@ final class PhameBlogEditor
     return true;
   }
 
+  /**
+   * @param PhameBlog $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildHeraldAdapter(
     PhabricatorLiskDAO $object,
     array $xactions) {

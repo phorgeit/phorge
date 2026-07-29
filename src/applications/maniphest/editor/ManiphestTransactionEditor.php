@@ -220,6 +220,10 @@ final class ManiphestTransactionEditor
     return true;
   }
 
+  /**
+   * @param ManiphestTask $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildHeraldAdapter(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -263,6 +267,10 @@ final class ManiphestTransactionEditor
     return $errors;
   }
 
+  /**
+   * @param ManiphestTask $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function expandTransactions(
     PhabricatorLiskDAO $object,
     array $xactions) {

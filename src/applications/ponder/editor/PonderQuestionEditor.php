@@ -181,9 +181,14 @@ final class PonderQuestionEditor
   protected function shouldApplyHeraldRules(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
+  /**
+   * @param PonderQuestion $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildHeraldAdapter(
     PhabricatorLiskDAO $object,
     array $xactions) {

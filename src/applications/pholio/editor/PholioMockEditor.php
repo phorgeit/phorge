@@ -171,6 +171,10 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
     return true;
   }
 
+  /**
+   * @param PholioMock $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildHeraldAdapter(
     PhabricatorLiskDAO $object,
     array $xactions) {

@@ -145,6 +145,10 @@ final class PhrictionTransactionEditor
     return $xactions;
   }
 
+  /**
+   * @param PhrictionDocument $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function applyFinalEffects(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -453,9 +457,14 @@ final class PhrictionTransactionEditor
   protected function shouldApplyHeraldRules(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
+  /**
+   * @param PhrictionDocument $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildHeraldAdapter(
     PhabricatorLiskDAO $object,
     array $xactions) {

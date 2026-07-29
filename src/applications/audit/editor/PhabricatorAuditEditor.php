@@ -177,6 +177,10 @@ final class PhabricatorAuditEditor
     return $xactions;
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param PhabricatorApplicationTransaction $xaction
+   */
   protected function expandTransaction(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {
@@ -279,6 +283,12 @@ final class PhabricatorAuditEditor
     return true;
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   * @param array<PhabricatorTransactionRemarkupChange> $changes
+   * @param PhutilMarkupEngine $engine
+   */
   protected function expandCustomRemarkupBlockTransactions(
     PhabricatorLiskDAO $object,
     array $xactions,
@@ -403,6 +413,9 @@ final class PhabricatorAuditEditor
     return 'diffusion-audit-'.$object->getPHID();
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   */
   protected function buildMailTemplate(PhabricatorLiskDAO $object) {
     $identifier = $object->getCommitIdentifier();
     $repository = $object->getRepository();
@@ -422,6 +435,9 @@ final class PhabricatorAuditEditor
     return $template;
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   */
   protected function getMailTo(PhabricatorLiskDAO $object) {
     $this->requireAuditors($object);
 
@@ -442,6 +458,9 @@ final class PhabricatorAuditEditor
     return $phids;
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   */
   protected function newMailUnexpandablePHIDs(PhabricatorLiskDAO $object) {
     $this->requireAuditors($object);
 
@@ -462,6 +481,10 @@ final class PhabricatorAuditEditor
     return pht('View Commit');
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildMailBody(
     PhabricatorLiskDAO $object,
     array $xactions) {

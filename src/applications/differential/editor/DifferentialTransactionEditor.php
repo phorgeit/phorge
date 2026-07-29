@@ -149,6 +149,10 @@ final class DifferentialTransactionEditor
     return parent::expandTransactions($object, $xactions);
   }
 
+  /**
+   * @param DifferentialRevision $object
+   * @param PhabricatorApplicationTransaction $xaction
+   */
   protected function expandTransaction(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {
@@ -319,6 +323,10 @@ final class DifferentialTransactionEditor
     return parent::applyBuiltinExternalTransaction($object, $xaction);
   }
 
+  /**
+   * @param DifferentialRevision $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function applyFinalEffects(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -539,6 +547,9 @@ final class DifferentialTransactionEditor
     return true;
   }
 
+  /**
+   * @param DifferentialRevision $object
+   */
   protected function getMailTo(PhabricatorLiskDAO $object) {
     if ($object->getShouldBroadcast()) {
       $this->requireReviewers($object);
@@ -574,6 +585,9 @@ final class DifferentialTransactionEditor
     return parent::getMailCC($object);
   }
 
+  /**
+   * @param DifferentialRevision $object
+   */
   protected function newMailUnexpandablePHIDs(PhabricatorLiskDAO $object) {
     $this->requireReviewers($object);
 

@@ -203,6 +203,10 @@ final class PhabricatorProjectTransactionEditor
     return true;
   }
 
+  /**
+   * @param PhabricatorProject $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function applyFinalEffects(
     PhabricatorLiskDAO $object,
     array $xactions) {

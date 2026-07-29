@@ -14,12 +14,18 @@ final class HeraldRuleEditor
   protected function shouldApplyHeraldRules(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
+  /**
+   * @param HeraldRule $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildHeraldAdapter(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return id(new HeraldRuleAdapter())
       ->setRule($object);
   }
@@ -27,6 +33,7 @@ final class HeraldRuleEditor
   protected function shouldSendMail(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 

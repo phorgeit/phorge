@@ -36,6 +36,10 @@ final class PhabricatorCalendarEventEditor
     return $this->newIsAllDay;
   }
 
+  /**
+   * @param PhabricatorCalendarEvent $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function applyInitialEffects(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -328,6 +332,10 @@ final class PhabricatorCalendarEventEditor
       ->setSubject("{$monogram}: {$name}");
   }
 
+  /**
+   * @param PhabricatorCalendarEvent $object
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   */
   protected function buildMailBody(
     PhabricatorLiskDAO $object,
     array $xactions) {
