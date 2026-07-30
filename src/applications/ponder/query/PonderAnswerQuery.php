@@ -41,6 +41,13 @@ final class PonderAnswerQuery
         $this->ids);
     }
 
+    if ($this->questionIDs !== null) {
+      $where[] = qsprintf(
+        $conn,
+        'questionID IN (%Ld)',
+        $this->questionIDs);
+    }
+
     if ($this->phids !== null) {
       $where[] = qsprintf(
         $conn,
