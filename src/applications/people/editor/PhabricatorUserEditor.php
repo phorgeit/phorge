@@ -12,8 +12,6 @@
  */
 final class PhabricatorUserEditor extends PhabricatorEditor {
 
-  private $logs = array();
-
 
 /* -(  Creating and Editing Users  )----------------------------------------- */
 

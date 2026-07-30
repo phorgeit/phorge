@@ -48,7 +48,6 @@ final class PhabricatorUser
 
   private $profile = null;
   private $availability = self::ATTACHABLE;
-  private $preferences = null;
   private $omnipotent = false;
   private $customFields = self::ATTACHABLE;
   private $badgePHIDs = self::ATTACHABLE;

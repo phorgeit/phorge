@@ -7,7 +7,6 @@ abstract class DivinerAtomizer extends Phobject {
 
   private $book;
   private $fileName;
-  private $atomContext;
 
   /**
    * If you make a significant change to an atomizer, you can bump this version
@@ -19,7 +18,6 @@ abstract class DivinerAtomizer extends Phobject {
 
   final public function atomize($file_name, $file_data, array $context) {
     $this->fileName = $file_name;
-    $this->atomContext = $context;
     $atoms = $this->executeAtomize($file_name, $file_data);
 
     // Promote the `@group` special to a property. If there's no `@group` on

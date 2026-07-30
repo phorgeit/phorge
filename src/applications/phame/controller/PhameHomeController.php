@@ -104,7 +104,6 @@ final class PhameHomeController extends PhamePostController {
 
       $draft_list = id(new PhameDraftListView())
         ->setPosts($drafts)
-        ->setBlogs($blogs)
         ->setViewer($viewer);
     }
 

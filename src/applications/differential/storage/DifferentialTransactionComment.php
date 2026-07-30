@@ -17,7 +17,6 @@ final class DifferentialTransactionComment
 
   private $replyToComment = self::ATTACHABLE;
   private $isHidden = self::ATTACHABLE;
-  private $changeset = self::ATTACHABLE;
   private $inlineContext = self::ATTACHABLE;
 
   public function getApplicationTransactionObject() {

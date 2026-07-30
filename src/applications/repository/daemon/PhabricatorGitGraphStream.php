@@ -3,7 +3,6 @@
 final class PhabricatorGitGraphStream
   extends PhabricatorRepositoryGraphStream {
 
-  private $repository;
   private $iterator;
   private $startCommit;
 
@@ -14,7 +13,6 @@ final class PhabricatorGitGraphStream
     PhabricatorRepository $repository,
     $start_commit = null) {
 
-    $this->repository = $repository;
     $this->startCommit = $start_commit;
 
     if ($start_commit !== null) {

@@ -38,7 +38,6 @@ final class PhutilCalendarRecurrenceRule
   private $setDays;
   private $setMonths;
   private $setWeeks;
-  private $setYears;
 
   private $stateSecond;
   private $stateMinute;
@@ -625,7 +624,6 @@ final class PhutilCalendarRecurrenceRule
     $this->setHours = array();
     $this->setDays = array();
     $this->setMonths = array();
-    $this->setYears = array();
 
     $this->stateSecond = null;
     $this->stateMinute = null;

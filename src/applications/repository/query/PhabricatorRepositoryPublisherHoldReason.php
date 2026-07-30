@@ -3,7 +3,6 @@
 final class PhabricatorRepositoryPublisherHoldReason
   extends Phobject {
 
-  private $key;
   private $spec;
 
   public static function newForHoldKey($key) {

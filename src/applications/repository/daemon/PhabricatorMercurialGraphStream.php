@@ -8,7 +8,6 @@
 final class PhabricatorMercurialGraphStream
   extends PhabricatorRepositoryGraphStream {
 
-  private $repository;
   private $iterator;
 
   private $parents        = array();
@@ -18,8 +17,6 @@ final class PhabricatorMercurialGraphStream
 
   public function __construct(PhabricatorRepository $repository,
     $start_commit = null) {
-
-    $this->repository = $repository;
 
     $command = 'log --template %s --rev %s';
     $template = '{rev}\1{node}\1{date}\1{parents}\2';

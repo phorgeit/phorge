@@ -3,7 +3,6 @@
 final class PhameDraftListView extends AphrontTagView {
 
   private $posts;
-  private $blogs;
 
   /**
    * @param array<PhamePost> $posts
@@ -11,15 +10,6 @@ final class PhameDraftListView extends AphrontTagView {
   public function setPosts($posts) {
     assert_instances_of($posts, PhamePost::class);
     $this->posts = $posts;
-    return $this;
-  }
-
-  /**
-   * @param array<PhameBlog> $blogs
-   */
-  public function setBlogs($blogs) {
-    assert_instances_of($blogs, PhameBlog::class);
-    $this->blogs = $blogs;
     return $this;
   }
 

@@ -4,7 +4,6 @@ final class AphrontHTTPHeaderParser extends Phobject {
 
   private $name;
   private $content;
-  private $pairs;
 
   public function parseRawHeader($raw_header) {
     $this->name = null;
@@ -15,8 +14,6 @@ final class AphrontHTTPHeaderParser extends Phobject {
     if (count($parts) > 1) {
       $this->content = trim($parts[1]);
     }
-
-    $this->pairs = null;
 
     return $this;
   }
