@@ -56,14 +56,14 @@ final class AphrontFormRadioButtonControl extends AphrontFormControl {
           phutil_tag_div('aphront-form-radio-caption', $button['caption']),
         );
       }
-      $rows[] = phutil_tag('tr', array(), array(
-        phutil_tag('td', array(), $radio),
-        phutil_tag('th', array(), $label),
+      $rows[] = phutil_tag('li', array(), array(
+        $radio,
+        phutil_tag('span', array(), $label),
       ));
     }
 
     return phutil_tag(
-      'table',
+      'ul',
       array('class' => 'aphront-form-control-radio-layout'),
       $rows);
   }
