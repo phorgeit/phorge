@@ -261,8 +261,8 @@ final class PhutilSpriteSheet extends Phobject {
     $this->log(pht("Writing CSS '%s'...", $path));
 
     $out = $this->css;
-    $out = str_replace('{X}', imagesx($this->images[1]), $out);
-    $out = str_replace('{Y}', imagesy($this->images[1]), $out);
+    $out = str_replace('{X}', (string)imagesx($this->images[1]), $out);
+    $out = str_replace('{Y}', (string)imagesy($this->images[1]), $out);
 
     Filesystem::writeFile($path, $out);
     return $this;
