@@ -193,6 +193,10 @@ final class ManiphestTaskStatusTransaction
     }
   }
 
+  public function getNoEffectDescription() {
+    return pht('The task already has the selected status.');
+  }
+
   public function getIcon() {
     $old = $this->getOldValue();
     $new = $this->getNewValue();

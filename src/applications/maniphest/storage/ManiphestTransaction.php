@@ -40,62 +40,6 @@ final class ManiphestTransaction
     return parent::shouldGenerateOldValue();
   }
 
-  public function getRequiredHandlePHIDs() {
-    $phids = parent::getRequiredHandlePHIDs();
-
-    $new = $this->getNewValue();
-    $old = $this->getOldValue();
-
-    switch ($this->getTransactionType()) {
-      case ManiphestTaskOwnerTransaction::TRANSACTIONTYPE:
-        if ($new) {
-          $phids[] = $new;
-        }
-
-        if ($old) {
-          $phids[] = $old;
-        }
-        break;
-      case ManiphestTaskMergedIntoTransaction::TRANSACTIONTYPE:
-        $phids[] = $new;
-        break;
-      case ManiphestTaskMergedFromTransaction::TRANSACTIONTYPE:
-        $phids = array_merge($phids, $new);
-        break;
-      case ManiphestTaskEdgeTransaction::TRANSACTIONTYPE:
-        $phids = array_mergev(
-          array(
-            $phids,
-            array_keys(nonempty($old, array())),
-            array_keys(nonempty($new, array())),
-          ));
-        break;
-      case ManiphestTaskAttachTransaction::TRANSACTIONTYPE:
-        $old = nonempty($old, array());
-        $new = nonempty($new, array());
-        $phids = array_mergev(
-          array(
-            $phids,
-            array_keys(idx($new, 'FILE', array())),
-            array_keys(idx($old, 'FILE', array())),
-          ));
-        break;
-      case ManiphestTaskUnblockTransaction::TRANSACTIONTYPE:
-        foreach (array_keys($new) as $phid) {
-          $phids[] = $phid;
-        }
-        break;
-      case ManiphestTaskStatusTransaction::TRANSACTIONTYPE:
-        $commit_phid = $this->getMetadataValue('commitPHID');
-        if ($commit_phid) {
-          $phids[] = $commit_phid;
-        }
-        break;
-    }
-
-    return $phids;
-  }
-
   public function getTitle() {
     $author_phid = $this->getAuthorPHID();
 
@@ -174,19 +118,6 @@ final class ManiphestTransaction
         break;
     }
     return $tags;
-  }
-
-  public function getNoEffectDescription() {
-    switch ($this->getTransactionType()) {
-      case ManiphestTaskStatusTransaction::TRANSACTIONTYPE:
-        return pht('The task already has the selected status.');
-      case ManiphestTaskOwnerTransaction::TRANSACTIONTYPE:
-        return pht('The task already has the selected assignee.');
-      case ManiphestTaskPriorityTransaction::TRANSACTIONTYPE:
-        return pht('The task already has the selected priority.');
-    }
-
-    return parent::getNoEffectDescription();
   }
 
   public function renderSubtypeName($value) {

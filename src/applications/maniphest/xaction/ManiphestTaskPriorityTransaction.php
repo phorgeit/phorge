@@ -100,6 +100,10 @@ final class ManiphestTaskPriorityTransaction
     }
   }
 
+  public function getNoEffectDescription() {
+    return pht('The task already has the selected priority.');
+  }
+
   public function getIcon() {
     $old = $this->getOldValue();
     $new = $this->getNewValue();

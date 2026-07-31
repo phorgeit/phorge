@@ -106,6 +106,10 @@ final class ManiphestTaskOwnerTransaction
     }
   }
 
+  public function getNoEffectDescription() {
+    return pht('The task already has the selected assignee.');
+  }
+
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
