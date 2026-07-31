@@ -176,7 +176,7 @@ final class PhabricatorDaemonConsoleController
     foreach ($queued as $row) {
       $rows[] = array(
         $row['taskClass'],
-        number_format($row['N']),
+        number_format((int)$row['N']),
       );
     }
 
