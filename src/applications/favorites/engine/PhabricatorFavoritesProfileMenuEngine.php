@@ -19,7 +19,10 @@ final class PhabricatorFavoritesProfileMenuEngine
     $items = array();
     $viewer = $this->getViewer();
 
-    $engines = PhabricatorEditEngine::getAllEditEngines();
+    $engines = id(new PhabricatorEditEngineQuery())
+      ->setViewer($this->getViewer())
+      ->execute();
+
     $engines = msortv($engines, 'getQuickCreateOrderVector');
 
     foreach ($engines as $engine) {
