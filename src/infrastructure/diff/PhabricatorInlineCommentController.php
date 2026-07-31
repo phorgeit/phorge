@@ -73,7 +73,7 @@ abstract class PhabricatorInlineCommentController
   }
 
   /**
-   * @param DifferentialChangesetRenderer $renderer
+   * @param string $renderer The key of the DifferentialChangesetRenderer
    */
   public function setRenderer($renderer) {
     $this->renderer = $renderer;
@@ -81,7 +81,7 @@ abstract class PhabricatorInlineCommentController
   }
 
   /**
-   * @return DifferentialChangesetRenderer
+   * @return string The key of the DifferentialChangesetRenderer
    */
   public function getRenderer() {
     return $this->renderer;

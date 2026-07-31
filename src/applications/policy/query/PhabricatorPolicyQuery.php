@@ -35,6 +35,10 @@ final class PhabricatorPolicyQuery
     return $this;
   }
 
+  /**
+   * @return array<string, PhabricatorPolicy> A mapping of capability names
+   *   (e.g. 'view', 'edit', 'interact', 'diffusion.push', etc.) to policies.
+   */
   public static function loadPolicies(
     PhabricatorUser $viewer,
     PhabricatorPolicyInterface $object) {
@@ -252,6 +256,10 @@ final class PhabricatorPolicyQuery
     return $results;
   }
 
+  /**
+   * @param string $policy
+   * @return bool
+   */
   public static function isGlobalPolicy($policy) {
     $global_policies = self::getGlobalPolicies();
 
@@ -262,6 +270,10 @@ final class PhabricatorPolicyQuery
     return false;
   }
 
+  /**
+   * @param string $policy
+   * @return PhabricatorPolicy
+   */
   public static function getGlobalPolicy($policy) {
     if (!self::isGlobalPolicy($policy)) {
       throw new Exception(pht("Policy '%s' is not a global policy!", $policy));

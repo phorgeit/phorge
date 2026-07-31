@@ -36,6 +36,8 @@ final class PhutilSearchQueryCompiler
   }
 
   /**
+   * Enable search prefix functions, like "title:"
+   *
    * @param bool $enable_functions
    */
   public function setEnableFunctions($enable_functions) {
@@ -112,6 +114,9 @@ final class PhutilSearchQueryCompiler
   }
 
   /**
+   * Concatenate tokens into a single string after removing duplicate tokens
+   *
+   * @param array<string> $list
    * @return string|null
    */
   private function compileRenderedTokens(array $list) {
@@ -496,6 +501,7 @@ final class PhutilSearchQueryCompiler
   private function renderToken(
     PhutilSearchQueryToken $token,
     ?PhutilSearchStemmer $stemmer = null) {
+
     $value = $token->getValue();
 
     if ($stemmer) {
@@ -511,6 +517,11 @@ final class PhutilSearchQueryCompiler
     return $value;
   }
 
+  /**
+   * Get the prefix character for a given operator
+   *
+   * @return string|null A single character, or null in case of no prefix
+   */
   private function getOperatorPrefix($operator) {
     $operators = $this->operators;
 
@@ -535,6 +546,9 @@ final class PhutilSearchQueryCompiler
     return $prefix;
   }
 
+  /**
+   * Enclose a search token in quotation marks
+   */
   private function quoteToken($value) {
     $operators = $this->operators;
 

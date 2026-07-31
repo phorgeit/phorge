@@ -44,6 +44,9 @@ abstract class PhabricatorCustomField extends Phobject {
 
   /**
    * @task apps
+   * @param PhabricatorCustomFieldInterface $object
+   * @param string $role One of the PhabricatorCustomField role constants
+   * @return PhabricatorCustomFieldList
    */
   public static function getObjectFields(
     PhabricatorCustomFieldInterface $object,

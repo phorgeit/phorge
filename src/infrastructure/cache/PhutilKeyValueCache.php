@@ -49,9 +49,9 @@ abstract class PhutilKeyValueCache extends Phobject {
    *
    * See @{method:setKeys} for a description of TTLs.
    *
-   * @param   string    $key Key to set.
-   * @param   mixed     $value Value to set.
-   * @param   int|null  $ttl (optional) TTL.
+   * @param   string|int $key Key to set.
+   * @param   mixed      $value Value to set.
+   * @param   int|null   $ttl (optional) TTL.
    * @return  $this
    * @task kvimpl
    */
