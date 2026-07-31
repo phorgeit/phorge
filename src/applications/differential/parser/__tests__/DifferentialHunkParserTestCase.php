@@ -51,7 +51,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     $hunks = $this->createSingleChange(1, 0, '-a');
     $context = $parser->makeContextDiff(
       $hunks,
-      0,
+      false,
       1,
       0,
       0);
@@ -63,7 +63,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     $hunks = $this->createSingleChange(0, 1, '+a');
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       1,
       0,
       0);
@@ -75,7 +75,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     $hunks = $this->createSingleChange(0, 1, '+a');
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       2,
       0,
       0);
@@ -89,7 +89,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     );
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       41,
       1,
       0);
@@ -103,7 +103,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     );
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       43,
       1,
       0);
@@ -119,7 +119,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
       "+n3\n");
     $context = $parser->makeContextDiff(
       $hunks,
-      0,
+      false,
       1,
       1,
       0);
@@ -138,7 +138,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
       "+n2\n");
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       1,
       1,
       0);
@@ -156,7 +156,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     // Note that this only works with additional context.
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       2,
       0,
       1);
@@ -180,7 +180,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
       " e7\n");
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       2,
       4,
       0);
@@ -209,7 +209,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
       " e7\n");
     $context = $parser->makeContextDiff(
       $hunks,
-      0,
+      false,
       2,
       4,
       0);
@@ -232,7 +232,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
       "+n3\n");
     $context = $parser->makeContextDiff(
       $hunks,
-      0,
+      false,
       1,
       1,
       1);
@@ -252,7 +252,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
       "+n2\n");
     $context = $parser->makeContextDiff(
       $hunks,
-      1,
+      true,
       1,
       1,
       1);
