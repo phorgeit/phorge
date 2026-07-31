@@ -8,6 +8,65 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
 
   protected function executeChecks() {
 
+    // Check for deprecated "Track Only" feature - https://we.phorge.it/T16603
+    $repository = id(new PhabricatorRepositoryQuery())
+      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->execute();
+
+    $track_only_repos = array();
+
+    foreach ($repository as $repo) {
+      if ($repo->getTrackOnlyRules() !== array()) {
+        $track_only_repos[] = array(
+          'name' => $repo->getName(),
+          'id' => $repo->getID(),
+        );
+      }
+    }
+
+    if ($track_only_repos) {
+      $update = array();
+      foreach ($track_only_repos as $repo) {
+        $link = phutil_tag(
+          'a',
+          array(
+            'href' => '/diffusion/edit/'.$repo['id'].'/page/branches/',
+            'target' => '_blank',
+          ),
+          $repo['name']);
+        $update[] = phutil_tag('li', array(), $link);
+      }
+      $update = phutil_tag('ul', array(), $update);
+
+      $summary = pht(
+        'Repositories with "Track Only" branches require updating.');
+      $message = pht(
+        'Some repositories are configured to use the deprecated '.
+        '"Track Only" feature. This feature has been deprecated since 2019 '.
+        'and will be removed in a future version of this software. '.
+        "\n\n".
+        'Edit the repositories to remove the "Track Only" setting and use '.
+        'the "Fetch Refs" and "Permanent Refs" features instead:'.
+        '%s'.
+        'To learn more about repository branch configuration, see %s.',
+        $update,
+        phutil_tag(
+          'a',
+          array(
+            'href' => PhabricatorEnv::getDoclink(
+              'Diffusion User Guide: Managing Repositories'),
+            'target' => '_blank',
+          ),
+          pht('Diffusion User Guide: Managing Repositories')));
+
+      $this
+        ->newIssue('diffusion.track-only-deprecation')
+        ->setName(pht('Repositories with "Track Only" branches'))
+        ->setSummary($summary)
+        ->setMessage($message);
+    }
+
+
     $cluster_services = id(new AlmanacServiceQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
       ->withServiceTypes(
