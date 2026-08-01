@@ -299,8 +299,10 @@ This panel is not available for Subversion repositories, because Subversion
 does not have formal branches.
 
 You can configure a **Default Branch**. This controls which branch is shown by
-default in the UI. If no branch is provided, Phorge will use `master` in
-Git and `default` in Mercurial.
+default in the UI. If no branch is provided, Phorge will use the global setting
+in the configuration options `diffusion.global-default-branch-git` and
+`diffusion.global-default-branch-mercurial`. If the global configuration options
+are not set, Phorge will use `master` in Git and `default` in Mercurial.
 
 **Fetch Refs**: In Git, if you are observing a remote repository, you can
 specify that you only want to fetch a subset of refs using "Fetch Refs".
