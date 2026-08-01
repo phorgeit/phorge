@@ -120,6 +120,81 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
         ->addPhabricatorConfig('repository.default-local-path');
     }
 
+
+    // Check for deprecated Herald conditions - https://we.phorge.it/T16733
+    $rules = id(new HeraldRuleQuery())
+      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->withContentTypes(array('commit'))
+      ->needConditionsAndActions(true)
+      ->needValidateAuthors(false)
+      ->execute();
+
+    $deprecated_rules = array();
+    $autoclose = DiffusionCommitAutocloseHeraldField::FIELDCONST;
+    $reviewer = DiffusionCommitReviewerHeraldField::FIELDCONST;
+
+    foreach ($rules as $rule) {
+      $conditions = $rule->loadConditions();
+      foreach ($conditions as $cond) {
+        if ($cond->getFieldName() === $autoclose ||
+            $cond->getFieldName() === $reviewer) {
+          $deprecated_rules[] = array(
+            'id' => $rule->getID(),
+            'monogram' => $rule->getMonogram(),
+            'name' => $rule->getName(),
+          );
+          continue;
+        }
+      }
+    }
+
+    if ($deprecated_rules) {
+      $update = array();
+      foreach ($deprecated_rules as $rule) {
+        $link = phutil_tag(
+          'a',
+          array(
+            'href' => '/herald/edit/'.$rule['id'].'/',
+            'target' => '_blank',
+          ),
+          $rule['monogram'].': '.$rule['name']);
+        $update[] = phutil_tag('li', array(), $link);
+      }
+      $update = phutil_tag('ul', array(), $update);
+
+      $summary = pht(
+        'Herald Rules with deprecated conditions require updating.');
+      $message = pht(
+        'Some Herald rules for commits use the deprecated "Commit Autocloses" '.
+        'or "Reviewer" conditions. These conditions have been deprecated '.
+        'since 2019 and will be removed in a future version of this '.
+        'software.'.
+        "\n\n".
+        'Edit the rules to remove all deprecated conditions.'.
+        "\n".
+        'Remove any "Commit Autocloses" conditions; they have no effect '.
+        'anymore.'.
+        "\n".
+        'Replace any "Reviewer" conditions with "Accepting Reviewers".'.
+        '%s'.
+        'To learn more about Herald rules, see %s.',
+        $update,
+        phutil_tag(
+          'a',
+          array(
+            'href' => PhabricatorEnv::getDoclink(
+              'Herald User Guide'),
+            'target' => '_blank',
+          ),
+          pht('Herald User Guide')));
+
+      $this
+        ->newIssue('herald.diffusion-deprecation')
+        ->setName(pht('Herald Rules With Deprecated Conditions'))
+        ->setSummary($summary)
+        ->setMessage($message);
+    }
+
   }
 
 }
