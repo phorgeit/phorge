@@ -28,6 +28,7 @@ abstract class PhabricatorEventListener extends PhutilEventListener {
       PhabricatorPolicyCapability::CAN_VIEW);
   }
 
+  /** @deprecated extend PHUIActionListExtension instead */
   protected function addActionMenuItems(PhutilEvent $event, $items) {
     if ($event->getType() !== PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS) {
       throw new Exception(pht('Not an action menu event!'));

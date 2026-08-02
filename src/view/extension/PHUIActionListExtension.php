@@ -9,7 +9,14 @@ abstract class PHUIActionListExtension extends Phobject {
   /**
    * @return PhabricatorActionView|null
    */
-  abstract protected function buildAction();
+  protected function buildAction() {
+    throw new PhutilMethodNotImplementedException(
+      pht(
+        'Implement either `%s` or `%s` in class %s!',
+        'buildAction()',
+        'buildActions()',
+        get_class($this)));
+  }
 
   private $viewer;
   private $object;

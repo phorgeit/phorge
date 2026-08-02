@@ -18,12 +18,6 @@ final class PhabricatorFlagsApplication extends PhabricatorApplication {
     return 'fa-flag';
   }
 
-  public function getEventListeners() {
-    return array(
-      new PhabricatorFlagsUIEventListener(),
-    );
-  }
-
   public function getTitleGlyph() {
     return "\xE2\x9A\x90";
   }

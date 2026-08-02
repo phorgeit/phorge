@@ -30,12 +30,6 @@ final class PhabricatorPhrequentApplication extends PhabricatorApplication {
     return 0.110;
   }
 
-  public function getEventListeners() {
-    return array(
-      new PhrequentUIEventListener(),
-    );
-  }
-
   public function getRoutes() {
     return array(
       '/phrequent/' => array(

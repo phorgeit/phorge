@@ -4,7 +4,7 @@ final class PhabricatorTokenUIEventListener
   extends PhabricatorEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
+    // This is currently used for Blog Posts.
     $this->listen(PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES);
   }
 
@@ -12,9 +12,6 @@ final class PhabricatorTokenUIEventListener
     $object = $event->getValue('object');
 
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
-        $this->handleActionEvent($event);
-        break;
       case PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES:
         // Hacky solution so that property list view on Diffusion
         // commits shows build status, but not Projects, Subscriptions,
@@ -25,59 +22,6 @@ final class PhabricatorTokenUIEventListener
         $this->handlePropertyEvent($event);
         break;
     }
-  }
-
-  private function handleActionEvent($event) {
-    $user = $event->getUser();
-    $object = $event->getValue('object');
-
-    if (!$object || !$object->getPHID()) {
-      // No object, or the object has no PHID yet..
-      return;
-    }
-
-    if (!($object instanceof PhabricatorTokenReceiverInterface)) {
-      // This object isn't a token receiver.
-      return;
-    }
-
-    if (!$this->canUseApplication($event->getUser())) {
-      return;
-    }
-
-    $can_interact = PhabricatorPolicyFilter::canInteract($user, $object);
-
-    $current = id(new PhabricatorTokenGivenQuery())
-      ->setViewer($user)
-      ->withAuthorPHIDs(array($user->getPHID()))
-      ->withObjectPHIDs(array($object->getPHID()))
-      ->execute();
-
-    if (!$current) {
-      $token_action = id(new PhabricatorActionView())
-        ->setWorkflow(true)
-        ->setHref('/token/give/'.$object->getPHID().'/')
-        ->setName(pht('Award Token'))
-        ->setIcon('fa-trophy')
-        ->setDisabled(!$can_interact);
-    } else {
-      $token_action = id(new PhabricatorActionView())
-        ->setWorkflow(true)
-        ->setHref('/token/give/'.$object->getPHID().'/')
-        ->setName(pht('Rescind Token'))
-        ->setIcon('fa-trophy')
-        ->setDisabled(!$can_interact);
-    }
-
-    if (!$user->isLoggedIn() ||
-        ($object instanceof PhorgeRestrictableInteractionInterface &&
-        $object->disallowInteractions())) {
-      $token_action->setDisabled(true);
-    }
-
-    $actions = $event->getValue('actions');
-    $actions[] = $token_action;
-    $event->setValue('actions', $actions);
   }
 
   private function handlePropertyEvent($event) {
