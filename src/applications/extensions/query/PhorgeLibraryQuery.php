@@ -3,19 +3,8 @@
 final class PhorgeLibraryQuery
   extends PhabricatorOffsetPagedQuery {
 
-  private $phids;
-
   public function execute() {
     $libs = $this->loadLibraries();
-
-    if ($this->phids) {
-      $map = array_fill_keys($this->phids, true);
-      foreach ($libs as $key => $token) {
-        if (empty($map[$token->getPHID()])) {
-          unset($libs[$key]);
-        }
-      }
-    }
 
     $libs = mpull($libs, null, 'getName');
 
