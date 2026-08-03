@@ -114,8 +114,14 @@ final class DiffusionRepositoryIdentitySearchEngine
 
     $phids = array();
     foreach ($identities as $identity) {
-      $phids[] = $identity->getCurrentEffectiveUserPHID();
-      $phids[] = $identity->getManuallySetUserPHID();
+      $e_phid = $identity->getCurrentEffectiveUserPHID();
+      if ($e_phid !== null) {
+        $phids[] = $e_phid;
+      }
+      $m_phid = $identity->getManuallySetUserPHID();
+      if ($m_phid !== null) {
+        $phids[] = $m_phid;
+      }
     }
 
     $handles = $viewer->loadHandles($phids);
