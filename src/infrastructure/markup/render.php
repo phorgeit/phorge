@@ -167,9 +167,12 @@ function phutil_safe_html($string) {
 
 /**
  * HTML safe version of `implode()`.
+ *
+ * @param mixed $glue An object, e.g. PhutilSafeHTML or PHUIIconView
+ * @param array<mixed> $pieces
  */
 function phutil_implode_html($glue, array $pieces) {
-  $glue = phutil_escape_html($glue);
+  $glue = (string)phutil_escape_html($glue);
 
   foreach ($pieces as $k => $piece) {
     $pieces[$k] = phutil_escape_html($piece);
