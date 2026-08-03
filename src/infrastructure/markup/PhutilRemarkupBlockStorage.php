@@ -41,6 +41,7 @@ final class PhutilRemarkupBlockStorage extends Phobject {
 
   const MAGIC_BYTE = "\1";
 
+  /** array<int|string, PhutilSafeHTML> */
   private $map = array();
   private $index = 0;
 
@@ -85,6 +86,8 @@ final class PhutilRemarkupBlockStorage extends Phobject {
     $seen = array();
     foreach ($map as $key => $content) {
       $seen[$key] = true;
+
+     $content = (string)$content;
 
       // If the content contains no token magic, we don't need to replace
       // anything.
@@ -170,10 +173,19 @@ final class PhutilRemarkupBlockStorage extends Phobject {
     return $this;
   }
 
+  /**
+   * @return array<int|string, PhutilSafeHTML> $map Mapping of a default array
+   * key or replacement token string to a PhutilSafeHTML element
+   */
   public function getMap() {
     return $this->map;
   }
 
+  /**
+   * @param array<int|string, PhutilSafeHTML> $map Mapping of a default array
+   * key or replacement token string to a PhutilSafeHTML element
+   * @return $this
+   */
   public function setMap(array $map) {
     $this->map = $map;
     return $this;
