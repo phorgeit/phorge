@@ -33,7 +33,7 @@ abstract class PhabricatorFactDimension extends PhabricatorFactDAO {
       return array();
     }
 
-    $conn = $this->establishConnection('r');
+    $conn = $this->establishConnection($create ? 'w' : 'r');
     $column = $this->getDimensionColumnName();
 
     $rows = queryfx_all(
