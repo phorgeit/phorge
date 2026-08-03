@@ -24,7 +24,7 @@ final class PhrequentTrackingEditor extends PhabricatorEditor {
     }
 
     $usertime_dao = new PhrequentUserTime();
-    $conn = $usertime_dao->establishConnection('r');
+    $conn = $usertime_dao->establishConnection('w');
 
     queryfx(
       $conn,
