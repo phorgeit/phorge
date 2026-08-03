@@ -78,6 +78,8 @@ final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
       $opts = $parser->parse(substr($options, 1));
 
       if (isset($opts['image'])) {
+        // PholioMockEmbedView shows only the first image passed.
+        // Keep "&" syntax for backwards compatibility.
         $images = array_unique(
           explode('&', preg_replace('/\s+/', '', $opts['image'])));
 

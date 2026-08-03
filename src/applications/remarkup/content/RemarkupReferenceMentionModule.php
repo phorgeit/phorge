@@ -88,14 +88,13 @@ You can embed a Pholio mock by using braces to refer to it:
 
   {M123}
 
-By default the first four images from the mock set are displayed. This behavior
-can be overridden with the **image** option. With the **image** option you can
-provide one or more image IDs to display.
+By default the first image from the mock is displayed. This behavior can be
+overridden with the **image** option. With the **image** option you can
+provide an image ID to display.
 
-You can set the image (or images) to display like this:
+You can set the image to display like this:
 
   {M123, image=12345}
-  {M123, image=12345 & 6789}
 
 == Embedding Pastes
 
