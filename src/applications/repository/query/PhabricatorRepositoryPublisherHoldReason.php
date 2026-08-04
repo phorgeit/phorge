@@ -9,7 +9,6 @@ final class PhabricatorRepositoryPublisherHoldReason
     $spec = self::getSpecForHoldKey($key);
 
     $hold = new self();
-    $hold->key = $key;
     $hold->spec = $spec;
 
     return $hold;
