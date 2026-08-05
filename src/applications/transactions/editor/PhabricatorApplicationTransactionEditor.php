@@ -320,7 +320,7 @@ abstract class PhabricatorApplicationTransactionEditor
       $this->object = $object;
       $result = $this->getTransactionTypes();
       $this->object = $old;
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       $this->object = $old;
       throw $ex;
     }
@@ -334,6 +334,8 @@ abstract class PhabricatorApplicationTransactionEditor
     $types[] = PhabricatorTransactions::TYPE_FILE;
 
     if ($this->object instanceof PhabricatorEditEngineSubtypeInterface) {
+      // TODO eventually remove all mentions of this transaction type from this
+      // class.
       $types[] = PhabricatorTransactions::TYPE_SUBTYPE;
     }
 
@@ -505,7 +507,17 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_COMMENT:
       case PhabricatorTransactions::TYPE_FILE:
         return null;
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE:
+        // NOTE: I'm keeping TYPE_SUBTYPE handling here too in case there are
+        // any extensions that use it in the old format.
+        phlog(
+          pht(
+            'Transaction type %s is deprecated as non-modular transactions. '.
+            'Found in transaction class `%s` for object of type `%s`. see %s.',
+            'PhabricatorTransactions::TYPE_SUBTYPE',
+            get_class($xaction),
+            get_class($object),
+            'https://we.phorge.it/D27149'));
         return $object->getEditEngineSubtype();
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         return array_values($this->subscribers);
@@ -605,7 +617,7 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_INTERACT_POLICY:
       case PhabricatorTransactions::TYPE_TOKEN:
       case PhabricatorTransactions::TYPE_INLINESTATE:
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE:
       case PhabricatorTransactions::TYPE_FILE:
         return $xaction->getNewValue();
       case PhabricatorTransactions::TYPE_MFA:
@@ -749,7 +761,7 @@ abstract class PhabricatorApplicationTransactionEditor
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->applyApplicationTransactionInternalEffects($xaction);
       case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE:
       case PhabricatorTransactions::TYPE_MFA:
       case PhabricatorTransactions::TYPE_TOKEN:
       case PhabricatorTransactions::TYPE_VIEW_POLICY:
@@ -813,7 +825,7 @@ abstract class PhabricatorApplicationTransactionEditor
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->applyApplicationTransactionExternalEffects($xaction);
       case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE:
       case PhabricatorTransactions::TYPE_MFA:
       case PhabricatorTransactions::TYPE_EDGE:
       case PhabricatorTransactions::TYPE_TOKEN:
@@ -882,7 +894,7 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_SPACE:
         $object->setSpacePHID($xaction->getNewValue());
         break;
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE:
         $object->setEditEngineSubtype($xaction->getNewValue());
         break;
     }
@@ -2886,11 +2898,10 @@ abstract class PhabricatorApplicationTransactionEditor
           $xactions,
           $type);
         break;
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE:
         $errors[] = $this->validateSubtypeTransactions(
           $object,
-          $xactions,
-          $type);
+          $xactions);
         break;
       case PhabricatorTransactions::TYPE_MFA:
         $errors[] = $this->validateMFATransactions(
@@ -3153,38 +3164,17 @@ abstract class PhabricatorApplicationTransactionEditor
 
   private function validateSubtypeTransactions(
     PhabricatorLiskDAO $object,
-    array $xactions,
-    $transaction_type) {
-    $errors = array();
+    array $xactions) {
 
-    $map = $object->newEditEngineSubtypeMap();
-    $old = $object->getEditEngineSubtype();
-    foreach ($xactions as $xaction) {
-      $new = $xaction->getNewValue();
-
-      if ($old == $new) {
-        continue;
-      }
-
-      if (!$map->isValidSubtype($new)) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
-          $transaction_type,
-          pht('Invalid'),
-          pht(
-            'The subtype "%s" is not a valid subtype.',
-            $new),
-          $xaction);
-        continue;
-      }
-    }
-
-    return $errors;
+    return id(new PhorgeCoreSubtypeTransaction())
+      ->validateTransactions($object, $xactions);
   }
 
   private function validateMFATransactions(
     PhabricatorLiskDAO $object,
     array $xactions,
     $transaction_type) {
+
     $errors = array();
 
     $factors = id(new PhabricatorAuthFactorConfigQuery())

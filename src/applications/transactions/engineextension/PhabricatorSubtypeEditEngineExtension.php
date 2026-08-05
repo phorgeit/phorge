@@ -21,6 +21,7 @@ final class PhabricatorSubtypeEditEngineExtension
   public function supportsObject(
     PhabricatorEditEngine $engine,
     PhabricatorApplicationTransactionInterface $object) {
+
     return ($object instanceof PhabricatorEditEngineSubtypeInterface);
   }
 
@@ -28,7 +29,7 @@ final class PhabricatorSubtypeEditEngineExtension
     PhabricatorEditEngine $engine,
     PhabricatorApplicationTransactionInterface $object) {
 
-    $subtype_type = PhabricatorTransactions::TYPE_SUBTYPE;
+    $xaction_type = PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE;
     $subtype_value = $object->getEditEngineSubtype();
 
     $map = $object->newEditEngineSubtypeMap();
@@ -45,7 +46,7 @@ final class PhabricatorSubtypeEditEngineExtension
       ->setKey(self::EDITKEY)
       ->setLabel(pht('Subtype'))
       ->setIsFormField(false)
-      ->setTransactionType($subtype_type)
+      ->setTransactionType($xaction_type)
       ->setConduitDescription(pht('Change the object subtype.'))
       ->setConduitTypeDescription(pht('New object subtype key.'))
       ->setValue($subtype_value)

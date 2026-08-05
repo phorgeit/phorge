@@ -616,8 +616,6 @@ abstract class PhabricatorApplicationTransaction
         case PhabricatorTransactions::TYPE_INTERACT_POLICY:
         case PhabricatorTransactions::TYPE_SPACE:
           break;
-        case PhabricatorTransactions::TYPE_SUBTYPE:
-          return true;
         default:
           $old = $this->getOldValue();
 

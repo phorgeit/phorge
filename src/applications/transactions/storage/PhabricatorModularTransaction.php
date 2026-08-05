@@ -27,7 +27,8 @@ abstract class PhabricatorModularTransaction
   }
 
   /**
-  * @return PhabricatorModularTransactionType[]
+  * @return array<string, PhabricatorModularTransactionType>
+  *     keyed by transaction constant
   */
   public function newModularTransactionTypes() {
     $base_class = $this->getBaseTransactionClass();
@@ -43,6 +44,31 @@ abstract class PhabricatorModularTransaction
       ->setUniqueMethod('getTransactionTypeConstant')
       ->execute();
 
+    $types += $this->getExtraTransactionTypes();
+
+    return $types;
+  }
+
+  private function getExtraTransactionTypes() {
+    // This hack should be removed in T16728.
+    // (we don't even have an object here)
+    $types = array();
+    $phid_type = $this->getApplicationTransactionType();
+
+    if (!$phid_type) {
+      return $types;
+    }
+    $phid_type = PhabricatorPHIDType::getType($phid_type);
+    if (!$phid_type) {
+      return $types;
+    }
+    $object = $phid_type->newObject();
+
+    if ($object instanceof PhabricatorEditEngineSubtypeInterface) {
+      $types[] = new PhorgeCoreSubtypeTransaction();
+    }
+
+    $types = mpull($types, null, 'getTransactionTypeConstant');
     return $types;
   }
 

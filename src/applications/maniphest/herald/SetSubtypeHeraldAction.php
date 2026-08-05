@@ -48,7 +48,7 @@ final class SetSubtypeHeraldAction extends HeraldAction {
 
     $adapter = $this->getAdapter();
     $adapter->queueTransaction(id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_SUBTYPE)
+      ->setTransactionType(PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE)
       ->setNewValue($new_subtype));
 
     $this->logEffect(self::DO_SUBTYPE, $new_subtype);

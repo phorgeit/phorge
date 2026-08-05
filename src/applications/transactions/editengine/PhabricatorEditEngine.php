@@ -1146,7 +1146,7 @@ abstract class PhabricatorEditEngine
 
         if ($this->supportsSubtypes()) {
           $xactions[] = id(clone $template)
-            ->setTransactionType(PhabricatorTransactions::TYPE_SUBTYPE)
+            ->setTransactionType(PhorgeCoreSubtypeTransaction::TRANSACTIONTYPE)
             ->setNewValue($config->getSubtype());
         }
       }

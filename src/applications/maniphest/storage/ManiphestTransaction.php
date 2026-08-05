@@ -40,44 +40,6 @@ final class ManiphestTransaction
     return parent::shouldGenerateOldValue();
   }
 
-  public function getTitle() {
-    $author_phid = $this->getAuthorPHID();
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
-    switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBTYPE:
-        return pht(
-          '%s changed the subtype of this task from "%s" to "%s".',
-          $this->renderHandleLink($author_phid),
-          $this->renderSubtypeName($old),
-          $this->renderSubtypeName($new));
-    }
-
-    return parent::getTitle();
-  }
-
-  public function getTitleForFeed() {
-    $author_phid = $this->getAuthorPHID();
-    $object_phid = $this->getObjectPHID();
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
-    switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBTYPE:
-        return pht(
-          '%s changed the subtype of %s from "%s" to "%s".',
-          $this->renderHandleLink($author_phid),
-          $this->renderHandleLink($object_phid),
-          $this->renderSubtypeName($old),
-          $this->renderSubtypeName($new));
-    }
-
-    return parent::getTitleForFeed();
-  }
-
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {
@@ -118,17 +80,6 @@ final class ManiphestTransaction
         break;
     }
     return $tags;
-  }
-
-  public function renderSubtypeName($value) {
-    $object = $this->getObject();
-    $map = $object->newEditEngineSubtypeMap();
-
-    if (!$map->isValidSubtype($value)) {
-      return $value;
-    }
-
-    return $map->getSubtype($value)->getName();
   }
 
 }
