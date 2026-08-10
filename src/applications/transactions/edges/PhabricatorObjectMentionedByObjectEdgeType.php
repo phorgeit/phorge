@@ -24,6 +24,30 @@ final class PhabricatorObjectMentionedByObjectEdgeType
       $add_edges);
   }
 
+  public function getTransactionRemoveString(
+    $actor,
+    $rem_count,
+    $rem_edges) {
+
+    return pht(
+      '%s removed mention from %s.',
+      $actor,
+      $rem_edges);
+  }
+
+  public function getFeedRemoveString(
+    $actor,
+    $object,
+    $rem_count,
+    $rem_edges) {
+
+    return pht(
+      '%s removed mention from %s of %s.',
+      $actor,
+      $rem_edges,
+      $object);
+  }
+
   public function getConduitKey() {
     return 'mentioned-in';
   }

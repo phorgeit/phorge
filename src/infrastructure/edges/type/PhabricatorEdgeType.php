@@ -51,6 +51,10 @@ abstract class PhabricatorEdgeType extends Phobject {
     return false;
   }
 
+  public function shouldHideInApplicationTransactions($xaction) {
+    return null;
+  }
+
   public function getTransactionPreviewString($actor) {
     return pht(
       '%s edited edge metadata.',

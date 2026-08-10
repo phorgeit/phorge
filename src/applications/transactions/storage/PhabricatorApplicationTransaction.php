@@ -684,7 +684,6 @@ abstract class PhabricatorApplicationTransaction
       case PhabricatorTransactions::TYPE_EDGE:
         $edge_type = $this->getMetadataValue('edge:type');
         switch ($edge_type) {
-          case PhabricatorObjectMentionsObjectEdgeType::EDGECONST:
           case ManiphestTaskHasDuplicateTaskEdgeType::EDGECONST:
           case ManiphestTaskIsDuplicateOfTaskEdgeType::EDGECONST:
           case PhabricatorMutedEdgeType::EDGECONST:
@@ -694,6 +693,9 @@ abstract class PhabricatorApplicationTransaction
           case PhabricatorObjectMentionedByObjectEdgeType::EDGECONST:
             $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
             $add = $record->getAddedPHIDs();
+            if (!$add) {
+              return false;
+            }
             $add_value = reset($add);
             $add_handle = $this->getHandle($add_value);
             if ($add_handle->getPolicyFiltered()) {
@@ -701,6 +703,15 @@ abstract class PhabricatorApplicationTransaction
             }
             return false;
           default:
+            $all_edge_types = PhabricatorEdgeType::getAllTypes();
+            $edge_type_object = idx($all_edge_types, $edge_type);
+            if ($edge_type_object) {
+              $hide = $edge_type_object->shouldHideInApplicationTransactions(
+                $this);
+              if ($hide !== null) {
+                return $hide;
+              }
+            }
             break;
         }
         break;

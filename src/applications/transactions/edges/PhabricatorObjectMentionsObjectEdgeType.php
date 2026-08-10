@@ -13,6 +13,38 @@ final class PhabricatorObjectMentionsObjectEdgeType
     return true;
   }
 
+  public function shouldHideInApplicationTransactions($xaction) {
+    $record = PhabricatorEdgeChangeRecord::newFromTransaction($xaction);
+    if ($record->getRemovedPHIDs()) {
+      return false;
+    }
+    return true;
+  }
+
+  public function getTransactionRemoveString(
+    $actor,
+    $rem_count,
+    $rem_edges) {
+
+    return pht(
+      '%s removed mention of %s.',
+      $actor,
+      $rem_edges);
+  }
+
+  public function getFeedRemoveString(
+    $actor,
+    $object,
+    $rem_count,
+    $rem_edges) {
+
+    return pht(
+      '%s removed mention of %s from %s.',
+      $actor,
+      $rem_edges,
+      $object);
+  }
+
   public function getConduitKey() {
     return 'mention';
   }
