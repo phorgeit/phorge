@@ -21,6 +21,9 @@ final class PhabricatorAuthProviderConfigQuery
     return $this;
   }
 
+  /**
+   * @param array<class-string>
+   */
   public function withProviderClasses(array $classes) {
     $this->providerClasses = $classes;
     return $this;
