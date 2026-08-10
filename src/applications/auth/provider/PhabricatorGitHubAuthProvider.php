@@ -18,9 +18,9 @@ final class PhabricatorGitHubAuthProvider
       "\n\n".
       "You should use these settings in your application:".
       "\n\n".
-      "  - **URL:** Set this to your full domain with protocol. For this ".
-      "    server, the correct value is: `%s`\n".
-      "  - **Callback URL**: Set this to: `%s`\n".
+      "  - **Homepage URL:** Set this to your full domain with protocol. ".
+      "    For this server, the correct value is: `%s`\n".
+      "  - **Authorization callback URL**: Set this to: `%s`\n".
       "\n\n".
       "Once you've created an application, copy the **Client ID** and ".
       "**Client Secret** into the fields above.",
