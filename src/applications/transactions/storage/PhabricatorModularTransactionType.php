@@ -186,7 +186,8 @@ abstract class PhabricatorModularTransactionType
 
   final protected function renderHandle($phid) {
     $viewer = $this->getViewer();
-    $display = $viewer->renderHandle($phid);
+    // Avoid PHP 8.5 complaints about null array keys if an object got destroyed
+    $display = $viewer->renderHandle($phid ?? '');
 
     if ($this->isTextMode()) {
       $display->setAsText(true);
