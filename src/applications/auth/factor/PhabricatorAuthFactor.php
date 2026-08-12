@@ -590,7 +590,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
     return phutil_tag(
       'table',
       array(
-        'style' => 'margin: 24px auto;',
+        'style' => 'margin: 24px auto; border: 5px solid white;',
       ),
       $rows);
   }
