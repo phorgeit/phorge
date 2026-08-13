@@ -41,7 +41,7 @@ final class PhabricatorDashboardPanelNameTransaction
         $errors[] = $this->newInvalidError(
           pht(
             'Panel names must not be longer than %s characters.',
-            $max_length));
+            new PhutilNumber($max_length)));
         continue;
       }
     }

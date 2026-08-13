@@ -41,7 +41,7 @@ final class PhabricatorDashboardPortalNameTransaction
         $errors[] = $this->newInvalidError(
           pht(
             'Portal names must not be longer than %s characters.',
-            $max_length));
+            new PhutilNumber($max_length)));
         continue;
       }
     }

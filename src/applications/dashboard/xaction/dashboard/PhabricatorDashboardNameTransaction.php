@@ -41,7 +41,7 @@ final class PhabricatorDashboardNameTransaction
         $errors[] = $this->newInvalidError(
           pht(
             'Dashboard names must not be longer than %s characters.',
-            $max_length));
+            new PhutilNumber($max_length)));
         continue;
       }
     }
