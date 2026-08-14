@@ -1,0 +1,71 @@
+@title Extending and Customizing Phorge
+@group extensions
+@order 10
+
+
+Guide to making Phorge better for your team.
+
+Overview
+========
+
+Phorge is targeting mostly professional teams, and these teams often want things
+done in a particular way. Since different teams want different things, Phorge
+cannot be that thing for everybody.
+Instead, the way to make Phorge be perfect for your team is by //extending// it:
+adding code to suite your needs.
+
+
+Fundamentals
+============
+
+Phorge primarily discovers functionality by looking at concrete subclasses
+of some base class. For example, @{article:Configuring Custom Fields |adding a
+field to Tasks} can be done by adding a class that extends
+`ManiphestCustomField`.
+
+Whenever a feature is needed, we find all the implementations, instantiate each
+of them, and check each one if it applies to the current scenario.
+
+Existing Extensions
+===================
+
+Using the magic of the Community, there are already a few extensions already
+made available by people who needed them. Some can be found in the Wiki at
+[[ https://we.phorge.it/w/community_resources/ | Community Resources ]], and
+some are harder to find. The [[ https://we.phorge.it/w/docs/extensions/install |
+How to Install Extensions ]] page can guide you in how to instal them.
+
+
+What You Can Extend And Invoke
+==============================
+
+In general, we try to make everything extensible. Some examples:
+- Adding @{article:Configuring Custom Fields | custom fields} (properties) to
+  common objects
+- Remarkup (rich text) formatting rules
+- Authentication providers
+- Rendering documents (under Files and under Diffusion)
+- Adding new applications
+
+Documentation about extension points can be found in individual manual sections,
+and non-documented extensions can usually be found by reading the code of
+similar items. If it's unclear whether something is extensible, or how to extend
+it, feel free to ask in
+[[https://we.phorge.it/ponder/question/create/ | Ponder]].
+
+
+Next Steps
+==========
+
+Continue by:
+
+  - visiting the [[ https://we.phorge.it/w/community_resources/ |
+    Community Resources ]] page to find existing extensions and
+    libraries.
+  - check out the [[ https://we.phorge.it/w/docs/extensions/ |
+    Extensions documents ]] in the Wiki for
+    information about writing, distributing and finding extensions.
+  - reading in @{article:Adding New Classes} on the technical aspects
+    of extending your install.
+  - reading [[ /book/contrib | Phorge Contributor Documentation]] for details
+    about code-style, work-style, and contributing to the upstream.

@@ -29,6 +29,9 @@
     "userguide": {
       "name": "Application User Guides"
     },
+    "extensions": {
+      "name": "Extending and Customizing Phorge"
+    },
     "conduit": {
       "name": "API Documentation"
     },

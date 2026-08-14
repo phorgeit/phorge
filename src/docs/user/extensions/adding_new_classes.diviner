@@ -1,5 +1,5 @@
 @title Adding New Classes
-@group developer
+@group extensions
 
 Guide to adding new classes to extend Phorge.
 
@@ -10,7 +10,6 @@ Phorge is highly modular, and many parts of it can be extended by adding
 new classes. This document explains how to write new classes to change or
 expand the behavior of Phorge.
 
-NOTE: The upstream offers limited support with extension development.
 
 Fundamentals
 ============
@@ -212,8 +211,8 @@ methods have the minimum required visibility (protected or private). The goal
 of this strictness is to make it clear what you can safely extend, access, and
 invoke, so your code will keep working as the upstream changes.
 
-IMPORTANT: We'll still break APIs frequently. The upstream offers limited
- support for extension development, and none of these APIs are stable.
+IMPORTANT: We'll still break APIs occasionally. We do not have a formal
+backwards-compatibility policy other then "try to keep it".
 
 When developing libraries to work with Arcanist and Phorge, you should
 respect method and property visibility.
@@ -251,5 +250,5 @@ Next Steps
 
 Continue by:
 
-  - visiting the [[ https://we.phorge.it/w/community_resources/ |
-    Community Resources ]] page to find or share extensions and libraries.
+  - [[ /book/contrib | Phorge Contributor Documentation]] for details about
+    code-style, work-style, and contributing to the upstream.

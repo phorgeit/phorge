@@ -1,0 +1,128 @@
+@title Using Class Map Query
+@group developer
+
+The PhutilClassMapQuery class is the primary tool for allowing code extension.
+
+= How to Use =
+
+The general pattern for making something extensible is:
+1. Make an abstract class describing the generic capability, for example
+  `TendToAnimal`. Define the API in this class, for example `function
+  tend($animal)` and `function isApplicable($animal)`.
+2. Define some methods in the base-class that are required for loading
+3. Create static method(s) in the abstract class to load available
+  implementations:
+
+```lang=php
+public static function loadAllAnimalTenders() {
+  return id(new PhutilClassMapQuery())
+    ->setAncestorClass(self::class)
+    ->setUniqueMethod('getExtensionKey')
+    // Many more features here
+    ->execute();
+}
+
+final public function getExtensionKey() {
+  return $this->getPhobjectClassConstant('EXTENSIONKEY');
+}
+```
+4. Create one or two concrete implementations:
+
+```lang=php
+final class PetAnimal extends TendToAnimal {
+  const EXTENSIONKEY = 'petanimal';
+
+  public function isApplicable($animal) {
+    return $animal != 'Jellyfish';
+  }
+
+  public function tend($animal) {
+    echo "Pet pet $animal";
+  }
+}
+```
+
+
+5. Where you wish to use the feature, call `loadAll` and invoke the ones that
+  make sense:
+
+```lang=php
+
+$tenders = TendToAnimal::loadAllAnimalTenders();
+$animals = $this->getAllAnimals();
+
+foreach ($animals as $animal) {
+  foreach ($tenders as $tender) {
+    if ($tender->isApplicable($animal)) {
+      $tender->tend($animal);
+    }
+  }
+}
+
+```
+
+`PhutilClassMapQuery` instantiates each subclass of `TendToAnimal`, returning
+a list of concrete instances.
+
+The queries are automatically cached and do not need to be wrapped in caching
+logic.
+
+An extension library can now provide new implementations of `TendToAnimal` by
+simply sub-classing it, and it will be loaded and used automatically.
+
+= Capabilities and Filters =
+
+`PhutilClassMapQuery` supports several ways to filter, expand, and sort
+instances.
+
+- The `setUniqueMethod` is not technically required, but highly recommended.
+  Adding one after the fact may require a database migration. using
+  `getPhobjectClassConstant` is the current favorite pattern for implementing
+  Unique methods.
+- The `setExpandMethod` allows a single class to generate multiple instances.
+  Useful for nearly-identical implementations, or for implementations that are
+  based on configuration or available data.
+- `setFilterMethod` allows an implementation to exclude itself from the result
+  (for example, if it's part of a disabled application, or disabled by
+  configuration).
+- `setSortMethod` is useful for sorting the results.
+
+
+= Common Patterns =
+
+=== When Trying Different Things
+Extensions are often used for different implementations of some operation, where
+the right implementation depends on the environment.
+
+In this case, implementations will be sorted by priority, and the calling code
+will invoke them one at a time, until it succeeds or runs out of options.
+
+Extensions can then add additional implementations to support other setups.
+
+For example:
+- [[ https://we.phorge.it/dev/classtree/?symbol=PhabricatorFileStorageEngine |
+  File Storage mechanism ]]
+- [[ https://we.phorge.it/dev/classtree/?symbol=PhabricatorDocumentEngine | File
+  Rendering implementation ]] - the unique key also allows the user to
+  explicitly select a renderer.
+- [[ https://we.phorge.it/dev/classtree/?symbol=AphrontSite | Sites selection ]]
+  is used to resolve incoming HTTP requests to the right implementation.
+
+=== When Showing Many Things
+In some cases we just want to allow many different implementations of something
+to be available at the same time, and either use them all or let the user choose
+the one they want.
+
+We'll then load all valid implementations and check each of them. Extensions can
+easily add new options.
+
+For example:
+- [[ https://we.phorge.it/dev/classtree/?symbol=HeraldAdapter | Herald Adapters
+  ]] selection when creating a new Rule.
+- [[ https://we.phorge.it/dev/classtree/?symbol=PhabricatorDashboardPanelType |
+  Dashboard Panels ]] selection.
+- [[  https://we.phorge.it/dev/classtree/?symbol=PHUICurtainExtension | Curtain
+  Extensions ]] add UI elements to the "Curtain" (meta-data section) of
+  applicable object pages. All applicable extensions are used for each page.
+- Applications, config options, Search extensions, and many more core features
+  are using this pattern.
