@@ -9,7 +9,9 @@ $rules = $table->loadAll();
 
 foreach ($rules as $rule) {
   if ($rule->getRuleType() !== HeraldRuleTypeConfig::RULE_TYPE_PERSONAL) {
-    $actions = $rule->loadActions();
+    $actions = id(new HeraldActionRecord())->loadAllWhere(
+      'ruleID = %d',
+      $rule->getID());
     $can_be_personal = true;
     foreach ($actions as $action) {
       $target = $action->getTarget();

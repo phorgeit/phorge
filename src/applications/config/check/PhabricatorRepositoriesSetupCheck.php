@@ -134,8 +134,7 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
     $reviewer = DiffusionCommitReviewerHeraldField::FIELDCONST;
 
     foreach ($rules as $rule) {
-      $conditions = $rule->loadConditions();
-      foreach ($conditions as $cond) {
+      foreach ($rule->getConditions() as $cond) {
         if ($cond->getFieldName() === $autoclose ||
             $cond->getFieldName() === $reviewer) {
           $deprecated_rules[] = array(
