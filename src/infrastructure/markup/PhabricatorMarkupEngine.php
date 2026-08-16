@@ -272,7 +272,7 @@ final class PhabricatorMarkupEngine extends Phobject {
           'cacheKey IN (%Ls)',
           array_keys($use_cache));
         $blocks = mpull($blocks, null, 'getCacheKey');
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         phlog($ex);
       }
     }
@@ -451,10 +451,12 @@ final class PhabricatorMarkupEngine extends Phobject {
         $engine->setConfig('header.generate-toc', true);
         break;
       case 'diviner':
-        $engine = self::newMarkupEngine(array());
-        $engine->setConfig('preserve-linebreaks', false);
-  //    $engine->setConfig('diviner.renderer', new DivinerDefaultRenderer());
-        $engine->setConfig('header.generate-toc', true);
+        $engine = self::newMarkupEngine(
+          array(
+            'preserve-linebreaks' => false,
+            'header.generate-toc' => true,
+            'macros' => false,
+          ));
         break;
       case 'extract':
         // Engine used for reference/edge extraction. Turn off anything which
@@ -490,6 +492,11 @@ final class PhabricatorMarkupEngine extends Phobject {
     );
   }
 
+  public static function getMarkupEngineOptionsForInstructionPages() {
+    return array(
+      'macros' => false,
+    );
+  }
 
   /**
    * @task engine
@@ -627,6 +634,7 @@ final class PhabricatorMarkupEngine extends Phobject {
   public static function extractFilePHIDsFromEmbeddedFiles(
     PhabricatorUser $viewer,
     array $content_blocks) {
+
     $files = array();
 
     $engine = self::newDifferentialMarkupEngine();
