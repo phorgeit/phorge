@@ -28,6 +28,7 @@ final class DivinerAtom extends Phobject {
   private $children = array();
   private $childHashes = array();
   private $context;
+  private $order;
   private $extends = array();
   private $links = array();
   private $book;
@@ -36,17 +37,15 @@ final class DivinerAtom extends Phobject {
   /**
    * Returns a sorting key which imposes an unambiguous, stable order on atoms.
    */
-  public function getSortKey() {
-    return implode(
-      "\0",
-      array(
-        $this->getBook(),
-        $this->getType(),
-        $this->getContext(),
-        $this->getName(),
-        $this->getFile(),
-        sprintf('%08d', $this->getLine()),
-      ));
+  public function getSortKey(): string {
+    return id(new PhutilSortVector())
+      ->addString($this->getBook())
+      ->addString($this->getType())
+      ->addString($this->getContext())
+      ->addInt($this->getOrder())
+      ->addString($this->getName())
+      ->addString($this->getFile())
+      ->addString(sprintf('%08d', $this->getLine()));
   }
 
   public function setBook($book) {
@@ -65,6 +64,15 @@ final class DivinerAtom extends Phobject {
 
   public function getContext() {
     return $this->context;
+  }
+
+  public function setOrder($order) {
+    $this->order = $order;
+    return $this;
+  }
+
+  public function getOrder() {
+    return $this->order;
   }
 
   public static function getAtomSerializationVersion() {
@@ -318,6 +326,7 @@ final class DivinerAtom extends Phobject {
       'links'       => $this->getLinkDictionaries(),
       'ref'         => $this->getRef()->toDictionary(),
       'properties'  => $this->getProperties(),
+      'order' => $this->getOrder(),
     );
   }
 
@@ -341,6 +350,7 @@ final class DivinerAtom extends Phobject {
       ->setBook(idx($dictionary, 'book'))
       ->setType(idx($dictionary, 'type'))
       ->setName(idx($dictionary, 'name'))
+      ->setOrder(idx($dictionary, 'order', 1000))
       ->setFile(idx($dictionary, 'file'))
       ->setLine(idx($dictionary, 'line'))
       ->setHash(idx($dictionary, 'hash'))

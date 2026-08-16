@@ -37,6 +37,8 @@ final class DivinerAtomController extends DivinerController {
       ->needAtoms(true)
       ->needExtends(true)
       ->needChildren(true)
+      ->setOrder('newest')
+      ->setLimit(1)
       ->executeOne();
 
     if (!$symbol) {

@@ -59,6 +59,7 @@ abstract class DivinerAtomizer extends Phobject {
     return id(new DivinerAtom())
       ->setBook($this->getBook())
       ->setFile($this->fileName)
+      ->setOrder(1000)
       ->setType($type);
   }
 

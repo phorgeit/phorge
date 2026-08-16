@@ -28,6 +28,7 @@ final class DivinerArticleAtomizer extends DivinerAtomizer {
       $name = preg_replace('/\\.[^.]+$/', '', $name);
     }
     $atom->setName($name);
+    $atom->setOrder(idx($meta, 'order', 1000));
 
     return array($atom);
   }

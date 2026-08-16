@@ -13,6 +13,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   protected $type;
   protected $name;
   protected $atomIndex;
+  protected $order;
   protected $graphHash;
   protected $identityHash;
   protected $nodeHash;
@@ -38,6 +39,7 @@ final class DivinerLiveSymbol extends DivinerDAO
         'type' => 'text32',
         'name' => 'text255',
         'atomIndex' => 'uint32',
+        'order' => 'uint32',
         'identityHash' => 'bytes12',
         'graphHash' => 'text64?',
         'title' => 'text?',
@@ -89,7 +91,7 @@ final class DivinerLiveSymbol extends DivinerDAO
     return PhabricatorPHID::generateNewPHID(DivinerAtomPHIDType::TYPECONST);
   }
 
-  public function getBook() {
+  public function getBook(): DivinerLiveBook {
     return $this->assertAttached($this->book);
   }
 
@@ -192,13 +194,14 @@ final class DivinerLiveSymbol extends DivinerDAO
     return basename($atom_file, '.php');
   }
 
-  public function getSortKey() {
+  public function getSortKey(): string {
     // Sort articles before other types of content. Then, sort atoms in a
     // case-insensitive way.
-    return sprintf(
-      '%c:%s',
-      ($this->getType() == DivinerAtom::TYPE_ARTICLE ? '0' : '1'),
-      phutil_utf8_strtolower($this->getTitle()));
+
+    return id(new PhutilSortVector())
+      ->addInt($this->getType() == DivinerAtom::TYPE_ARTICLE ? 0 : 1)
+      ->addInt($this->getOrder())
+      ->addString(phutil_utf8_strtolower($this->getTitle()));
   }
 
   public function save() {

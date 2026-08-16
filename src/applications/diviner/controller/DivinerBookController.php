@@ -57,6 +57,9 @@ final class DivinerBookController extends DivinerController {
       ->execute();
 
     $atoms = msort($atoms, 'getSortKey');
+    $toc = array();
+
+    $group_only = $request->getStr('group');
 
     $group_spec = $book->getConfig('groups');
     if (!is_array($group_spec)) {
@@ -73,12 +76,20 @@ final class DivinerBookController extends DivinerController {
 
     $out = array();
     foreach ($groups as $group => $atoms) {
+      if ($group_only && $group != $group_only) {
+        continue;
+      }
+
       $group_name = $book->getGroupName($group);
       if (!strlen($group_name)) {
         $group_name = pht('Free Radicals');
       }
       $section = id(new DivinerSectionView())
         ->setHeader($group_name);
+      $anchor = (id(new PhabricatorAnchorView())
+        ->setAnchorName($group));
+      $section->setAnchor($anchor);
+      $toc[$group] = $group_name;
       $section->addContent($this->renderAtomList($atoms));
       $out[] = $section;
     }
@@ -91,6 +102,22 @@ final class DivinerBookController extends DivinerController {
 
     $document->appendChild($preface_view);
     $document->appendChild($out);
+
+    if ($toc) {
+      $side = new PHUIListView();
+      $side->addMenuItem(
+        id(new PHUIListItemView())
+          ->setName(pht('Contents'))
+          ->setType(PHUIListItemView::TYPE_LABEL));
+      foreach ($toc as $key => $name) {
+        $side->addMenuItem(
+          id(new PHUIListItemView())
+            ->setName($name)
+            ->setHref('#'.$key));
+      }
+
+      $document->setToc($side);
+    }
 
     return $this->newPage()
       ->setTitle($book->getTitle())

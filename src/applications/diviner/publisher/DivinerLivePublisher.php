@@ -54,6 +54,8 @@ final class DivinerLivePublisher extends DivinerPublisher {
       ->withNames(array($atom->getName()))
       ->withContexts(array($atom->getContext()))
       ->withIndexes(array($this->getAtomSimilarIndex($atom)))
+      ->setOrder('newest')
+      ->setLimit(1)
       ->executeOne();
 
     if ($symbol) {
@@ -65,6 +67,7 @@ final class DivinerLivePublisher extends DivinerPublisher {
       ->setType($atom->getType())
       ->setName($atom->getName())
       ->setContext($atom->getContext())
+      ->setOrder($atom->getOrder())
       ->setAtomIndex($this->getAtomSimilarIndex($atom));
   }
 
@@ -143,6 +146,8 @@ final class DivinerLivePublisher extends DivinerPublisher {
       } else {
         $symbol->setSummary('');
       }
+
+      $symbol->setOrder($atom->getOrder());
 
       $symbol->save();
 

@@ -68,7 +68,7 @@ final class DivinerFindController extends DivinerController {
 
     if (!$atoms) {
       $dialog = id(new AphrontDialogView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setTitle(pht('Documentation Not Found'))
         ->appendChild(
           pht(
@@ -92,6 +92,7 @@ final class DivinerFindController extends DivinerController {
     }
 
     $list = $this->renderAtomList($atoms);
+    $list = msort($list, 'getTitle');
 
     $box = id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Search Results for %s', $atom->getName()))
