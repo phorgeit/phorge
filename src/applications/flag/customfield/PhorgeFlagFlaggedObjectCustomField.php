@@ -41,12 +41,20 @@ trait PhorgeFlagFlaggedObjectCustomField {
     return null;
   }
 
-  // The parent function is defined to return a PhabricatorCustomFieldStorage,
-  // but that assumes a DTO with a particular form; That doesn't apply here.
-  // Maybe the function needs to be re-defined with a suitable interface.
-  // For now, PhorgeFlagFlaggedObjectFieldStorage just duck-types into the
-  // right shape.
+  public function getFieldName() {
+    return pht('Flag');
+  }
+
+  public function getFieldDescription() {
+    return pht('Personal Flag color');
+  }
+
   public function newStorageObject() {
+    // The parent function is defined to return a PhabricatorCustomFieldStorage,
+    // but that assumes a DTO with a particular form; That doesn't apply here.
+    // Maybe the function needs to be re-defined with a suitable interface.
+    // For now, PhorgeFlagFlaggedObjectFieldStorage just duck-types into the
+    // right shape.
     return id(new PhorgeFlagFlaggedObjectFieldStorage())
       ->setViewer($this->getViewer());
   }
