@@ -175,7 +175,8 @@ EOFILE;
    *                                  resources for.
    * @param CelerityResourceTransformer $xformer Configured resource
    *                                    transformer.
-   * @return array<string, array<string, string>> Resource information map.
+   * @return array<string, array<string, string|array<string>>> Resource
+   *   information map.
    */
   private function rebuildTextResources(
     CelerityPhysicalResources $resources,

@@ -81,6 +81,9 @@ final class HeraldRule extends HeraldDAO
     return $this;
   }
 
+  /**
+   * @return array<HeraldCondition>
+   */
   public function loadConditions() {
     if (!$this->getID()) {
       return array();
@@ -99,6 +102,9 @@ final class HeraldRule extends HeraldDAO
     return $this;
   }
 
+  /**
+   * @return array<HeraldCondition>
+   */
   public function getConditions() {
     // TODO: validate conditions have been attached.
     return $this->conditions;

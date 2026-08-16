@@ -130,9 +130,9 @@ final class PHUIHeaderView extends AphrontTagView {
   /**
    * Render a tag (PHUITagView) in this header
    *
-   * @param string $name Text displayed in the tag
    * @param string $icon Icon in the tag
-   * @param string $color Tag color
+   * @param string|null $color Tag color
+   * @param string $name Text displayed in the tag
    * @return $this
    */
   public function setStatus($icon, $color, $name) {

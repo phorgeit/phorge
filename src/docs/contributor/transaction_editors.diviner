@@ -336,7 +336,7 @@ will just return the value already on the object, but can also always return
 There are two methods you can implement to actually perform mutations. The
 first, and most common is @{method:applyInternalEffects} in
 @{class:PhabricatorModularTransactionType}. This method should be used to mutate
-he actual object being edited. The second is @{method:applyExternalEffects} in
+the actual object being edited. The second is @{method:applyExternalEffects} in
 @{class:PhabricatorModularTransactionType} which is where you should place
 mutations that affect other objects such as caches or internal state.
 

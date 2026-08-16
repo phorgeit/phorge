@@ -42,16 +42,24 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
 
   /**
    * Fetch all boards, even if the board is disabled.
+   * @param bool $fetch_all
    */
   public function setFetchAllBoards($fetch_all) {
     $this->fetchAllBoards = $fetch_all;
     return $this;
   }
 
+  /**
+   * Whether to fetch all boards, even if the board is disabled.
+   * @return bool
+   */
   public function getFetchAllBoards() {
     return $this->fetchAllBoards;
   }
 
+  /**
+   * @return PhabricatorBoardLayoutEngine
+   */
   public function executeLayout() {
     $viewer = $this->getViewer();
 
@@ -80,6 +88,10 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return array<string,PhabricatorProjectColumn> Map of column PHIDS to the
+   *   the column object
+   */
   public function getColumns($board_phid) {
     $columns = idx($this->boardLayout, $board_phid, array());
     return array_select_keys($this->columnMap, array_keys($columns));

@@ -59,7 +59,7 @@ final class PhabricatorOAuthServer extends Phobject {
 
   /**
    * @task auth
-   * @return array<bool,PhabricatorOAuthClientAuthorization|null> Tuple of
+   * @return array{bool,PhabricatorOAuthClientAuthorization|null} Tuple of
    *   <bool hasAuthorized, ClientAuthorization or null>
    */
   public function userHasAuthorizedClient(array $scope) {

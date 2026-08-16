@@ -3,8 +3,9 @@
 final class HeraldCondition extends HeraldDAO {
 
   protected $ruleID;
-
+  /** @var string FIELDCONST from a DiffusionCommitHeraldField class */
   protected $fieldName;
+  /** @var string A const listed in HeraldAdapter */
   protected $fieldCondition;
   protected $value;
 

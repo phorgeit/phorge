@@ -132,7 +132,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   /**
-   * @return array{0: string, 1: int}
+   * @return array<string, int> Map of 'id' string to object ID
    */
   protected function newPagingMapFromPartialObject($object) {
     return array(
@@ -1164,7 +1164,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
-   * @return array<string,array<string,string>> PhutilKeyValueCacheStack string
+   * @return array<string,array<string|bool,string|bool|null>>
+   *   PhutilKeyValueCacheStack string
    *   (e.g. 'id', 'rank', 'fulltext-created', 'fulltext-modified') and the
    *   cache value as an array, for example '{"table":"user","column":"id",
    *   "reverse":false,"type":"int","unique":true}' or '{"table":null,

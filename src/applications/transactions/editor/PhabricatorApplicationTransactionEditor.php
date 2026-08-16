@@ -28,8 +28,8 @@
  *     and @{method:loadCustomWorkerState}.
  *
  * This architecture isn't ideal, and we may eventually split this class into
- * "Editor" and "Publisher" parts to make it more robust. See T6367 for some
- * discussion and context.
+ * "Editor" and "Publisher" parts to make it more robust. See
+ * https://secure.phabricator.com/T6367 for some discussion and context.
  *
  * @task mail Sending Mail
  * @task feed Publishing Feed Stories
