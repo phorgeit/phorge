@@ -38,7 +38,7 @@ final class PhabricatorSystemSelectViewAsController
 
       $label = $engine->getViewAsLabel($ref);
 
-      if (!strlen($label)) {
+      if (!phutil_nonempty_string($label)) {
         continue;
       }
 

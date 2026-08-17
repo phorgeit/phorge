@@ -10,6 +10,10 @@ final class DifferentialChangesetViewController extends DifferentialController {
     $viewer = $this->getViewer();
 
     $rendering_reference = $request->getStr('ref');
+    if ($rendering_reference === null) {
+      return new Aphront404Response();
+    }
+
     $parts = explode('/', $rendering_reference);
     if (count($parts) == 2) {
       list($id, $vs) = $parts;
