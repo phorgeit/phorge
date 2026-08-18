@@ -3,20 +3,6 @@
 abstract class PhorgeExtensionsManagementWorkflow
   extends PhabricatorManagementWorkflow {
 
-  /**
-   * Returns all known extensions and all known libraries.
-   * @return PhorgeLibraryMetadata[]
-   */
-  protected function loadAllLibrariesAndExtensions() {
-
-    /** @var PhorgeLibraryMetadata[] */
-    $libs = id(new PhorgeLibraryQuery())
-      ->execute();
-
-
-    return $libs;
-  }
-
   protected function isExtensionKey($input) {
     if (preg_match('/^[a-z][a-z0-9-]*\.[a-z][a-z0-9-]+\z/', $input)) {
       $console = PhutilConsole::getConsole();
@@ -28,19 +14,28 @@ abstract class PhorgeExtensionsManagementWorkflow
     return null;
   }
 
+  /**
+   * @return string
+   */
+  protected function findLibraryFormat(PhorgeLibraryMetadata $library) {
+    $root = $library->getLocation();
 
-  protected function getExtensionStores() {
-    $conf = PhabricatorEnv::getEnvConfig('extensions.extension-stores');
-    if ($conf !== null) {
-      return $conf;
+    if (Filesystem::isPharPath($root)) {
+      $install_data = PhorgeExtensionsLocalData::load()
+        ->findRecordInMap('extensions-from-store', $root);
+      if ($install_data) {
+        return idx($install_data, 'format', 'unknown');
+      }
+
+      return 'phar';
     }
 
-    return array(
-      array(
-        'name' => 'Phorge',
-        'uri' => 'https://extensions.phorge.it/',
-      ),
-    );
+    // TODO actually check that it's a git repo.
+    return 'git';
+  }
+
+  protected function getExtensionStores() {
+    return PhabricatorEnv::getEnvConfig('extensions.extension-stores');
   }
 
   protected function getLocalConfFilename() {
@@ -49,28 +44,5 @@ abstract class PhorgeExtensionsManagementWorkflow
     return $config_source->getReadablePath();
   }
 
-  protected static function assertCanUsePhar() {
-    static $good = null;
-
-    if ($good === null) {
-      $min_version = '8.0';
-      $cur_version = phpversion();
-      if (version_compare($cur_version, $min_version, '<')) {
-        $good = false;
-      } else {
-        $good = true;
-      }
-    }
-    if ($good) {
-      return;
-    }
-    throw new Exception(
-      pht(
-        'PHP versions older then %s have known security vulnerabilities '.
-        'when considering PHAR files; Installing extensions from PHAR files '.
-        'and from the Store is therefore disabled. See %s',
-        $min_version,
-        'https://wiki.php.net/rfc/phar_stop_autoloading_metadata'));
-  }
 
 }

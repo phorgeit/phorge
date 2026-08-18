@@ -24,8 +24,7 @@ final class ExtensionStoreClient
     );
 
     $results = $this->conduitClient
-      ->callMethodSynchronous(self::METHOD,
-      $params);
+      ->callMethodSynchronous(self::METHOD, $params);
 
     $result = idx($results, $extension_key);
     if (!$result) {

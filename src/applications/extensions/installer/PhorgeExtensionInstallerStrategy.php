@@ -4,13 +4,6 @@ abstract class PhorgeExtensionInstallerStrategy extends Phobject {
 
   private $dryRun = false;
 
-  /**
-   * @return mixed something that can be used to install?
-   */
-  public function prepare($source) {
-    return $source;
-  }
-
   public function setDryRun($dry_run) {
     $this->dryRun = $dry_run;
     return $this;
@@ -20,63 +13,26 @@ abstract class PhorgeExtensionInstallerStrategy extends Phobject {
     return $this->dryRun;
   }
 
-  abstract public function install($some_input);
+  final public function install($source) {
 
-  protected function addToLoadLibraries(string $location) {
+    $location = $this->fetchContent($source);
 
-    // TODO nicer error message
-    Filesystem::assertExists($location.'/__phutil_library_init__.php');
-
-
-
-    $config_source = new PhabricatorConfigLocalSource();
-    $key = 'load-libraries';
-    $value = $config_source->getKeys(array($key));
-
-    $value[$key][] = $location;
-    $local_path = $config_source->getReadablePath();
-
-    if ($this->isDryRun()) {
-      $console = PhutilConsole::getConsole();
-      $console->writeOut(
-        pht(
-          "Would add `%s` to key `%s` in file %s\n",
-          $location,
-          $key,
-          $local_path));
-      return;
-    }
-
-    try {
-      $config_source->setKeys($value);
-    } catch (FilesystemException $ex) {
-      throw new PhutilArgumentUsageException(
-        pht(
-          'Local path "%s" is not writable. This file must be writable '.
-          'so that "bin/config" can store configuration.'.
-          "\n",
-          Filesystem::readablePath($local_path)));
-    }
-
-    $write_message = pht(
-      'Wrote configuration key "%s" to local storage (in file "%s").'."\n",
-      $key,
-      $local_path);
-
-      PhutilConsole::getConsole()->writeOut($write_message);
+    id(new PhorgeExtensionsManageLoadLibraries())
+      ->setDryRun($this->isDryRun())
+      ->addToLoadLibraries($location);
   }
 
+  /**
+   * Throw if you can't do it.
+   * @return string path of where the library was downloaded to (or would be if
+   * dry-run).
+   */
+  abstract protected function fetchContent($source): string;
 
   public function getInstallDir() {
-    $config = PhabricatorEnv::getEnvConfig('extensions.install-dir');
-    if ($config !== null) {
-      Filesystem::createDirectory($config);
-      return $config;
-    }
-
-    return Filesystem::resolvePath(
-      '..',
-      dirname(phutil_get_library_root('phorge')));
+    $install_dir = PhabricatorEnv::getEnvConfig('extensions.install-dir');
+    Filesystem::createDirectory($install_dir);
+    return $install_dir;
   }
 
   public static function getAllInstallers() {

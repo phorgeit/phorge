@@ -7,7 +7,7 @@ final class PhorgeListExtensionsWorkflow
   protected function didConstruct() {
     $this
       ->setName('list')
-      ->setSynopsis(pht('Lists installed extensions. Experimental.'))
+      ->setSynopsis(pht('Lists installed extensions.'))
       ->setExamples(
         '**list**')
       ->setArguments(
@@ -25,7 +25,9 @@ final class PhorgeListExtensionsWorkflow
 
     $known_extensions = array();
 
-    $all_libs = $this->loadAllLibrariesAndExtensions();
+    /** @var PhorgeLibraryMetadata[] */
+    $all_libs = id(new PhorgeLibraryQuery())
+      ->execute();
 
     foreach ($all_libs as $lib) {
       if ($lib->isCoreLibrary()) {
@@ -34,12 +36,7 @@ final class PhorgeListExtensionsWorkflow
         $status = 'extension';
       }
 
-
-      if (Filesystem::isPharPath($lib->getLocation())) {
-        $format = 'phar';
-      } else {
-        $format = 'git';
-      }
+      $format = $this->findLibraryFormat($lib);
 
       $known_extensions[$lib->getName()] = array(
         'name' => $lib->getName(),

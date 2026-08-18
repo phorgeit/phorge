@@ -1,21 +1,13 @@
 <?php
 
 /**
- * Object to describe all libraries/extensions - installed or known
+ * Object to describe installed libraries/extensions
  */
 final class PhorgeLibraryMetadata extends PhorgeExtensionsDTO {
 
   protected $name;
   protected $location;
   protected $source;
-  protected $status;
-
-  protected function getConfiguration() {
-    return array(
-      self::CONFIG_TIMESTAMPS => false,
-      self::CONFIG_NO_TABLE => true,
-    ) + parent::getConfiguration();
-  }
 
   public function isCoreLibrary() {
     switch ($this->name) {
@@ -26,7 +18,5 @@ final class PhorgeLibraryMetadata extends PhorgeExtensionsDTO {
         return false;
     }
   }
-
-
 
 }
