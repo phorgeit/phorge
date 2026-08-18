@@ -111,6 +111,10 @@ final class PhabricatorAuditEditor
     return parent::applyBuiltinExternalTransaction($object, $xaction);
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param array<PhabricatorApplicationTransaction> $xactions
+   */
   protected function applyFinalEffects(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -718,6 +722,11 @@ final class PhabricatorAuditEditor
       ->setObject($object);
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param HeraldCommitAdapter $adapter
+   * @param HeraldTranscript $transcript
+   */
   protected function didApplyHeraldRules(
     PhabricatorLiskDAO $object,
     HeraldAdapter $adapter,
@@ -739,6 +748,9 @@ final class PhabricatorAuditEditor
     return array();
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   */
   private function isCommitMostlyImported(PhabricatorLiskDAO $object) {
     $has_message = PhabricatorRepositoryCommit::IMPORTED_MESSAGE;
     $has_changes = PhabricatorRepositoryCommit::IMPORTED_CHANGE;

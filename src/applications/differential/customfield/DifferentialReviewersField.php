@@ -66,6 +66,7 @@ final class DifferentialReviewersField
   }
 
   public function getWarningsForRevisionHeader(array $handles) {
+    /** @var DifferentialRevision $revision */
     $revision = $this->getObject();
 
     if (!$revision->isNeedsReview()) {

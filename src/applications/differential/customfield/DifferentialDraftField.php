@@ -30,6 +30,7 @@ final class DifferentialDraftField
 
   public function getWarningsForRevisionHeader(array $handles) {
     $viewer = $this->getViewer();
+    /** @var DifferentialRevision $revision */
     $revision = $this->getObject();
 
     if (!$revision->isDraft()) {

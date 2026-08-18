@@ -19,6 +19,11 @@ final class DifferentialChangesSinceLastUpdateField
     return true;
   }
 
+  /**
+   * @param PhabricatorMetaMTAMailBody $body
+   * @param DifferentialTransactionEditor $editor
+   * @param array<PhabricatorApplicationTransaction> $xactions
+   */
   public function updateTransactionMailBody(
     PhabricatorMetaMTAMailBody $body,
     PhabricatorApplicationTransactionEditor $editor,

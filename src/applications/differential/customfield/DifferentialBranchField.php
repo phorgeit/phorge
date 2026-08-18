@@ -71,11 +71,17 @@ final class DifferentialBranchField
     return true;
   }
 
+  /**
+   * @param PhabricatorMetaMTAMailBody $body
+   * @param DifferentialTransactionEditor $editor
+   * @param array<PhabricatorApplicationTransaction> $xactions
+   */
   public function updateTransactionMailBody(
     PhabricatorMetaMTAMailBody $body,
     PhabricatorApplicationTransactionEditor $editor,
     array $xactions) {
 
+    /** @var DifferentialRevision $revision */
     $revision = $this->getObject();
 
     // Show the "BRANCH" section only if there's a new diff or the revision

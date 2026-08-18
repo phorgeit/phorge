@@ -60,6 +60,10 @@ final class DrydockLandRepositoryOperation
     return $merges;
   }
 
+  /**
+   * @param DrydockRepositoryOperation $operation
+   * @param DrydockCommandInterface $interface
+   */
   public function applyOperation(
     DrydockRepositoryOperation $operation,
     DrydockInterface $interface) {

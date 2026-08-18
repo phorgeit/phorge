@@ -345,6 +345,9 @@ abstract class PhabricatorDiffInlineCommentQuery
     }
   }
 
+  /**
+   * @param PhabricatorDiffInlineCommentContext $context
+   */
   protected function newCacheDataFromInlineContext(
     PhabricatorInlineCommentContext $context) {
     return $context->newCacheDataMap();

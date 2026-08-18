@@ -22,7 +22,7 @@ final class PhabricatorAuthProviderConfigQuery
   }
 
   /**
-   * @param array<class-string>
+   * @param array<class-string> $classes
    */
   public function withProviderClasses(array $classes) {
     $this->providerClasses = $classes;

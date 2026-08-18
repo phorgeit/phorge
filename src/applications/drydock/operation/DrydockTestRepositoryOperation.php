@@ -34,9 +34,14 @@ final class DrydockTestRepositoryOperation
     }
   }
 
+  /**
+   * @param DrydockRepositoryOperation $operation
+   * @param DrydockCommandInterface $interface
+   */
   public function applyOperation(
     DrydockRepositoryOperation $operation,
     DrydockInterface $interface) {
+
     $repository = $operation->getRepository();
 
     if ($repository->isGit()) {
