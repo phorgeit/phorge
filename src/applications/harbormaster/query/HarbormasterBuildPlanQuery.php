@@ -97,7 +97,7 @@ final class HarbormasterBuildPlanQuery
         $this->statuses);
     }
 
-    if (!phutil_nonempty_string($this->datasourceQuery)) {
+    if (phutil_nonempty_string($this->datasourceQuery)) {
       $where[] = qsprintf(
         $conn,
         'plan.name LIKE %>',
