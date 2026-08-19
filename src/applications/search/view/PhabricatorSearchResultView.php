@@ -3,7 +3,6 @@
 final class PhabricatorSearchResultView extends AphrontView {
 
   private $handle;
-  private $object;
   private $tokens;
 
   public function setHandle(PhabricatorObjectHandle $handle) {
@@ -18,11 +17,6 @@ final class PhabricatorSearchResultView extends AphrontView {
   public function setTokens(array $tokens) {
     assert_instances_of($tokens, PhabricatorFulltextToken::class);
     $this->tokens = $tokens;
-    return $this;
-  }
-
-  public function setObject($object) {
-    $this->object = $object;
     return $this;
   }
 

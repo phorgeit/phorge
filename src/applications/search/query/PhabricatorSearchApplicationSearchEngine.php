@@ -265,16 +265,10 @@ final class PhabricatorSearchApplicationSearchEngine
       ->setNoDataString(pht('No results found.'));
 
     if ($results) {
-      $objects = id(new PhabricatorObjectQuery())
-        ->setViewer($viewer)
-        ->withPHIDs(mpull($results, 'getPHID'))
-        ->execute();
-
-      foreach ($results as $phid => $handle) {
+      foreach ($results as $handle) {
         $view = id(new PhabricatorSearchResultView())
           ->setHandle($handle)
           ->setTokens($fulltext_tokens)
-          ->setObject(idx($objects, $phid))
           ->render();
         $list->addItem($view);
       }
