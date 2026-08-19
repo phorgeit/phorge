@@ -5,7 +5,6 @@ abstract class PhabricatorEditorExtension
 
   private $viewer;
   private $editor;
-  private $object;
 
   final public function getExtensionKey() {
     return $this->getPhobjectClassConstant('EXTENSIONKEY');
@@ -28,12 +27,6 @@ abstract class PhabricatorEditorExtension
 
   final public function getViewer() {
     return $this->viewer;
-  }
-
-  final public function setObject(
-    PhabricatorApplicationTransactionInterface $object) {
-    $this->object = $object;
-    return $this;
   }
 
   final public static function getAllExtensions() {

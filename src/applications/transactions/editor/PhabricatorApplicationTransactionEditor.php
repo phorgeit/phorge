@@ -5688,8 +5688,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
       $extension = id(clone $extension)
         ->setViewer($actor)
-        ->setEditor($this)
-        ->setObject($object);
+        ->setEditor($this);
 
       if (!$extension->supportsObject($this, $object)) {
         unset($extensions[$key]);
