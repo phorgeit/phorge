@@ -4,8 +4,7 @@ final class HarbormasterBuildDependencyDatasource
   extends PhabricatorTypeaheadDatasource {
 
   public function isBrowsable() {
-    // TODO: This should be browsable, but fixing it is involved.
-    return false;
+    return true;
   }
 
   public function getBrowseTitle() {
@@ -29,12 +28,9 @@ final class HarbormasterBuildDependencyDatasource
     $steps = id(new HarbormasterBuildStepQuery())
       ->setViewer($viewer)
       ->withBuildPlanPHIDs(array($plan_phid))
+      ->withNameContains($this->getRawQuery())
       ->execute();
     $steps = mpull($steps, null, 'getPHID');
-
-    if (count($steps) === 0) {
-      return array();
-    }
 
     $results = array();
     foreach ($steps as $phid => $step) {

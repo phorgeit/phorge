@@ -10,6 +10,11 @@ final class HarbormasterBuildStepQuery
   private $phids;
   private $buildPlanPHIDs;
 
+  /**
+   * @var string|null
+   */
+  private $nameContains;
+
   public function withIDs(array $ids) {
     $this->ids = $ids;
     return $this;
@@ -22,6 +27,11 @@ final class HarbormasterBuildStepQuery
 
   public function withBuildPlanPHIDs(array $phids) {
     $this->buildPlanPHIDs = $phids;
+    return $this;
+  }
+
+  public function withNameContains(?string $text) {
+    $this->nameContains = $text;
     return $this;
   }
 
@@ -51,6 +61,17 @@ final class HarbormasterBuildStepQuery
         $conn,
         'buildPlanPHID in (%Ls)',
         $this->buildPlanPHIDs);
+    }
+
+    // Condition inspired by PassphraseCredentialQuery.
+    // Performance note: the LOWER(name) is usually to be avoided
+    // as it cannot use any index, but here the cardinality is very low,
+    // as the query always have a where on buildPlanPHID.
+    if (phutil_nonempty_string($this->nameContains)) {
+      $where[] = qsprintf(
+        $conn,
+        'LOWER(name) LIKE %~',
+        phutil_utf8_strtolower($this->nameContains));
     }
 
     return $where;
