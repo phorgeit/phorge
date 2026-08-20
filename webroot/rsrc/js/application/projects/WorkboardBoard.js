@@ -137,12 +137,13 @@ JX.install('WorkboardBoard', {
     start: function() {
       this._setupDragHandlers();
 
+      var on_reload = JX.bind(this, this._reloadCards);
+
       // Make it easier to debug this workflow by pressing the "R" key
       // when in developer mode.
       var root = document.documentElement;
       window.__DEV__ = !!root.getAttribute('data-developer-mode');
       if (__DEV__) {
-        var on_reload = JX.bind(this, this._reloadCards);
         new JX.KeyboardShortcut('R', 'Reload Card State (Prototype)')
           .setHandler(on_reload)
           .register();
