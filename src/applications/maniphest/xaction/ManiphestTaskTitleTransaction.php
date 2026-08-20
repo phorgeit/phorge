@@ -24,7 +24,7 @@ final class ManiphestTaskTitleTransaction
   public function getActionName() {
     $old = $this->getOldValue();
 
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht('Created');
     }
 
@@ -34,7 +34,7 @@ final class ManiphestTaskTitleTransaction
   public function getTitle() {
     $old = $this->getOldValue();
 
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s created this task.',
         $this->renderAuthor());
