@@ -901,7 +901,7 @@ final class DiffusionBrowseController extends DiffusionController {
       $tags = mpull($tags, null, 'getName');
       $tag = idx($tags, $symbolic);
 
-      if ($tag && strlen($tag->getMessage())) {
+      if ($tag && phutil_nonempty_string($tag->getMessage())) {
         $view->addSectionHeader(
           pht('Tag Content'), 'fa-tag');
         $view->addTextContent($this->markupText($tag->getMessage()));
