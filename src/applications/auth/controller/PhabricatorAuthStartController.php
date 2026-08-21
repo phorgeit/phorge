@@ -228,7 +228,7 @@ final class PhabricatorAuthStartController
 
     $via_header = AphrontRequest::getViaHeaderName();
     $via_uri = AphrontRequest::getHTTPHeader($via_header);
-    if (strlen($via_uri)) {
+    if (phutil_nonempty_string($via_uri)) {
       PhabricatorCookies::setNextURICookie($request, $via_uri, $force = true);
     }
 
