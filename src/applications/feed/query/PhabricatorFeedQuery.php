@@ -66,7 +66,8 @@ final class PhabricatorFeedQuery
     $ref_table = new PhabricatorFeedStoryReference();
     $joins[] = qsprintf(
       $conn,
-      'JOIN %T ref ON ref.chronologicalKey = story.chronologicalKey',
+      'JOIN %T story_ref
+        ON story_ref.chronologicalKey = story.chronologicalKey',
       $ref_table->getTableName());
 
     return $joins;
@@ -78,7 +79,7 @@ final class PhabricatorFeedQuery
     if ($this->filterPHIDs !== null) {
       $where[] = qsprintf(
         $conn,
-        'ref.objectPHID IN (%Ls)',
+        'story_ref.objectPHID IN (%Ls)',
         $this->filterPHIDs);
     }
 
@@ -95,7 +96,7 @@ final class PhabricatorFeedQuery
 
       $where[] = qsprintf(
         $conn,
-        'ref.chronologicalKey IN (%Ls)',
+        'story_ref.chronologicalKey IN (%Ls)',
         $this->chronologicalKeys);
     }
 
@@ -106,14 +107,14 @@ final class PhabricatorFeedQuery
     if ($this->rangeMin !== null) {
       $where[] = qsprintf(
         $conn,
-        'ref.chronologicalKey >= (%d << 32)',
+        'story_ref.chronologicalKey >= (%d << 32)',
         $this->rangeMin);
     }
 
     if ($this->rangeMax !== null) {
       $where[] = qsprintf(
         $conn,
-        'ref.chronologicalKey < (%d << 32)',
+        'story_ref.chronologicalKey < (%d << 32)',
         $this->rangeMax);
     }
 
@@ -122,7 +123,7 @@ final class PhabricatorFeedQuery
 
   protected function buildGroupClause(AphrontDatabaseConnection $conn) {
     if ($this->filterPHIDs !== null) {
-      return qsprintf($conn, 'GROUP BY ref.chronologicalKey');
+      return qsprintf($conn, 'GROUP BY story_ref.chronologicalKey');
     } else {
       return qsprintf($conn, 'GROUP BY story.chronologicalKey');
     }
@@ -147,7 +148,7 @@ final class PhabricatorFeedQuery
   }
 
   public function getOrderableColumns() {
-    $table = ($this->filterPHIDs ? 'ref' : 'story');
+    $table = ($this->filterPHIDs ? 'story_ref' : 'story');
     return array(
       'key' => array(
         'table' => $table,
