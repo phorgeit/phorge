@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * See also "Understanding Application Transaction Editors" in Diviner.
+ */
 abstract class PhabricatorModularTransactionType
   extends Phobject {
 
@@ -11,26 +14,48 @@ abstract class PhabricatorModularTransactionType
     return $this->getPhobjectClassConstant('TRANSACTIONTYPE');
   }
 
+  /**
+   * Return the current value of the object to be changed in the transaction.
+   */
   public function generateOldValue($object) {
     throw new PhutilMethodNotImplementedException();
   }
 
+  /**
+   * Return the new value of the object set via the transaction.
+   */
   public function generateNewValue($object, $value) {
     return $value;
   }
 
+  /**
+   * Logic checks which ensure that the changes are well-formed.
+   */
   public function validateTransactions($object, array $xactions) {
     return array();
   }
 
+  /**
+   * Apply internal effects by applying the new state to the object and other
+   * ancillary but closely related objects.
+   */
   public function applyInternalEffects($object, $value) {
     return;
   }
 
+  /**
+   * Apply effects which perform side effects on other objects, enqueue daemon
+   * jobs, mutations to caches, potentially talk to external services, etc.
+   */
   public function applyExternalEffects($object, $value) {
     return;
   }
 
+  /**
+   * React to the fact that the transaction has been applied successfully. This
+   * is typically used for notifying related applications of a change they need
+   * to respond to.
+   */
   public function didCommitTransaction($object, $value) {
     return;
   }
@@ -340,7 +365,7 @@ abstract class PhabricatorModularTransactionType
   }
 
   /**
-   * Check whenever a new transaction's value is considered an "empty text"
+   * Check whenever a new transaction's value is considered an "empty text".
    * @param mixed $value    A string, null, an integer...
    * @param array $xactions Transactions
    */
