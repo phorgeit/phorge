@@ -803,7 +803,7 @@ final class PhabricatorEnv extends Phobject {
    *
    * @param string $raw_uri URI to test.
    * @param list<string> $protocols Allowed protocols.
-   * @return array<string, string> Pre-resolved URI and domain.
+   * @return array{0:string, 1:string} Pre-resolved URI and domain.
    * @task uri
    */
   public static function requireValidRemoteURIForFetch(

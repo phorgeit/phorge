@@ -45,6 +45,7 @@ final class TokenGivenConduitAPIMethod extends TokenConduitAPIMethod {
       $query->withTokenPHIDs($token_phids);
     }
 
+    /** @var array<PhabricatorTokenGiven> $given */
     $given = $query->execute();
 
     return $this->buildTokenGivenDicts($given);

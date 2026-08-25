@@ -26,6 +26,10 @@ final class HarbormasterBuildMessageQuery
     return new HarbormasterBuildMessage();
   }
 
+  /**
+   * @param array<HarbormasterBuildMessage> $page
+   * @return array<HarbormasterBuildMessage>
+   */
   protected function willFilterPage(array $page) {
     $receiver_phids = array_filter(mpull($page, 'getReceiverPHID'));
     if ($receiver_phids) {

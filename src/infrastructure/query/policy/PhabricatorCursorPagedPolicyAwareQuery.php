@@ -968,8 +968,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @phpstan-type BuiltinOrder array{name: string, vector: string[],
    *                                  aliases?: string[]}
-   * @return array<string,BuiltinOrder> Map from builtin order keys to
-   *                                    specification.
+   * @return array<string, array<string, list<string>|string>|BuiltinOrder> Map
+   *   from builtin order keys to specification.
    *
    * @task order
    */
@@ -1686,7 +1686,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * constraints.
    *
    * @param AphrontDatabaseConnection $conn Connection executing the query.
-   * @return list<string> Where clause parts.
+   * @return list<PhutilQueryString> Where clause parts.
    * @task appsearch
    */
   protected function buildApplicationSearchWhereClause(

@@ -355,6 +355,7 @@ final class PhabricatorProjectTransactionEditor
     PhabricatorLiskDAO $object,
     array $xactions) {
 
+    /** @var PhabricatorProject $copy */
     $copy = parent::adjustObjectForPolicyChecks($object, $xactions);
 
     $type_edge = PhabricatorTransactions::TYPE_EDGE;

@@ -18,7 +18,7 @@ interface PhabricatorPolicyInterface extends PhabricatorPHIDInterface {
    * Whether an object provides automatic capability grants to a user (e.g. the
    * owner of an object can always see it even if a capability is set to NOONE)
    *
-   * @param PhabricatorPolicyCapability $capability
+   * @param string $capability A const from PhabricatorPolicyCapability
    * @param PhabricatorUser $viewer
    * @return bool
    */

@@ -26,6 +26,7 @@ final class TokenQueryConduitAPIMethod extends TokenConduitAPIMethod {
     $query = id(new PhabricatorTokenQuery())
       ->setViewer($request->getUser());
 
+    /** @var array<PhabricatorToken> $tokens */
     $tokens = $query->execute();
 
     return $this->buildTokenDicts($tokens);
