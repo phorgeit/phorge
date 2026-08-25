@@ -274,17 +274,13 @@ final class DiffusionRepositoryBasicsManagementPanel
     $viewer = $this->getViewer();
 
     $description = $repository->getDetail('description');
-
-    $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
-    if (!strlen($description)) {
+    if (!phutil_nonempty_string($description)) {
       return null;
-    } else {
-      $description = new PHUIRemarkupView($viewer, $description);
     }
-    $view->addTextContent($description);
 
-    return $view;
+    return id(new PHUIPropertyListView())
+      ->setViewer($viewer)
+      ->addTextContent(new PHUIRemarkupView($viewer, $description));
   }
 
   private function buildStatus() {
