@@ -13,7 +13,6 @@ final class HeraldRuleSerializer extends Phobject {
   }
 
   /**
-<<<<<<< HEAD
    * @param $match_all
    * @param array<HeraldCondition> $conditions
    * @param array<HeraldActionRecord> $actions
