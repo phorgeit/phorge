@@ -34,7 +34,7 @@ final class PhabricatorPeopleRenameController
       $message_body = PhabricatorAuthMessage::loadMessageText(
         $viewer,
         PhabricatorAuthChangeUsernameMessageType::MESSAGEKEY);
-      if (strlen($message_body)) {
+      if (phutil_nonempty_string($message_body)) {
         $dialog->appendRemarkup($message_body);
       }
 
