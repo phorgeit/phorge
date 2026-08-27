@@ -52,7 +52,8 @@ body input.jx-typeahead-placeholder {
 a.jx-tokenizer-x {
   margin-left: 4px;
   color: {$bluetext};
-  float: right;
+  float: none;
+  display: inline-block;
 }
 
 a.jx-tokenizer-x:hover {
@@ -66,6 +67,7 @@ a.jx-tokenizer-token {
   margin: 3px 2px 0 4px;
   background-color: {$sh-bluebackground};
   float: left;
+  display: inline-flex;
   cursor: pointer;
   border-radius: 3px;
   color: {$sh-bluetext};
@@ -74,12 +76,20 @@ a.jx-tokenizer-token {
      we're fairly aggressive about specifying element sizing. */
 
   line-height: 18px;
-  min-height: 20px;
-  max-height: 20px;
+  min-height: 23px;
+  max-height: 23px;
   white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  max-width: 98%;
+}
+
+a.jx-tokenizer-token .jx-tokenizer-content {
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 95%;
+  white-space: nowrap;
 }
 
 a.jx-tokenizer-token:hover {

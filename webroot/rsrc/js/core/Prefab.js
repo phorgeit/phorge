@@ -162,7 +162,13 @@ JX.install('Prefab', {
             });
         }
 
-        return [icon, dot, value];
+        var text = JX.$N(
+          'span',
+          {
+            className: 'jx-tokenizer-content'
+          }, value);
+
+        return [icon, dot, text];
       });
 
       if (config.placeholder) {
