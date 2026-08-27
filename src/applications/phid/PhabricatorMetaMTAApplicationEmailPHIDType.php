@@ -10,7 +10,7 @@ final class PhabricatorMetaMTAApplicationEmailPHIDType
   }
 
   public function getTypeIcon() {
-    return 'fa-envelope bluegrey';
+    return 'fa-envelope';
   }
 
   public function newObject() {

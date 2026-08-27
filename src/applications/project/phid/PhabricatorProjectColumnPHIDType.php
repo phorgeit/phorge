@@ -9,7 +9,7 @@ final class PhabricatorProjectColumnPHIDType extends PhabricatorPHIDType {
   }
 
   public function getTypeIcon() {
-    return 'fa-columns bluegrey';
+    return 'fa-columns';
   }
 
   public function newObject() {

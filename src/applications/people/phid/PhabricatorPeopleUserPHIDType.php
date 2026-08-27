@@ -9,7 +9,7 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
   }
 
   public function getTypeIcon() {
-    return 'fa-user bluegrey';
+    return 'fa-user';
   }
 
   public function newObject() {

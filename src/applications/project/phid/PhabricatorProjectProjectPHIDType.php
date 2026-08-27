@@ -9,7 +9,7 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
   }
 
   public function getTypeIcon() {
-    return 'fa-briefcase bluegrey';
+    return 'fa-briefcase';
   }
 
   public function newObject() {
