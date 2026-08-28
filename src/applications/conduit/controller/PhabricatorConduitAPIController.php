@@ -676,7 +676,7 @@ final class PhabricatorConduitAPIController
           // caution and fail. In the future, if we make the Conduit API
           // actually do type checking, it might be reasonable to treat it as
           // a string if the parameter type is string.
-          throw new Exception(
+          throw new ConduitException(
             pht(
               "The value for parameter '%s' is not valid JSON. All ".
               "parameters must be encoded as JSON values, including strings ".
@@ -702,7 +702,7 @@ final class PhabricatorConduitAPIController
       try {
         $params = phutil_json_decode($params_json);
       } catch (PhutilJSONParserException $ex) {
-        throw new Exception(
+        throw new ConduitException(
           pht(
             "Invalid parameter information was passed to method '%s'.",
             $method),
