@@ -344,6 +344,20 @@ EOREMARKUP
           case PhabricatorTransactions::TYPE_MFA:
             $type = 'core:mfa';
             break;
+          case PhabricatorTransactions::TYPE_SPACE:
+            $type = 'core:space';
+            $fields = array(
+              'old'  => $xaction->getOldValue(),
+              'new'  => $xaction->getNewValue(),
+            );
+            break;
+          case PhabricatorTransactions::TYPE_FILE:
+            $type = 'core:file';
+            $fields = array(
+              'old'  => $xaction->getOldValue(),
+              'new'  => $xaction->getNewValue(),
+            );
+            break;
         }
       }
 
