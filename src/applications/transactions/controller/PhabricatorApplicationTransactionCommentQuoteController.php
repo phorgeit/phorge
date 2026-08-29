@@ -45,7 +45,7 @@ final class PhabricatorApplicationTransactionCommentQuoteController
       ->executeOne();
 
     $ref = $request->getStr('ref');
-    if (strlen($ref)) {
+    if (phutil_nonempty_string($ref)) {
       $quote = pht('In %s, %s wrote:', $ref, '@'.$author->getName());
     } else {
       $quote = pht('%s wrote:', '@'.$author->getName());
