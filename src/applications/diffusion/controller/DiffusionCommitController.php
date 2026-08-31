@@ -1178,12 +1178,15 @@ final class DiffusionCommitController extends DiffusionController {
     return $this->commitMerges;
   }
 
+  /**
+   * @return array
+   */
   private function getCommitErrors() {
     if ($this->commitErrors === null) {
       $this->loadCommitState();
     }
 
-    return $this->commitErrors;
+    return phutil_glue($this->commitErrors, ' ');
   }
 
 
