@@ -7,16 +7,19 @@
  *           javelin-workflow
  *           phuix-icon-view
  *           phabricator-busy
+ *           phabricator-phtize
  * @provides javelin-behavior-lightbox-attachments
  */
 
-JX.behavior('lightbox-attachments', function() {
+JX.behavior('lightbox-attachments', function(config) {
 
   var lightbox = null;
 
   var prev         = null;
   var next         = null;
   var shown        = false;
+
+  var pht = JX.phtize(config.pht);
 
   function _toggleComment(e) {
     e.kill();
@@ -174,6 +177,7 @@ JX.behavior('lightbox-attachments', function() {
       'a',
       {
         className: 'lightbox-download phui-icon-circle hover-sky',
+        title: pht('Download'),
         href: target_data.dUri
       },
       download_icon);
@@ -186,6 +190,7 @@ JX.behavior('lightbox-attachments', function() {
         {
           className : 'lightbox-comment phui-icon-circle hover-sky',
           href : '#',
+          title: pht('Comment'),
           sigil : 'lightbox-comment'
         },
         commentIcon
@@ -198,6 +203,7 @@ JX.behavior('lightbox-attachments', function() {
       JX.$N('a',
         {
           className : 'lightbox-close phui-icon-circle hover-red',
+          title: pht('Close'),
           href : '#'
         },
         closeIcon);

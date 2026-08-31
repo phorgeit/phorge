@@ -281,7 +281,14 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       }
     }
 
-    Javelin::initBehavior('lightbox-attachments');
+    $buttons_pht = array(
+      'Download' => pht('Download'),
+      'Comment' => pht('Comment'),
+      'Close' => pht('Close'),
+    );
+    Javelin::initBehavior('lightbox-attachments', array(
+      'pht' => $buttons_pht,
+      ));
 
     Javelin::initBehavior('aphront-form-disable-on-submit');
     Javelin::initBehavior('toggle-class', array());
