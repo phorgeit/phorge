@@ -23,9 +23,10 @@ final class HeraldTranscript extends HeraldDAO
   const TABLE_SAVED_HEADER = 'herald_savedheader';
 
   /**
-   * Create the mail header value which lists applied Herald rules
+   * Create the mail header value which lists applied Herald rules.
    *
-   * @return string
+   * @return string A comma-separated list of Herald IDs wrapped in angle
+   *   brackets, or 'none'
    */
   public function getXHeraldRulesHeader() {
     $ids = array();
@@ -51,8 +52,16 @@ final class HeraldTranscript extends HeraldDAO
     return implode(', ', $ids);
   }
 
+  /**
+   * Save the Herald Rules mail header to the database. If the object already
+   * has a row, update the row to list all rules ever triggered for this object.
+   *
+   * @param string $phid PHID of the object on which Herald rules are applied
+   * @param string $header A comma-separated list of Herald IDs wrapped in angle
+   *   brackets, or 'none'
+   * @return string
+   */
   public static function saveXHeraldRulesHeader($phid, $header) {
-
     // Combine any existing header with the new header, listing all rules
     // which have ever triggered for this object.
     $header = self::combineXHeraldRulesHeaders(
@@ -70,7 +79,13 @@ final class HeraldTranscript extends HeraldDAO
     return $header;
   }
 
+  /**
+   * @param string|null $u A string like "none, <18>" or "<1>, <2>" or "none"
+   * @param string $v A string like "none, <18>" or "<1>, <2>" or "none"
+   * @return string
+   */
   private static function combineXHeraldRulesHeaders($u, $v) {
+    // We did not find an existing row in the database for this object.
     if ($u === null) {
       return $v;
     }
@@ -82,6 +97,12 @@ final class HeraldTranscript extends HeraldDAO
     return implode(', ', $combined);
   }
 
+  /**
+   * Load a Herald Rules mail header from the database.
+   *
+   * @param string $phid PHID of the object on which Herald rules are applied
+   * @return string|null
+   */
   public static function loadXHeraldRulesHeader($phid) {
     $header = queryfx_one(
       id(new self())->establishConnection('r'),
