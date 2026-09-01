@@ -1,24 +1,16 @@
 <?php
 
 final class PhabricatorApplicationTransactionCommentHistoryController
-  extends PhabricatorApplicationTransactionController {
+  extends PhorgeSingleApplicationTransactionController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
-  public function handleRequest(AphrontRequest $request) {
+  protected function handleTransaction(
+    PhabricatorApplicationTransaction $xaction) {
+
     $viewer = $this->getViewer();
-    $phid = $request->getURIData('phid');
-
-    $xaction = id(new PhabricatorObjectQuery())
-      ->withPHIDs(array($phid))
-      ->setViewer($viewer)
-      ->executeOne();
-
-    if (!$xaction) {
-      return new Aphront404Response();
-    }
 
     if (!$xaction->getComment()) {
       // You can't view history of a transaction with no comments.

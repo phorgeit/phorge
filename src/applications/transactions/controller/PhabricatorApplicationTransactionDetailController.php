@@ -1,7 +1,7 @@
 <?php
 
 final class PhabricatorApplicationTransactionDetailController
-  extends PhabricatorApplicationTransactionController {
+  extends PhorgeSingleApplicationTransactionController {
 
   private $objectHandle;
 
@@ -9,21 +9,14 @@ final class PhabricatorApplicationTransactionDetailController
     return true;
   }
 
-  public function handleRequest(AphrontRequest $request) {
+  protected function handleTransaction(
+    PhabricatorApplicationTransaction $xaction) {
+
+    $viewer = $this->getRequest();
+    $request = $this->getRequest();
+
     // Users can end up on this page directly by following links in email,
     // so we try to make it somewhat reasonable as a standalone page.
-
-    $viewer = $this->getViewer();
-    $phid = $request->getURIData('phid');
-
-    $xaction = id(new PhabricatorObjectQuery())
-      ->withPHIDs(array($phid))
-      ->setViewer($viewer)
-      ->executeOne();
-    if (!$xaction) {
-      return new Aphront404Response();
-    }
-
     $details = $xaction->renderChangeDetails($viewer);
 
     $object_phid = $xaction->getObjectPHID();

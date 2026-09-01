@@ -1,19 +1,13 @@
 <?php
 
 final class PhabricatorApplicationTransactionCommentRemoveController
-  extends PhabricatorApplicationTransactionController {
+  extends PhorgeSingleApplicationTransactionController {
 
-  public function handleRequest(AphrontRequest $request) {
+  protected function handleTransaction(
+    PhabricatorApplicationTransaction $xaction) {
+
     $viewer = $this->getViewer();
-    $phid = $request->getURIData('phid');
-
-    $xaction = id(new PhabricatorObjectQuery())
-      ->withPHIDs(array($phid))
-      ->setViewer($viewer)
-      ->executeOne();
-    if (!$xaction) {
-      return new Aphront404Response();
-    }
+    $request = $this->getRequest();
 
     if (!$xaction->getComment()) {
       return new Aphront404Response();

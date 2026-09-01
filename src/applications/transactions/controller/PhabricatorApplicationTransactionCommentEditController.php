@@ -1,18 +1,13 @@
 <?php
 
 final class PhabricatorApplicationTransactionCommentEditController
-  extends PhabricatorApplicationTransactionController {
+  extends PhorgeSingleApplicationTransactionController {
 
-  public function handleRequest(AphrontRequest $request) {
+  protected function handleTransaction(
+    PhabricatorApplicationTransaction $xaction) {
+
     $viewer = $this->getViewer();
-
-    $xaction = id(new PhabricatorObjectQuery())
-      ->setViewer($viewer)
-      ->withPHIDs(array($request->getURIData('phid')))
-      ->executeOne();
-    if (!$xaction) {
-      return new Aphront404Response();
-    }
+    $request = $this->getRequest();
 
     if (!$xaction->getComment()) {
       // You can't currently edit a transaction which doesn't have a comment.

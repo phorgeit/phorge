@@ -1,24 +1,18 @@
 <?php
 
 final class PhabricatorApplicationTransactionValueController
-  extends PhabricatorApplicationTransactionController {
+  extends PhorgeSingleApplicationTransactionController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
-  public function handleRequest(AphrontRequest $request) {
-    $viewer = $this->getViewer();
-    $phid = $request->getURIData('phid');
-    $type = $request->getURIData('value');
+  protected function handleTransaction(
+    PhabricatorApplicationTransaction $xaction) {
 
-    $xaction = id(new PhabricatorObjectQuery())
-      ->setViewer($viewer)
-      ->withPHIDs(array($phid))
-      ->executeOne();
-    if (!$xaction) {
-      return new Aphront404Response();
-    }
+    $viewer = $this->getViewer();
+    $request = $this->getRequest();
+    $type = $request->getURIData('value');
 
     // For now, this pathway only supports policy transactions
     // to show the details of custom policies. If / when this pathway
