@@ -24,7 +24,6 @@ final class PHUITimelineEventView extends AphrontView {
   private $quoteTargetID;
   private $isNormalComment;
   private $quoteRef;
-  private $reallyMajorEvent;
   private $hideCommentOptions = false;
   private $authorPHID;
   private $badges = array();
@@ -220,11 +219,6 @@ final class PHUITimelineEventView extends AphrontView {
     return $this->isLockOverride;
   }
 
-  public function setReallyMajorEvent($me) {
-    $this->reallyMajorEvent = $me;
-    return $this;
-  }
-
   public function setHideCommentOptions($hide_comment_options) {
     $this->hideCommentOptions = $hide_comment_options;
     return $this;
@@ -325,7 +319,7 @@ final class PHUITimelineEventView extends AphrontView {
   }
 
   /**
-   * @return array<PhutilSafeHTML|null> Two tag objects; the second can be null
+   * @return PhutilSafeHTML Tag object
    */
   public function render() {
 
@@ -533,34 +527,21 @@ final class PHUITimelineEventView extends AphrontView {
       );
     }
 
-    $major_event = null;
-    if ($this->reallyMajorEvent) {
-      $major_event = phutil_tag(
-        'div',
-        array(
-          'class' => 'phui-timeline-event-view '.
-                     'phui-timeline-spacer',
-        ));
-    }
-
     $sigils[] = 'anchor-container';
 
-    return array(
-      javelin_tag(
+    return javelin_tag(
+      'div',
+      array(
+        'class' => implode(' ', $outer_classes),
+        'sigil' => implode(' ', $sigils),
+        'meta' => $meta,
+      ),
+      phutil_tag(
         'div',
         array(
-          'class' => implode(' ', $outer_classes),
-          'sigil' => implode(' ', $sigils),
-          'meta' => $meta,
+          'class' => implode(' ', $classes),
         ),
-        phutil_tag(
-          'div',
-          array(
-            'class' => implode(' ', $classes),
-          ),
-          $content)),
-      $major_event,
-    );
+        $content));
   }
 
   /**
