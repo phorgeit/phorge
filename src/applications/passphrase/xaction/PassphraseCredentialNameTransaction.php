@@ -15,7 +15,7 @@ final class PassphraseCredentialNameTransaction
 
   public function getTitle() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s created this credential.',
         $this->renderAuthor());
@@ -30,7 +30,7 @@ final class PassphraseCredentialNameTransaction
 
   public function getTitleForFeed() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s created %s.',
         $this->renderAuthor(),
