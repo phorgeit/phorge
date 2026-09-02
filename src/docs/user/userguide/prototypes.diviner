@@ -6,27 +6,27 @@ Information about prototypes.
 Overview
 ========
 
-Phorge includes //prototype applications//, which are applications in an
+Phorge includes some //prototype applications//, which are applications in an
 early stage of development.
 
-When we begin working on a new application, we usually implement it as a
-prototype first. This allows us to get a better sense of how the application
+Prototype application are not enabled by default. You can use the
+`phabricator.show-prototypes` configuration setting to enable prototypes.
+
+//Using// Prototype applications is generally //not supported// - we won't help
+if you try to use them and something breaks. Since the Phorge organization does
+not offer paid support, this is technically true for all other applications, but
+we would feel sorry for you and try to help if it's non-prototype.
+
+Historically, Prototype phase was used as an early way to test the
+implementation and integration of a new application without committing to
+support it. This allowed us to get a better sense of how the application
 might work and integrate with other applications, and what technical and product
 challenges it might face.
 
-Prototypes are often not generally usable. They usually aren't documented,
-don't have safety and correctness checks in place, very rarely have full
-integrations or APIs, and may be missing major pieces of critical functionality
-or even not work at all. The parts of an application we prototype first
-may not be the useful parts.
+This concept no longer works for us, as new applications are not expected to be
+implemented in the Core repository.
 
-Some applications leave the prototype phase quickly, but other applications may
-not. We build some prototypes just to make sure a specific technical barrier is
-surmountable, and may not finish the application for a very long time. In other
-cases, the prototype seems less interesting or useful once it starts working
-than we might have imagined it would be, or turns out to be far more
-challenging than we thought. We may lower the priority of a project or put it
-on hold indefinitely if we're less excited about it after we begin building it.
-
-If you're interested in previewing upcoming applications, you can use the
-`phabricator.show-prototypes` configuration setting to enable prototypes.
+Some of the Prototypes are slated for removal, and some are being promoted to
+non-prototype status. Some will be removed from Core and move to their own
+Extension library. See [[https://we.phorge.it/T16277 |T16277 Eliminate concept
+of "prototype application" ]] for updates on this front.
