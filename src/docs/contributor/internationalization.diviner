@@ -372,6 +372,45 @@ of special cases are left untranslated to prevent fatals and cycles in the
 error handler.
 
 
+Javascript
+==========
+
+Support for localizing text in Javascript code is very basic, and doesn't
+support parameters, and needs to be explicitly provided in the server code. It
+is enough for most UI elements.
+
+To use `pht()` in the Javascript code, `require phabricator-phtize` and pass the
+translations in the `config` parameter:
+
+```lang=Javascript
+JX.behavior('my-localized-behavior', function(config) {
+  var pht = JX.phtize(config.pht);
+
+  ...
+
+  var tooltip = pht('Upload File');
+```
+
+`config.pht` will need to be primed from the PHP side:
+
+```lang=php
+$localization = array(
+  'Upload File' => pht('Upload File'),
+);
+Javelin::initBehavior(
+  'my-localized-behavior',
+  array(
+    'pht' => $localization;
+  ));
+
+```
+
+The PHP side will provide the properly localized texts to `JX.phtize()`, so they
+are available on the client.
+
+This is only supported for non-parameterized strings, as the actual lookup is
+done ahead-of-time when the values are not available.
+
 Next Steps
 ==========
 
