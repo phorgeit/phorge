@@ -26,9 +26,6 @@ final class PhabricatorClusterConfigOptions
   public function getOptions() {
     $databases_type = 'cluster.databases';
     $databases_help = $this->deformat(pht(<<<EOTEXT
-WARNING: This is a prototype option and the description below is currently pure
-fantasy.
-
 This option allows you to make this service aware of database read replicas so
 it can monitor database health, spread load, and degrade gracefully to
 read-only mode in the event of a failure on the primary host. For help with
@@ -116,9 +113,6 @@ EOTEXT
             'Activate read-only mode for maintenance or disaster recovery.'))
         ->setDescription(
           pht(
-            'WARNING: This is a prototype option and the description below '.
-            'is currently pure fantasy.'.
-            "\n\n".
             'Switch the service to read-only mode. In this mode, users will '.
             'be unable to write new data. Normally, the cluster degrades '.
             'into this mode automatically when it detects that the database '.
