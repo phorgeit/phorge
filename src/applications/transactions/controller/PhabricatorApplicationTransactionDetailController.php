@@ -12,7 +12,7 @@ final class PhabricatorApplicationTransactionDetailController
   protected function handleTransaction(
     PhabricatorApplicationTransaction $xaction) {
 
-    $viewer = $this->getRequest();
+    $viewer = $this->getViewer();
     $request = $this->getRequest();
 
     // Users can end up on this page directly by following links in email,
