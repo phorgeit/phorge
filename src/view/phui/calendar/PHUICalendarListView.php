@@ -101,7 +101,7 @@ final class PHUICalendarListView extends AphrontTagView {
         $event_classes[] = 'event-cancelled';
       }
 
-      $tip = $event->getDateTimeSummary();
+      $tip = $event->getName()."\n".$event->getDateTimeSummary();
       if ($this->getView() == 'day') {
         $tip_align = 'E';
       } else if ($this->getView() == 'month') {
