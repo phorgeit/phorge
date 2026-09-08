@@ -68,19 +68,21 @@ final class PhabricatorProjectArchiveController
 
       $project_phids = array_mergev(mpull($open_tasks, 'getProjectPHIDs'));
       $project_phids = array_diff($project_phids, array($project->getPHID()));
-      $active_projects = id(new PhabricatorProjectQuery())
-        ->setViewer($this->getViewer())
-        ->withStatus(PhabricatorProjectQuery::STATUS_ACTIVE)
-        ->withPHIDs($project_phids)
-        ->execute();
-      $active_phids = mpull($active_projects, 'getPHID');
+      if ($project_phids) {
+        $active_projects = id(new PhabricatorProjectQuery())
+          ->setViewer($this->getViewer())
+          ->withStatus(PhabricatorProjectQuery::STATUS_ACTIVE)
+          ->withPHIDs($project_phids)
+          ->execute();
+        $active_phids = mpull($active_projects, 'getPHID');
 
-      foreach ($open_tasks as $key => $task) {
-        $task_phids = $task->getProjectPHIDs();
-        foreach ($task_phids as $task_phid) {
-          if (in_array($task_phid, $active_phids)) {
-            unset($open_tasks[$key]);
-            break;
+        foreach ($open_tasks as $key => $task) {
+          $task_phids = $task->getProjectPHIDs();
+          foreach ($task_phids as $task_phid) {
+            if (in_array($task_phid, $active_phids)) {
+              unset($open_tasks[$key]);
+              break;
+            }
           }
         }
       }
