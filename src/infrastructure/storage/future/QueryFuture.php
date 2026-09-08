@@ -77,9 +77,6 @@ final class QueryFuture extends Future {
 
     $this->processResults($this->conn->resolveAsyncQueries($conns, $asyncs));
 
-    if ($this->canResolve()) {
-      return true;
-    }
     return false;
   }
 

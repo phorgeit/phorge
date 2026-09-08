@@ -1313,7 +1313,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
       $descending = true;
       if ($is_query_reversed) {
-        $descending = !$descending;
+        $descending = false;
       }
 
       if ($is_column_reversed) {

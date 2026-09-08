@@ -31,7 +31,7 @@ final class PhabricatorSpacesNamespaceSearchEngine
     $query = $this->newQuery();
 
     if ($map['active']) {
-      $query->withIsArchived(!$map['active']);
+      $query->withIsArchived(false);
     }
 
     return $query;

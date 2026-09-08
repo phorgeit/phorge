@@ -485,7 +485,7 @@ final class DiffusionBrowseController extends DiffusionController {
           ->setIcon('fa-pencil')
           ->setID('editor_link')
           ->setMetadata(array('template' => $editor_template))
-          ->setDisabled(!$editor_uri)
+          ->setDisabled(false)
           ->setColor(PHUIButtonView::GREY);
     }
 

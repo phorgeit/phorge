@@ -26,10 +26,6 @@ final class PhabricatorFulltextIndexEngineExtension
       $version[] = $this->getCommentVersion($object);
     }
 
-    if (!$version) {
-      return null;
-    }
-
     return implode(':', $version);
   }
 
