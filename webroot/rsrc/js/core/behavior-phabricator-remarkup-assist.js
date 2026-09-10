@@ -11,6 +11,7 @@
  *           javelin-vector
  *           phuix-autocomplete
  *           javelin-mask
+ *           javelin-behavior-phorge-remarkup-assist-manager
  * @provides javelin-behavior-phabricator-remarkup-assist
  */
 
@@ -316,6 +317,33 @@ JX.behavior('phabricator-remarkup-assist', function(config) {
         set_pinned_mode(root, !pinned);
         break;
 
+      default:
+        var handler = JX.RemarkupAssistantManager
+          .getInstance()
+          .getAction(action);
+        if (handler) {
+          if (handler.getTriggersWorkflow()) {
+            // full-screen editor hides dialogs.
+            set_edit_mode(edit_root, 'normal');
+          }
+
+          var params = {
+            area,
+            selectedText: sel,
+            selectedRange: r,
+            replace_selection: function(pre, body, post) {
+              update(area, pre, body, post);
+            },
+            insert: function(text) {
+              update(area, text, sel, '');
+            },
+            prepend_char_to_lines,
+          }
+
+          var code = handler.getAction();
+          code(params);
+        }
+        break;
     }
   }
 

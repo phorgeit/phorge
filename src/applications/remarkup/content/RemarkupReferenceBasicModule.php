@@ -551,12 +551,6 @@ Headers also automatically create named anchors.
 If you navigate to `#xyz` in your browser location bar, the page will scroll
 to the first anchor with "xyz" as a prefix of the anchor name.
 
-
-= Fullscreen Mode =
-
-Remarkup editors provide a fullscreen composition mode. This can make it easier
-to edit large blocks of text, or improve focus by removing distractions. You can
-exit **Fullscreen** mode by clicking the button again or by pressing escape.
 EOTEXT;
 
     // TODO move this to own page, or remove completely. It's relatively fresh.

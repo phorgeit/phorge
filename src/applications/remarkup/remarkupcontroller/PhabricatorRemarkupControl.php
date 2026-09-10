@@ -226,110 +226,108 @@ final class PhabricatorRemarkupControl
     Javelin::initBehavior('phabricator-tooltips', array());
 
     $actions = array(
-      'fa-bold' => array(
-        'tip' => pht('Bold'),
-        'nodevice' => true,
-      ),
-      'fa-italic' => array(
-        'tip' => pht('Italics'),
-        'nodevice' => true,
-      ),
-      'fa-text-width' => array(
-        'tip' => pht('Monospaced'),
-        'nodevice' => true,
-      ),
-      'fa-link' => array(
-        'tip' => pht('Link'),
-        'nodevice' => true,
-      ),
-      array(
-        'spacer' => true,
-        'nodevice' => true,
-      ),
-      'fa-list-ul' => array(
-        'tip' => pht('Bulleted List'),
-        'nodevice' => true,
-      ),
-      'fa-list-ol' => array(
-        'tip' => pht('Numbered List'),
-        'nodevice' => true,
-      ),
-      'fa-code' => array(
-        'tip' => pht('Code Block'),
-        'nodevice' => true,
-      ),
-      'fa-quote-right' => array(
-        'tip' => pht('Quote'),
-        'nodevice' => true,
-      ),
-      'fa-table' => array(
-        'tip' => pht('Table'),
-        'nodevice' => true,
-      ),
-      'fa-cloud-upload' => array(
-        'tip' => pht('Upload File'),
-      ),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Bold'))
+        ->setNodevice(true)
+        ->setActionCode('fa-bold')
+        ->setIcon('fa-bold'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Italics'))
+        ->setNodevice(true)
+        ->setActionCode('fa-italic')
+        ->setIcon('fa-italic'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Monospaced'))
+        ->setNodevice(true)
+        ->setActionCode('fa-text-width')
+        ->setIcon('fa-text-width'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Link'))
+        ->setNodevice(true)
+        ->setActionCode('fa-link')
+        ->setIcon('fa-link'),
+      PhorgeRemarkupControlAction::newSpacer()
+        ->setNodevice(true)
+        ->setActionCode('0')
+        ->setIcon('0'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Bulleted List'))
+        ->setNodevice(true)
+        ->setActionCode('fa-list-ul')
+        ->setIcon('fa-list-ul'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Numbered List'))
+        ->setNodevice(true)
+        ->setActionCode('fa-list-ol')
+        ->setIcon('fa-list-ol'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Code Block'))
+        ->setNodevice(true)
+        ->setActionCode('fa-code')
+        ->setIcon('fa-code'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Quote'))
+        ->setNodevice(true)
+        ->setActionCode('fa-quote-right')
+        ->setIcon('fa-quote-right'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Table'))
+        ->setNodevice(true)
+        ->setActionCode('fa-table')
+        ->setIcon('fa-table'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Upload File'))
+        ->setActionCode('fa-cloud-upload')
+        ->setIcon('fa-cloud-upload'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Preview'))
+        ->setAlign('right')
+        ->setActionCode('fa-eye')
+        ->setIcon('fa-eye'),
+      id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Help'))
+        ->setAlign('right')
+        ->setHref('/remarkup/')
+        ->setIcon('fa-book'),
     );
-
-    $can_use_macros = function_exists('imagettftext') &&
-      PhabricatorApplication::isClassInstalledForViewer(
-        PhabricatorMacroApplication::class,
-        $viewer);
-
-    if ($can_use_macros) {
-      $actions[] = array(
-        'spacer' => true,
-        );
-      $actions['fa-meh-o'] = array(
-        'tip' => pht('Meme'),
-      );
-    }
-
-    $actions['fa-eye'] = array(
-      'tip' => pht('Preview'),
-      'align' => 'right',
-    );
-
-    $actions['fa-book'] = array(
-      'tip' => pht('Help'),
-      'align' => 'right',
-      'href'  => '/remarkup/',
-    );
-
-    $mode_actions = array();
 
     if (!$this->disableFullScreen) {
-      $mode_actions['fa-arrows-alt'] = array(
-        'tip' => pht('Fullscreen Mode'),
-        'align' => 'right',
-      );
-    }
+      $actions[] = id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Fullscreen Mode'))
+        ->setAlign('right')
+        ->setActionCode('fa-arrows-alt')
+        ->setIcon('fa-arrows-alt');
+      }
 
     if ($this->getCanPin()) {
-      $mode_actions['fa-thumb-tack'] = array(
-        'tip' => pht('Pin Form On Screen'),
-        'align' => 'right',
-      );
+      $actions[] = id(new PhorgeRemarkupControlAction())
+        ->setTooltip(pht('Pin Form On Screen'))
+        ->setAlign('right')
+        ->setActionCode('fa-thumb-tack')
+        ->setIcon('fa-thumb-tack');
     }
 
-    if ($mode_actions) {
-      $actions += $mode_actions;
-    }
+    $extension_actions =
+      PhorgeRemarkupControlExtension::buildExtensionActions(
+        $viewer,
+        $this->getSurroundingObject());
+    /** @var PhorgeRemarkupControlAction[] */
+    $actions = array_merge($actions, $extension_actions);
 
     $buttons = array();
-    foreach ($actions as $action => $spec) {
+    foreach ($actions as $spec) {
 
       $classes = array();
 
-      if (idx($spec, 'align') == 'right') {
+      if ($spec->getAlign() == 'right') {
         $classes[] = 'remarkup-assist-right';
       }
 
-      if (idx($spec, 'nodevice')) {
+      if ($spec->getNodevice()) {
         $classes[] = 'remarkup-assist-nodevice';
       }
 
-      if (idx($spec, 'spacer')) {
+      if ($spec->getIsSpacer()) {
         $classes[] = 'remarkup-assist-separator';
         $buttons[] = phutil_tag(
           'span',
@@ -338,17 +336,17 @@ final class PhabricatorRemarkupControl
           ),
           '');
         continue;
-      } else {
-        $classes[] = 'remarkup-assist-button';
       }
 
-      if ($action == 'fa-cloud-upload') {
+      $classes[] = 'remarkup-assist-button';
+
+      if ($spec->getActionCode() == 'fa-cloud-upload') {
         $classes[] = 'remarkup-assist-upload';
       }
 
-      $href = idx($spec, 'href', '#');
+      $href = $spec->getHref();
       if ($href == '#') {
-        $meta = array('action' => $action);
+        $meta = array('action' => $spec->getActionCode());
         $mustcapture = true;
         $target = null;
       } else {
@@ -359,7 +357,7 @@ final class PhabricatorRemarkupControl
 
       $content = null;
 
-      $tip = idx($spec, 'tip');
+      $tip = $spec->getTooltip();
       if ($tip) {
         $meta['tip'] = $tip;
         $content = javelin_tag(
@@ -376,6 +374,8 @@ final class PhabricatorRemarkupControl
         $sigils[] = 'has-tooltip';
       }
 
+      $icon = $spec->getIcon();
+
       $buttons[] = javelin_tag(
         'a',
         array(
@@ -391,7 +391,7 @@ final class PhabricatorRemarkupControl
           'div',
           array(
             'class' =>
-              'remarkup-assist phui-icon-view phui-font-fa bluegrey '.$action,
+              'remarkup-assist phui-icon-view phui-font-fa bluegrey '.$icon,
           ),
           $content));
     }
