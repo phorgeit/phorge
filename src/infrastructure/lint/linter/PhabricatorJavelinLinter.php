@@ -33,7 +33,8 @@ final class PhabricatorJavelinLinter extends ArcanistLinter {
   }
 
   /**
-   * @internal Enables overrides for unit tests.
+   * Internal. Public only for unit tests.
+   * Enables overrides for unit tests.
    *
    * @param bool $unit_tests
    * @return $this
