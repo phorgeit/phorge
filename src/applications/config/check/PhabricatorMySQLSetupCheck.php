@@ -45,60 +45,63 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
     }
 
     $modes = $ref->loadRawMySQLConfigValue('sql_mode');
-    $modes = explode(',', $modes);
+    // Avoid additional PHP 8.1+ exceptions when the DB server has gone away.
+    if ($modes !== null) {
+      $modes = explode(',', $modes);
 
-    if (!in_array('STRICT_ALL_TABLES', $modes)) {
-      $summary = pht(
-        'MySQL is not in strict mode (on host "%s"), but using strict mode '.
-        'is recommended.',
-        $host_name);
+      if (!in_array('STRICT_ALL_TABLES', $modes)) {
+        $summary = pht(
+          'MySQL is not in strict mode (on host "%s"), but using strict mode '.
+          'is recommended.',
+          $host_name);
 
-      $message = pht(
-        'On database host "%s", the global "sql_mode" setting does not '.
-        'include the "STRICT_ALL_TABLES" mode. Enabling this mode is '.
-        'recommended to generally improve how MySQL handles certain errors.'.
-        "\n\n".
-        'Without this mode enabled, MySQL will silently ignore some error '.
-        'conditions, including inserts which attempt to store more data in '.
-        'a column than actually fits. This behavior is usually undesirable '.
-        'and can lead to data corruption (by truncating multibyte characters '.
-        'in the middle), data loss (by discarding the data which does not '.
-        'fit into the column), or security concerns (for example, by '.
-        'truncating keys or credentials).'.
-        "\n\n".
-        'This software is developed and tested in "STRICT_ALL_TABLES" mode so '.
-        'you should normally never encounter these situations, but may run '.
-        'into them if you interact with the database directly, run '.
-        'third-party code, develop extensions, or just encounter a bug in '.
-        'the software.'.
-        "\n\n".
-        'Enabling "STRICT_ALL_TABLES" makes MySQL raise an explicit error '.
-        'if one of these unusual situations does occur. This is a safer '.
-        'behavior and prevents these situations from causing secret, subtle, '.
-        'and potentially serious issues later on.'.
-        "\n\n".
-        'You can find more information about this mode (and how to configure '.
-        'it) in the MySQL manual. Usually, it is sufficient to add this to '.
-        'your "my.cnf" file (in the "[mysqld]" section) and then '.
-        'restart "mysqld":'.
-        "\n\n".
-        '%s'.
-        "\n".
-        'Note that if you run other applications against the same database, '.
-        'they may not work in strict mode.'.
-        "\n\n".
-        'If you can not or do not want to enable "STRICT_ALL_TABLES", you '.
-        'can safely ignore this warning. This software will work correctly '.
-        'with this mode enabled or disabled.',
-        $host_name,
-        phutil_tag('pre', array(), 'sql_mode=STRICT_ALL_TABLES'));
+        $message = pht(
+          'On database host "%s", the global "sql_mode" setting does not '.
+          'include the "STRICT_ALL_TABLES" mode. Enabling this mode is '.
+          'recommended to generally improve how MySQL handles certain errors.'.
+          "\n\n".
+          'Without this mode enabled, MySQL will silently ignore some error '.
+          'conditions, including inserts which attempt to store more data in '.
+          'a column than actually fits. This behavior is usually undesirable '.
+          'and can lead to data corruption (by truncating multibyte '.
+          'characters in the middle), data loss (by discarding the data which '.
+          'does not fit into the column), or security concerns (for example, '.
+          'by truncating keys or credentials).'.
+          "\n\n".
+          'This software is developed and tested in "STRICT_ALL_TABLES" mode '.
+          'so you should normally never encounter these situations, but may '.
+          'run into them if you interact with the database directly, run '.
+          'third-party code, develop extensions, or just encounter a bug in '.
+          'the software.'.
+          "\n\n".
+          'Enabling "STRICT_ALL_TABLES" makes MySQL raise an explicit error '.
+          'if one of these unusual situations does occur. This is a safer '.
+          'behavior and prevents these situations from causing secret, '.
+          'subtle, and potentially serious issues later on.'.
+          "\n\n".
+          'You can find more information about this mode (and how to '.
+          'configure it) in the MySQL manual. Usually, it is sufficient to '.
+          'add this to your "my.cnf" file (in the "[mysqld]" section) and '.
+          'then restart "mysqld":'.
+          "\n\n".
+          '%s'.
+          "\n".
+          'Note that if you run other applications against the same database, '.
+          'they may not work in strict mode.'.
+          "\n\n".
+          'If you can not or do not want to enable "STRICT_ALL_TABLES", you '.
+          'can safely ignore this warning. This software will work correctly '.
+          'with this mode enabled or disabled.',
+          $host_name,
+          phutil_tag('pre', array(), 'sql_mode=STRICT_ALL_TABLES'));
 
-      $this->newIssue('sql_mode.strict')
-        ->setName(pht('MySQL %s Mode Not Set', 'STRICT_ALL_TABLES'))
-        ->setSummary($summary)
-        ->setMessage($message)
-        ->setDatabaseRef($ref)
-        ->addMySQLConfig('sql_mode');
+        $this->newIssue('sql_mode.strict')
+          ->setName(pht('MySQL %s Mode Not Set', 'STRICT_ALL_TABLES'))
+          ->setSummary($summary)
+          ->setMessage($message)
+          ->setDatabaseRef($ref)
+          ->addMySQLConfig('sql_mode');
+      }
     }
 
     $is_innodb_fulltext = false;
@@ -237,56 +240,59 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
     //   innodb_ft_server_stopword_table = phabricator_search/stopwords
 
     $innodb_pool = $ref->loadRawMySQLConfigValue('innodb_buffer_pool_size');
-    $innodb_bytes = phutil_parse_bytes($innodb_pool);
-    $innodb_readable = phutil_format_bytes($innodb_bytes);
+    // Avoid additional PHP 8.1+ exceptions when the DB server has gone away.
+    if ($innodb_pool !== null) {
+      $innodb_bytes = phutil_parse_bytes($innodb_pool);
+      $innodb_readable = phutil_format_bytes($innodb_bytes);
 
-    // This is arbitrary and just trying to detect values that the user
-    // probably didn't set themselves. The Mac OS X default is 128MB and
-    // 40% of an AWS EC2 Micro instance is 245MB, so keeping it somewhere
-    // between those two values seems like a reasonable approximation.
-    $minimum_readable = '225MB';
+      // This is arbitrary and just trying to detect values that the user
+      // probably didn't set themselves. The Mac OS X default is 128MB and
+      // 40% of an AWS EC2 Micro instance is 245MB, so keeping it somewhere
+      // between those two values seems like a reasonable approximation.
+      $minimum_readable = '225MB';
 
-    $minimum_bytes = phutil_parse_bytes($minimum_readable);
-    if ($innodb_bytes < $minimum_bytes) {
-      $summary = pht(
-        'MySQL (on host "%s") is configured with a very small '.
-        'innodb_buffer_pool_size, which may impact performance.',
-        $host_name);
+      $minimum_bytes = phutil_parse_bytes($minimum_readable);
+      if ($innodb_bytes < $minimum_bytes) {
+        $summary = pht(
+          'MySQL (on host "%s") is configured with a very small '.
+          'innodb_buffer_pool_size, which may impact performance.',
+          $host_name);
 
-      $message = pht(
-        "Database host \"%s\" is configured with a very small %s (%s). ".
-        "This may cause poor database performance and lock exhaustion.\n\n".
-        "There are no hard-and-fast rules to setting an appropriate value, ".
-        "but a reasonable starting point for a standard install is something ".
-        "like 40%% of the total memory on the machine. For example, if you ".
-        "have 4GB of RAM on the machine you have installed this software on, ".
-        "you might set this value to %s.\n\n".
-        "You can read more about this option in the MySQL documentation to ".
-        "help you make a decision about how to configure it for your use ".
-        "case. There are no concerns specific to this software which make it ".
-        "different from normal workloads with respect to this setting.\n\n".
-        "To adjust the setting, add something like this to your %s file (in ".
-        "the %s section), replacing %s with an appropriate value for your ".
-        "host and use case. Then restart %s:\n\n".
-        "%s\n".
-        "If you're satisfied with the current setting, you can safely ".
-        "ignore this setup warning.",
-        $host_name,
-        phutil_tag('tt', array(), 'innodb_buffer_pool_size'),
-        phutil_tag('tt', array(), $innodb_readable),
-        phutil_tag('tt', array(), '1600M'),
-        phutil_tag('tt', array(), 'my.cnf'),
-        phutil_tag('tt', array(), '[mysqld]'),
-        phutil_tag('tt', array(), '1600M'),
-        phutil_tag('tt', array(), 'mysqld'),
-        phutil_tag('pre', array(), 'innodb_buffer_pool_size=1600M'));
+        $message = pht(
+          "Database host \"%s\" is configured with a very small %s (%s). ".
+          "This may cause poor database performance and lock exhaustion.\n\n".
+          "There are no hard-and-fast rules to setting an appropriate value, ".
+          "but a reasonable starting point for a standard install is ".
+          "something like 40%% of the total memory on the machine. For ".
+          "example, if you have 4GB of RAM on the machine you have installed ".
+          "this software on, you might set this value to %s.\n\n".
+          "You can read more about this option in the MySQL documentation to ".
+          "help you make a decision about how to configure it for your use ".
+          "case. There are no concerns specific to this software which make ".
+          "it different from normal workloads with respect to this setting.\n".
+          "\nTo adjust the setting, add something like this to your %s file ".
+          "(in the %s section), replacing %s with an appropriate value for ".
+          "your host and use case. Then restart %s:\n\n".
+          "%s\n".
+          "If you're satisfied with the current setting, you can safely ".
+          "ignore this setup warning.",
+          $host_name,
+          phutil_tag('tt', array(), 'innodb_buffer_pool_size'),
+          phutil_tag('tt', array(), $innodb_readable),
+          phutil_tag('tt', array(), '1600M'),
+          phutil_tag('tt', array(), 'my.cnf'),
+          phutil_tag('tt', array(), '[mysqld]'),
+          phutil_tag('tt', array(), '1600M'),
+          phutil_tag('tt', array(), 'mysqld'),
+          phutil_tag('pre', array(), 'innodb_buffer_pool_size=1600M'));
 
-      $this->newIssue('mysql.innodb_buffer_pool_size')
-        ->setName(pht('MySQL May Run Slowly'))
-        ->setSummary($summary)
-        ->setMessage($message)
-        ->setDatabaseRef($ref)
-        ->addMySQLConfig('innodb_buffer_pool_size');
+        $this->newIssue('mysql.innodb_buffer_pool_size')
+          ->setName(pht('MySQL May Run Slowly'))
+          ->setSummary($summary)
+          ->setMessage($message)
+          ->setDatabaseRef($ref)
+          ->addMySQLConfig('innodb_buffer_pool_size');
+      }
     }
 
     $conn = $ref->newManagementConnection();
