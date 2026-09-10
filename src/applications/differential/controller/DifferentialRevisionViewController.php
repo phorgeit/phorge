@@ -1048,7 +1048,7 @@ final class DifferentialRevisionViewController
     }
 
     if (!$paths) {
-      return array();
+      return null;
     }
 
     $recent = (PhabricatorTime::getNow() - phutil_units('30 days in seconds'));
