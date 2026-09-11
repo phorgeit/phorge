@@ -235,20 +235,6 @@ JX.behavior('phabricator-remarkup-assist', function(config) {
         var table_prefix = (r.start === 0 ? '' : '\n\n');
         update(area, table_prefix + '| ', sel || pht('data'), ' |');
         break;
-      case 'fa-meh-o':
-        // Deactivate full-screen to avoid popup visibility problems.
-        set_edit_mode(edit_root, 'normal');
-
-        new JX.Workflow('/macro/meme/create/')
-          .setHandler(function(response) {
-            update(
-              area,
-              '',
-              sel,
-              (r.start === 0 ? '' : '\n\n') + response.text + '\n\n');
-          })
-          .start();
-        break;
       case 'fa-cloud-upload':
         // Deactivate full-screen to avoid popup visibility problems.
         set_edit_mode(edit_root, 'normal');
