@@ -10,7 +10,16 @@ final class PhabricatorSearchHovercardController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $cards = $request->getJSONMap('cards');
+    $cards = array();
+    $cards_json = trim($request->getStr('cards', ''));
+
+    if (phutil_nonempty_string($cards_json)) {
+      try {
+        $cards = phutil_json_decode($cards_json);
+      } catch (PhutilJSONParserException $ex) {
+        // Users can provide invalid values.
+      }
+    }
 
     // If object names are provided, look them up and pretend they were
     // passed as additional PHIDs. This is primarily useful for debugging,
@@ -34,13 +43,16 @@ final class PhabricatorSearchHovercardController
     $handle_phids = array();
     $context_phids = array();
     foreach ($cards as $card) {
-      if (!is_array($card)) { // ignore external fuzzing noise
-        $card = array();
+      if (!is_array($card)) {
+        // ignore external fuzzing noise
+        continue;
       }
       $object_phid = idx($card, 'objectPHID');
 
-      $handle_phids[] = $object_phid;
-      $object_phids[] = $object_phid;
+      if ($object_phid) {
+        $handle_phids[] = $object_phid;
+        $object_phids[] = $object_phid;
+      }
 
       $context_phid = idx($card, 'contextPHID');
 
@@ -101,10 +113,11 @@ final class PhabricatorSearchHovercardController
 
     $results = array();
     foreach ($cards as $card_key => $card) {
-      if (!is_array($card)) { // ignore external fuzzing noise
-        $card = array();
+      if (!is_array($card) || !isset($card['objectPHID'])) {
+        // ignore external fuzzing noise
+        continue;
       }
-      $object_phid = idx($card, 'objectPHID');
+      $object_phid = $card['objectPHID'];
 
       $handle = $handles[$object_phid];
       $object = idx($objects, $object_phid);
