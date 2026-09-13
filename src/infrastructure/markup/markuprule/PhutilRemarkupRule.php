@@ -32,7 +32,7 @@ abstract class PhutilRemarkupRule extends Phobject
   abstract public function apply($text);
 
   public function getPostprocessKey() {
-    return spl_object_hash($this);
+    return spl_object_id($this);
   }
 
   public function didMarkupText() {

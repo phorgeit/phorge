@@ -709,8 +709,8 @@ final class AphrontApplicationConfiguration
         break;
       }
 
-      $hash = spl_object_hash($response);
-      if (isset($seen[$hash])) {
+      $id = spl_object_id($response);
+      if (isset($seen[$id])) {
         throw new Exception(
           pht(
             'Failure while producing response for object of class "%s": '.
@@ -720,7 +720,7 @@ final class AphrontApplicationConfiguration
             get_class($response)));
       }
 
-      $seen[$hash] = true;
+      $seen[$id] = true;
 
       $new_response = $response->produceAphrontResponse();
       $this->validateProducerResponse($response, $new_response);

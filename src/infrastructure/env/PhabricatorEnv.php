@@ -624,7 +624,7 @@ final class PhabricatorEnv extends Phobject {
     self::dropConfigCache();
     $source = new PhabricatorConfigDictionarySource(array());
     self::$sourceStack->pushSource($source);
-    return spl_object_hash($source);
+    return spl_object_id($source);
   }
 
 
@@ -634,7 +634,7 @@ final class PhabricatorEnv extends Phobject {
   public static function popTestEnvironment($key) {
     self::dropConfigCache();
     $source = self::$sourceStack->popSource();
-    $stack_key = spl_object_hash($source);
+    $stack_key = spl_object_id($source);
     if ($stack_key !== $key) {
       self::$sourceStack->pushSource($source);
       throw new Exception(
@@ -960,7 +960,7 @@ final class PhabricatorEnv extends Phobject {
     do {
       $source = self::$sourceStack->popSource();
       array_unshift($tmp, $source);
-      if (spl_object_hash($source) == $stack_key) {
+      if (spl_object_id($source) == $stack_key) {
         $source->setKeys(array($key => $value));
         break;
       }
