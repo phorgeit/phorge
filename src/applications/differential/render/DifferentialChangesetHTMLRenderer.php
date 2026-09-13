@@ -13,7 +13,6 @@ abstract class DifferentialChangesetHTMLRenderer
       case '1up':
         return new DifferentialChangesetOneUpRenderer();
       case '2up':
-      default:
         return new DifferentialChangesetTwoUpRenderer();
     }
     throw new Exception(pht('Unknown HTML renderer "%s"!', $key));
