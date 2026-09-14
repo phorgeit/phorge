@@ -13,7 +13,7 @@ final class PhabricatorCalendarIconSet
     $map = array(
       'fa-calendar' => pht('Default'),
       'fa-glass' => pht('Party'),
-      'fa-plane' => pht('Travel'),
+      'fa-suitcase' => pht('Travel'),
       'fa-plus-square' => pht('Health / Appointment'),
 
       'fa-rocket' => pht('Sabbatical / Leave'),
