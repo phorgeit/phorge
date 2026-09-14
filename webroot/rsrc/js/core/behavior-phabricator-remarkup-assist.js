@@ -338,7 +338,7 @@ JX.behavior('phabricator-remarkup-assist', function(config) {
               update(area, text, sel, '');
             },
             prepend_char_to_lines,
-          }
+          };
 
           var code = handler.getAction();
           code(params);
