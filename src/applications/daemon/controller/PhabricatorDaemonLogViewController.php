@@ -158,6 +158,7 @@ final class PhabricatorDaemonLogViewController
       phutil_tag(
         'textarea',
         array(
+          'readonly'  => '',
           'style'   => 'width: 100%; height: 12em;',
         ),
         $argv));
