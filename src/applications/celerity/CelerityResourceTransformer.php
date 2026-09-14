@@ -88,21 +88,6 @@ final class CelerityResourceTransformer extends Phobject {
         $data = trim($data);
         break;
       case 'js':
-
-        // If `jsxmin` is available, use it. jsxmin is the Javelin minifier and
-        // produces the smallest output, but is complicated to build.
-        if (Filesystem::binaryExists('jsxmin')) {
-          $future = new ExecFuture('jsxmin __DEV__:0');
-          $future->write($data);
-          list($err, $result) = $future->resolve();
-          if (!$err) {
-            $data = $result;
-            break;
-          }
-        }
-
-        // If `jsxmin` is not available, use `JsShrink`, which doesn't compress
-        // quite as well but is always available.
         $root = dirname(phutil_get_library_root('phabricator'));
         require_once $root.'/externals/JsShrink/jsShrink.php';
         $data = jsShrink($data);
