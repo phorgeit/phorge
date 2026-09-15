@@ -87,8 +87,9 @@ final class HeraldTranscript extends HeraldDAO
    * @return string
    */
   private static function combineXHeraldRulesHeaders($u, $v) {
-    // We did not find an existing row in the database for this object.
-    if ($u === null) {
+    // We did not find an existing row in the database for this object, or
+    // the existing row is 'none'. In any case, overwrite the row with $v.
+    if ($u === null || $u === 'none') {
       return $v;
     }
 
@@ -96,7 +97,23 @@ final class HeraldTranscript extends HeraldDAO
     $v = preg_split('/[, ]+/', $v);
 
     $combined = array_unique(array_filter(array_merge($u, $v)));
-    return implode(', ', $combined);
+    $filtered = self::stripNoneFromXHeraldRulesHeaders($combined);
+    return implode(', ', $filtered);
+  }
+
+  /**
+   * Strip 'none' from the list of rules if other rules got applied since.
+   *
+   * @param array<string> $rules Rule integers in angle brackets (which can also
+   *   be or include up to one 'none' element)
+   * @return array<string> Rule integers in angle brackets, or a single 'none'
+   */
+  private static function stripNoneFromXHeraldRulesHeaders(array $rules) {
+    // Shortcut if it's only a single rule (which might be a 'none' to keep).
+    if (count($rules) === 1) {
+      return $rules;
+    }
+    return array_diff($rules, array('none'));
   }
 
   /**
