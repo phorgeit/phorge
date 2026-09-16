@@ -35,6 +35,7 @@ final class DiffusionRepositoryController extends DiffusionController {
     $page_has_content = false;
     $empty_title = null;
     $empty_message = null;
+    $no_default_branch = false;
 
     // If this VCS supports branches, check that the selected branch actually
     // exists.
@@ -69,16 +70,12 @@ final class DiffusionRepositoryController extends DiffusionController {
             'There is no branch named "%s" in this repository.',
             $drequest->getBranch());
         } else {
+          $no_default_branch = true;
           $empty_title = pht('No Default Branch');
           $empty_message = pht(
             'This repository is configured with default branch "%s"  but '.
             'there is no branch with that name in this repository.',
             $default);
-          $branch_setup_uri = $this->getApplicationURI(
-            'edit/'.$repository->getID().'/page/branches/');
-          phlog('Repository "'.$repository->getName().'" is configured with '.
-            'default branch "'.$default.'" but there is no such branch in '.
-            'this repository. Correct the settings at '.$branch_setup_uri);
         }
       }
     }
@@ -100,6 +97,16 @@ final class DiffusionRepositoryController extends DiffusionController {
         $empty_title = pht('Empty Repository');
         $empty_message = pht('This repository does not have any commits yet.');
       }
+    }
+
+    // If we have commits but no default branch, log a warning for admins.
+    if ($no_default_branch && $any_commit) {
+      $default = $repository->getDefaultBranch();
+      $branch_setup_uri = $this->getApplicationURI(
+        'edit/'.$repository->getID().'/page/branches/');
+      phlog('Repository "'.$repository->getName().'" is configured with '.
+        'default branch "'.$default.'" but there is no such branch in '.
+        'this repository. Correct the settings at '.$branch_setup_uri);
     }
 
     if ($page_has_content) {
