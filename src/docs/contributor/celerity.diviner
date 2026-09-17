@@ -22,6 +22,8 @@ information about Celerity here:
     and context of the system and the problems it solves.
   - @{article:Adding New CSS and JS} provides a developer guide to using
     Celerity.
+  - @{article:CSS and JS in Extensions} provides instructions for using
+    Celerity with extensions.
 
 = Class Relationships =
 

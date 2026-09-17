@@ -1,0 +1,44 @@
+@title CSS and JS in Extensions
+@group developer
+
+Explains how to add and use CSS and JS files in Phorge extension.
+
+= Overview =
+
+Phorge extensions use the same system as Phorge itself, Celerity,
+to manage static resources. By and large, this is similar to how Phorge
+handles its static resources.
+
+= Adding Celerity Support To an Extension =
+
+To add Celerity support to an extension, first create a directory to store the
+CSS and JS in. Phorge uses `rsrc` in `webroot`. This is misleading, because
+the directory doesn't have to be web-accessible. Most extensions already have
+a `resources` directory. Creating a `rsrc` directory there is the informal
+convention and will make subclassing `CelerityExtensionResources` easier.
+
+Next, create a directory where Celerity should store its map and package list.
+Phorge uses `celerity` under `resources`, and `CelerityExtensionResources`
+assumes this as well.
+
+Then, create a sub class of `CelerityExtensionResources`. This class will
+automatically provide access to Phorge's Celerity resources, which is required
+in order to use Javelin classes and behaviors.
+
+Finally, after you've added some CSS or Javascript, run Phorge's
+`bin/celerity map` to have Celerity fill the map with the resources you have
+created.
+
+= Updating the Celerity Map =
+
+Just like Phorge, you run `bin/celerity map` to update the Celerity map.
+Phorge will automatically update all Celerity maps that it knows of.
+This includes extensions that are loaded through `load-libraries`.
+
+= Including a File =
+
+This is the same as Phorge does it, except that the call to
+@{function:require_celerity_resource} must have the name of the extension
+specified as the second argument:
+
+  require_celerity_resource('extension-style-css', 'extension-name');

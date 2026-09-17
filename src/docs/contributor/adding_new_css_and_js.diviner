@@ -7,9 +7,6 @@ Explains how to add new CSS and JS files to Phorge.
 
 Phorge uses a system called **Celerity** to manage static resources.
 
-(NOTE) This document is intended for Phorge developers and contributors. This
-process will not work correctly for third-party code, plugins, or extensions.
-
 = Adding a New File =
 
 To add a new CSS or JS file, create it in an appropriate location in
@@ -80,14 +77,16 @@ the page is rendered.
 
 You should place this call as close to the code which actually uses the resource
 as possible, i.e. **not** at the top of your Controller. The idea is that you
-should @{function:require_celerity_resource} a resource only if you are actually
-using it on a specific rendering of the page, not just because some views of the
-page might require it.
+should @{function:require_celerity_resource} a resource only if you are
+actually using it on a specific rendering of the page, not just because some
+views of the page might require it.
 
 = Next Steps =
 
 Continue by:
 
+  - reading about the equivalent for extensions in @{article:CSS and JS in
+    extensions};
   - reading about Javascript-specific guidelines in @{article:Javascript Coding
     Standards}; or
   - reading about CSS-specific guidelines and features in @{article:CSS Coding

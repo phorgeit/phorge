@@ -7,7 +7,7 @@ abstract class CelerityResourcesOnDisk extends CelerityPhysicalResources {
 
   abstract public function getPathToResources();
 
-  private function getPathToResource($name) {
+  protected function getPathToResource($name) {
     return $this->getPathToResources().DIRECTORY_SEPARATOR.$name;
   }
 
