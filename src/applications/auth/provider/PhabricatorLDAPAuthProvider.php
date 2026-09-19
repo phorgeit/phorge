@@ -223,7 +223,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
       self::KEY_REALNAME_ATTRIBUTES => pht('Realname Attributes'),
       self::KEY_VERSION => pht('LDAP Version'),
       self::KEY_REFERRALS => pht('Enable Referrals'),
-      self::KEY_START_TLS => pht('Use TLS'),
+      self::KEY_START_TLS => pht('Use StartTLS'),
       self::KEY_ACTIVEDIRECTORY_DOMAIN => pht('ActiveDirectory Domain'),
     );
   }
@@ -302,7 +302,8 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
         pht('Follow referrals. Disable this if you have known issues with '.
           'referrals in Windows Active Directory.'),
       self::KEY_START_TLS =>
-        pht('Start TLS after binding to the LDAP server.'),
+        pht('Upgrade to TLS after the initial binding to the LDAP server. '.
+          'You should use LDAPS instead if possible.'),
       self::KEY_ALWAYS_SEARCH =>
         pht('Always bind and search, even without a username and password.'),
     );
