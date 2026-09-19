@@ -27,7 +27,7 @@ final class PhutilRemarkupDefaultBlockRule extends PhutilRemarkupBlockRule {
       $text = phutil_escape_html_newlines($text);
     }
 
-    if (!strlen($text)) {
+    if (!phutil_nonempty_stringlike($text)) {
       return null;
     }
 

@@ -44,7 +44,7 @@ abstract class PhutilRemarkupRule extends Phobject
     return phutil_safe_html(preg_replace_callback(
       $pattern,
       array($this, 'replaceHTMLCallback'),
-      phutil_escape_html($text)));
+      (string)phutil_escape_html($text)));
   }
 
   private function replaceHTMLCallback(array $match) {
