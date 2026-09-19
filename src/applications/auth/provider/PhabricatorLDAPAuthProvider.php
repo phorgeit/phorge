@@ -299,7 +299,8 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
         pht('Example: %s',
           phutil_tag('tt', array(), pht('firstname, lastname'))),
       self::KEY_REFERRALS =>
-        pht('Follow referrals. Disable this for Windows AD 2003.'),
+        pht('Follow referrals. Disable this if you have known issues with '.
+          'referrals in Windows Active Directory.'),
       self::KEY_START_TLS =>
         pht('Start TLS after binding to the LDAP server.'),
       self::KEY_ALWAYS_SEARCH =>
