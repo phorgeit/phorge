@@ -82,7 +82,7 @@ abstract class AphrontView extends Phobject
   /**
    * Test if this View accepts children.
    *
-   * By default, views accept children, but subclases may override this method
+   * By default, views accept children, but subclasses may override this method
    * to prevent children from being appended. Doing so will cause
    * @{method:appendChild} to throw exceptions instead of appending children.
    *

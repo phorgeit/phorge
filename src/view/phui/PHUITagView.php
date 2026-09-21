@@ -47,6 +47,9 @@ final class PHUITagView extends AphrontTagView {
   private $contextObject;
   private $isExiled;
 
+  /**
+   * @param string $type One of the TYPE_* consts in PHUITagView
+   */
   public function setType($type) {
     $this->type = $type;
     switch ($type) {

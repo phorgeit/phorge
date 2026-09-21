@@ -71,6 +71,9 @@ final class PhabricatorTypeaheadResult extends Phobject {
     return $this;
   }
 
+  /**
+   * @param string $closed
+   */
   public function setClosed($closed) {
     $this->closed = $closed;
     return $this;
@@ -92,16 +95,25 @@ final class PhabricatorTypeaheadResult extends Phobject {
     return $this->phid;
   }
 
+  /**
+   * @param bool $unique
+   */
   public function setUnique($unique) {
     $this->unique = $unique;
     return $this;
   }
 
+  /**
+   * @param string $type A const defined in PhabricatorTypeaheadTokenView
+   */
   public function setTokenType($type) {
     $this->tokenType = $type;
     return $this;
   }
 
+  /**
+   * @return string A const defined in PhabricatorTypeaheadTokenView
+   */
   public function getTokenType() {
     if ($this->closed && !$this->tokenType) {
       return PhabricatorTypeaheadTokenView::TYPE_DISABLED;

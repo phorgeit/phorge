@@ -131,6 +131,9 @@ final class PhabricatorTypeaheadTokenView
     return $this->availabilityColor;
   }
 
+  /**
+   * @return array<string> CSS class attributes of the token
+   */
   protected function getTagAttributes() {
     $classes = array();
     $classes[] = 'jx-tokenizer-token';

@@ -110,11 +110,20 @@ final class PhabricatorApplicationTransactionCommentView
     return $this;
   }
 
+  /**
+   * Set an info box to display below the "Add Action..." dropdown.
+   * @param PHUIInfoView $info_view
+   * @return this
+   */
   public function setInfoView(PHUIInfoView $info_view) {
     $this->infoView = $info_view;
     return $this;
   }
 
+  /**
+   * Get the info box to display below the "Add Action..." dropdown.
+   * @return PHUIInfoView|null
+   */
   public function getInfoView() {
     return $this->infoView;
   }

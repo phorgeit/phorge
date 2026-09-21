@@ -75,6 +75,9 @@ abstract class DifferentialCoreCustomField
     return true;
   }
 
+  /**
+   * @param DifferentialRevision $object
+   */
   public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
     if ($this->isCoreFieldRequired()) {
       $this->setFieldError(true);

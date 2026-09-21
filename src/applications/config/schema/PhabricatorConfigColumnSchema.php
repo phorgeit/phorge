@@ -152,6 +152,9 @@ final class PhabricatorConfigColumnSchema
     return 0;
   }
 
+  /**
+   * @param PhabricatorConfigColumnSchema $expect
+   */
   protected function compareToSimilarSchema(
     PhabricatorConfigStorageSchema $expect) {
 

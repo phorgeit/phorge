@@ -47,10 +47,11 @@ JX.behavior('comment-actions', function(config) {
     return null;
   }
 
+  /** If any of the stacked actions specify that they change the label for
+   *  the "Submit" button, update the button text. Otherwise, return it to
+   *  the default text.
+   */
   function redraw() {
-    // If any of the stacked actions specify that they change the label for
-    // the "Submit" button, update the button text. Otherwise, return it to
-    // the default text.
     var button_text = config.defaultButtonText;
     for (var k in rows) {
       var action = action_map[k];
@@ -137,7 +138,7 @@ JX.behavior('comment-actions', function(config) {
         ]);
       JX.DOM.show(panel);
 
-      // NOTE: Resonses are currently processed before associated behaviors are
+      // NOTE: Responses are currently processed before associated behaviors are
       // registered. We need to defer invoking this event so that any behaviors
       // accompanying the response are registered.
       var invoke_preview = function() {

@@ -27,6 +27,10 @@ final class DifferentialDiffEditor
     return $types;
   }
 
+  /**
+   * @param DifferentialDiff $object
+   * @param list<PhabricatorApplicationTransaction> $xactions
+   */
   protected function didApplyInternalEffects(
     PhabricatorLiskDAO $object,
     array $xactions) {

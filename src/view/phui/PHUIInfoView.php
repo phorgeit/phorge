@@ -22,7 +22,7 @@ final class PHUIInfoView extends AphrontTagView {
   /**
    * Set a title
    *
-   * @param string|null $title
+   * @param string|array|null $title
    * @return self
    */
   public function setTitle($title) {

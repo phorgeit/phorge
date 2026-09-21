@@ -764,7 +764,10 @@ final class PhabricatorAuditEditor
     return $object->isPartiallyImported($mask);
   }
 
-
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param list<PhabricatorApplicationTransaction> $xactions
+   */
   private function shouldPublishRepositoryActivity(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -782,21 +785,36 @@ final class PhabricatorAuditEditor
     return $this->isCommitMostlyImported($object);
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param list<PhabricatorApplicationTransaction> $xactions
+   */
   protected function shouldSendMail(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return $this->shouldPublishRepositoryActivity($object, $xactions);
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param list<PhabricatorApplicationTransaction> $xactions
+   */
   protected function shouldEnableMentions(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return $this->shouldPublishRepositoryActivity($object, $xactions);
   }
 
+  /**
+   * @param PhabricatorRepositoryCommit $object
+   * @param list<PhabricatorApplicationTransaction> $xactions
+   */
   protected function shouldPublishFeedStory(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return $this->shouldPublishRepositoryActivity($object, $xactions);
   }
 

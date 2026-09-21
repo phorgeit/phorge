@@ -28,10 +28,18 @@ abstract class PhabricatorEditEngineExtension extends Phobject {
     PhabricatorEditEngine $engine,
     PhabricatorApplicationTransactionInterface $object);
 
+  /**
+   * @param PhabricatorEditEngine $engine
+   * @param PhabricatorApplicationTransactionInterface $object
+   * @return array<PhabricatorEditField>
+   */
   abstract public function buildCustomEditFields(
     PhabricatorEditEngine $engine,
     PhabricatorApplicationTransactionInterface $object);
 
+  /**
+   * @return array<PhabricatorBulkEditGroup>
+   */
   public function newBulkEditGroups(PhabricatorEditEngine $engine) {
     return array();
   }
