@@ -20,7 +20,7 @@ final class PhabricatorAuthValidateController
 
     $failures = array();
 
-    if (!strlen($request->getStr('expect'))) {
+    if (!phutil_nonempty_string($request->getStr('expect'))) {
       return $this->renderErrors(
         array(
           pht(
