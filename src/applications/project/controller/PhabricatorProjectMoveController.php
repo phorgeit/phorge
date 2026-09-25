@@ -16,7 +16,7 @@ final class PhabricatorProjectMoveController
     $before_phids = $request->getStrList('beforePHIDs');
 
     $order = $request->getStr('order');
-    if (!strlen($order)) {
+    if (!phutil_nonempty_string($order)) {
       $order = PhabricatorProjectColumnNaturalOrder::ORDERKEY;
     }
 
