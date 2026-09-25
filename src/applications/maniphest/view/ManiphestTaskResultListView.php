@@ -161,6 +161,13 @@ final class ManiphestTaskResultListView extends ManiphestView {
           array(
             pht('You do not have permission to batch edit tasks.'),
           ));
+    } else if (PhabricatorEnv::isReadOnly()) {
+      $editor = id(new PHUIInfoView())
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
+        ->setErrors(
+          array(
+            pht('Batch editing tasks is not available in read-only mode.'),
+          ));
     } else {
 
       Javelin::initBehavior(
