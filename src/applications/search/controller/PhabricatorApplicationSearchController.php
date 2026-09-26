@@ -6,17 +6,7 @@ final class PhabricatorApplicationSearchController
   private $searchEngine;
   private $navigation;
   private $queryKey;
-  private $preface;
   private $activeQuery;
-
-  public function setPreface($preface) {
-    $this->preface = $preface;
-    return $this;
-  }
-
-  public function getPreface() {
-    return $this->preface;
-  }
 
   public function setQueryKey($query_key) {
     $this->queryKey = $query_key;
@@ -213,10 +203,6 @@ final class PhabricatorApplicationSearchController
 
     $form->appendChild($submit);
     $body = array();
-
-    if ($this->getPreface()) {
-      $body[] = $this->getPreface();
-    }
 
     if ($named_query) {
       $title = $named_query->getQueryName();
