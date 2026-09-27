@@ -684,11 +684,12 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     return array(
       // NOTE: We use a generic label here to prevent input reflection
       // and mitigate compression attacks like BREACH. See discussion in
-      // T3684.
+      // https://web.archive.org/web/20240803154311/https://secure.phabricator.com/T3684
       'uri' => pht('Main Request'),
       'selected' => $tab,
       'visible'  => $visible,
       'headers' => $headers,
+      'readonlymode' => PhabricatorEnv::isReadOnly(),
     );
   }
 

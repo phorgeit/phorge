@@ -73,16 +73,22 @@ JX.behavior('dark-console', function(config, statics) {
 
     statics.el = {};
 
-    statics.el.reqs = JX.$N('div', {className: 'dark-console-requests'});
-    statics.root.appendChild(statics.el.reqs);
+    if (config.readonlymode) {
+      statics.el.load = JX.$N('div', {className: 'dark-console-readonly'},
+        'DarkConsole is not available in read-only mode.');
+    } else {
+      statics.el.reqs = JX.$N('div', {className: 'dark-console-requests'});
+      statics.root.appendChild(statics.el.reqs);
 
-    statics.el.tabs = JX.$N('div', {className: 'dark-console-tabs'});
-    statics.root.appendChild(statics.el.tabs);
+      statics.el.tabs = JX.$N('div', {className: 'dark-console-tabs'});
+      statics.root.appendChild(statics.el.tabs);
 
-    statics.el.panel = JX.$N('div', {className: 'dark-console-panel'});
-    statics.root.appendChild(statics.el.panel);
+      statics.el.panel = JX.$N('div', {className: 'dark-console-panel'});
+      statics.root.appendChild(statics.el.panel);
 
-    statics.el.load = JX.$N('div', {className: 'dark-console-load'});
+      statics.el.load = JX.$N('div', {className: 'dark-console-load'});
+    }
+
     statics.root.appendChild(statics.el.load);
 
     statics.cache = {};
