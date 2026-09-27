@@ -75,6 +75,11 @@ final class AphrontTableView extends AphrontView {
     return $this;
   }
 
+  /**
+   * Whether to render every other row with an alternative background color.
+   * Defaults to true.
+   * @param bool $zebra_stripes
+   */
   public function setZebraStripes($zebra_stripes) {
     $this->zebraStripes = $zebra_stripes;
     return $this;
@@ -164,7 +169,7 @@ final class AphrontTableView extends AphrontView {
         $sort_values[] = null;
       }
 
-      $tr = array();
+      $th = array();
       foreach ($headers as $col_num => $header) {
         if (!$visibility[$col_num]) {
           continue;
@@ -242,7 +247,7 @@ final class AphrontTableView extends AphrontView {
           $style = 'width: '.$column_widths[$col_num].';';
         }
 
-        $tr[] = phutil_tag(
+        $th[] = phutil_tag(
           'th',
           array(
             'class' => $class,
@@ -250,7 +255,8 @@ final class AphrontTableView extends AphrontView {
           ),
           $header);
       }
-      $table[] = phutil_tag('tr', array(), $tr);
+      $tr = phutil_tag('tr', array(), $th);
+      $table[] = phutil_tag('thead', array(), $tr);
     }
 
     foreach ($col_classes as $key => $value) {
@@ -269,6 +275,7 @@ final class AphrontTableView extends AphrontView {
 
     $data = $this->data;
     if ($data) {
+      $tr = array();
       $row_num = 0;
       $row_idx = 0;
       foreach ($data as $row) {
@@ -284,7 +291,7 @@ final class AphrontTableView extends AphrontView {
         while (count($row) > count($device_visibility)) {
           $device_visibility[] = true;
         }
-        $tr = array();
+        $td = array();
         // NOTE: Use of a separate column counter is to allow this to work
         // correctly if the row data has string or non-sequential keys.
         $col_num = 0;
@@ -302,7 +309,7 @@ final class AphrontTableView extends AphrontView {
           }
 
           if ($is_divider) {
-            $tr[] = phutil_tag(
+            $td[] = phutil_tag(
               'td',
               array(
                 'class' => 'row-divider',
@@ -313,7 +320,7 @@ final class AphrontTableView extends AphrontView {
             break;
           }
 
-          $tr[] = phutil_tag(
+          $td[] = phutil_tag(
             'td',
             array(
               'class' => $class,
@@ -331,19 +338,21 @@ final class AphrontTableView extends AphrontView {
           }
         }
 
-        $table[] = phutil_tag('tr', array('class' => $class), $tr);
+        $tr[] = phutil_tag('tr', array('class' => $class), $td);
         ++$row_num;
         ++$row_idx;
       }
+      $table[] = phutil_tag('tbody', array(), $tr);
     } else {
       $colspan = max(count(array_filter($visibility)), 1);
-      $table[] = phutil_tag(
+      $tr = phutil_tag(
         'tr',
         array('class' => 'no-data'),
         phutil_tag(
           'td',
           array('colspan' => $colspan),
           coalesce($this->noDataString, pht('No data available.'))));
+      $table[] = phutil_tag('tbody', array(), $tr);
     }
 
     $classes = array();
