@@ -104,7 +104,7 @@ if ($as_device) {
 // valid for normal SSH but which we can parse into a valid "-p" flag.
 
 $passthru_args = $unconsumed_argv;
-$host = array_shift($passthru_args);
+$host = array_shift($passthru_args) ?? '';
 $parts = explode(':', $host, 2);
 $host = $parts[0];
 
