@@ -5,6 +5,7 @@ final class HeraldRule extends HeraldDAO
     PhabricatorApplicationTransactionInterface,
     PhabricatorFlaggableInterface,
     PhabricatorPolicyInterface,
+    PhabricatorConduitResultInterface,
     PhabricatorDestructibleInterface,
     PhabricatorIndexableInterface,
     PhabricatorSubscribableInterface {
@@ -415,6 +416,96 @@ final class HeraldRule extends HeraldDAO
     $this->openTransaction();
     $this->delete();
     $this->saveTransaction();
+  }
+
+  /* -(  PhabricatorConduitResultInterface  )-------------------------------- */
+
+  public function getFieldSpecificationsForConduit() {
+    return array(
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('ruleName')
+        ->setType('string')
+        ->setDescription(pht('Name of the Herald rule.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('isDisabled')
+        ->setType('boolean')
+        ->setDescription(pht('Whether this Herald rule has been disabled.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('ruleType')
+        ->setType('string')
+        ->setDescription(pht(
+          'Which type of Herald rule this is, Global, Personal, or Object.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('contentType')
+        ->setType('string')
+        ->setDescription(pht(
+          'Which type of objects this Herald rule applies to.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('authorPHID')
+        ->setType('string')
+        ->setDescription(pht(
+          'PHID of the user who authored this Herald rule.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('conditionMatchAll')
+        ->setType('boolean')
+        ->setDescription(pht(
+          'Whether the Herald rule must match all (otherwise any) of the '.
+          'conditions in order to trigger.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('actionRepetitionPolicy')
+        ->setType('string')
+        ->setDescription(pht(
+          'Action repetition policy. Can be "every" => Run every time the '.
+          'conditions match, "first" => Run the first time the conditions '.
+          'match, or "change" => Run every time the conditions change from '.
+          'not matching to matching.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('conditions')
+        ->setType('list<map<string, wild>>')
+        ->setDescription(pht(
+          'List of conditions which this Herald rule must match in order to '.
+          'trigger.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('actions')
+        ->setType('list<map<string, wild>>')
+        ->setDescription(pht('List of actions that this rule will trigger.')),
+    );
+  }
+
+  public function getFieldValuesForConduit() {
+    $conditions_list = array();
+    foreach ($this->loadConditions() as $condition) {
+      $conditions_list[] = array(
+        'field' => $condition->getFieldName(),
+        'condition' => $condition->getFieldCondition(),
+        'value' => $condition->getValue(),
+      );
+    }
+
+    $actions_list = array();
+    foreach ($this->loadActions() as $action) {
+      $actions_list[] = array(
+        'action' => $action->getAction(),
+        'target' => $action->getTarget(),
+      );
+    }
+
+
+    return array(
+      'ruleName' => $this->getName(),
+      'isDisabled' => $this->getIsDisabled(),
+      'ruleType' => $this->getRuleType(),
+      'contentType' => $this->getContentType(),
+      'authorPHID' => $this->getAuthorPHID(),
+      'conditionMatchAll' => $this->getMustMatchAll(),
+      'actionRepetitionPolicy' => $this->getRepetitionPolicy(),
+      'conditions' => $conditions_list,
+      'actions' => $actions_list,
+    );
+  }
+
+  public function getConduitSearchAttachments() {
+    return array();
   }
 
 }
