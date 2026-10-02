@@ -10,13 +10,15 @@ final class NuanceConsoleController extends NuanceController {
     $viewer = $request->getViewer();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer)
+      ->setBig(true);
 
     $menu->addItem(
       id(new PHUIObjectItemView())
         ->setHeader(pht('Queues'))
         ->setHref($this->getApplicationURI('queue/'))
         ->setImageIcon('fa-align-left')
+        ->setClickable(true)
         ->addAttribute(pht('Manage Nuance queues.')));
 
     $menu->addItem(
@@ -24,6 +26,7 @@ final class NuanceConsoleController extends NuanceController {
         ->setHeader(pht('Sources'))
         ->setHref($this->getApplicationURI('source/'))
         ->setImageIcon('fa-filter')
+        ->setClickable(true)
         ->addAttribute(pht('Manage Nuance sources.')));
 
     $menu->addItem(
@@ -31,6 +34,7 @@ final class NuanceConsoleController extends NuanceController {
         ->setHeader(pht('Items'))
         ->setHref($this->getApplicationURI('item/'))
         ->setImageIcon('fa-clone')
+        ->setClickable(true)
         ->addAttribute(pht('Manage Nuance items.')));
 
     $crumbs = $this->buildApplicationCrumbs();
@@ -38,17 +42,15 @@ final class NuanceConsoleController extends NuanceController {
     $crumbs->setBorder(true);
 
     $box = id(new PHUIObjectBoxView())
+      ->setHeaderText(pht('Nuance Console'))
+      ->setBackground(PHUIObjectBoxView::WHITE_CONFIG)
       ->setObjectList($menu);
 
-    $header = id(new PHUIHeaderView())
-      ->setHeader(pht('Nuance Console'))
-      ->setHeaderIcon('fa-fax');
+    $launcher_view = id(new PHUILauncherView())
+      ->appendChild($box);
 
     $view = id(new PHUITwoColumnView())
-      ->setHeader($header)
-      ->setFooter(array(
-        $box,
-      ));
+      ->setFooter($launcher_view);
 
     return $this->newPage()
       ->setTitle(pht('Nuance Console'))
