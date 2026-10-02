@@ -73,6 +73,10 @@ final class HeraldRule extends HeraldDAO
     return $this->assertAttachedKey($this->ruleApplied, $phid);
   }
 
+  /**
+   * @param string|null $phid The PHID of an object
+   * @param bool $applied Whether the Herald rule was applied to the object
+   */
   public function setRuleApplied($phid, $applied) {
     if ($this->ruleApplied === self::ATTACHABLE) {
       $this->ruleApplied = array();

@@ -75,6 +75,9 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     return $this;
   }
 
+  /**
+   * @param array<string|null> PHIDs of objects on which to apply Herald rules
+   */
   public function needAppliedToPHIDs(array $phids) {
     $this->needAppliedToPHIDs = $phids;
     return $this;
@@ -161,6 +164,9 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
       foreach ($rules as $rule) {
         foreach ($this->needAppliedToPHIDs as $phid) {
+          if (!$phid) {
+            continue;
+          }
           $rule->setRuleApplied(
             $phid,
             isset($map[$rule->getID()][$phid]));
