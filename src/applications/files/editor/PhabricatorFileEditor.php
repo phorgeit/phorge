@@ -31,10 +31,13 @@ final class PhabricatorFileEditor
   }
 
   protected function getMailTo(PhabricatorLiskDAO $object) {
-    return array(
-      $object->getAuthorPHID(),
-      $this->requireActor()->getPHID(),
-    );
+    $phids = array($this->requireActor()->getPHID());
+
+    $author_phid = $object->getAuthorPHID();
+    if ($author_phid) {
+      $phids[] = $author_phid;
+    }
+    return $phids;
   }
 
   protected function buildReplyHandler(PhabricatorLiskDAO $object) {
