@@ -94,7 +94,7 @@ class PhabricatorClusterServiceHealthRecord
     $count_up = 0;
     $count_down = 0;
     foreach ($log as $event) {
-      if ($event['up']) {
+      if (idx($event, 'up')) {
         $count_up++;
       } else {
         $count_down++;
@@ -136,7 +136,7 @@ class PhabricatorClusterServiceHealthRecord
       $this->shouldCheck = false;
     }
 
-    $this->isHealthy = $record['up'];
+    $this->isHealthy = idx($record, 'up', true);
     $this->updateStatistics($record);
   }
 
@@ -144,7 +144,7 @@ class PhabricatorClusterServiceHealthRecord
     $this->upEventCount = 0;
     $this->downEventCount = 0;
     foreach ($record['log'] as $event) {
-      if ($event['up']) {
+      if (idx($event, 'up')) {
         $this->upEventCount++;
       } else {
         $this->downEventCount++;
