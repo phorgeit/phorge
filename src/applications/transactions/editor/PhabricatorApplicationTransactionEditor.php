@@ -341,6 +341,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     if ($this->object instanceof PhabricatorSubscribableInterface) {
       $types[] = PhabricatorTransactions::TYPE_SUBSCRIBERS;
+      $types[] = PhabricatorTransactions::TYPE_EDGE;
     }
 
     if ($this->object instanceof PhabricatorCustomFieldInterface) {

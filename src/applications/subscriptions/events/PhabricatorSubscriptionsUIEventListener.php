@@ -23,7 +23,6 @@ final class PhabricatorSubscriptionsUIEventListener
     }
   }
 
-
   private function handlePropertyEvent($event) {
     $user = $event->getUser();
     $object = $event->getValue('object');
