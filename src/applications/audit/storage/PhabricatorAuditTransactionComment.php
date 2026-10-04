@@ -75,6 +75,25 @@ final class PhabricatorAuditTransactionComment
     return $this->assertAttached($this->replyToComment);
   }
 
+  /**
+   * Mark this comment as having replies, writing only the hasReplies column.
+   *
+   * This object may have been loaded before other changes to the comment
+   * (like its Done state) were written, so a full save() could revert them.
+   * See T16847.
+   */
+  public function markHasReplies(): self {
+    if (!$this->getHasReplies()) {
+      queryfx(
+        $this->establishConnection('w'),
+        'UPDATE %T SET hasReplies = 1 WHERE id = %d',
+        $this->getTableName(),
+        $this->getID());
+      $this->setHasReplies(1);
+    }
+    return $this;
+  }
+
   public function getAttribute($key, $default = null) {
     return idx($this->attributes, $key, $default);
   }

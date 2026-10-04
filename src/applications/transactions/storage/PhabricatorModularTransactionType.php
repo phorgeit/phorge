@@ -437,8 +437,8 @@ abstract class PhabricatorModularTransactionType
 
   final protected function updateCommentReplyTo() {
     $reply = $this->getStorage()->getComment()->getReplyToComment();
-    if ($reply && !$reply->getHasReplies()) {
-      $reply->setHasReplies(1)->save();
+    if ($reply) {
+      $reply->markHasReplies();
     }
   }
 
