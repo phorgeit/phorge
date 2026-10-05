@@ -3,35 +3,55 @@
 final class PhabricatorTokenReceiverQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
-  private $tokenCounts;
+  private $tokenCounts = array();
 
-  protected function loadPage() {
-    $table = new PhabricatorTokenCount();
-    $conn_r = $table->establishConnection('r');
-
-    $rows = queryfx_all(
-      $conn_r,
-      'SELECT objectPHID, tokenCount FROM %T ORDER BY tokenCount DESC',
-      $table->getTableName());
-
-    $this->tokenCounts = ipull($rows, 'tokenCount', 'objectPHID');
-    return ipull($rows, 'objectPHID');
+  public function newResultObject() {
+    return new PhabricatorTokenCount();
   }
 
-  protected function willFilterPage(array $phids) {
+  protected function willFilterPage(array $counts) {
+    $phids = mpull($counts, 'getObjectPHID');
+
     $objects = id(new PhabricatorObjectQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($phids)
       ->execute();
 
-    // Reorder the objects in the input order.
-    $objects = array_select_keys($objects, $phids);
+    // Return the objects in count order, keyed by PHID.
+    $results = array();
+    foreach ($counts as $count) {
+      $phid = $count->getObjectPHID();
+      if (isset($objects[$phid])) {
+        $results[$phid] = $objects[$phid];
+        $this->tokenCounts[$phid] = $count->getTokenCount();
+      }
+    }
 
-    return $objects;
+    return $results;
   }
 
   public function getTokenCounts() {
     return $this->tokenCounts;
+  }
+
+  protected function getDefaultOrderVector() {
+    return array('tokenCount', 'id');
+  }
+
+  public function getOrderableColumns() {
+    return array(
+      'tokenCount' => array(
+        'column' => 'tokenCount',
+        'type' => 'int',
+      ),
+    ) + parent::getOrderableColumns();
+  }
+
+  protected function newPagingMapFromPartialObject($object) {
+    return array(
+      'id' => (int)$object->getID(),
+      'tokenCount' => (int)$object->getTokenCount(),
+    );
   }
 
   public function getQueryApplicationClass() {
