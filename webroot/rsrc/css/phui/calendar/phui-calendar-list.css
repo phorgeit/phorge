@@ -37,16 +37,16 @@
 .phui-calendar-list-item-icon {
   position: absolute;
   left: 0;
-  top: 3px;
+  top: 2px;
 }
 
 .phui-calendar-list-title {
- width: 200px;
  overflow: hidden;
  text-overflow: ellipsis;
  white-space: nowrap;
  position: absolute;
- left: 20px;
+ left: 18px;
+ right: 60px;
  top: 0;
 }
 
@@ -61,7 +61,6 @@
   right: 0;
   color: {$lightgreytext};
   text-align: right;
-  line-height: 20px;
 }
 
 .phui-calendar-list-item-empty {
@@ -71,6 +70,7 @@
 }
 
 .phui-calendar-list-item.all-day {
+  border-radius: 3px;
   background: {$bluebackground};
 }
 
@@ -79,7 +79,7 @@
 }
 
 .calendar-day-view-sidebar .phui-calendar-list-item  {
-  padding: 0 12px;
+  padding: 1px 8px;
 }
 
 .calendar-day-view-sidebar .phui-calendar-list-item a {
