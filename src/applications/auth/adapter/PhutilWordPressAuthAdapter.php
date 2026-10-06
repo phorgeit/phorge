@@ -64,7 +64,6 @@ final class PhutilWordPressAuthAdapter extends PhutilOAuthAuthAdapter {
 
   protected function loadOAuthAccountData() {
     return id(new PhutilWordPressFuture())
-      ->setClientID($this->getClientID())
       ->setAccessToken($this->getAccessToken())
       ->setRawWordPressQuery('/me/')
       ->resolve();
