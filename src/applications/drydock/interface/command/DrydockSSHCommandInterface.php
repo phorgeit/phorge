@@ -50,8 +50,10 @@ final class DrydockSSHCommandInterface extends DrydockCommandInterface {
       $flags[] = 'ConnectTimeout='.$this->connectTimeout;
     }
 
+    // NOTE: Put "--" before the host so an address beginning with "-" can not
+    // be read as an "ssh" option. See T16852.
     return new ExecFuture(
-      'ssh %Ls -l %P -p %s -i %P %s -- %s',
+      'ssh %Ls -l %P -p %s -i %P -- %s %s',
       $flags,
       $credential->getUsernameEnvelope(),
       $this->getConfig('port'),
