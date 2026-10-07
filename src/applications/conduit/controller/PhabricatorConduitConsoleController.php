@@ -44,7 +44,7 @@ final class PhabricatorConduitConsoleController
     }
 
     $must_login = !$viewer->isLoggedIn() &&
-                  $method->shouldRequireAuthentication();
+                  !$method->shouldAllowPublic();
     if ($must_login) {
       $errors[] = pht(
         'Login Required: This method requires authentication. You must '.

@@ -38,14 +38,8 @@ final class ConduitAPIRequest extends Phobject {
   }
 
   /**
-   * Retrieve the authentic identity of the user making the request. If a
-   * method requires authentication (the default) the user object will always
-   * be available. If a method does not require authentication (i.e., overrides
-   * shouldRequireAuthentication() to return false) the user object will NEVER
-   * be available.
-   *
-   * @return PhabricatorUser Authentic user, available ONLY if the method
-   *                         requires authentication.
+   * Deprecated, use @{method:getViewer}.
+   * @deprecated
    */
   public function getUser() {
     if (!$this->user) {
@@ -58,6 +52,19 @@ final class ConduitAPIRequest extends Phobject {
     return $this->user;
   }
 
+  /**
+   * Retrieve the authentic identity of the user making the request. If a
+   * method requires authentication (the default) the user object will always
+   * be available. If a method does not require authentication (i.e., overrides
+   * shouldRequireAuthentication() to return false) the user object will NEVER
+   * be available.
+   *
+   * The user may be logged-out, if the method allows for public access (i.e.,
+   * `shouldAllowPublic()` returns true).
+   *
+   * @return PhabricatorUser Authentic user, available ONLY if the method
+   *                         requires authentication.
+   */
   public function getViewer() {
     return $this->getUser();
   }

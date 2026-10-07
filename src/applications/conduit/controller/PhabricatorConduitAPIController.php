@@ -108,7 +108,7 @@ final class PhabricatorConduitAPIController
       } else {
         list($error_code, $error_info) = $auth_error;
       }
-    } catch (Exception $ex) {
+    } catch (Throwable $ex) {
       $result = null;
 
       if ($ex instanceof ConduitException ||
@@ -187,7 +187,7 @@ final class PhabricatorConduitAPIController
 
     if ($request->getUser()->getPHID()) {
       $request->validateCSRF();
-      return $this->validateAuthenticatedUser(
+      return $this->validateAndSetRequestUser(
         $api_request,
         $request->getUser());
     }
@@ -218,7 +218,7 @@ final class PhabricatorConduitAPIController
           $api_request->getAllParameters(),
           $protocol_data,
           $ssl_public_key);
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         return array(
           'ERR-INVALID-AUTH',
           pht(
@@ -287,7 +287,7 @@ final class PhabricatorConduitAPIController
         $api_request->setIsClusterRequest(true);
       }
 
-      return $this->validateAuthenticatedUser(
+      return $this->validateAndSetRequestUser(
         $api_request,
         $user);
     } else if ($auth_type === null) {
@@ -396,7 +396,7 @@ final class PhabricatorConduitAPIController
         );
       }
 
-      return $this->validateAuthenticatedUser(
+      return $this->validateAndSetRequestUser(
         $api_request,
         $user);
     }
@@ -442,7 +442,7 @@ final class PhabricatorConduitAPIController
 
       $api_request->setOAuthToken($token);
 
-      return $this->validateAuthenticatedUser(
+      return $this->validateAndSetRequestUser(
         $api_request,
         $user);
     }
@@ -457,7 +457,7 @@ final class PhabricatorConduitAPIController
         $api_request->setIsClusterRequest(true);
 
         $user = new PhabricatorUser();
-        return $this->validateAuthenticatedUser(
+        return $this->validateAndSetRequestUser(
           $api_request,
           $user);
       }
@@ -465,8 +465,7 @@ final class PhabricatorConduitAPIController
 
 
     // Handle sessionless auth.
-    // TODO: This is super messy.
-    // TODO: Remove this in favor of token-based auth.
+    // TODO: T16487 Remove this in favor of token-based auth.
 
     if (isset($metadata['authUser'])) {
       $user = id(new PhabricatorUser())->loadOneWhere(
@@ -488,38 +487,41 @@ final class PhabricatorConduitAPIController
           pht('Authentication is invalid.'),
         );
       }
-      return $this->validateAuthenticatedUser(
+      return $this->validateAndSetRequestUser(
         $api_request,
         $user);
     }
 
     // Handle session-based auth.
-    // TODO: Remove this in favor of token-based auth.
+    // TODO: T16487 Remove this in favor of token-based auth.
 
     $session_key = idx($metadata, 'sessionKey');
-    if (!$session_key) {
-      return array(
-        'ERR-INVALID-SESSION',
-        pht('Session key is not present.'),
-      );
+    if ($session_key) {
+      $user = id(new PhabricatorAuthSessionEngine())
+        ->loadUserForSession(
+          PhabricatorAuthSession::TYPE_CONDUIT,
+          $session_key);
+
+      if (!$user) {
+        return array(
+          'ERR-INVALID-SESSION',
+          pht('Session key is invalid.'),
+        );
+      }
+
+      return $this->validateAndSetRequestUser(
+        $api_request,
+        $user);
     }
 
-    $user = id(new PhabricatorAuthSessionEngine())
-      ->loadUserForSession(PhabricatorAuthSession::TYPE_CONDUIT, $session_key);
-
-    if (!$user) {
-      return array(
-        'ERR-INVALID-SESSION',
-        pht('Session key is invalid.'),
-      );
-    }
-
-    return $this->validateAuthenticatedUser(
-      $api_request,
-      $user);
+    // No authentication provided - create logged-out user
+    $user = new PhabricatorUser();
+    return $this->validateAndSetRequestUser(
+        $api_request,
+        $user);
   }
 
-  private function validateAuthenticatedUser(
+  private function validateAndSetRequestUser(
     ConduitAPIRequest $request,
     PhabricatorUser $user) {
 

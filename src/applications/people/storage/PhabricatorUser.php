@@ -162,11 +162,9 @@ final class PhabricatorUser
       return false;
     }
 
-    // Intracluster requests are permitted even if the user is logged out:
-    // in particular, public users are allowed to issue intracluster requests
-    // when browsing Diffusion.
-    if (PhabricatorEnv::isClusterRemoteAddress()) {
-      if (!$this->isLoggedIn()) {
+    if (!$this->isLoggedIn()) {
+      // Logged out users can have API sessions for public stuff.
+      if (PhabricatorEnv::getEnvConfig('policy.allow-public')) {
         return true;
       }
     }

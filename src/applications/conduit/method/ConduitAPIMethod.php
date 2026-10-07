@@ -262,7 +262,11 @@ abstract class ConduitAPIMethod
   }
 
   /**
-   * Whether to require a session key for calling the API method.
+   * Whether to require a session key for calling the API method. This doesn't
+   * necessarily means require a logged-in user! See `shouldAllowPublic()` for
+   * that.
+   *
+   * Almost no Conduit Method should override this method.
    *
    * @return bool Defaults to true
    */
@@ -274,10 +278,10 @@ abstract class ConduitAPIMethod
    * Whether to allow public access. Related to the `policy.allow-public`
    * global setting and policies set for the corresponding application.
    *
-   * @return bool Defaults to false
+   * @return bool Defaults to "not shouldRequireAuthentication()", i.e. false.
    */
   public function shouldAllowPublic() {
-    return false;
+    return !$this->shouldRequireAuthentication();
   }
 
   /**
