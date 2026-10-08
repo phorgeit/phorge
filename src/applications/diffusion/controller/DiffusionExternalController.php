@@ -91,6 +91,7 @@ final class DiffusionExternalController extends DiffusionController {
       $rows = array();
       foreach ($commits as $commit) {
         $repo = $repositories[$commit->getRepositoryID()];
+        $commit->attachRepository($repo);
         $href = $repo->generateURI(
           array(
             'action'    => 'browse',
