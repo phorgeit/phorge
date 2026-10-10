@@ -152,37 +152,49 @@ ul.phui-oi-list-view {
   color: {$darkgreytext};
 }
 
-.phui-oi-table {
-  display: table;
-  table-layout: fixed;
+.phui-oi-table,
+.phui-oi-table-row {
   width: 100%;
 }
 
 .phui-oi-table-row {
-  display: table-row;
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
 }
 
 .phui-oi-col0 {
   width: 20px;
-  display: table-cell;
-  vertical-align: middle;
+  display: block;
+  flex: 0 0 auto;
+  align-self: center;
   padding-left: 4px;
 }
 
 .device-phone .phui-oi-col0 {
-  vertical-align: top;
+  align-items: start;
   padding-top: 8px;
 }
 
 .phui-oi-col1 {
-  display: table-cell;
-  vertical-align: top;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 100px;
+  overflow: hidden;
 }
 
 .phui-oi-col2 {
-  width: 160px;
-  display: table-cell;
-  vertical-align: top;
+  display: block;
+  flex: 0 0 auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+/* Keep icon and label on one line */
+.phui-oi-col2 .phui-object-icon-pane,
+.phui-oi-col2 .phui-oi-icons,
+.phui-oi-col2 .phui-oi-icon {
+  white-space: nowrap;
 }
 
 .phui-oi-col2.phui-oi-side-column {
@@ -195,6 +207,31 @@ ul.phui-oi-list-view {
   width: auto;
 }
 
+.device-phone .phui-oi-col2 .phui-oi-icon {
+  text-align: left;
+}
+
+.device-phone .phui-oi-table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.device-phone .phui-oi-table-row {
+  display: table-row;
+}
+
+.device-phone .phui-oi-col0 {
+  width: 20px;
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 4px;
+}
+
+.device-phone .phui-oi-col0 {
+  vertical-align: top;
+  padding-top: 8px;
+}
 /* - Item Actions --------------------------------------------------------------
 
   Action buttons, like "Edit" and "Delete".
@@ -384,11 +421,6 @@ ul.phui-oi-icons {
   line-height: 18px;
 }
 
-.device-phone .phui-oi-icon {
-  text-align: left;
-  font-size: 13px;
-}
-
 /*
  * Items with icon 'none' still have on mobile, thus creating a weird vertical
  * margin for elements which follow
@@ -513,7 +545,6 @@ ul.phui-oi-list-view .phui-oi-selected
   float: none;
   text-align: left;
   padding: 0 8px;
-  font-size: {$normalfontsize};
 }
 
 
@@ -672,13 +703,12 @@ ul.phui-oi-list-view .phui-oi-selected
 
 .phui-oi-col2.phui-oi-side-column {
   text-align: right;
-  vertical-align: middle;
+  align-self: center;
   padding-right: 4px;
 }
 
 .device-phone .phui-oi-col2.phui-oi-side-column {
   padding: 0 8px 8px;
-  text-align: left;
 }
 
 .phui-oi-col0.phui-oi-checkbox {
