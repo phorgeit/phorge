@@ -108,7 +108,9 @@ final class PhabricatorEditEngineConfigurationQuery
     // Now that we've loaded the real results from the database, we're going
     // to load builtins from the edit engines and add them to the list.
 
-    $engines = PhabricatorEditEngine::getAllEditEngines();
+    $engines = id(new PhabricatorEditEngineQuery())
+      ->setViewer($this->getViewer())
+      ->execute();
 
     if ($this->engineKeys) {
       $engines = array_select_keys($engines, $this->engineKeys);
