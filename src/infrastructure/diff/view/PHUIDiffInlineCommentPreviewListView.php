@@ -32,14 +32,14 @@ final class PHUIDiffInlineCommentPreviewListView
   public function render() {
     $viewer = $this->getViewer();
 
-    $inlines = $this->getInlineComments();
-    foreach ($inlines as $key => $inline) {
-      $inlines[$key] = $inline->newInlineCommentObject();
-    }
+    $inlines = array();
 
     $engine = new PhabricatorMarkupEngine();
     $engine->setViewer($viewer);
-    foreach ($inlines as $inline) {
+
+    $inline_comments = $this->getInlineComments();
+    foreach ($inline_comments as $inline) {
+      $inlines[] = $inline->newInlineCommentObject();
       $engine->addObject(
         $inline,
         PhabricatorInlineComment::MARKUP_FIELD_BODY);
