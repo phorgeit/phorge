@@ -15,7 +15,7 @@ final class PHUIDiffInlineThreader extends Phobject {
     // comments.
     foreach ($comments as $key => $comment) {
       $reply_phid = $comment->getReplyToCommentPHID();
-      if (isset($replies[$reply_phid])) {
+      if ($reply_phid && isset($replies[$reply_phid])) {
         $replies[$reply_phid][] = $comment;
         unset($comments[$key]);
       }
