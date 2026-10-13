@@ -114,10 +114,6 @@ final class PhabricatorEditEngineConfigurationQuery
       $engines = array_select_keys($engines, $this->engineKeys);
     }
 
-    foreach ($engines as $engine) {
-      $engine->setViewer($this->getViewer());
-    }
-
     // List all the builtins which have already been saved to the database as
     // real objects.
     $concrete = array();
@@ -131,6 +127,7 @@ final class PhabricatorEditEngineConfigurationQuery
 
     $builtins = array();
     foreach ($engines as $engine_key => $engine) {
+      $engine->setViewer($this->getViewer());
       $engine_builtins = $engine->getBuiltinEngineConfigurations();
       foreach ($engine_builtins as $engine_builtin) {
         $builtin_key = $engine_builtin->getBuiltinKey();
