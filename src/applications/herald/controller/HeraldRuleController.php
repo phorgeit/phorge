@@ -36,7 +36,7 @@ final class HeraldRuleController extends HeraldController {
       $content_type = $request->getStr('content_type');
       $rule->setContentType($content_type);
 
-      $rule_type = $request->getStr('rule_type');
+      $rule_type = $request->getStr('rule_type', '');
       if (!isset($rule_type_map[$rule_type])) {
         return $this->newDialog()
           ->setTitle(pht('Invalid Rule Type'))
