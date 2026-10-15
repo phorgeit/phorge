@@ -613,8 +613,11 @@ final class PhabricatorCalendarEventSearchEngine
    */
   private function validateDate(AphrontFormDateControlValue $date) {
     if (!$date->isValid()) {
-      // TODO: Use DateMalformedStringException once we require PHP 8.3.0
-      throw new Exception(
+      // TODO: Use DateMalformedStringException once we require PHP 8.3.0,
+      // and also add that exception type to the list of catch conditions in
+      // PhabricatorApplicationSearchController::processSearchRequest() to
+      // avoid a raw exception instead of displaying a nice 'Query Errors' box.
+      throw new PhabricatorSearchConstraintException(
         pht('Invalid date or time value set as query value.'));
     }
   }
