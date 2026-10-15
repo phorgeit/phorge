@@ -25,9 +25,12 @@
   color: {$bluetext};
 }
 
-.device-phone .phui-form-view label.aphront-form-label,
 .phui-form-full-width.phui-form-view label.aphront-form-label {
   display: block;
+}
+
+.device-phone .phui-form-view label.aphront-form-label,
+.phui-form-full-width.phui-form-view label.aphront-form-label {
   float: none;
   text-align: left;
   width: 100%;
@@ -47,6 +50,10 @@
   margin-left: 0%;
   margin-right: 0%;
   width: 100%;
+}
+
+.device-phone .phui-comment-action .aphront-form-input {
+  width: calc(100% - 30px);
 }
 
 .aphront-form-input *::-webkit-input-placeholder {
@@ -83,6 +90,10 @@
 .device-phone .aphront-form-error,
 .phui-form-full-width .aphront-form-error {
   display: none;
+}
+
+.device-phone .phui-comment-action .aphront-form-error {
+  display: inline-block;
 }
 
 .device-phone .aphront-form-label .aphront-form-error,
