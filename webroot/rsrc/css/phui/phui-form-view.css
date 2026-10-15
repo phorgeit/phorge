@@ -490,7 +490,7 @@ properly, and submit values. */
 }
 
 .phui-form-static-action {
-  height: 28px;
+  min-height: 28px;
   line-height: 28px;
   color: {$bluetext};
 }
