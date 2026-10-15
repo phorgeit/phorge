@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorAccessibilitySetting
+final class PhabricatorColorThemeSetting
   extends PhabricatorSelectSetting {
 
   const SETTINGKEY = 'resource-postprocessor';
 
   public function getSettingName() {
-    return pht('Accessibility');
+    return pht('Color Theme');
   }
 
   public function getSettingPanelKey() {
@@ -19,8 +19,7 @@ final class PhabricatorAccessibilitySetting
 
   protected function getControlInstructions() {
     return pht(
-      'If you have difficulty reading the UI, this setting '.
-      'may help.');
+      'Change the theme to high contrast or dark colors.');
   }
 
   public function getSettingDefaultValue() {

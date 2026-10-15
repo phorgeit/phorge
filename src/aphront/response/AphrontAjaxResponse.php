@@ -62,7 +62,7 @@ final class AphrontAjaxResponse extends AphrontResponse {
     if ($request) {
       $viewer = $request->getViewer();
       $postprocessor_key = $viewer->getUserSetting(
-        PhabricatorAccessibilitySetting::SETTINGKEY);
+        PhabricatorColorThemeSetting::SETTINGKEY);
       if (phutil_nonempty_string($postprocessor_key)) {
         $response->setPostprocessorKey($postprocessor_key);
       }

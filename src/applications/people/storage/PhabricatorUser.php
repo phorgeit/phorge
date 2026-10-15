@@ -1417,7 +1417,7 @@ final class PhabricatorUser
 
 
   public function getCSSValue($variable_key) {
-    $preference = PhabricatorAccessibilitySetting::SETTINGKEY;
+    $preference = PhabricatorColorThemeSetting::SETTINGKEY;
     $key = $this->getUserSetting($preference);
 
     $postprocessor = CelerityPostprocessor::getPostprocessor($key);
