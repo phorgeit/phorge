@@ -27,7 +27,7 @@
 }
 
 .phui-workboard-color .phui-workpanel-view .phui-box-grey {
-  background-color: rgba({$alphawhite},.6);
+  background-color: rgba({$alphawhite},.5);
 }
 
 body.phui-workboard-color .phui-profile-menu .phabricator-side-menu {
