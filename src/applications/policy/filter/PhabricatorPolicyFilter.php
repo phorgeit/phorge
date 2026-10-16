@@ -357,7 +357,7 @@ final class PhabricatorPolicyFilter extends Phobject {
           $object = $ref_objects[$object_phid];
         }
 
-        $phid = $object->getPHID();
+        $phid = $object->getPHID() ?? '';
 
         $key_map[$phid][] = $extended_key;
         $objects_in[$phid] = $object;
