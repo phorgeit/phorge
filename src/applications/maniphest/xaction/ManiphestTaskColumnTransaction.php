@@ -15,7 +15,11 @@ final class ManiphestTaskColumnTransaction
   }
 
   public function shouldHide() {
-    return !$this->getInterestingMoves($this->getNewValue());
+    if (!$this->getInterestingMoves($this->getNewValue())) {
+      return true;
+    }
+
+    return null;
   }
 
   public function getActionName() {

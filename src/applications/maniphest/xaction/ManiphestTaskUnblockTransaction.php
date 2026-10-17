@@ -131,7 +131,7 @@ final class ManiphestTaskUnblockTransaction
       return true;
     }
 
-    return parent::shouldHideForFeed();
+    return null;
   }
 
   public function getRequiredCapabilities(
@@ -144,4 +144,5 @@ final class ManiphestTaskUnblockTransaction
 
     return null;
   }
+
 }

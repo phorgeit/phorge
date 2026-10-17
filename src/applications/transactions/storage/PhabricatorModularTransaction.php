@@ -101,25 +101,38 @@ abstract class PhabricatorModularTransaction
       ->generateNewValue($object, $this->getNewValue());
   }
 
+  /**
+   * Should this transaction be hidden from all interfaces. See
+   * @{method:shouldHideForFeed}, @{method:shouldHideForMail} and
+   * @{method:shouldHideForNotifications} for individual interfaces. All those
+   * methods will fall-back to this one if a decision isn't made.
+   *
+   * @return bool|null `true` to hide the transaction, `false` to show it, and
+   * `null` to use default behavior of hiding empty transactions on object
+   * creation.
+   */
   /* final */ public function shouldHide() {
-    if ($this->getTransactionImplementation()->shouldHide()) {
-      return true;
+    $hide = $this->getTransactionImplementation()->shouldHide();
+    if ($hide !== null) {
+      return $hide;
     }
 
     return parent::shouldHide();
   }
 
   final public function shouldHideForFeed() {
-    if ($this->getTransactionImplementation()->shouldHideForFeed()) {
-      return true;
+    $hide = $this->getTransactionImplementation()->shouldHideForFeed();
+    if ($hide !== null) {
+      return $hide;
     }
 
     return parent::shouldHideForFeed();
   }
 
   /* final */ public function shouldHideForMail(array $xactions) {
-    if ($this->getTransactionImplementation()->shouldHideForMail()) {
-      return true;
+    $hide = $this->getTransactionImplementation()->shouldHideForMail();
+    if ($hide !== null) {
+      return $hide;
     }
 
     return parent::shouldHideForMail($xactions);

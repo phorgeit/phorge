@@ -21,7 +21,8 @@ final class ManiphestTaskPointsTransaction
     if (!ManiphestTaskPoints::getIsEnabled()) {
       return true;
     }
-    return false;
+
+    return null;
   }
 
   public function getTitle() {

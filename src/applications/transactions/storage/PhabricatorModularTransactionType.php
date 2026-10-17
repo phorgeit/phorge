@@ -69,15 +69,15 @@ abstract class PhabricatorModularTransactionType
   }
 
   public function shouldHide() {
-    return false;
+    return null;
   }
 
   public function shouldHideForFeed() {
-    return false;
+    return null;
   }
 
   public function shouldHideForMail() {
-    return false;
+    return null;
   }
 
   public function shouldHideForNotifications() {
@@ -132,11 +132,13 @@ abstract class PhabricatorModularTransactionType
     $object,
     PhabricatorApplicationTransaction $u,
     PhabricatorApplicationTransaction $v) {
+
     return null;
   }
 
   final public function setStorage(
     PhabricatorApplicationTransaction $xaction) {
+
     $this->storage = $xaction;
     return $this;
   }
@@ -164,6 +166,7 @@ abstract class PhabricatorModularTransactionType
 
   final public function setEditor(
     PhabricatorApplicationTransactionEditor $editor) {
+
     $this->editor = $editor;
     return $this;
   }
@@ -468,12 +471,14 @@ abstract class PhabricatorModularTransactionType
   public function getRequiredCapabilities(
     $object,
     PhabricatorApplicationTransaction $xaction) {
+
     return PhabricatorPolicyCapability::CAN_EDIT;
   }
 
   public function shouldTryMFA(
     $object,
     PhabricatorApplicationTransaction $xaction) {
+
     return false;
   }
 
@@ -508,11 +513,9 @@ abstract class PhabricatorModularTransactionType
     try {
       $storage->setRenderingTarget($target);
       $result = $this->getTitleForMail();
-    } catch (Exception $ex) {
+    } finally {
       $storage->setRenderingTarget($old_target);
-      throw $ex;
     }
-    $storage->setRenderingTarget($old_target);
 
     return $result;
   }
@@ -524,11 +527,9 @@ abstract class PhabricatorModularTransactionType
     try {
       $storage->setRenderingTarget($target);
       $result = $this->getBodyForMail();
-    } catch (Exception $ex) {
+    } finally {
       $storage->setRenderingTarget($old_target);
-      throw $ex;
     }
-    $storage->setRenderingTarget($old_target);
 
     return $result;
   }

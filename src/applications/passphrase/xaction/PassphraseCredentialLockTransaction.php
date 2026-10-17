@@ -18,7 +18,8 @@ final class PassphraseCredentialLockTransaction
     if ($new === null) {
       return true;
     }
-    return false;
+
+    return null;
   }
 
   public function getTitle() {
