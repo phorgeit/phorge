@@ -57,6 +57,10 @@ final class DiffusionCommitRevertsCommitEdgeType extends PhabricatorEdgeType {
       $rem_edges);
   }
 
+  public function getTransactionIcon() {
+    return 'fa-ambulance';
+  }
+
   public function getFeedAddString(
     $actor,
     $object,

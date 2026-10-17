@@ -501,13 +501,13 @@ abstract class PhabricatorApplicationTransaction
       case PhabricatorTransactions::TYPE_INTERACT_POLICY:
         return 'fa-lock';
       case PhabricatorTransactions::TYPE_EDGE:
-        switch ($this->getMetadataValue('edge:type')) {
-          case DiffusionCommitRevertedByCommitEdgeType::EDGECONST:
-            return 'fa-undo';
-          case DiffusionCommitRevertsCommitEdgeType::EDGECONST:
-            return 'fa-ambulance';
+        $edge_type = $this->getMetadataValue('edge:type');
+        try {
+          $edge = PhabricatorEdgeType::getByConstant($edge_type);
+          return $edge->getTransactionIcon();
+        } catch (Throwable $ex) {
+          return 'fa-link';
         }
-        return 'fa-link';
       case PhabricatorTransactions::TYPE_TOKEN:
         return 'fa-trophy';
       case PhabricatorTransactions::TYPE_SPACE:

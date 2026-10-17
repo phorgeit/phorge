@@ -54,6 +54,10 @@ final class DiffusionCommitRevertedByCommitEdgeType
       $rem_edges);
   }
 
+  public function getTransactionIcon() {
+    return 'fa-undo';
+  }
+
   public function getFeedAddString(
     $actor,
     $object,
