@@ -44,7 +44,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   /**
-   * @param $custom_phid A User PHID
+   * @param string $custom_phid A User PHID
    */
   public function setCustomPHID($custom_phid) {
     $this->customPHID = $custom_phid;

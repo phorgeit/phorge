@@ -331,7 +331,7 @@ final class PhabricatorMarkupEngine extends Phobject {
   /**
    * Set the context object. Used to implement object permissions.
    *
-   * @param $object The object in which context this remarkup is used.
+   * @param object $object The object in which context this remarkup is used.
    * @return $this
    * @task markup
    */

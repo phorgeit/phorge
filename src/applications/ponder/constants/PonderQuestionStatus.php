@@ -89,7 +89,7 @@ final class PonderQuestionStatus extends PonderConstants {
   /**
    * Check whenever a Ponder question status is Closed
    *
-   * @param $status string
+   * @param string $status
    * @return bool
    */
   public static function isQuestionStatusClosed($status) {

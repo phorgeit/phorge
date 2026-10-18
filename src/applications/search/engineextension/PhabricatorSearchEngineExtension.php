@@ -74,11 +74,10 @@ abstract class PhabricatorSearchEngineExtension extends Phobject {
 
   /**
    * Add additional parameters to the $query based on elements in the $map
-   * @param $object A subclass of PhabricatorLiskDAO - a storage object, e.g.
+   * @param PhabricatorLiskDAO $object A storage object, e.g.
    *   ManiphestTask or PhabricatorDashboardPortal
-   * @param $query A corresponding subclass of
-   *   PhabricatorCursorPagedPolicyAwareQuery, e.g. ManiphestTaskQuery or
-   *   PhabricatorDashboardPortalQuery
+   * @param PhabricatorCursorPagedPolicyAwareQuery $query A query, e.g.
+   *   ManiphestTaskQuery or PhabricatorDashboardPortalQuery
    * @param PhabricatorSavedQuery $saved
    * @param array $map
    * @return void

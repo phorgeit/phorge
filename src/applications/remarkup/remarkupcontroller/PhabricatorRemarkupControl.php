@@ -49,7 +49,7 @@ final class PhabricatorRemarkupControl
 
   /**
    * Set the type of object in which the control is rendered
-   * @param $object Object class, e.g. 'ManiphestTask'
+   * @param object $object class, e.g. 'ManiphestTask'
    */
   public function setSurroundingObject($object) {
     $this->surroundingObject = $object;
