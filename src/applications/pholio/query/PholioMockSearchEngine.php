@@ -101,6 +101,7 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
       PhabricatorFileThumbnailTransform::TRANSFORM_PINBOARD);
 
     $board = new PHUIPinboardView();
+    $board->setNoDataString(pht('No mocks found.'));
     foreach ($mocks as $mock) {
 
       $image = $mock->getCoverFile();

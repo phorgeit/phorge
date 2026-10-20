@@ -145,6 +145,7 @@ final class PhabricatorMacroSearchEngine
       PhabricatorFileThumbnailTransform::TRANSFORM_PINBOARD);
 
     $pinboard = new PHUIPinboardView();
+    $pinboard->setNoDataString(pht('No macros found.'));
     foreach ($macros as $macro) {
       $file = $macro->getFile();
 
