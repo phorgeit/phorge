@@ -175,19 +175,6 @@
   width: 100%;
 }
 
-/* - Create Repository -------------------------------------------------------*/
-
-.diffusion-create-repo {
-  margin-top: 32px;
-  margin-bottom: 20px;
-}
-
-.device .diffusion-create-repo {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-
 /* - Phone Style  ------------------------------------------------------------*/
 
 .device-phone.diffusion-history-view  .phui-two-column-view
