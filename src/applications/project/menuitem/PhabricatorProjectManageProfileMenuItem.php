@@ -57,7 +57,7 @@ final class PhabricatorProjectManageProfileMenuItem
     $id = $project->getID();
 
     $name = $this->getDisplayName($config);
-    $icon = 'fa-gears';
+    $icon = 'fa-cogs';
     $uri = "/project/manage/{$id}/";
 
     $item = $this->newItemView()

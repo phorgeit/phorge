@@ -225,7 +225,7 @@ final class PhabricatorAppSearchEngine
 
         $configure = id(new PHUIButtonView())
           ->setTag('a')
-          ->setIcon('fa-gears')
+          ->setIcon('fa-cogs')
           ->setHref('/applications/view/'.get_class($application).'/')
           ->setText(pht('Configure'))
           ->setColor(PHUIButtonView::GREY);

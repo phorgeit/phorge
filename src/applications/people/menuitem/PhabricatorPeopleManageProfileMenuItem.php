@@ -49,7 +49,7 @@ final class PhabricatorPeopleManageProfileMenuItem
     $item = $this->newItemView()
       ->setURI("/people/manage/{$id}/")
       ->setName($this->getDisplayName($config))
-      ->setIcon('fa-gears');
+      ->setIcon('fa-cogs');
 
     return array(
       $item,
