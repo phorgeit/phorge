@@ -18,17 +18,15 @@ extends PhorgeRemarkupReferenceModule {
   public function getContent() {
     return <<<EOT
 
-= Embedding Images
+= Embedding Images and Videos
 
 You can embed an image or other file by using braces to refer to it:
 
   {F123}
 
 In most interfaces, you can drag-and-drop an image from your computer into the
-text area to upload and reference it.
-
-Some browsers (e.g. Chrome) support uploading an image data just by pasting them
-from clipboard into the text area.
+text area to upload and reference it, or by just by pasting the image from
+clipboard into the text area.
 
 This is a special case of the general [[ /remarkup/mention/ | "Embed object"
 syntax ]].
@@ -61,6 +59,25 @@ Audio and video files support these options:
   - **loop**: Loop this media.
   - **autoplay**: Automatically begin playing this media.
 
+= Embedding External Images
+
+You can also embed images from other places on the internet:
+
+  {image https://address-of-image.png}
+
+or
+
+  {image uri=https://address-of-image.png, alt="text", width=120}
+
+Note that the external images will be fetched and cached by the server, so users
+will not be accessing the remote directly - but the server will.
+
+This rule supports only these options:
+
+  - **uri** - URI of the image
+  - **alt** - alternate text
+  - **width** Scale image to a specific width.
+  - **height** Scale image to a specific height.
 
 EOT;
   }
