@@ -64,12 +64,19 @@ final class PhabricatorConfigSettingsListController
           pht('All Settings')),
       );
 
-      $change_notice = id(new PHUIActionPanelView())
-        ->setIcon('fa-server')
-        ->setHeader(array(pht('Notice')))
-        ->setHref('/applications/')
-        ->setSubHeader($notice)
-        ->setState(PHUIActionPanelView::COLOR_PINK);
+      $applications_button = id(new PHUIButtonView())
+        ->setTag('a')
+        ->setIcon('fa-globe')
+        ->setText(pht('Applications'))
+        ->setColor(PHUIButtonView::GREY)
+        ->setHref('/applications/');
+
+      $change_notice = id(new PHUIInfoView())
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)
+        ->setTitle('Missing Some Settings?')
+        ->appendChild($notice)
+        ->addButton($applications_button);
+
     }
 
     ksort($options);
