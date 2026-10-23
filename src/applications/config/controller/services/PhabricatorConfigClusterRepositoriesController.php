@@ -4,7 +4,7 @@ final class PhabricatorConfigClusterRepositoriesController
   extends PhabricatorConfigServicesController {
 
   public function handleRequest(AphrontRequest $request) {
-    $title = pht('Repository Services');
+    $title = pht('Repository Servers');
 
     $doc_href = PhabricatorEnv::getDoclink('Cluster: Repositories');
     $button = id(new PHUIButtonView())
