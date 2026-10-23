@@ -82,6 +82,8 @@
 }
 
 .phabricator-remarkup tt.remarkup-monospaced {
+  font-family: "Menlo", "Consolas", "Monaco", monospace;
+  font-size: 0.85em;
   color: {$blacktext};
   background: rgba({$alphablue},0.1);
   padding: 1px 4px;
