@@ -12,6 +12,19 @@ final class PhutilRemarkupEngineTestCase extends PhabricatorTestCase {
     }
   }
 
+  public function testReservedTokenByteIsStripped() {
+    $byte = PhutilRemarkupBlockStorage::MAGIC_BYTE;
+    $input = "```lang=\"x".$byte."1Z\"\nbody\n```\n";
+
+    $engine = $this->buildNewTestEngine();
+    $output = (string)$engine->markupText($input);
+
+    $this->assertEqual(
+      0,
+      substr_count($output, $byte),
+      pht('Rendered HTML must not contain the reserved token byte.'));
+  }
+
   private function markupText($markup_file) {
     $contents = Filesystem::readFile($markup_file);
     $file = basename($markup_file);

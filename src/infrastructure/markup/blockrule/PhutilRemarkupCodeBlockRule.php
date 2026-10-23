@@ -116,6 +116,21 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
       }
     }
 
+    // Strip the reserved token byte (0x01) from the lang and name
+    // options in code blocks; otherwise PhutilRemarkupBlockStorage::restore()
+    // can expand their user-supplied values into stored HTML inside the
+    // attribute since these options don't pass through
+    // PhutilRemarkupEscapeRemarkupRule otherwise
+    $reserved = PhutilRemarkupBlockStorage::MAGIC_BYTE;
+    foreach (array('lang', 'name') as $option_key) {
+      if (isset($options[$option_key]) && is_string($options[$option_key])) {
+        $options[$option_key] = str_replace(
+          $reserved,
+          '',
+          $options[$option_key]);
+      }
+    }
+
     // Normalize the text back to a 0-level indent.
     $min_indent = 80;
     foreach ($lines as $line) {
