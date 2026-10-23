@@ -95,10 +95,6 @@ details > summary.phui-header-shell::-webkit-details-marker {
 .phui-header-header .phui-header-icon {
   margin-right: 8px;
   color: {$lightbluetext};
-
-  /* This allows the header text to be triple-clicked to select it in Firefox,
-     see T10905 for discussion. */
-  display: inline;
 }
 
 .phui-object-box .phui-header-tall .phui-header-header,
