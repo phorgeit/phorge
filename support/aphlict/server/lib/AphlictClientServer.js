@@ -141,6 +141,11 @@ JX.install('AphlictClientServer', {
             return;
           }
 
+          if (!message || typeof message !== 'object') {
+            log('Message is invalid: expected an object.');
+            return;
+          }
+
           switch (message.command) {
             case 'subscribe':
               trace(
@@ -157,7 +162,7 @@ JX.install('AphlictClientServer', {
               break;
 
             case 'replay':
-              var age = message.data.age || 60000;
+              var age = (message.data && message.data.age) || 60000;
               var min_age = (new Date().getTime() - age);
 
               var old_messages = self.getHistory(min_age);

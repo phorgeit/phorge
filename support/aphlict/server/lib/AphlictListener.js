@@ -21,6 +21,10 @@ JX.install('AphlictListener', {
     },
 
     subscribe: function(phids) {
+      if (!Array.isArray(phids)) {
+        return this;
+      }
+
       for (var i = 0; i < phids.length; i++) {
         var phid = phids[i];
         this._subscriptions[phid] = true;
@@ -30,6 +34,10 @@ JX.install('AphlictListener', {
     },
 
     unsubscribe: function(phids) {
+      if (!Array.isArray(phids)) {
+        return this;
+      }
+
       for (var i = 0; i < phids.length; i++) {
         var phid = phids[i];
         delete this._subscriptions[phid];
