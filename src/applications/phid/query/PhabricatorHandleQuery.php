@@ -30,6 +30,7 @@ final class PhabricatorHandleQuery
     $types = PhabricatorPHIDType::getAllTypes();
 
     $phids = array_unique($this->phids);
+    $phids = array_filter($phids);
     if (!$phids) {
       return array();
     }

@@ -46,6 +46,7 @@ abstract class AphrontController extends Phobject {
     return $this;
   }
 
+  /** @return AphrontRequest */
   final public function getRequest() {
     if (!$this->request) {
       throw new PhutilInvalidStateException('setRequest');
