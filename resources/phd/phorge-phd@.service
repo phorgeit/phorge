@@ -13,9 +13,9 @@ EnvironmentFile=/etc/phorge/environment
 EnvironmentFile=-/etc/phorge/%I.env
 User=daemon-user
 Group=daemon-user
-ExecStart="${PHORGE_ROOT}/bin/phd" start
-ExecReload="${PHORGE_ROOT}/bin/phd" reload
-ExecStop="${PHORGE_ROOT}/bin/phd" stop
+ExecStart=/usr/bin/env php "${PHORGE_ROOT}/bin/phd" start
+ExecReload=/usr/bin/env php "${PHORGE_ROOT}/bin/phd" reload
+ExecStop=/usr/bin/env php "${PHORGE_ROOT}/bin/phd" stop
 
 Restart=on-failure
 
