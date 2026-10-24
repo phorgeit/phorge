@@ -247,6 +247,14 @@ final class CelerityDefaultPostprocessor
       'menu.profile.text.selected' => 'rgba(255,255,255,1)',
       'menu.profile.icon.disabled' => 'rgba(255,255,255,.4)',
 
+      // Main menu bar background for each "ui.header-color" option.
+      'menu.main.background.blindigo' => '#4a5f88',
+      'menu.main.background.dark' => '#171c20',
+      'menu.main.background.indigo' => '#2C1D4A',
+      'menu.main.background.red' => '#650404',
+      'menu.main.background.blue' => '#003965',
+      'menu.main.background.green' => '#124A1B',
+
       'menu.main.height' => '44px',
       'menu.profile.width' => '240px',
 

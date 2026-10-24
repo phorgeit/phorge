@@ -5,26 +5,26 @@
 /*--- Header Colors ----------------------------------------------------------*/
 
 .phui-theme-blindigo .phabricator-main-menu-background {
-  background: #4a5f88;
+  background: {$menu.main.background.blindigo};
 }
 
 .phui-theme-dark .phabricator-main-menu-background {
-  background: #171c20;
+  background: {$menu.main.background.dark};
 }
 
 .phui-theme-indigo .phabricator-main-menu-background {
-  background: #2C1D4A;
+  background: {$menu.main.background.indigo};
 }
 
 .phui-theme-red .phabricator-main-menu-background {
-  background: #650404;
+  background: {$menu.main.background.red};
 }
 
 .phui-theme-blue .phabricator-main-menu-background {
-  background: #003965;
+  background: {$menu.main.background.blue};
 }
 
 .phui-theme-green .phabricator-main-menu-background {
-  background: #124A1B;
+  background: {$menu.main.background.green};
 }
 
