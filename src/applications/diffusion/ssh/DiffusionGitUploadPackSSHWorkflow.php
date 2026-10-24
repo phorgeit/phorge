@@ -42,12 +42,13 @@ final class DiffusionGitUploadPackSSHWorkflow
       }
     }
 
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $env = $this->getEnvironment();
+    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command, $env);
 
     $pull_event = $this->newPullEvent();
 
     $future = id(new ExecFuture('%C', $command))
-      ->setEnv($this->getEnvironment());
+      ->setEnv($env);
 
     $log = $this->newProtocolLog($is_proxy);
     if ($log) {

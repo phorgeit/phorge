@@ -162,12 +162,35 @@ This is just a template. In the real configuration file, you need to:
   - Make sure each binary path is the full path to the correct binary location
     on your system.
 
+Keep the `SETENV` tag. Phorge passes environment variables through `sudo`,
+and both classic sudo and sudo-rs refuse to do this without `SETENV`.
+
 Before continuing, look for this line in your `sudo` configuration:
 
   Defaults    requiretty
 
 If it's present, comment it out by putting a `#` at the beginning of the line.
 With this option enabled, VCS SSH sessions won't be able to use `sudo`.
+
+
+sudo-rs Support
+===============
+
+IMPORTANT: Support for sudo-rs is new and relatively experimental. Phorge's
+behavior with classic sudo remains unchanged, and installs can continue to use
+classic sudo without issue.
+
+Some distributions, including Ubuntu 25.10 and newer, install
+[[ https://github.com/trifectatechfoundation/sudo-rs | sudo-rs ]] as `sudo`.
+Phorge supports sudo-rs 0.2.7 and newer. Older releases do not support
+`--preserve-env=list`, and Phorge will flag them as a setup issue. Other
+distributions may package unsupported versions of sudo-rs (e.g., Debian 13
+packages sudo-rs 0.2.5) by default.
+
+sudo-rs reads the same `/etc/sudoers` file and accepts the rules above. If
+sudo-rs is the only sudo on the host, make sure `/etc/sudoers` exists;
+otherwise every command fails with "invalid configuration". sudo-rs does not
+implement `requiretty`, so the step above does not apply to it.
 
 
 Additional SSH User Configuration
@@ -529,9 +552,22 @@ doing something like this:
   $ su vcs-user
   $ sudo -E -n -u daemon-user -- /path/to/some/vcs-binary --help
 
+If your installed `sudo` is sudo-rs, test with `--preserve-env` in
+place of `-E`:
+
+  $ PHABRICATOR_USER=test sudo -n -u daemon-user \
+      --preserve-env=PHABRICATOR_USER -- /path/to/some/vcs-binary --help
+
+sudo only checks for `SETENV` when a listed variable is set, so keep the
+assignment at the start of the command.
+
 That will try to run the binary via `sudo` in a manner similar to the way that
-Phorge will run it. This can give you better error messages about issues
-with `sudoers` configuration.
+Phorge runs it. This can give you better error messages about issues with
+`sudoers` configuration.
+
+If `git` or `hg` output contains "preserving the entire environment is not
+supported", the host runs sudo-rs with a Phorge version that passes `-E`, and
+upgrading Phorge will fix this error.
 
 
 Miscellaneous Troubleshooting

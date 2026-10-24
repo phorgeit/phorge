@@ -128,7 +128,7 @@ abstract class DiffusionCommandEngine extends Phobject {
 
     if ($this->getSudoAsDaemon() || $this->shouldAlwaysSudo()) {
       $command = call_user_func_array('csprintf', $argv);
-      $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+      $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command, $env);
       $argv = array('%C', $command);
     }
 

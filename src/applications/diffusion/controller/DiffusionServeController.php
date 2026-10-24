@@ -601,6 +601,10 @@ final class DiffusionServeController extends DiffusionController {
 
       'REMOTE_USER' => $viewer->getUsername(),
 
+      // Classic "sudo -E" passes this wiped environment with no HOME, but
+      // sudo-rs always sets the daemon user's HOME.
+      'HOME' => PhabricatorEnv::getEmptyCWD(),
+
       // TODO: Set these correctly.
       // GIT_COMMITTER_NAME
       // GIT_COMMITTER_EMAIL
@@ -609,7 +613,10 @@ final class DiffusionServeController extends DiffusionController {
     $input = PhabricatorStartup::getRawInput();
 
     $command = csprintf('%s', $bin);
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhabricatorDaemon::sudoCommandAsDaemonUser(
+      $command,
+      $env,
+      $wipe_process_env = true);
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
@@ -850,7 +857,10 @@ final class DiffusionServeController extends DiffusionController {
       '%s -R %s serve --stdio',
       $bin,
       $repository->getLocalPath());
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhabricatorDaemon::sudoCommandAsDaemonUser(
+      $command,
+      $env,
+      $wipe_process_env = true);
 
     list($err, $stdout, $stderr) = id(new ExecFuture('%C', $command))
       ->setEnv($env, true)

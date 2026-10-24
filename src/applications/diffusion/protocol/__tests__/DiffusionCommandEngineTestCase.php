@@ -17,7 +17,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       'git xyz',
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'HOME' => $home,
       ),
       array(
@@ -28,7 +28,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       (string)csprintf('hg --config ui.ssh=%s xyz', $ssh_wrapper),
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'HGPLAIN' => '1',
       ),
       array(
@@ -39,7 +39,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       'svn --non-interactive xyz',
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
       ),
       array(
         'vcs' => $type_svn,
@@ -52,7 +52,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       'git xyz',
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'HOME' => $home,
         'GIT_SSH' => $ssh_wrapper,
       ),
@@ -65,7 +65,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       (string)csprintf('hg --config ui.ssh=%s xyz', $ssh_wrapper),
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'HGPLAIN' => '1',
       ),
       array(
@@ -77,7 +77,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       'svn --non-interactive xyz',
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'SVN_SSH' => $ssh_wrapper,
       ),
       array(
@@ -92,7 +92,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       'git xyz',
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'HOME' => $home,
       ),
       array(
@@ -104,7 +104,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       (string)csprintf('hg --config ui.ssh=%s xyz', $ssh_wrapper),
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
         'HGPLAIN' => '1',
       ),
       array(
@@ -116,7 +116,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $this->assertCommandEngineFormat(
       'svn --non-interactive --no-auth-cache --trust-server-cert xyz',
       array(
-        'LANG' => 'en_US.UTF-8',
+        'LC_ALL' => 'C',
       ),
       array(
         'vcs' => $type_svn,

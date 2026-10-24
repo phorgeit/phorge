@@ -54,10 +54,11 @@ final class DiffusionMercurialServeSSHWorkflow
         'hg -R %s serve --stdio',
         $repository->getLocalPath());
     }
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $env = $this->getEnvironment();
+    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command, $env);
 
     $future = id(new ExecFuture('%C', $command))
-      ->setEnv($this->getEnvironment());
+      ->setEnv($env);
 
     $io_channel = $this->getIOChannel();
     $protocol_channel = new DiffusionMercurialWireClientSSHProtocolChannel(

@@ -168,10 +168,11 @@ abstract class DiffusionGitSSHWorkflow
             $ref->getDeviceName()));
       }
 
-      $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+      $env = $this->getEnvironment();
+      $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command, $env);
 
       $future = id(new ExecFuture('%C', $command))
-        ->setEnv($this->getEnvironment());
+        ->setEnv($env);
 
       $this->didBeginRequest();
 

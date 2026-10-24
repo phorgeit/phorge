@@ -91,10 +91,11 @@ final class DiffusionGitReceivePackSSHWorkflow extends DiffusionGitSSHWorkflow {
 
   private function executeRepositoryCommand($command) {
     $repository = $this->getRepository();
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $env = $this->getEnvironment();
+    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command, $env);
 
     $future = id(new ExecFuture('%C', $command))
-      ->setEnv($this->getEnvironment());
+      ->setEnv($env);
 
     return $this->newPassthruCommand()
       ->setIOChannel($this->getIOChannel())

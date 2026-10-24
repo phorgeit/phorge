@@ -195,10 +195,7 @@ abstract class PhabricatorDaemonManagementWorkflow
 
     $is_sudo = false;
     if ($run_as_user) {
-      // If anything else besides sudo should be
-      // supported then insert it here (runuser, su, ...)
-      $command = csprintf(
-        'sudo -En -u %s -- %C',
+      $command = PhabricatorDaemon::sudoCommandAsUser(
         $run_as_user,
         $command);
       $is_sudo = true;
