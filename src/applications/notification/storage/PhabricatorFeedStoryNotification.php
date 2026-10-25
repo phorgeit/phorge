@@ -58,8 +58,14 @@ final class PhabricatorFeedStoryNotification extends PhabricatorFeedDAO {
       $notification_table->getTableName(),
       $user->getPHID(),
       $object_phid);
+    $affected = $conn->getAffectedRows();
 
     unset($unguarded);
+
+    // Nothing was unread, so the cached count is still right.
+    if (!$affected) {
+      return;
+    }
 
     $count_key = PhabricatorUserNotificationCountCacheType::KEY_COUNT;
     PhabricatorUserCache::clearCache($count_key, $user->getPHID());
