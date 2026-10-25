@@ -93,6 +93,12 @@ th.phabricator-source-line a:hover {
 
   vertical-align: middle;
   color: #ffffff;
+
+  /* Range of the age tint behind blame cells, read by
+     behavior-document-engine.js so themes can choose a dark or light range. */
+  --blame-tint-saturation: {$blame.tint.saturation};
+  --blame-tint-value-min: {$blame.tint.value.min};
+  --blame-tint-value-max: {$blame.tint.value.max};
 }
 
 .phabricator-source-blame-info a {

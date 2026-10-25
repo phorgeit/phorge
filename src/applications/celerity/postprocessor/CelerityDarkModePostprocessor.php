@@ -222,6 +222,11 @@ final class CelerityDarkModePostprocessor
       'paste.border' => '#000000',
       'paste.highlight' => '#121212',
 
+      // Dark tints so the light blame text stays readable.
+      'blame.tint.saturation' => '0.40',
+      'blame.tint.value.min' => '0.28',
+      'blame.tint.value.max' => '0.42',
+
       // Background color for "most" themes.
       'page.background' => '#223246',
       'page.sidenav' => '#1c293b',

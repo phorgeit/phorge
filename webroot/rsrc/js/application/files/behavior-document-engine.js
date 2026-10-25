@@ -331,9 +331,34 @@ JX.behavior('document-engine', function(config, statics) {
       last = commit;
     }
 
+    var tint = getBlameTint(row_list);
     for (ii = 0; ii < row_list.length; ii++) {
-      renderBlame(row_list[ii], data.blame.value);
+      renderBlame(row_list[ii], data.blame.value, tint);
     }
+  }
+
+  function getBlameTint(row_list) {
+    // The theme sets the tint range through CSS custom properties on the
+    // blame cell; see "blame.tint.*" in CelerityDefaultPostprocessor.
+    for (var ii = 0; ii < row_list.length; ii++) {
+      var node = row_list[ii].info;
+      if (!node) {
+        continue;
+      }
+
+      var style = window.getComputedStyle(node);
+      return {
+        saturation: readTint(style, '--blame-tint-saturation'),
+        valueMin: readTint(style, '--blame-tint-value-min'),
+        valueMax: readTint(style, '--blame-tint-value-max')
+      };
+    }
+
+    return null;
+  }
+
+  function readTint(style, property) {
+    return parseFloat(style.getPropertyValue(property));
   }
 
   function onblame(data, r) {
@@ -342,7 +367,7 @@ JX.behavior('document-engine', function(config, statics) {
     blame(data);
   }
 
-  function renderBlame(row, blame) {
+  function renderBlame(row, blame, tint) {
     var spec = blame.map[row.commit];
 
     var info = null;
@@ -374,10 +399,10 @@ JX.behavior('document-engine', function(config, statics) {
     var h_max = 0.44;
     var h = h_min + ((h_max - h_min) * epoch_value);
 
-    var s = 0.25;
+    var s = tint.saturation;
 
-    var v_min = 0.92;
-    var v_max = 1.00;
+    var v_min = tint.valueMin;
+    var v_max = tint.valueMax;
     var v = v_min + ((v_max - v_min) * epoch_value);
 
     row.info.style.background = getHSV(h, s, v);

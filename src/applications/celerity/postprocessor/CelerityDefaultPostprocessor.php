@@ -238,6 +238,13 @@ final class CelerityDefaultPostprocessor
       'paste.border' => '#e9dbcd',
       'paste.highlight' => '#fdf3da',
 
+      // Age tint behind blame cells in Diffusion: HSV saturation and the
+      // value range from oldest to newest commit. The hue always runs from
+      // red (old) to green (new).
+      'blame.tint.saturation' => '0.25',
+      'blame.tint.value.min' => '0.92',
+      'blame.tint.value.max' => '1.00',
+
       // Background color for "most" themes.
       'page.background' => '#f3f5f7',
       'page.sidenav' => '#eaedf1',
