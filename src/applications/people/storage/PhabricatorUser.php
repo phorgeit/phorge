@@ -458,7 +458,7 @@ final class PhabricatorUser
     $cache = PhabricatorCaches::getMutableStructureCache();
 
     $settings = $cache->getKey($cache_key);
-    if (!$settings) {
+    if ($settings === null) {
       $preferences = PhabricatorUserPreferences::loadGlobalPreferences($this);
       $settings = $preferences->getPreferences();
       $cache->setKey($cache_key, $settings);
