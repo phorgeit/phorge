@@ -1066,6 +1066,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $limit = (int)$saved->getParameter('limit');
 
     if ($limit > 0) {
+      $limit = min($limit, $this->getMaxPageSize());
       if ($bucket) {
         $bucket->setPageSize($limit);
       }
@@ -1077,6 +1078,24 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
 
     return 100;
+  }
+
+
+  public function getMaxPageSize() {
+    return 1000;
+  }
+
+  /**
+   * @return int|float Number of results the query asks for, before
+   *   @{method:getPageSize} caps it (float if set to infinity)
+   */
+  public function getRequestedPageSize(PhabricatorSavedQuery $saved) {
+    $limit = (int)$saved->getParameter('limit');
+    if ($limit > 0) {
+      return $limit;
+    }
+
+    return $this->getPageSize($saved);
   }
 
 

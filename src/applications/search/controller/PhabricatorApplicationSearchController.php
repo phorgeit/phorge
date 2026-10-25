@@ -300,6 +300,15 @@ final class PhabricatorApplicationSearchController
             $box->appendChild($this->newOverflowingView());
           }
 
+          $page_size = $engine->getPageSize($saved_query);
+          $requested_page_size = $engine->getRequestedPageSize($saved_query);
+          if ($requested_page_size > $page_size) {
+            $box->appendChild(
+              $this->newPageSizeClampedView(
+                $requested_page_size,
+                $page_size));
+          }
+
           if ($list->getContent()) {
             $box->appendChild($list->getContent());
           }
@@ -858,6 +867,22 @@ final class PhabricatorApplicationSearchController
       ->setIcon('fa-bars')
       ->setDropdownMenu($action_list)
       ->addClass('dropdown');
+  }
+
+  private function newPageSizeClampedView($requested, $max) {
+    $message = pht(
+      'You requested %s results per page, but the maximum page size is %s.',
+      new PhutilNumber($requested),
+      new PhutilNumber($max));
+
+    return id(new PHUIInfoView())
+      ->setSeverity(PHUIInfoView::SEVERITY_WARNING)
+      ->setFlush(true)
+      ->setTitle(pht('Page Size Limited'))
+      ->setErrors(
+        array(
+          $message,
+        ));
   }
 
   private function newOverflowingView() {

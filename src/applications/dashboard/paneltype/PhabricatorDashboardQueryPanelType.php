@@ -94,7 +94,9 @@ final class PhabricatorDashboardQueryPanelType
     $pager = $engine->newPagerForSavedQuery($saved);
 
     if ($panel->getProperty('limit')) {
-      $limit = (int)$panel->getProperty('limit');
+      $limit = min(
+        (int)$panel->getProperty('limit'),
+        $engine->getMaxPageSize());
       if ($pager->getPageSize() !== 0xFFFF) {
         $pager->setPageSize($limit);
       }
