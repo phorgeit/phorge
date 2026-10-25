@@ -42,6 +42,7 @@ final class DifferentialDiff
   private $unsavedChangesets = array();
   private $changesets = self::ATTACHABLE;
   private $revision = self::ATTACHABLE;
+  private $harbormasterContainerPHID = self::ATTACHABLE;
   private $properties = self::ATTACHABLE;
   private $buildable = self::ATTACHABLE;
 
@@ -522,10 +523,31 @@ final class DifferentialDiff
 
   public function getHarbormasterContainerPHID() {
     if ($this->getRevisionID()) {
-      $revision = id(new DifferentialRevision())->load($this->getRevisionID());
-      if ($revision) {
-        return $revision->getPHID();
+      // Lists of buildables ask for this several times per diff, so use the
+      // revision we already have when there is one.
+      if ($this->hasRevision()) {
+        $revision = $this->getRevision();
+        if ($revision) {
+          return $revision->getPHID();
+        } else {
+          return null;
+        }
       }
+
+      // Otherwise load it once. Keep only its PHID: attaching a revision
+      // loaded this way would make policy checks on this diff fail, since it
+      // has no repository attached.
+      if ($this->harbormasterContainerPHID === self::ATTACHABLE) {
+        $revision = id(new DifferentialRevision())
+          ->load($this->getRevisionID());
+        if ($revision) {
+          $this->harbormasterContainerPHID = $revision->getPHID();
+        } else {
+          $this->harbormasterContainerPHID = null;
+        }
+      }
+
+      return $this->harbormasterContainerPHID;
     }
 
     return null;
