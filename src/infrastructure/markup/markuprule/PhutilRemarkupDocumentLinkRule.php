@@ -8,13 +8,13 @@ final class PhutilRemarkupDocumentLinkRule extends PhutilRemarkupRule {
 
   public function apply($text) {
     // Handle mediawiki-style links: [[ href | name ]]
-    $text = preg_replace_callback(
+    $text = phutil_preg_replace_callback(
       '@\B\\[\\[([^|\\]]+)(?:\\|([^\\]]+))?\\]\\]\B@U',
       array($this, 'markupDocumentLink'),
       $text);
 
     // Handle markdown-style links: [name](href)
-    $text = preg_replace_callback(
+    $text = phutil_preg_replace_callback(
       '@'.
         '\B'.
         '\\[([^\\]]+)\\]'.
@@ -152,7 +152,7 @@ final class PhutilRemarkupDocumentLinkRule extends PhutilRemarkupRule {
 
     // If whatever is being linked to begins with "/" or "#", or has "://",
     // or is "mailto:" or "tel:", treat it as a URI instead of a wiki page.
-    $is_uri = preg_match('@(^/)|(://)|(^#)|(^(?:mailto|tel):)@', $uri);
+    $is_uri = phutil_preg_match('@(^/)|(://)|(^#)|(^(?:mailto|tel):)@', $uri);
 
     if ($is_uri && strncmp('/', $uri, 1) && strncmp('#', $uri, 1)) {
       $protocols = $this->getEngine()->getConfig(
@@ -165,7 +165,7 @@ final class PhutilRemarkupDocumentLinkRule extends PhutilRemarkupRule {
           // Don't treat this as a URI if it's not an allowed protocol.
           $is_uri = false;
         }
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         // We can end up here if we try to parse an ambiguous URI, see
         // T12796.
         $is_uri = false;
