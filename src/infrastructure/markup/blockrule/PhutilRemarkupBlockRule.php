@@ -93,8 +93,16 @@ abstract class PhutilRemarkupBlockRule extends Phobject
 
   final protected function applyRules($text) {
     foreach ($this->getMarkupRules() as $rule) {
-      $text = $text ?? '';
-      $text = $rule->apply($text);
+      try {
+        $text = $text ?? '';
+        $text = $rule->apply($text);
+      } catch (Throwable $ex) {
+        $silence = $this->getEngine()->getConfig('test.silence-errors', false);
+        if (!$silence) {
+          phlog($ex);
+        }
+        continue;
+      }
     }
     return $text;
   }

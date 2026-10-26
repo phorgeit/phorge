@@ -1,0 +1,30 @@
+first line
+
+text with #ERRORSTART //inner// ERROREND# thing
+
+next paragraph
+- list
+- list
+- list
+~~~~~~~~~~
+<p>first line</p>
+
+<p>text with #ERRORSTART <em>inner</em> ERROREND# thing</p>
+
+<p>next paragraph</p>
+
+<ul class="remarkup-list">
+<li class="remarkup-list-item">list</li>
+<li class="remarkup-list-item">list</li>
+<li class="remarkup-list-item">list</li>
+</ul>
+~~~~~~~~~~
+first line
+
+text with #ERRORSTART //inner// ERROREND# thing
+
+next paragraph
+
+- list
+- list
+- list
