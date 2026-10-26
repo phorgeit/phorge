@@ -65,7 +65,7 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
   }
 
   public function setEngines(array $engines) {
-    assert_instances_of($engines, 'PhabricatorFactEngine');
+    assert_instances_of($engines, PhabricatorFactEngine::class);
 
     $viewer = PhabricatorUser::getOmnipotentUser();
     foreach ($engines as $engine) {

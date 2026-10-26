@@ -9,13 +9,13 @@ final class ManiphestTaskListView extends ManiphestView {
   private $noDataString;
 
   public function setTasks(array $tasks) {
-    assert_instances_of($tasks, 'ManiphestTask');
+    assert_instances_of($tasks, ManiphestTask::class);
     $this->tasks = $tasks;
     return $this;
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }
