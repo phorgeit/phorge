@@ -38,6 +38,9 @@ final class PhabricatorFactUpdateIterator extends PhutilBufferedIterator {
     return $this->getCursorFromObject($this->current());
   }
 
+  /**
+   * @return array<int, LiskDAO>
+   */
   protected function loadPage() {
     if ($this->object->hasProperty('dateModified')) {
       if ($this->cursor) {

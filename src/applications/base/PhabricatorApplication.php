@@ -316,6 +316,10 @@ abstract class PhabricatorApplication
 /* -(  Fact Integration  )--------------------------------------------------- */
 
 
+  /**
+   * @return list<LiskDAO> Instantiated object types of an application which
+   * support getting indexed by the Facts application.
+   */
   public function getFactObjectsForAnalysis() {
     return array();
   }

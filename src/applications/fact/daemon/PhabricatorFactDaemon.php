@@ -24,6 +24,9 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     } while (!$this->shouldExit());
   }
 
+  /**
+   * @return array<class-string<LiskDAO>, PhabricatorFactUpdateIterator>
+   */
   public static function getAllApplicationIterators() {
     $apps = PhabricatorApplication::getAllInstalledApplications();
 
@@ -38,6 +41,10 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     return $iterators;
   }
 
+  /**
+   * @param class-string<LiskDAO> $iterator_name
+   * @param PhabricatorFactUpdateIterator $iterator
+   */
   public function processIteratorWithCursor($iterator_name, $iterator) {
     $this->log(pht("Processing cursor '%s'.", $iterator_name));
 
@@ -64,6 +71,9 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     }
   }
 
+  /**
+   * @param array<PhabricatorFactEngine> $engines
+   */
   public function setEngines(array $engines) {
     assert_instances_of($engines, PhabricatorFactEngine::class);
 
@@ -76,6 +86,9 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     return $this;
   }
 
+  /**
+   * @return string|null A cursor in the format 'epoch:objectid', or null
+   */
   public function processIterator($iterator) {
     $result = null;
 
@@ -107,6 +120,9 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     return $result;
   }
 
+  /**
+   * @return list<PhabricatorFactIntDatapoint>
+   */
   private function newDatapoints(PhabricatorLiskDAO $object) {
     $facts = array();
     foreach ($this->engines as $engine) {

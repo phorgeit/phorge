@@ -44,7 +44,10 @@ final class PhabricatorFactManagementAnalyzeWorkflow
         } else {
           $console->writeErr(
             "%s\n",
-            pht("Iterator '%s' does not exist.", $iterator_name));
+            pht(
+              "Iterator '%s' does not exist. Valid iterators are: %s.",
+              $iterator_name,
+              implode(', ', array_keys($iterators))));
         }
       }
       $iterators = $use;
