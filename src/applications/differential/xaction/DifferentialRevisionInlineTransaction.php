@@ -38,8 +38,10 @@ final class DifferentialRevisionInlineTransaction
     $viewer = $this->getViewer();
 
     $changeset_ids = array();
+    $comment_ids = array();
     foreach ($xactions as $xaction) {
       $changeset_ids[] = $xaction->getComment()->getChangesetID();
+      $comment_ids[] = $xaction->getComment()->getID();
     }
 
     $changesets = id(new DifferentialChangesetQuery())
@@ -49,7 +51,20 @@ final class DifferentialRevisionInlineTransaction
 
     $changesets = mpull($changesets, null, 'getID');
 
-    return $changesets;
+    // Load the lines each inline is on, to tell whether a suggested edit
+    // changes them.
+    $inlines = id(new DifferentialDiffInlineCommentQuery())
+      ->setViewer($viewer)
+      ->withIDs($comment_ids)
+      ->needInlineContext(true)
+      ->execute();
+
+    $inlines = mpull($inlines, null, 'getID');
+
+    return array(
+      'changesets' => $changesets,
+      'inlines' => $inlines,
+    );
   }
 
   public function generateOldValue($object) {
@@ -68,7 +83,7 @@ final class DifferentialRevisionInlineTransaction
   public function getFieldValuesForConduit($object, $data) {
     $comment = $object->getComment();
 
-    $changeset = $data[$comment->getChangesetID()];
+    $changeset = $data['changesets'][$comment->getChangesetID()];
     $diff = $changeset->getDiff();
 
     $is_done = false;
@@ -77,6 +92,27 @@ final class DifferentialRevisionInlineTransaction
       case PhabricatorInlineComment::STATE_UNDRAFT:
         $is_done = true;
         break;
+    }
+
+    // A suggested edit is stored apart from the comment text, which may be
+    // empty when the inline is only a suggestion. The suggestion starts out
+    // as the original lines, and the web UI shows nothing if it's left that
+    // way, so return null then too.
+    $suggestion = null;
+    $state = $comment->newInlineCommentObject()->getContentState();
+    if ($state->getContentHasSuggestion()) {
+      $text = $state->getContentSuggestionText();
+
+      $original = null;
+      $inline = idx($data['inlines'], $comment->getID());
+      if ($inline) {
+        $original = $inline->newInlineCommentObject()
+          ->getDefaultSuggestionText();
+      }
+
+      if (phutil_nonempty_string($text) && ($text !== $original)) {
+        $suggestion = $text;
+      }
     }
 
     return array(
@@ -89,6 +125,7 @@ final class DifferentialRevisionInlineTransaction
       'length' => (int)($comment->getLineLength() + 1),
       'replyToCommentPHID' => $comment->getReplyToCommentPHID(),
       'isDone' => $is_done,
+      'suggestion' => $suggestion,
     );
   }
 
