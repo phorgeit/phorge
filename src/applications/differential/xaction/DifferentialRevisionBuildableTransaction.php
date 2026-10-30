@@ -27,6 +27,17 @@ final class DifferentialRevisionBuildableTransaction
     return $this->newBuildableStatus()->getColor();
   }
 
+  public function getTransactionTypeForConduit($xaction) {
+    return 'harbormaster:buildable';
+  }
+
+  public function getFieldValuesForConduit($xaction, $data) {
+    return array(
+      'old' => $xaction->getOldValue(),
+      'new' => $xaction->getNewValue(),
+    );
+  }
+
   public function getActionName() {
     return $this->newBuildableStatus()->getActionName();
   }
