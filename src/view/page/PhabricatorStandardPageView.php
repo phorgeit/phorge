@@ -752,9 +752,10 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     $foot = phutil_implode_html(" \xC2\xB7 ", $foot);
 
     return phutil_tag(
-      'div',
+      'footer',
       array(
         'class' => 'phabricator-standard-page-footer grouped',
+        'role' => 'contentinfo',
       ),
       $foot);
   }
