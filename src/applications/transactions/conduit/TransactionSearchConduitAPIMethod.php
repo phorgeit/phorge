@@ -312,6 +312,14 @@ EOREMARKUP
                 $type = 'dependedOnBy';
                 $fields = $this->newEdgeTransactionFields($xaction);
                 break;
+              case PhabricatorObjectMentionedByObjectEdgeType::EDGECONST:
+                $type = 'mentioned-in';
+                $fields = $this->newEdgeTransactionFields($xaction);
+                break;
+              case PhabricatorObjectMentionsObjectEdgeType::EDGECONST:
+                $type = 'mention';
+                $fields = $this->newEdgeTransactionFields($xaction);
+                break;
             }
             break;
           case PhabricatorTransactions::TYPE_SUBSCRIBERS:
