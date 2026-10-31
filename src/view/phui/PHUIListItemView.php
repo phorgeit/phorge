@@ -16,7 +16,6 @@ final class PHUIListItemView extends AphrontTagView {
   private $name;
   private $href;
   private $type = self::TYPE_LINK;
-  private $isExternal;
   private $key;
   private $icon;
   private $selected;
@@ -190,15 +189,6 @@ final class PHUIListItemView extends AphrontTagView {
     return $this;
   }
 
-  public function setIsExternal($is_external) {
-    $this->isExternal = $is_external;
-    return $this;
-  }
-
-  public function getIsExternal() {
-    return $this->isExternal;
-  }
-
   public function setStatusColor($color) {
     $this->statusColor = $color;
     return $this;
@@ -319,11 +309,6 @@ final class PHUIListItemView extends AphrontTagView {
           );
         }
 
-        $external = null;
-        if ($this->isExternal) {
-          $external = " \xE2\x86\x97";
-        }
-
         // If this element has an aural representation, make any name visual
         // only. This is primarily dealing with the links in the main menu like
         // "Profile" and "Logout". If we don't hide the name, the mobile
@@ -342,7 +327,6 @@ final class PHUIListItemView extends AphrontTagView {
           ),
           array(
             $this->name,
-            $external,
           ));
       }
     }
