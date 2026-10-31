@@ -469,6 +469,7 @@ final class PHUIListItemView extends AphrontTagView {
         'class' => 'phui-list-item-action-href',
         'sigil' => $sigil,
         'meta' => $metadata,
+        'title' => $this->name ? pht('Manage "%s"', $this->name) : null,
       ),
       $icon_view);
   }
