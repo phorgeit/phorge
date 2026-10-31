@@ -293,7 +293,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   /**
    * Assert that a property has been attached.
    *
-   * @template T of Object
+   * @template T of Object|array
    * @param T|string $property Property value
    * @return T Attached property value
    * @throws PhabricatorDataNotAttachedException

@@ -5276,13 +5276,13 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   /**
-   * This can only apply to Differential Revisions which are drafts.
+   * This can only apply to Differential Revisions.
    *
    * @return bool
    */
   private function hasWarnings($object, $xaction) {
     // TODO: For the moment, this is a very un-modular hack to support
-    // a small number of warnings related to draft revisions. See PHI433.
+    // a small number of warnings related to draft revisions. See T16874.
 
     if (!($object instanceof DifferentialRevision)) {
       return false;
@@ -5292,7 +5292,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     // TODO: This doesn't warn for inlines in Audit, even though they have
     // the same overall workflow.
-    if ($type === DifferentialTransaction::TYPE_INLINE) {
+    if ($type === DifferentialRevisionInlineTransaction::TRANSACTIONTYPE) {
       return (bool)$xaction->getComment()->getAttribute('editing', false);
     }
 

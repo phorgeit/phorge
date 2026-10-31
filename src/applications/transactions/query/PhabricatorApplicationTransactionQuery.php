@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @template R of PhabricatorApplicationTransaction
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<R>
+ */
 abstract class PhabricatorApplicationTransactionQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

@@ -51,6 +51,10 @@ final class DifferentialRevisionHasReviewerEdgeType
       $rem_edges);
   }
 
+  public function getTransactionIcon() {
+    return 'fa-user';
+  }
+
   public function getFeedAddString(
     $actor,
     $object,

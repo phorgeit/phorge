@@ -117,6 +117,15 @@ final class DifferentialRevisionRequestReviewTransaction
     $this->getActorSourceType($object, $viewer);
   }
 
+  public function shouldHide() {
+    // Don't hide the initial "X requested review: ..." transaction from
+    // mail or feed even when it occurs during creation. We need this
+    // transaction to survive so we'll generate mail and feed stories when
+    // revisions immediately leave the draft state. See T13035 for
+    // discussion.
+    return false;
+  }
+
   public function getTitle() {
     $source = $this->getDraftPromotionSource();
 

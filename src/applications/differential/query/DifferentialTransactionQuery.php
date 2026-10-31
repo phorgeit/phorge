@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorApplicationTransactionQuery<DifferentialTransaction>
+ */
 final class DifferentialTransactionQuery
   extends PhabricatorApplicationTransactionQuery {
 

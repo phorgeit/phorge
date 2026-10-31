@@ -201,24 +201,14 @@ EOREMARKUP
         continue;
       }
 
-      // TODO: Hack things so certain transactions which don't have a modular
-      // type yet can use a pseudotype until they modularize. Some day, we'll
-      // modularize everything and remove this.
-      switch ($xaction->getTransactionType()) {
-        case DifferentialTransaction::TYPE_INLINE:
-          $modular_template = new DifferentialRevisionInlineTransaction();
-          break;
-        default:
-          $modular_template = $xaction->getModularType();
-          break;
-      }
+      $modular_template = $xaction->getModularType();
 
       $modular_class = get_class($modular_template);
       if (!isset($modular_objects[$modular_class])) {
         try {
           $modular_object = newv($modular_class, array());
           $modular_objects[$modular_class] = $modular_object;
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
           continue;
         }
       }

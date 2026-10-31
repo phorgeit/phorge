@@ -421,6 +421,27 @@ abstract class PhabricatorModularTransactionType
     return $editor->getPHIDList($old, $new);
   }
 
+  final protected function purgeCommentDrafts() {
+    // the methods that handle comments (inline comments?) should be moved
+    // somewhere else, they're only here to allow migrating to modular xactions.
+    // Maybe even moved to PhabricatorApplicationTransactionEditor directly?
+    // They might only apply to inline comments.
+    $comment = $this->getStorage()->getComment();
+
+    $comment->setAttribute('editing', false);
+
+    PhabricatorVersionedDraft::purgeDrafts(
+      $comment->getPHID(),
+      $this->getActingAsPHID());
+  }
+
+  final protected function updateCommentReplyTo() {
+    $reply = $this->getStorage()->getComment()->getReplyToComment();
+    if ($reply && !$reply->getHasReplies()) {
+      $reply->setHasReplies(1)->save();
+    }
+  }
+
   public function getMetadataValue($key, $default = null) {
     return $this->getStorage()->getMetadataValue($key, $default);
   }

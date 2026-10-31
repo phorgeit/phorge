@@ -29,7 +29,7 @@ final class DifferentialRevisionTimelineEngine
     $old_ids = array_filter(explode(',', $old_ids));
     $new_ids = array_filter(explode(',', $new_ids));
 
-    $type_inline = DifferentialTransaction::TYPE_INLINE;
+    $type_inline = DifferentialRevisionInlineTransaction::TRANSACTIONTYPE;
     $changeset_ids = array_merge($old_ids, $new_ids);
     $inlines = array();
     foreach ($xactions as $xaction) {

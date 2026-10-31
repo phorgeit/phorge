@@ -71,52 +71,7 @@ final class DifferentialTransactionEditor
     $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
     $types[] = PhabricatorTransactions::TYPE_INLINESTATE;
 
-    $types[] = DifferentialTransaction::TYPE_INLINE;
-
     return $types;
-  }
-
-  protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case DifferentialTransaction::TYPE_INLINE:
-        return null;
-    }
-
-    return parent::getCustomTransactionOldValue($object, $xaction);
-  }
-
-  protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case DifferentialTransaction::TYPE_INLINE:
-        return null;
-    }
-
-    return parent::getCustomTransactionNewValue($object, $xaction);
-  }
-
-  protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case DifferentialTransaction::TYPE_INLINE:
-        $comment = $xaction->getComment();
-
-        $comment->setAttribute('editing', false);
-
-        PhabricatorVersionedDraft::purgeDrafts(
-          $comment->getPHID(),
-          $this->getActingAsPHID());
-        return;
-    }
-
-    return parent::applyCustomInternalTransaction($object, $xaction);
   }
 
   protected function expandTransactions(
@@ -259,7 +214,7 @@ final class DifferentialTransactionEditor
       switch ($xaction->getTransactionType()) {
         case PhabricatorTransactions::TYPE_COMMENT:
         case DifferentialRevisionUpdateTransaction::TRANSACTIONTYPE:
-        case DifferentialTransaction::TYPE_INLINE:
+        case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
           $this->didExpandInlineState = true;
 
           $query_template = id(new DifferentialDiffInlineCommentQuery())
@@ -277,22 +232,6 @@ final class DifferentialTransactionEditor
     }
 
     return $results;
-  }
-
-  protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
-
-    switch ($xaction->getTransactionType()) {
-      case DifferentialTransaction::TYPE_INLINE:
-        $reply = $xaction->getComment()->getReplyToComment();
-        if ($reply && !$reply->getHasReplies()) {
-          $reply->setHasReplies(1)->save();
-        }
-        return;
-    }
-
-    return parent::applyCustomExternalTransaction($object, $xaction);
   }
 
   protected function applyBuiltinExternalTransaction(
@@ -514,7 +453,7 @@ final class DifferentialTransactionEditor
 
     foreach ($xactions as $xaction) {
       $type = $xaction->getTransactionType();
-      if ($type == DifferentialTransaction::TYPE_INLINE) {
+      if ($type == DifferentialRevisionInlineTransaction::TRANSACTIONTYPE) {
         $tail[] = $xaction;
       } else {
         $head[] = $xaction;
@@ -538,6 +477,7 @@ final class DifferentialTransactionEditor
   protected function shouldSendMail(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
@@ -651,6 +591,7 @@ final class DifferentialTransactionEditor
   protected function getTransactionsForMail(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     // If this is the first time we're sending mail about this revision, we
     // generate mail for all prior transactions, not just whatever is being
     // applied now. This gets the "added reviewers" lines and other relevant
@@ -664,6 +605,7 @@ final class DifferentialTransactionEditor
 
   protected function getObjectLinkButtonLabelForMail(
     PhabricatorLiskDAO $object) {
+
     return pht('View Revision');
   }
 
@@ -685,7 +627,7 @@ final class DifferentialTransactionEditor
       $this->getObjectLinkButtonLabelForMail($object),
       $revision_uri);
 
-    $type_inline = DifferentialTransaction::TYPE_INLINE;
+    $type_inline = DifferentialRevisionInlineTransaction::TRANSACTIONTYPE;
 
     $inlines = array();
     foreach ($xactions as $xaction) {
@@ -1036,6 +978,7 @@ final class DifferentialTransactionEditor
   protected function shouldApplyHeraldRules(
     PhabricatorLiskDAO $object,
     array $xactions) {
+
     return true;
   }
 
@@ -1528,7 +1471,6 @@ final class DifferentialTransactionEditor
     return array_reverse($xactions);
   }
 
-
   protected function didApplyTransactions($object, array $xactions) {
     // In a moment, we're going to try to publish draft revisions which have
     // completed all their builds. However, we only want to do that if the
@@ -1664,6 +1606,7 @@ final class DifferentialTransactionEditor
 
   private function loadCompletedBuildableStatus(
     DifferentialRevision $revision) {
+
     $viewer = $this->requireActor();
     $builds = $revision->loadImpactfulBuilds($viewer);
     return $revision->newBuildableStatusForBuilds($builds);
@@ -1688,6 +1631,5 @@ final class DifferentialTransactionEditor
 
     $revision->attachReviewers($with_reviewers->getReviewers());
   }
-
 
 }

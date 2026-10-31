@@ -54,7 +54,7 @@ foreach ($rows as $row) {
     case DifferentialAction::ACTION_ADDREVIEWERS:
     case DifferentialAction::ACTION_ADDCCS:
     case DifferentialAction::ACTION_UPDATE:
-    case DifferentialTransaction::TYPE_INLINE:
+    case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
       // These actions will have their transactions created by other rules.
       break;
     default:
@@ -155,7 +155,7 @@ foreach ($rows as $row) {
   // Build inline comment transactions.
   foreach ($inline_comments as $inline) {
     $xactions[] = array(
-      'type' => DifferentialTransaction::TYPE_INLINE,
+      'type' => DifferentialRevisionInlineTransaction::TRANSACTIONTYPE,
       'old' => null,
       'new' => null,
       'phid' => $inline['transactionPHID'],

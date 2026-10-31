@@ -6604,7 +6604,7 @@ phutil_register_library_map(array(
     'DifferentialRevisionHeraldFieldGroup' => 'HeraldFieldGroup',
     'DifferentialRevisionHoldDraftTransaction' => 'DifferentialRevisionTransactionType',
     'DifferentialRevisionIDCommitMessageField' => 'DifferentialCommitMessageField',
-    'DifferentialRevisionInlineTransaction' => 'PhabricatorModularTransactionType',
+    'DifferentialRevisionInlineTransaction' => 'DifferentialRevisionTransactionType',
     'DifferentialRevisionInlinesController' => 'DifferentialController',
     'DifferentialRevisionJIRAIssueURIsHeraldField' => 'DifferentialRevisionHeraldField',
     'DifferentialRevisionListController' => 'DifferentialController',

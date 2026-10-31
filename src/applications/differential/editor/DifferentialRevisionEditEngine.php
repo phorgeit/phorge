@@ -341,7 +341,7 @@ final class DifferentialRevisionEditEngine
 
     $xactions = $editor->newAutomaticInlineTransactions(
       $object,
-      DifferentialTransaction::TYPE_INLINE,
+      DifferentialRevisionInlineTransaction::TRANSACTIONTYPE,
       new DifferentialDiffInlineCommentQuery());
 
     return $xactions;
@@ -349,7 +349,7 @@ final class DifferentialRevisionEditEngine
 
   protected function newCommentPreviewContent($object, array $xactions) {
     $viewer = $this->getViewer();
-    $type_inline = DifferentialTransaction::TYPE_INLINE;
+    $type_inline = DifferentialRevisionInlineTransaction::TRANSACTIONTYPE;
 
     $inlines = array();
     foreach ($xactions as $xaction) {

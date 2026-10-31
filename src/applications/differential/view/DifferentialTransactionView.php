@@ -68,14 +68,14 @@ final class DifferentialTransactionView
 
     switch ($u->getTransactionType()) {
       case PhabricatorTransactions::TYPE_COMMENT:
-      case DifferentialTransaction::TYPE_INLINE:
+      case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
         break;
       default:
         return false;
     }
 
     switch ($v->getTransactionType()) {
-      case DifferentialTransaction::TYPE_INLINE:
+      case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
         return true;
     }
 
@@ -87,7 +87,7 @@ final class DifferentialTransactionView
 
     $out = array();
 
-    $type_inline = DifferentialTransaction::TYPE_INLINE;
+    $type_inline = DifferentialRevisionInlineTransaction::TRANSACTIONTYPE;
 
     $group = $xaction->getTransactionGroup();
     if ($xaction->getTransactionType() == $type_inline) {
@@ -110,7 +110,7 @@ final class DifferentialTransactionView
     $inlines = array();
     foreach ($group as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case DifferentialTransaction::TYPE_INLINE:
+        case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
           $inlines[] = $xaction;
           break;
         default:

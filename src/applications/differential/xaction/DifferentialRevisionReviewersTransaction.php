@@ -154,6 +154,13 @@ final class DifferentialRevisionReviewersTransaction
     }
   }
 
+  public function shouldHideForMail() {
+    // Don't hide the initial "X added reviewers: ..." transaction during
+    // object creation from mail. See T12118 and PHI54.
+
+    return false;
+  }
+
   public function getTitle() {
     return $this->renderReviewerEditTitle(false);
   }

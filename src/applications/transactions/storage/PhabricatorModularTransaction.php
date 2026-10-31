@@ -241,11 +241,14 @@ abstract class PhabricatorModularTransaction
     return parent::getNoEffectDescription();
   }
 
-  /* final */ public function newWarningForTransactions(
+  // TODO one day, define this method in a modular way. T16874
+  /* final public function newWarningForTransactions(
     $object,
     array $xactions) {
 
-    throw new PhutilMethodNotImplementedException();
+    return $this->getTransactionImplementation()
+      ->newWarningForTransactions($object, xactions);
   }
+  */
 
 }

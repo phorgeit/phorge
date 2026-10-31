@@ -5,6 +5,7 @@ final class DifferentialTransaction
 
   private $isCommandeerSideEffect;
 
+  /** @deprecated see DifferentialRevisionInlineTransaction */
   const TYPE_INLINE  = 'differential:inline';
   const TYPE_ACTION  = 'differential:action';
 
@@ -65,38 +66,9 @@ final class DifferentialTransaction
     return new DifferentialTransactionComment();
   }
 
-  public function shouldHide() {
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
-    switch ($this->getTransactionType()) {
-      case DifferentialRevisionRequestReviewTransaction::TRANSACTIONTYPE:
-        // Don't hide the initial "X requested review: ..." transaction from
-        // mail or feed even when it occurs during creation. We need this
-        // transaction to survive so we'll generate mail and feed stories when
-        // revisions immediately leave the draft state. See T13035 for
-        // discussion.
-        return false;
-    }
-
-    return parent::shouldHide();
-  }
-
-  public function shouldHideForMail(array $xactions) {
-    switch ($this->getTransactionType()) {
-      case DifferentialRevisionReviewersTransaction::TRANSACTIONTYPE:
-        // Don't hide the initial "X added reviewers: ..." transaction during
-        // object creation from mail. See T12118 and PHI54.
-        return false;
-    }
-
-    return parent::shouldHideForMail($xactions);
-  }
-
-
   public function isInlineCommentTransaction() {
     switch ($this->getTransactionType()) {
-      case self::TYPE_INLINE:
+      case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
         return true;
     }
 
@@ -139,8 +111,6 @@ final class DifferentialTransaction
 
   public function getActionName() {
     switch ($this->getTransactionType()) {
-      case self::TYPE_INLINE:
-        return pht('Commented On');
       case self::TYPE_ACTION:
         $map = array(
           DifferentialAction::ACTION_ACCEPT => pht('Accepted'),
@@ -187,7 +157,7 @@ final class DifferentialTransaction
         }
         break;
       case PhabricatorTransactions::TYPE_COMMENT:
-      case self::TYPE_INLINE:
+      case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_COMMENT;
         break;
       case DifferentialRevisionReviewersTransaction::TRANSACTIONTYPE:
@@ -213,10 +183,6 @@ final class DifferentialTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case self::TYPE_INLINE:
-        return pht(
-          '%s added inline comments.',
-          $author_handle);
       case self::TYPE_ACTION:
         switch ($new) {
           case DifferentialAction::ACTION_CLOSE:
@@ -287,11 +253,6 @@ final class DifferentialTransaction
     $object_link = $this->renderHandleLink($object_phid);
 
     switch ($this->getTransactionType()) {
-      case self::TYPE_INLINE:
-        return pht(
-          '%s added inline comments to %s.',
-          $author_link,
-          $object_link);
       case self::TYPE_ACTION:
         switch ($new) {
           case DifferentialAction::ACTION_ACCEPT:
@@ -399,8 +360,6 @@ final class DifferentialTransaction
 
   public function getIcon() {
     switch ($this->getTransactionType()) {
-      case self::TYPE_INLINE:
-        return 'fa-comment';
       case self::TYPE_ACTION:
         switch ($this->getNewValue()) {
           case DifferentialAction::ACTION_CLOSE:
@@ -423,11 +382,6 @@ final class DifferentialTransaction
             return 'fa-flag';
           default:
             break;
-        }
-      case PhabricatorTransactions::TYPE_EDGE:
-        switch ($this->getMetadataValue('edge:type')) {
-          case DifferentialRevisionHasReviewerEdgeType::EDGECONST:
-            return 'fa-user';
         }
     }
 
@@ -525,9 +479,10 @@ final class DifferentialTransaction
 
     $body = parent::renderAsTextForDoorkeeper($publisher, $story, $xactions);
 
+    $inline_type = DifferentialRevisionInlineTransaction::TRANSACTIONTYPE;
     $inlines = array();
     foreach ($xactions as $xaction) {
-      if ($xaction->getTransactionType() == self::TYPE_INLINE) {
+      if ($xaction->getTransactionType() == $inline_type) {
         $inlines[] = $xaction;
       }
     }

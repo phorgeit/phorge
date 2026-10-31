@@ -1,17 +1,37 @@
 <?php
 
 final class DifferentialRevisionInlineTransaction
-  extends PhabricatorModularTransactionType {
+  extends DifferentialRevisionTransactionType {
 
-  // NOTE: This class is NOT an actual Differential modular transaction type!
-  // It does not extend "DifferentialRevisionTransactionType". Some day it
-  // should, but for now it's just reducing the amount of hackiness around
-  // supporting inline comments in the "transaction.search" Conduit API method.
+  const TRANSACTIONTYPE = 'differential:inline';
 
-  const TRANSACTIONTYPE = 'internal.pretend-inline';
+  public function getActionName() {
+    return pht('Commented On');
+  }
+
+  public function getTitle() {
+    return pht(
+      '%s added inline comments.',
+      $this->renderAuthor());
+  }
+
+  public function getTitleForFeed() {
+    return pht(
+      '%s added inline comments to %s.',
+      $this->renderAuthor(),
+      $this->renderObject());
+  }
+
+  public function getIcon() {
+    return 'fa-comment';
+  }
 
   public function getTransactionTypeForConduit($xaction) {
     return 'inline';
+  }
+
+  public function getTransactionHasEffect($object, $old, $new) {
+    return true;
   }
 
   public function loadTransactionTypeConduitData(array $xactions) {
@@ -31,6 +51,19 @@ final class DifferentialRevisionInlineTransaction
 
     return $changesets;
   }
+
+  public function generateOldValue($object) {
+    return null;
+  }
+
+  public function applyInternalEffects($object, $value) {
+    $this->purgeCommentDrafts();
+  }
+
+  public function applyExternalEffects($object, $value) {
+    parent::updateCommentReplyTo();
+  }
+
 
   public function getFieldValuesForConduit($object, $data) {
     $comment = $object->getComment();
