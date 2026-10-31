@@ -69,8 +69,9 @@ final class ConpherenceParticipantView extends AphrontView {
           phutil_tag(
             'a',
             array(
-              'class' => 'pic',
+              'class' => 'pic visual-only',
               'href' => $handle->getURI(),
+              'aria-hidden' => 'true',
             ),
             phutil_tag(
               'img',
