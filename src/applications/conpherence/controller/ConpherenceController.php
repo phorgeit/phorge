@@ -68,7 +68,7 @@ abstract class ConpherenceController extends PhabricatorController {
         ->setPolicyObject($conpherence)
         ->setImage($data['image']);
 
-      if (strlen($data['topic'])) {
+      if (phutil_nonempty_string($data['topic'])) {
         $topic = id(new PHUITagView())
           ->setName($data['topic'])
           ->setColor(PHUITagView::COLOR_VIOLET)
@@ -83,7 +83,7 @@ abstract class ConpherenceController extends PhabricatorController {
         PhabricatorPolicyCapability::CAN_EDIT);
 
       if ($can_edit) {
-        $header->setImageURL(
+        $header->setImageEditURL(
           $this->getApplicationURI("picture/{$id}/"));
       }
 

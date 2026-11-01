@@ -45,16 +45,27 @@ final class PHUIHeaderView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Set a header image.
+   */
   public function setImage($uri) {
     $this->image = $uri;
     return $this;
   }
 
+  /**
+   * Make the header image link to an URL.
+   * Only useful in combination with setImage().
+   */
   public function setImageURL($url) {
     $this->imageURL = $url;
     return $this;
   }
 
+  /**
+   * Make the header image link to an URL and show an "Edit" text on hovering.
+   * Only useful in combination with setImage().
+   */
   public function setImageEditURL($url) {
     $this->imageEditURL = $url;
     return $this;
