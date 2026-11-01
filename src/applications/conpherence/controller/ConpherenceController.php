@@ -96,6 +96,7 @@ abstract class ConpherenceController extends PhabricatorController {
           ->setIcon('fa-pencil')
           ->addClass('hide-on-device')
           ->setColor('violet')
+          ->setTitle(pht('Edit Room'))
           ->setWorkflow(true));
 
       $header->addActionItem(
@@ -104,6 +105,7 @@ abstract class ConpherenceController extends PhabricatorController {
           ->setIcon('fa-gear')
           ->addClass('hide-on-device')
           ->setColor('pink')
+          ->setTitle(pht('Room Preferences'))
           ->setWorkflow(true));
 
       $widget_key = PhabricatorConpherenceWidgetVisibleSetting::SETTINGKEY;
@@ -121,6 +123,7 @@ abstract class ConpherenceController extends PhabricatorController {
           ->addSigil('conpherence-widget-toggle')
           ->setIcon('fa-group')
           ->setHref('#')
+          ->setTitle(pht('Show/Hide Participants'))
           ->addClass('conpherence-participant-toggle'));
 
       Javelin::initBehavior('conpherence-search');
@@ -131,6 +134,7 @@ abstract class ConpherenceController extends PhabricatorController {
           ->setIcon('fa-search')
           ->setHref('#')
           ->setColor('green')
+          ->setTitle(pht('Search Messages'))
           ->addClass('conpherence-search-toggle'));
 
       if (!$participating) {

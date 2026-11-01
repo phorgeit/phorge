@@ -7,6 +7,7 @@ final class PHUIIconCircleView extends AphrontTagView {
   private $color;
   private $size;
   private $state;
+  private $title;
 
   const SMALL = 'circle-small';
   const MEDIUM = 'circle-medium';
@@ -47,6 +48,15 @@ final class PHUIIconCircleView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Set a 'title' HTML attribute
+   * @param string $text
+   */
+  public function setTitle($text) {
+    $this->title = $text;
+    return $this;
+  }
+
   protected function getTagName() {
     $tag = 'span';
     if ($this->href) {
@@ -78,6 +88,7 @@ final class PHUIIconCircleView extends AphrontTagView {
     return array(
       'href' => $this->href,
       'class' => $classes,
+      'title' => $this->title,
     );
   }
 
