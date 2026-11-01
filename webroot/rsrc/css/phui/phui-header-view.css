@@ -34,11 +34,6 @@
   vertical-align: middle;
 }
 
-body .phui-header-shell.phui-header-no-background {
-  background-color: transparent;
-  border: none;
-}
-
 body .phui-header-shell.phui-bleed-header {
   background-color: #fff;
   border-bottom: 1px solid {$thinblueborder};
