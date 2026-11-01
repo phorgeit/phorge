@@ -36,7 +36,6 @@ final class DivinerSectionView extends AphrontTagView {
     require_celerity_resource('diviner-shared-css');
 
     $header = id(new PHUIHeaderView())
-      ->setBleedHeader(true)
       ->addClass('diviner-section-header')
       ->setHeader($this->header);
 

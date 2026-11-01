@@ -34,19 +34,6 @@
   vertical-align: middle;
 }
 
-body .phui-header-shell.phui-bleed-header {
-  background-color: #fff;
-  border-bottom: 1px solid {$thinblueborder};
-  width: auto;
-  margin: 16px;
-}
-
-body .phui-header-shell.phui-bleed-header
-  .phui-header-view {
-  padding: 8px 24px 8px 0;
-  color: {$darkbluetext};
-}
-
 details > summary.phui-header-shell {
   cursor: pointer;
   list-style: none;

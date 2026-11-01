@@ -11,7 +11,6 @@ final class PHUIHeaderView extends AphrontTagView {
   private $imageEditURL = null;
   private $subheader;
   private $headerIcon;
-  private $bleedHeader;
   private $profileHeader;
   private $tall;
   private $properties = array();
@@ -67,11 +66,6 @@ final class PHUIHeaderView extends AphrontTagView {
 
   public function setSubheader($subheader) {
     $this->subheader = $subheader;
-    return $this;
-  }
-
-  public function setBleedHeader($bleed) {
-    $this->bleedHeader = $bleed;
     return $this;
   }
 
@@ -203,10 +197,6 @@ final class PHUIHeaderView extends AphrontTagView {
 
     $classes = array();
     $classes[] = 'phui-header-shell';
-
-    if ($this->bleedHeader) {
-      $classes[] = 'phui-bleed-header';
-    }
 
     if ($this->profileHeader) {
       $classes[] = 'phui-profile-header';

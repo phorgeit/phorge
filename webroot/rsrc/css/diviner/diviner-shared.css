@@ -77,11 +77,6 @@ body .diviner-view .diviner-document-section
   margin: 32px 0 16px;
 }
 
-body .diviner-document-section .phui-header-shell.phui-bleed-header {
-  padding: 16px 0 0 0;
-  border-bottom: none;
-}
-
 body .diviner-view .diviner-section-content .phui-header-shell {
   margin: 24px 0 8px;
   padding: 0;
