@@ -1,9 +1,5 @@
 <?php
 
-// TODO: Some "final" modifiers have been VERY TEMPORARILY moved aside to
-// allow DifferentialTransaction to extend this class without converting
-// fully to ModularTransactions.
-
 abstract class PhabricatorModularTransaction
   extends PhabricatorApplicationTransaction {
 
@@ -111,7 +107,7 @@ abstract class PhabricatorModularTransaction
    * `null` to use default behavior of hiding empty transactions on object
    * creation.
    */
-  /* final */ public function shouldHide() {
+  final public function shouldHide() {
     $hide = $this->getTransactionImplementation()->shouldHide();
     if ($hide !== null) {
       return $hide;
@@ -129,7 +125,7 @@ abstract class PhabricatorModularTransaction
     return parent::shouldHideForFeed();
   }
 
-  /* final */ public function shouldHideForMail(array $xactions) {
+  final public function shouldHideForMail(array $xactions) {
     $hide = $this->getTransactionImplementation()->shouldHideForMail();
     if ($hide !== null) {
       return $hide;
@@ -149,7 +145,7 @@ abstract class PhabricatorModularTransaction
     return $hide;
   }
 
-  /* final */ public function getIcon() {
+  final public function getIcon() {
     $icon = $this->getTransactionImplementation()->getIcon();
     if ($icon !== null) {
       return $icon;
@@ -158,7 +154,7 @@ abstract class PhabricatorModularTransaction
     return parent::getIcon();
   }
 
-  /* final */ public function getTitle() {
+  final public function getTitle() {
     $title = $this->getTransactionImplementation()->getTitle();
     if ($title !== null) {
       return $title;
@@ -167,7 +163,7 @@ abstract class PhabricatorModularTransaction
     return parent::getTitle();
   }
 
-  /* final */ public function getActionName() {
+  final public function getActionName() {
     $action = $this->getTransactionImplementation()->getActionName();
     if ($action !== null) {
       return $action;
@@ -176,7 +172,7 @@ abstract class PhabricatorModularTransaction
     return parent::getActionName();
   }
 
-  /* final */ public function getActionStrength() {
+  final public function getActionStrength() {
     $strength = $this->getTransactionImplementation()->getActionStrength();
     if ($strength !== null) {
       return $strength;
@@ -185,7 +181,7 @@ abstract class PhabricatorModularTransaction
     return parent::getActionStrength();
   }
 
-  /* final */ public function getTitleForFeed() {
+  final public function getTitleForFeed() {
     $title = $this->getTransactionImplementation()->getTitleForFeed();
     if ($title !== null) {
       return $title;
@@ -194,7 +190,7 @@ abstract class PhabricatorModularTransaction
     return parent::getTitleForFeed();
   }
 
-  /* final */ public function getColor() {
+  final public function getColor() {
     $color = $this->getTransactionImplementation()->getColor();
     if ($color !== null) {
       return $color;
@@ -231,7 +227,7 @@ abstract class PhabricatorModularTransaction
     return $this->getTransactionImplementation()->newRemarkupChanges();
   }
 
-  /* final */ public function getNoEffectDescription() {
+  final public function getNoEffectDescription() {
     $description = $this->getTransactionImplementation()
       ->getNoEffectDescription();
     if ($description !== null) {
