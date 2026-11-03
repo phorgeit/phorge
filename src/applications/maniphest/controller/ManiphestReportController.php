@@ -591,13 +591,14 @@ final class ManiphestReportController extends ManiphestController {
     $oldest = $tasks[$oldest];
 
     $raw_age = (time() - $oldest->getDateCreated());
-    $age = number_format($raw_age / (24 * 60 * 60)).' d';
+    $age = number_format($raw_age / (24 * 60 * 60));
 
     $link = javelin_tag(
       'a',
       array(
         'href'  => '/T'.$oldest->getID(),
         'sigil' => 'has-tooltip',
+        'data-unit' => 'd',
         'meta'  => array(
           'tip' => 'T'.$oldest->getID().': '.$oldest->getTitle(),
         ),

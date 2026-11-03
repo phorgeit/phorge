@@ -375,3 +375,7 @@ span.single-display-line-content {
   width: 180px;
   float: none;
 }
+
+.aphront-table-view td a[data-unit]::after {
+  content: " " attr(data-unit);
+}
