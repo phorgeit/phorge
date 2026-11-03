@@ -50,6 +50,9 @@ abstract class PhorgeTransactionManagementWorkflow
   protected function transactionData(
     PhabricatorApplicationTransaction $xaction): array {
 
+    $modular_type = $xaction->getModularType();
+    $modular_type = $modular_type === null ? 'n/a' : get_class($modular_type);
+
     $data = array(
         'phid'  => $xaction->getPHID(),
         'class' => get_class($xaction),
@@ -58,6 +61,7 @@ abstract class PhorgeTransactionManagementWorkflow
         'oldValue' => $xaction->getOldValue(),
         'epoch' => $xaction->getDateCreated(),
         'type' => $xaction->getTransactionType(),
+        'modularClass' => $modular_type,
         'newValue' => $xaction->getNewValue(),
         'metadata' => $xaction->getMetadata(),
         'title' => (string)$xaction->getTitleForTextMail(),

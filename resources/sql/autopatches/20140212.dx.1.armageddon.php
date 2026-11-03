@@ -50,17 +50,17 @@ foreach ($rows as $row) {
 
   // Build the main action transaction.
   switch ($row['action']) {
-    case DifferentialAction::ACTION_COMMENT:
-    case DifferentialAction::ACTION_ADDREVIEWERS:
-    case DifferentialAction::ACTION_ADDCCS:
-    case DifferentialAction::ACTION_UPDATE:
+    case 'none':
+    case 'add_reviewers':
+    case 'add_ccs':
+    case 'update':
     case DifferentialRevisionInlineTransaction::TRANSACTIONTYPE:
       // These actions will have their transactions created by other rules.
       break;
     default:
       // Otherwise, this is a normal action (like an accept or reject).
       $xactions[] = array(
-        'type' => DifferentialTransaction::TYPE_ACTION,
+        'type' => 'differential:action',
         'old' => null,
         'new' => $row['action'],
       );
@@ -73,7 +73,7 @@ foreach ($rows as $row) {
     $diff_id = null;
   }
 
-  if ($diff_id || $row['action'] == DifferentialAction::ACTION_UPDATE) {
+  if ($diff_id || $row['action'] == 'update') {
     $xactions[] = array(
       'type' => DifferentialRevisionUpdateTransaction::TRANSACTIONTYPE,
       'old' => null,

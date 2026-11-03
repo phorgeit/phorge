@@ -7,6 +7,8 @@ final class DifferentialTransaction
 
   /** @deprecated see DifferentialRevisionInlineTransaction */
   const TYPE_INLINE  = 'differential:inline';
+
+  /** @deprecated see T16867 */
   const TYPE_ACTION  = 'differential:action';
 
   const MAILTAG_REVIEWERS      = 'differential-reviewers';
@@ -75,78 +77,12 @@ final class DifferentialTransaction
     return parent::isInlineCommentTransaction();
   }
 
-  public function getRequiredHandlePHIDs() {
-    $phids = parent::getRequiredHandlePHIDs();
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        if ($new == DifferentialAction::ACTION_CLOSE &&
-            $this->getMetadataValue('isCommitClose')) {
-          $phids[] = $this->getMetadataValue('commitPHID');
-          if ($this->getMetadataValue('committerPHID')) {
-            $phids[] = $this->getMetadataValue('committerPHID');
-          }
-          if ($this->getMetadataValue('authorPHID')) {
-            $phids[] = $this->getMetadataValue('authorPHID');
-          }
-        }
-        break;
-    }
-
-    return $phids;
-  }
-
-  public function getActionStrength() {
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        return 300;
-    }
-
-    return parent::getActionStrength();
-  }
-
-
-  public function getActionName() {
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        $map = array(
-          DifferentialAction::ACTION_ACCEPT => pht('Accepted'),
-          DifferentialAction::ACTION_REJECT => pht('Requested Changes To'),
-          DifferentialAction::ACTION_RETHINK => pht('Planned Changes To'),
-          DifferentialAction::ACTION_ABANDON => pht('Abandoned'),
-          DifferentialAction::ACTION_CLOSE => pht('Closed'),
-          DifferentialAction::ACTION_REQUEST => pht('Requested A Review Of'),
-          DifferentialAction::ACTION_RESIGN => pht('Resigned From'),
-          DifferentialAction::ACTION_ADDREVIEWERS => pht('Added Reviewers'),
-          DifferentialAction::ACTION_CLAIM => pht('Commandeered'),
-          DifferentialAction::ACTION_REOPEN => pht('Reopened'),
-        );
-        $name = idx($map, $this->getNewValue());
-        if ($name !== null) {
-          return $name;
-        }
-        break;
-    }
-
-    return parent::getActionName();
-  }
-
   public function getMailTags() {
     $tags = array();
 
     switch ($this->getTransactionType()) {
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         $tags[] = self::MAILTAG_CC;
-        break;
-      case self::TYPE_ACTION:
-        switch ($this->getNewValue()) {
-          case DifferentialAction::ACTION_CLOSE:
-            $tags[] = self::MAILTAG_CLOSED;
-            break;
-        }
         break;
       case DifferentialRevisionUpdateTransaction::TRANSACTIONTYPE:
         $old = $this->getOldValue();
@@ -175,57 +111,6 @@ final class DifferentialTransaction
     return $tags;
   }
 
-  public function getTitle() {
-    $author_phid = $this->getAuthorPHID();
-    $author_handle = $this->renderHandleLink($author_phid);
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        switch ($new) {
-          case DifferentialAction::ACTION_CLOSE:
-            if (!$this->getMetadataValue('isCommitClose')) {
-              return DifferentialAction::getBasicStoryText(
-                $new,
-                $author_handle);
-            }
-            $commit_name = $this->renderHandleLink(
-              $this->getMetadataValue('commitPHID'));
-            $committer_phid = $this->getMetadataValue('committerPHID');
-            $author_phid = $this->getMetadataValue('authorPHID');
-            if ($this->getHandleIfExists($committer_phid)) {
-              $committer_name = $this->renderHandleLink($committer_phid);
-            } else {
-              $committer_name = $this->getMetadataValue('committerName');
-            }
-            if ($this->getHandleIfExists($author_phid)) {
-              $author_name = $this->renderHandleLink($author_phid);
-            } else {
-              $author_name = $this->getMetadataValue('authorName');
-            }
-
-            if ($committer_name && ($committer_name != $author_name)) {
-              return pht(
-                'Closed by commit %s (authored by %s, committed by %s).',
-                $commit_name,
-                $author_name,
-                $committer_name);
-            } else {
-              return pht(
-                'Closed by commit %s (authored by %s).',
-                $commit_name,
-                $author_name);
-            }
-          default:
-            return DifferentialAction::getBasicStoryText($new, $author_handle);
-        }
-     }
-
-    return parent::getTitle();
-  }
-
   public function renderExtraInformationLink() {
     if ($this->getMetadataValue('revisionMatchData')) {
       $details_href =
@@ -240,152 +125,6 @@ final class DifferentialTransaction
       return $details_link;
     }
     return parent::renderExtraInformationLink();
-  }
-
-  public function getTitleForFeed() {
-    $author_phid = $this->getAuthorPHID();
-    $object_phid = $this->getObjectPHID();
-
-    $old = $this->getOldValue();
-    $new = $this->getNewValue();
-
-    $author_link = $this->renderHandleLink($author_phid);
-    $object_link = $this->renderHandleLink($object_phid);
-
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        switch ($new) {
-          case DifferentialAction::ACTION_ACCEPT:
-            return pht(
-              '%s accepted %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_REJECT:
-            return pht(
-              '%s requested changes to %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_RETHINK:
-            return pht(
-              '%s planned changes to %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_ABANDON:
-            return pht(
-              '%s abandoned %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_CLOSE:
-            if (!$this->getMetadataValue('isCommitClose')) {
-              return pht(
-                '%s closed %s.',
-                $author_link,
-                $object_link);
-            } else {
-              $commit_name = $this->renderHandleLink(
-                $this->getMetadataValue('commitPHID'));
-              $committer_phid = $this->getMetadataValue('committerPHID');
-              $author_phid = $this->getMetadataValue('authorPHID');
-
-              if ($this->getHandleIfExists($committer_phid)) {
-                $committer_name = $this->renderHandleLink($committer_phid);
-              } else {
-                $committer_name = $this->getMetadataValue('committerName');
-              }
-
-              if ($this->getHandleIfExists($author_phid)) {
-                $author_name = $this->renderHandleLink($author_phid);
-              } else {
-                $author_name = $this->getMetadataValue('authorName');
-              }
-
-              // Check if the committer and author are the same. They're the
-              // same if both resolved and are the same user, or if neither
-              // resolved and the text is identical.
-              if ($committer_phid && $author_phid) {
-                $same_author = ($committer_phid == $author_phid);
-              } else if (!$committer_phid && !$author_phid) {
-                $same_author = ($committer_name == $author_name);
-              } else {
-                $same_author = false;
-              }
-
-              if ($committer_name && !$same_author) {
-                return pht(
-                  '%s closed %s by committing %s (authored by %s).',
-                  $author_link,
-                  $object_link,
-                  $commit_name,
-                  $author_name);
-              } else {
-                return pht(
-                  '%s closed %s by committing %s.',
-                  $author_link,
-                  $object_link,
-                  $commit_name);
-              }
-            }
-
-          case DifferentialAction::ACTION_REQUEST:
-            return pht(
-              '%s requested review of %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_RECLAIM:
-            return pht(
-              '%s reclaimed %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_RESIGN:
-            return pht(
-              '%s resigned from %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_CLAIM:
-            return pht(
-              '%s commandeered %s.',
-              $author_link,
-              $object_link);
-          case DifferentialAction::ACTION_REOPEN:
-            return pht(
-              '%s reopened %s.',
-              $author_link,
-              $object_link);
-        }
-        break;
-     }
-
-    return parent::getTitleForFeed();
-  }
-
-  public function getIcon() {
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        switch ($this->getNewValue()) {
-          case DifferentialAction::ACTION_CLOSE:
-            return 'fa-check';
-          case DifferentialAction::ACTION_ACCEPT:
-            return 'fa-check-circle-o';
-          case DifferentialAction::ACTION_REJECT:
-            return 'fa-times-circle-o';
-          case DifferentialAction::ACTION_ABANDON:
-            return 'fa-plane';
-          case DifferentialAction::ACTION_RETHINK:
-            return 'fa-headphones';
-          case DifferentialAction::ACTION_REQUEST:
-            return 'fa-refresh';
-          case DifferentialAction::ACTION_RECLAIM:
-          case DifferentialAction::ACTION_REOPEN:
-            return 'fa-bullhorn';
-          case DifferentialAction::ACTION_CLAIM:
-          case DifferentialAction::ACTION_RESIGN:
-            return 'fa-flag';
-          default:
-            break;
-        }
-    }
-
-    return parent::getIcon();
   }
 
   public function shouldDisplayGroupWith(array $group) {
@@ -413,63 +152,6 @@ final class DifferentialTransaction
     }
 
     return false;
-  }
-
-
-  public function getColor() {
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        switch ($this->getNewValue()) {
-          case DifferentialAction::ACTION_CLOSE:
-          case DifferentialAction::ACTION_ABANDON:
-            return PhabricatorTransactions::COLOR_INDIGO;
-          case DifferentialAction::ACTION_ACCEPT:
-            return PhabricatorTransactions::COLOR_GREEN;
-          case DifferentialAction::ACTION_REJECT:
-          case DifferentialAction::ACTION_RETHINK:
-            return PhabricatorTransactions::COLOR_RED;
-          case DifferentialAction::ACTION_REQUEST:
-          case DifferentialAction::ACTION_RECLAIM:
-          case DifferentialAction::ACTION_REOPEN:
-            return PhabricatorTransactions::COLOR_SKY;
-          case DifferentialAction::ACTION_RESIGN:
-            return PhabricatorTransactions::COLOR_ORANGE;
-          case DifferentialAction::ACTION_CLAIM:
-            return PhabricatorTransactions::COLOR_YELLOW;
-        }
-    }
-
-
-    return parent::getColor();
-  }
-
-  public function getNoEffectDescription() {
-    switch ($this->getTransactionType()) {
-      case self::TYPE_ACTION:
-        switch ($this->getNewValue()) {
-          case DifferentialAction::ACTION_CLOSE:
-            return pht('This revision is already closed.');
-          case DifferentialAction::ACTION_ABANDON:
-            return pht('This revision has already been abandoned.');
-          case DifferentialAction::ACTION_RECLAIM:
-            return pht(
-              'You can not reclaim this revision because his revision is '.
-              'not abandoned.');
-          case DifferentialAction::ACTION_REOPEN:
-            return pht(
-              'You can not reopen this revision because this revision is '.
-              'not closed.');
-          case DifferentialAction::ACTION_RETHINK:
-            return pht('This revision already requires changes.');
-          case DifferentialAction::ACTION_CLAIM:
-            return pht(
-              'You can not commandeer this revision because you already own '.
-              'it.');
-        }
-        break;
-    }
-
-    return parent::getNoEffectDescription();
   }
 
   public function renderAsTextForDoorkeeper(
