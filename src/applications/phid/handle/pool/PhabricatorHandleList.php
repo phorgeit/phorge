@@ -59,21 +59,6 @@ final class PhabricatorHandleList
     return $this->handles[$phid];
   }
 
-
-  /**
-   * Get a handle from this list if it exists.
-   *
-   * This has similar semantics to @{function:idx}.
-   */
-  public function getHandleIfExists($phid, $default = null) {
-    if ($this->handles === null) {
-      $this->loadHandles();
-    }
-
-    return idx($this->handles, $phid, $default);
-  }
-
-
   /**
    * Create a new list with a subset of the PHIDs in this list.
    */
@@ -170,6 +155,11 @@ final class PhabricatorHandleList
 
   #[\ReturnTypeWillChange]
   public function offsetGet($offset) {
+
+    if ($offset == null) {
+      return PhabricatorObjectHandle::getInvalidHandle($offset);
+    }
+
     if ($this->handles === null) {
       $this->loadHandles();
     }

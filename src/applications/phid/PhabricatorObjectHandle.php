@@ -35,6 +35,14 @@ final class PhabricatorObjectHandle
   private $capabilities = array();
   private $userIsEnrolledInMultiFactor = false;
 
+  public static function getInvalidHandle($maybe_phid) {
+    $type = phid_get_type($maybe_phid);
+    return id(new self())
+      ->setType($type)
+      ->setPHID($maybe_phid);
+  }
+
+
   public function setIcon($icon) {
     $this->icon = $icon;
     return $this;

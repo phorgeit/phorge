@@ -152,7 +152,7 @@ abstract class PhabricatorModularTransactionType
     return $this;
   }
 
-  final protected function getViewer() {
+  final protected function getViewer(): PhabricatorUser {
     return $this->viewer;
   }
 
