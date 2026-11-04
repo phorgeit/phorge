@@ -161,11 +161,17 @@ final class AphrontDialogView
     return $this;
   }
 
+  /**
+   * Set the id attribute for the <form> HTML element
+   */
   public function setFormID($id) {
     $this->formID = $id;
     return $this;
   }
 
+  /**
+   * @param string $width One of the WIDTH_* constants in AphrontDialogView
+   */
   public function setWidth($width) {
     $this->width = $width;
     return $this;
@@ -354,10 +360,13 @@ final class AphrontDialogView
       $classes[] = 'aphront-dialog-object-list';
     }
 
+    $dialog_id = celerity_generate_unique_node_id();
+
     $attributes = array(
       'class'   => implode(' ', $classes),
       'sigil'   => 'jx-dialog',
       'role'    => 'dialog',
+      'aria-labelledby' => $dialog_id,
     );
 
     $form_attributes = array(
@@ -416,6 +425,7 @@ final class AphrontDialogView
 
     $header = id(new PHUIHeaderView())
       ->setViewer($this->getViewer())
+      ->setID($dialog_id)
       ->setHeader($this->title);
 
     $footer = null;
