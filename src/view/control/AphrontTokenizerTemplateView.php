@@ -8,11 +8,17 @@ final class AphrontTokenizerTemplateView extends AphrontView {
   private $browseURI;
   private $initialValue;
 
+  /**
+   * @param string $browse_uri /typeahead/browse/* URI of a datasource
+   */
   public function setBrowseURI($browse_uri) {
     $this->browseURI = $browse_uri;
     return $this;
   }
 
+  /**
+   * @param string $id HTML id of the tokenizer div container
+   */
   public function setID($id) {
     $this->id = $id;
     return $this;
@@ -31,6 +37,9 @@ final class AphrontTokenizerTemplateView extends AphrontView {
     return $this->value;
   }
 
+  /**
+   * @param string $name Field name
+   */
   public function setName($name) {
     $this->name = $name;
     return $this;
@@ -49,6 +58,9 @@ final class AphrontTokenizerTemplateView extends AphrontView {
     return $this->initialValue;
   }
 
+  /**
+   * @return PhutilSafeHTML
+   */
   public function render() {
     require_celerity_resource('aphront-tokenizer-control-css');
 
@@ -85,6 +97,7 @@ final class AphrontTokenizerTemplateView extends AphrontView {
       ->setTag('a')
       ->setIcon('fa-search')
       ->addClass('tokenizer-browse-button')
+      ->setAuralLabel('Browse')
       ->setColor(PHUIButtonView::GREY)
       ->addSigil('tokenizer-browse');
 
