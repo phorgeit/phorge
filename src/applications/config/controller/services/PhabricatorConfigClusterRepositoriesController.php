@@ -392,7 +392,7 @@ final class PhabricatorConfigClusterRepositoriesController
         phutil_tag(
           'a',
           array(
-            'href' => $repository->getPathURI('manage/status/'),
+            'href' => $repository->getPathURI('manage/'),
           ),
           $message->getStatusTypeName()),
       );
