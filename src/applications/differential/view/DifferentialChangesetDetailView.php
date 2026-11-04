@@ -237,6 +237,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
       ->setColor(PHUIButtonView::GREY)
       ->setIcon('fa-clipboard')
       ->setHref('#')
+      ->setAuralLabel(pht('Copy file path'))
       ->addSigil('clipboard-copy')
       ->addSigil('has-tooltip')
       ->setMetadata(
