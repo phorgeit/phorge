@@ -29,7 +29,9 @@ final class PhutilTranslatedHTMLTestCase extends PhutilTestCase {
       $when);
     $this->assertTrue($translation instanceof PhutilSafeHTML);
     $this->assertEqual(
-      '<span>Abraham</span> awoke <strong>suddenly</strong> at &lt;4 AM&gt;.',
+      '<span>Abraham</span> awoke '.
+      '&lt;strong&gt;suddenly&lt;/strong&gt; '.
+      'at &lt;4 AM&gt;.',
       $translation->getHTMLContent());
 
     $translation = $translator->translate(
@@ -37,7 +39,9 @@ final class PhutilTranslatedHTMLTestCase extends PhutilTestCase {
       $who,
       new PhutilNumber(1383930802));
     $this->assertEqual(
-      '<span>Abraham</span> awoke <strong>suddenly</strong> at 1,383,930,802.',
+      '<span>Abraham</span> awoke '.
+      '&lt;strong&gt;suddenly&lt;/strong&gt; '.
+      'at 1,383,930,802.',
       $translation->getHTMLContent());
 
     // In this translation, we have no alternatives for the first conversion.
