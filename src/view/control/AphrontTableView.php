@@ -281,7 +281,6 @@ final class AphrontTableView extends AphrontView {
       foreach ($data as $row) {
         $is_divider = !empty($dividers[$row_num]);
 
-        $row_size = count($row);
         while (count($row) > count($col_classes)) {
           $col_classes[] = null;
         }

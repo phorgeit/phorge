@@ -36,8 +36,6 @@ final class PhabricatorProjectListView extends AphrontView {
     $viewer_phid = $viewer->getPHID();
     $projects = $this->getProjects();
 
-    $handles = $viewer->loadHandles(mpull($projects, 'getPHID'));
-
     $no_data = pht('No projects found.');
     if ($this->noDataString) {
       $no_data = $this->noDataString;

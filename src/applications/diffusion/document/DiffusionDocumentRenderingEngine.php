@@ -18,7 +18,6 @@ final class DiffusionDocumentRenderingEngine
     PhabricatorDocumentRef $ref,
     PhabricatorDocumentEngine $engine) {
 
-    $file = $ref->getFile();
     $engine_key = $engine->getDocumentEngineKey();
     $drequest = $this->getDiffusionRequest();
 

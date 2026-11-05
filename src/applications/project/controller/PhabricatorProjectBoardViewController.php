@@ -20,7 +20,6 @@ final class PhabricatorProjectBoardViewController
 
     $project = $this->getProject();
     $state = $this->getViewState();
-    $board_uri = $project->getWorkboardURI();
 
     $search_engine = $state->getSearchEngine();
     $query_key = $state->getQueryKey();

@@ -13,7 +13,6 @@ final class PhabricatorProjectColumnViewQueryController
 
     $project = $this->getProject();
     $state = $this->getViewState();
-    $board_uri = $state->newWorkboardURI();
 
     // NOTE: We're performing layout without handing the "LayoutEngine" any
     // object PHIDs. We only want to get access to the column object the user

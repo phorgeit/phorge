@@ -148,9 +148,6 @@ final class PhabricatorFileLinkView extends AphrontTagView {
 
     $download_uri = $this->getFileDownloadURI();
     if ($download_uri) {
-      $dl_icon = id(new PHUIIconView())
-        ->setIcon('fa-download');
-
       $download_link = phutil_tag(
         'a',
         array(

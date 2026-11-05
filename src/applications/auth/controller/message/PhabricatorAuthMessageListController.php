@@ -6,9 +6,6 @@ final class PhabricatorAuthMessageListController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $can_manage = $this->hasApplicationCapability(
-      AuthManageProvidersCapability::CAPABILITY);
-
     $types = PhabricatorAuthMessageType::getAllMessageTypes();
 
     $messages = id(new PhabricatorAuthMessageQuery())

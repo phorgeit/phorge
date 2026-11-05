@@ -31,7 +31,6 @@ final class PhabricatorApplicationEditHTTPParameterHelpView
   }
 
   public function render() {
-    $object = $this->getObject();
     $fields = $this->getFields();
 
     $uri = 'https://phorge.example.com/application/edit/';

@@ -14,7 +14,6 @@ final class PhabricatorSearchApplicationStorageEnginePanel
 
   public function buildConfigurationPagePanel() {
     $viewer = $this->getViewer();
-    $application = $this->getApplication();
 
     $services = PhabricatorSearchService::getAllServices();
 

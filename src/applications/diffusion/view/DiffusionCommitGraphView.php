@@ -162,8 +162,6 @@ final class DiffusionCommitGraphView
 
     $items = $this->newHistoryItems();
     foreach ($items as $hash => $item) {
-      $content = array();
-
       $commit = $item['commit'];
 
       $commit_description = $this->getCommitDescription($commit);

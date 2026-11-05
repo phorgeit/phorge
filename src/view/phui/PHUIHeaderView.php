@@ -470,7 +470,6 @@ final class PHUIHeaderView extends AphrontTagView {
     // NOTE: We'll do this even if the viewer has access to only one space, and
     // show them information about the existence of spaces if they click
     // through.
-    $use_space_policy = false;
     if ($object instanceof PhabricatorSpacesInterface) {
       $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
         $object);
@@ -485,7 +484,6 @@ final class PHUIHeaderView extends AphrontTagView {
         if ($space_policy) {
           if ($space_policy->isStrongerThan($policy)) {
             $policy = $space_policy;
-            $use_space_policy = true;
           }
         }
       }

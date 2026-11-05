@@ -5,7 +5,6 @@ final class PhabricatorConfigSettingsHistoryController
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
-    $id = $request->getURIData('id');
 
     $xactions = id(new PhabricatorConfigTransactionQuery())
       ->setViewer($viewer)

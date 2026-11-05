@@ -70,7 +70,6 @@ final class ManiphestTaskListView extends ManiphestView {
         $item->addByline(pht('Assigned: %s', $owner->renderLink()));
       }
 
-      $status = $task->getStatus();
       $pri = idx($priority_map, $task->getPriority());
       $status_name = idx($status_map, $task->getStatus());
       $tooltip = pht('%s, %s', $status_name, $pri);

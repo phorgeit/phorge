@@ -74,8 +74,6 @@ final class DiffusionCloneController extends DiffusionController {
           pht('View Alternatives')),
       );
 
-      $messages = array($message);
-
       $warning = id(new PHUIInfoView())
         ->setSeverity(PHUIInfoView::SEVERITY_WARNING)
         ->setErrors(array($message));

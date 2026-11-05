@@ -792,7 +792,6 @@ final class ManiphestTaskDetailController extends ManiphestController {
     foreach ($objects as $object) {
       $repository_phid = $object['repositoryPHID'];
       if ($repository_phid !== $last_repository) {
-        $repository_link = null;
         if ($repository_phid) {
           $repository_handle = $handles[$repository_phid];
           $rows[] = array(
