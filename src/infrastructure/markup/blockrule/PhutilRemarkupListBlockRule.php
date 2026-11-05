@@ -255,8 +255,6 @@ final class PhutilRemarkupListBlockRule extends PhutilRemarkupBlockRule {
         'mark'  => $mark,
       );
     }
-    $items = array_values($items);
-
 
     // Users can create a sub-list by indenting any deeper amount than the
     // previous list, so these are both valid:

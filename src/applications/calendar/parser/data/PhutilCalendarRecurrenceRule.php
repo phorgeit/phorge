@@ -1546,7 +1546,6 @@ final class PhutilCalendarRecurrenceRule
     }
 
     sort($result);
-    $result = array_values($result);
 
     return array($ii, $result);
   }

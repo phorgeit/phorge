@@ -208,6 +208,9 @@ abstract class PhabricatorApplication
     return null;
   }
 
+  /**
+   * @return list<PhabricatorActionView>
+   */
   final public function getHelpMenuItems(PhabricatorUser $viewer) {
     $items = array();
 
@@ -248,7 +251,7 @@ abstract class PhabricatorApplication
       array_unshift($items, $divider);
     }
 
-    return array_values($items);
+    return $items;
   }
 
   public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
