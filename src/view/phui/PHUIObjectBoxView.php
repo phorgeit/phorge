@@ -99,6 +99,9 @@ final class PHUIObjectBoxView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param AphrontView $list
+   */
   public function setObjectList($list) {
     $this->objectList = $list;
     return $this;

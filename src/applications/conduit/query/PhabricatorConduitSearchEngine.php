@@ -126,75 +126,77 @@ final class PhabricatorConduitSearchEngine
    * @param array<ConduitAPIMethod> $methods
    * @param PhabricatorSavedQuery $query
    * @param array<PhabricatorObjectHandle> $handles
+   * @return PhabricatorApplicationSearchResultView
    */
   protected function renderResultList(
     array $methods,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($methods, ConduitAPIMethod::class);
 
+    assert_instances_of($methods, ConduitAPIMethod::class);
     $viewer = $this->requireViewer();
 
-    $out = array();
+    $app_groups = mgroup($methods, 'getApplicationName');
 
-    $last = null;
-    $list = null;
-    foreach ($methods as $method) {
-      $app = $method->getApplicationName();
-      if ($app !== $last) {
-        $last = $app;
-        if ($list) {
-          $out[] = $list;
-        }
-        $list = id(new PHUIObjectItemListView())
-          ->setViewer($viewer)
-          ->setHeader($app);
+    $status_map = array(
+      ConduitAPIMethod::METHOD_STATUS_UNSTABLE => array(
+        'icon' => 'fa-warning',
+        'label' => pht('Unstable'),
+        'color' => 'yellow',
+      ),
+      ConduitAPIMethod::METHOD_STATUS_DEPRECATED => array(
+        'icon' => 'fa-warning',
+        'label' => pht('Deprecated'),
+        'color' => 'red',
+      ),
+      ConduitAPIMethod::METHOD_STATUS_FROZEN => array(
+        'icon' => 'fa-archive',
+        'label' => pht('Frozen'),
+        'color' => 'grey',
+      ),
+    );
 
-        $app_object = $method->getApplication();
-        if ($app_object) {
-          $app_name = $app_object->getName();
-        } else {
-          $app_name = $app;
-        }
+    $lists = array();
+    foreach ($app_groups as $app => $app_methods) {
+      if (!$app_methods) {
+        continue;
       }
+      $first_method = head($app_methods);
+      $app_name = $first_method->getApplicationName();
 
-      $method_name = $method->getAPIMethodName();
+      $app_header = id(new PHUIHeaderView())
+        ->setHeader($app_name);
+      $list = id(new PHUIObjectItemListView())
+        ->setViewer($viewer);
 
-      $summary = new PHUIRemarkupView($viewer, $method->getMethodSummary());
+      foreach ($app_methods as $method) {
+        $method_name = $method->getAPIMethodName();
 
-      $item = id(new PHUIObjectItemView())
-        ->setHeader($method_name)
-        ->setHref($this->getApplicationURI('method/'.$method_name.'/'))
-        ->addAttribute($summary);
+        $summary = new PHUIRemarkupView($viewer, $method->getMethodSummary());
 
-      switch ($method->getMethodStatus()) {
-        case ConduitAPIMethod::METHOD_STATUS_STABLE:
-          break;
-        case ConduitAPIMethod::METHOD_STATUS_UNSTABLE:
-          $item->addIcon('fa-warning', pht('Unstable'));
-          $item->setStatusIcon('fa-warning yellow');
-          break;
-        case ConduitAPIMethod::METHOD_STATUS_DEPRECATED:
-          $item->addIcon('fa-warning', pht('Deprecated'));
-          $item->setStatusIcon('fa-warning red');
-          break;
-        case ConduitAPIMethod::METHOD_STATUS_FROZEN:
-          $item->addIcon('fa-archive', pht('Frozen'));
-          $item->setStatusIcon('fa-archive grey');
-          break;
+        $item = id(new PHUIObjectItemView())
+          ->setHeader($method_name)
+          ->setHref($this->getApplicationURI('method/'.$method_name.'/'))
+          ->addAttribute($summary);
+
+        $status = $method->getMethodStatus();
+        if (isset($status_map[$status])) {
+          $status_info = $status_map[$status];
+
+          $item->addIcon($status_info['icon'], $status_info['label']);
+          $item->setStatusIcon($status_info['icon'].' '.$status_info['color']);
+        }
+
+        $list->addItem($item);
+
       }
-
-      $list->addItem($item);
+      $lists[] = id(new PHUIObjectBoxView())
+        ->setHeader($app_header)
+        ->setObjectList($list);
     }
 
-    if ($list) {
-      $out[] = $list;
-    }
-
-    $result = new PhabricatorApplicationSearchResultView();
-    $result->setContent($out);
-
-    return $result;
+    return id(new PhabricatorApplicationSearchResultView())
+      ->setContent($lists);
   }
 
 }
