@@ -52,37 +52,33 @@ final class PhabricatorFilesCurtainExtension
         ->setHandle($handle);
 
       $file = $attachment->getFile();
-      if (!$file) {
-        // ...
-      } else {
-        if (!$attachment->isPolicyAttachment()) {
-          $file_policies = PhabricatorPolicyQuery::loadPolicies(
-            $viewer,
-            $file);
-          $file_policy = idx($file_policies, $view_capability);
+      if ($file && !$attachment->isPolicyAttachment()) {
+        $file_policies = PhabricatorPolicyQuery::loadPolicies(
+          $viewer,
+          $file);
+        $file_policy = idx($file_policies, $view_capability);
 
-          if ($object_policy->isStrongerThanOrEqualTo($file_policy)) {
-            // The file is not attached to the object, but the file policy
-            // allows anyone who can see the object to see the file too, so
-            // there is no material problem with the file not being attached.
-          } else {
-            $attach_uri = urisprintf(
-              '/file/ui/curtain/attach/%s/%s/',
-              $object->getPHID(),
-              $file->getPHID());
+        if ($object_policy->isStrongerThanOrEqualTo($file_policy)) {
+          // The file is not attached to the object, but the file policy
+          // allows anyone who can see the object to see the file too, so
+          // there is no material problem with the file not being attached.
+        } else {
+          $attach_uri = urisprintf(
+            '/file/ui/curtain/attach/%s/%s/',
+            $object->getPHID(),
+            $file->getPHID());
 
-            $attached_link = javelin_tag(
-              'a',
-              array(
-                'href' => $attach_uri,
-                'sigil' => 'workflow',
-              ),
-              pht('File Not Attached'));
+          $attached_link = javelin_tag(
+            'a',
+            array(
+              'href' => $attach_uri,
+              'sigil' => 'workflow',
+            ),
+            pht('File Not Attached'));
 
-            $ref->setExiled(
-              true,
-              $attached_link);
-          }
+          $ref->setExiled(
+            true,
+            $attached_link);
         }
       }
 
