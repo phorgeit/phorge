@@ -66,14 +66,14 @@ final class PhabricatorProjectsEditEngineExtension
     $projects_datasource = id(new PhabricatorProjectDatasource())
       ->setViewer($viewer);
 
-    $edit_add = $projects_field->getConduitEditType(self::EDITKEY_ADD)
+    $projects_field->getConduitEditType(self::EDITKEY_ADD)
       ->setConduitDescription(pht('Add project tags.'));
 
-    $edit_set = $projects_field->getConduitEditType(self::EDITKEY_SET)
+    $projects_field->getConduitEditType(self::EDITKEY_SET)
       ->setConduitDescription(
         pht('Set project tags, overwriting current value.'));
 
-    $edit_rem = $projects_field->getConduitEditType(self::EDITKEY_REMOVE)
+    $projects_field->getConduitEditType(self::EDITKEY_REMOVE)
       ->setConduitDescription(pht('Remove project tags.'));
 
     $projects_field->getBulkEditType(self::EDITKEY_ADD)

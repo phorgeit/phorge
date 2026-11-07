@@ -61,14 +61,14 @@ final class PhabricatorSubscriptionsEditEngineExtension
     $subscriber_datasource = id(new PhabricatorMetaMTAMailableDatasource())
       ->setViewer($viewer);
 
-    $edit_add = $subscribers_field->getConduitEditType(self::EDITKEY_ADD)
+    $subscribers_field->getConduitEditType(self::EDITKEY_ADD)
       ->setConduitDescription(pht('Add subscribers.'));
 
-    $edit_set = $subscribers_field->getConduitEditType(self::EDITKEY_SET)
+    $subscribers_field->getConduitEditType(self::EDITKEY_SET)
       ->setConduitDescription(
         pht('Set subscribers, overwriting current value.'));
 
-    $edit_rem = $subscribers_field->getConduitEditType(self::EDITKEY_REMOVE)
+    $subscribers_field->getConduitEditType(self::EDITKEY_REMOVE)
       ->setConduitDescription(pht('Remove subscribers.'));
 
     $subscribers_field->getBulkEditType(self::EDITKEY_ADD)
