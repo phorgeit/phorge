@@ -54,11 +54,6 @@ final class NuanceItemViewController extends NuanceController {
     $viewer = $this->getViewer();
     $id = $item->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $item,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
     $curtain = $this->newCurtainView($item);
 
     $curtain->addAction(

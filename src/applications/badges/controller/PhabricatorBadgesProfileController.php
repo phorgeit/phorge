@@ -57,11 +57,6 @@ abstract class PhabricatorBadgesProfileController
     $badge = $this->getBadge();
     $id = $badge->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $badge,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
     $nav = id(new AphrontSideNavFilterView())
       ->setBaseURI(new PhutilURI($this->getApplicationURI()));
 

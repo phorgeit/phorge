@@ -46,11 +46,6 @@ final class PonderQuestionViewController extends PonderController {
     $curtain = $this->buildCurtain($question);
     $details = $this->buildPropertySectionView($question);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $question,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
     $content_id = celerity_generate_unique_node_id();
     $timeline = $this->buildTransactionTimeline(
       $question,

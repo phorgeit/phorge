@@ -19,11 +19,6 @@ final class PhabricatorDashboardPanelViewController
       return new Aphront404Response();
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $panel,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
     $title = $panel->getMonogram().' '.$panel->getName();
     $crumbs = $this->buildApplicationCrumbs();
     $crumbs->addTextCrumb(

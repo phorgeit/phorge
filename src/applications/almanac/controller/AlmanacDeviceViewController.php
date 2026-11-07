@@ -145,11 +145,6 @@ final class AlmanacDeviceViewController
     $viewer = $this->getViewer();
     $device_phid = $device->getPHID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $device,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
     $keys = id(new PhabricatorAuthSSHKeyQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($device_phid))

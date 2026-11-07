@@ -520,11 +520,6 @@ final class PhabricatorApplicationTransactionCommentView
         ));
     }
 
-    $submit_button = id(new AphrontFormSubmitControl())
-      ->addClass('phui-comment-fullwidth-control')
-      ->addClass('phui-comment-submit-control')
-      ->setValue($this->getSubmitButtonName());
-
     $form
       ->appendChild($remarkup_control)
       ->appendChild(
