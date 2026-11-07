@@ -16,9 +16,6 @@ final class PhabricatorFilesCurtainExtension
   public function buildCurtainPanel($object) {
     $viewer = $this->getViewer();
 
-    $attachment_table = new PhabricatorFileAttachment();
-    $attachment_conn = $attachment_table->establishConnection('r');
-
     $exact_limit = 100;
     $visible_limit = 8;
 

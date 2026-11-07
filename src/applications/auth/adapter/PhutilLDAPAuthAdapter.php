@@ -372,8 +372,6 @@ final class PhutilLDAPAuthAdapter extends PhutilAuthAdapter {
 
 
   private function searchLDAPForRecord($dn) {
-    $conn = $this->establishConnection();
-
     $results = $this->searchLDAP('%Q', $dn);
 
     if (!$results) {

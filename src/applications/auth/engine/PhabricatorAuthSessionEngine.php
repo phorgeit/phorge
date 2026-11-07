@@ -244,9 +244,6 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       return self::KIND_ANONYMOUS.'/'.$session_key;
     }
 
-    $session_table = new PhabricatorAuthSession();
-    $conn_w = $session_table->establishConnection('w');
-
     // This has a side effect of validating the session type.
     $session_ttl = PhabricatorAuthSession::getSessionTypeTTL(
       $session_type,
