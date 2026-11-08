@@ -33,8 +33,6 @@ final class HeraldTranscriptController extends HeraldController {
 
     $navigation = $this->newSideNavView($xscript, $view_key);
 
-    $object = $xscript->getObject();
-
     require_celerity_resource('herald-test-css');
     $content = array();
 

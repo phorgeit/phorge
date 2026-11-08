@@ -67,7 +67,6 @@ final class PhabricatorAsanaAuthProvider
      return null;
     }
 
-    $context_id = $matches[1];
     $task_id = $matches[2];
 
     return id(new DoorkeeperURIRef())

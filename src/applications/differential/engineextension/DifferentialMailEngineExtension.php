@@ -33,7 +33,6 @@ final class DifferentialMailEngineExtension
   }
 
   public function newMailStamps($object, array $xactions) {
-    $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
     $revision = id(new DifferentialRevisionQuery())

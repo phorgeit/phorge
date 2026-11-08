@@ -78,7 +78,6 @@ final class PhabricatorDaemonLogQuery
     $status_unknown = PhabricatorDaemonLog::STATUS_UNKNOWN;
     $status_wait = PhabricatorDaemonLog::STATUS_WAIT;
     $status_exiting = PhabricatorDaemonLog::STATUS_EXITING;
-    $status_exited = PhabricatorDaemonLog::STATUS_EXITED;
     $status_dead = PhabricatorDaemonLog::STATUS_DEAD;
 
     $filter = array_fuse($this->getStatusConstants());

@@ -784,7 +784,6 @@ final class DifferentialRevisionViewController
   private function buildCurtain(DifferentialRevision $revision) {
     $viewer = $this->getViewer();
     $revision_id = $revision->getID();
-    $revision_phid = $revision->getPHID();
     $curtain = $this->newCurtainView($revision);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(

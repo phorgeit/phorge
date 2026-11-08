@@ -51,7 +51,6 @@ final class PhabricatorCalendarExportViewController
   private function buildHeaderView(
     PhabricatorCalendarExport $export) {
     $viewer = $this->getViewer();
-    $id = $export->getID();
 
     if ($export->getIsDisabled()) {
       $icon = 'fa-ban';

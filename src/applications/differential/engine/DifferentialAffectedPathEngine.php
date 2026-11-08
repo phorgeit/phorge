@@ -26,7 +26,6 @@ final class DifferentialAffectedPathEngine
 
   public function updateAffectedPaths() {
     $revision = $this->getRevision();
-    $diff = $this->getDiff();
     $repository = $revision->getRepository();
 
     if ($repository) {

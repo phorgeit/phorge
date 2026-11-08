@@ -65,9 +65,6 @@ final class NuanceSourceViewController
     $viewer = $this->getViewer();
     $id = $source->getID();
 
-    $actions = id(new PhabricatorActionListView())
-      ->setUser($viewer);
-
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
       $source,

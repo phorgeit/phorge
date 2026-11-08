@@ -22,7 +22,6 @@ final class PhabricatorProjectBoardReloadController
 
     $project = $this->getProject();
     $state = $this->getViewState();
-    $board_uri = $state->newWorkboardURI();
 
     $board_phid = $project->getPHID();
 

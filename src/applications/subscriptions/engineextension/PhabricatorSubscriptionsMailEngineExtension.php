@@ -18,7 +18,6 @@ final class PhabricatorSubscriptionsMailEngineExtension
   }
 
   public function newMailStamps($object, array $xactions) {
-    $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
     $subscriber_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(

@@ -18,7 +18,6 @@ final class PhabricatorEditEngineConfigurationViewController
     $is_concrete = (bool)$config->getID();
 
     $curtain = $this->buildCurtainView($config);
-    $properties = $this->buildPropertyView($config);
 
     $header = id(new PHUIHeaderView())
       ->setUser($viewer)
@@ -218,16 +217,6 @@ final class PhabricatorEditEngineConfigurationViewController
         ->setDisabled(!$can_edit));
 
     return $curtain;
-  }
-
-  private function buildPropertyView(
-    PhabricatorEditEngineConfiguration $config) {
-    $viewer = $this->getViewer();
-
-    $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
-
-    return $properties;
   }
 
   private function buildFieldList(PhabricatorEditEngineConfiguration $config) {

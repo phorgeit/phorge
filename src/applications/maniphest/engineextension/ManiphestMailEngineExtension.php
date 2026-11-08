@@ -33,7 +33,6 @@ final class ManiphestMailEngineExtension
   }
 
   public function newMailStamps($object, array $xactions) {
-    $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
     $this->getMailStamp('author')

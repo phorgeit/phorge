@@ -18,7 +18,6 @@ final class PhabricatorSpacesMailEngineExtension
   }
 
   public function newMailStamps($object, array $xactions) {
-    $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
     if (!PhabricatorSpacesNamespaceQuery::getSpacesExist()) {

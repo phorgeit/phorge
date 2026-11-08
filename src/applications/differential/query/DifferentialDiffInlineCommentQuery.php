@@ -20,12 +20,14 @@ final class DifferentialDiffInlineCommentQuery
 
   protected function buildInlineCommentWhereClauseParts(
     AphrontDatabaseConnection $conn) {
+
     $where = array();
     $alias = $this->getPrimaryTableAlias();
 
     $where[] = qsprintf(
       $conn,
-      'changesetID IS NOT NULL');
+      '%T.changesetID IS NOT NULL',
+      $alias);
 
     return $where;
   }

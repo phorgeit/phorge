@@ -59,8 +59,6 @@ abstract class PhabricatorConfigServicesController
   }
 
   public function newCrumbs() {
-    $services_uri = $this->getApplicationURI('cluster/databases/');
-
     return $this->buildApplicationCrumbs()
       ->addTextCrumb(pht('Services'))
       ->setBorder(true);

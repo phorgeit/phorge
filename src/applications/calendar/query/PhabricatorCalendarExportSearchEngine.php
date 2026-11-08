@@ -112,8 +112,6 @@ final class PhabricatorCalendarExportSearchEngine
       ->setHref($doc_href)
       ->setColor(PHUIButtonView::GREEN);
 
-    $icon = $this->getApplication()->getIcon();
-    $app_name =  $this->getApplication()->getName();
     $view = id(new PHUIBigInfoView())
       ->setIcon('fa-download')
       ->setTitle(pht('No Exports Configured'))

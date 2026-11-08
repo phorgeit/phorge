@@ -280,8 +280,6 @@ final class DiffusionBrowseController extends DiffusionController {
     $drequest = $this->getDiffusionRequest();
     $repository = $drequest->getRepository();
 
-    $reason = $results->getReasonForEmptyResultSet();
-
     $this->buildActionButtons($drequest, true);
     $details = $this->buildPropertyView($drequest);
 

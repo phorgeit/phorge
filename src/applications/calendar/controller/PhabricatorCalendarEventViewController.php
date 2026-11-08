@@ -602,8 +602,8 @@ final class PhabricatorCalendarEventViewController
     $host = $viewer->renderHandle($host_phid);
     $host = phutil_tag('strong', array(), $host);
 
-    $image_uri = $handles[$host_phid]->getImageURI();
-    $image_href = $handles[$host_phid]->getURI();
+    $image_uri = $handle->getImageURI();
+    $image_href = $handle->getURI();
 
     $date = $event->renderEventDate($viewer, true);
 

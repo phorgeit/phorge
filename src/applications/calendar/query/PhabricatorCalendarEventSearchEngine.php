@@ -470,8 +470,6 @@ final class PhabricatorCalendarEventSearchEngine
 
     $day_view->setUser($viewer);
 
-    $phids = mpull($events, 'getHostPHID');
-
     foreach ($events as $event) {
       $can_edit = PhabricatorPolicyFilter::hasCapability(
         $viewer,

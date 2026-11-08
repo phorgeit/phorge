@@ -48,9 +48,6 @@ final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
       'packageID IN (%Ls)',
       $package_ids);
 
-    $type_user = PhabricatorPeopleUserPHIDType::TYPECONST;
-    $type_project = PhabricatorProjectProjectPHIDType::TYPECONST;
-
     $user_phids = array();
     $project_phids = array();
     foreach ($owners as $owner) {

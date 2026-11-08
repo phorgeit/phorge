@@ -552,8 +552,8 @@ final class PhutilSearchQueryCompiler
   private function quoteToken($value) {
     $operators = $this->operators;
 
-    $open_quote = $this->operators[10];
-    $close_quote = $this->operators[11];
+    $open_quote = $operators[10];
+    $close_quote = $operators[11];
 
     return $open_quote.$value.$close_quote;
   }

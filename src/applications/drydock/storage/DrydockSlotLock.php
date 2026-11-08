@@ -91,9 +91,6 @@ final class DrydockSlotLock extends DrydockDAO {
       return array();
     }
 
-    $table = new self();
-    $conn_r = $table->establishConnection('r');
-
     $indexes = array();
     foreach ($locks as $lock) {
       $indexes[] = PhabricatorHash::digestForIndex($lock);

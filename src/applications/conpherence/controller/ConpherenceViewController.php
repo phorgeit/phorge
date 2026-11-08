@@ -127,8 +127,7 @@ final class ConpherenceViewController extends
       ->setRole('thread');
 
     $participating = $conpherence->getParticipantIfExists($user->getPHID());
-
-    if (!$user->isLoggedIn()) {
+    if (!$participating) {
       $layout->addClass('conpherence-no-pontificate');
     }
 
