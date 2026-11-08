@@ -284,7 +284,12 @@ final class PhabricatorConfigConsoleController
 
       $upstream_future = idx($upstream_futures, $lib);
       if ($upstream_future) {
-        list($stdout, $err) = $upstream_future->resolvex();
+        try {
+          list($stdout, $err) = $upstream_future->resolvex();
+        } catch (CommandException $e) {
+          $this->logGitErrorWithPotentialTips($e, $lib);
+          $err = true;
+        }
         if (!$err) {
           $branchpoint = trim($stdout);
           if (strlen($branchpoint)) {
