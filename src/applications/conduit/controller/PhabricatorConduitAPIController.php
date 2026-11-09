@@ -691,6 +691,12 @@ final class PhabricatorConduitAPIController
       }
 
       $metadata = idx($params, '__conduit__', array());
+      if (!is_array($metadata)) {
+        throw new ConduitException(
+          pht(
+            "Parameter '%s' must be a valid JSON dictionary.",
+            '__conduit__'));
+      }
       unset($params['__conduit__']);
 
       return array($metadata, $params, true);
@@ -713,6 +719,12 @@ final class PhabricatorConduitAPIController
       }
 
       $metadata = idx($params, '__conduit__', array());
+      if (!is_array($metadata)) {
+        throw new ConduitException(
+          pht(
+            "Parameter '%s' must be a valid JSON dictionary.",
+            '__conduit__'));
+      }
       unset($params['__conduit__']);
 
       return array($metadata, $params, true);
