@@ -6,7 +6,6 @@ final class PHUICMSView extends AphrontTagView {
   private $nav;
   private $crumbs;
   private $content;
-  private $comments;
 
   public function setHeader(PHUIHeaderView $header) {
     $this->header = $header;
@@ -28,10 +27,6 @@ final class PHUICMSView extends AphrontTagView {
     return $this;
   }
 
-  public function setComments($comments) {
-    $this->comments = $comments;
-  }
-
   protected function getTagName() {
     return 'div';
   }
@@ -41,10 +36,6 @@ final class PHUICMSView extends AphrontTagView {
 
     $classes = array();
     $classes[] = 'phui-cms-view';
-
-    if ($this->comments) {
-      $classes[] = 'phui-cms-has-comments';
-    }
 
     return array(
         'class' => implode(' ', $classes),
@@ -64,21 +55,8 @@ final class PHUICMSView extends AphrontTagView {
         $this->content,
       ));
 
-    $comments = null;
-    if ($this->comments) {
-      $comments = phutil_tag(
-        'div',
-        array(
-          'class' => 'phui-cms-comments',
-        ),
-        array(
-          $this->comments,
-        ));
-    }
-
     $navigation = $this->nav;
     $navigation->appendChild($content);
-    $navigation->appendChild($comments);
 
     $page = phutil_tag(
       'div',
