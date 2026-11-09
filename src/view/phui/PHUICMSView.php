@@ -89,16 +89,6 @@ final class PHUICMSView extends AphrontTagView {
         $navigation,
       ));
 
-    $cms_view = phutil_tag(
-      'div',
-      array(
-        'class' => 'phui-cms-wrap',
-      ),
-      array(
-        $this->crumbs,
-        $page,
-      ));
-
     $classes = array();
     $classes[] = 'phui-cms-page';
 
@@ -107,6 +97,10 @@ final class PHUICMSView extends AphrontTagView {
       array(
         'class' => implode(' ', $classes),
       ),
-      $cms_view);
+      array(
+        $this->crumbs,
+        $page,
+      ));
+
   }
 }
