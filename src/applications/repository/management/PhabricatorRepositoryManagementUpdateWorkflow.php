@@ -175,7 +175,7 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
     // Clear the "importing" flag.
     $repository->openTransaction();
       $repository->beginReadLocking();
-        $repository = $repository->reload();
+        $repository->reload();
         $repository->setDetail('importing', false);
         $repository->save();
       $repository->endReadLocking();

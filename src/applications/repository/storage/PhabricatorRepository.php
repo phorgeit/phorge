@@ -2523,16 +2523,19 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return $service;
   }
 
+  /**
+   * @return $this
+   */
   public function markImporting() {
     $this->openTransaction();
       $this->beginReadLocking();
-        $repository = $this->reload();
-        $repository->setDetail('importing', true);
-        $repository->save();
+        $this->reload();
+        $this->setDetail('importing', true);
+        $this->save();
       $this->endReadLocking();
     $this->saveTransaction();
 
-    return $repository;
+    return $this;
   }
 
 
