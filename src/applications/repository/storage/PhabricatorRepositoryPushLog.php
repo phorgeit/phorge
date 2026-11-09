@@ -171,13 +171,34 @@ final class PhabricatorRepositoryPushLog
     return $this;
   }
 
+  /**
+   * Get the old reference, shortened.
+   *
+   * @return string|null Get the old reference, shortened, as a string.
+   *                     Or, get the old reference, as-is, when it cannot be
+   *                     shortened.
+   *                     Or, get null, when the old reference is null.
+   */
   public function getRefOldShort() {
+    // Return null as-is, instead of shortening it.
+    if ($this->getRefOld() === null) {
+        return null;
+    }
+
+    // Subversion revisions are progressive numbers. Return as-is.
     if ($this->getRepository()->isSVN()) {
       return $this->getRefOld();
     }
+
+    // Git and Mercurial references are safe to be truncated.
     return substr($this->getRefOld(), 0, 12);
   }
 
+  /**
+   * Get the new reference, shortened.
+   *
+   * @return string
+   */
   public function getRefNewShort() {
     if ($this->getRepository()->isSVN()) {
       return $this->getRefNew();
