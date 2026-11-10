@@ -550,9 +550,11 @@ abstract class LiskDAO extends Phobject
 
 
   /**
-   * Reload an object from the database, discarding any changes to persistent
+   * Reload this object from the database, discarding any changes to persistent
    * properties. This is primarily useful after entering a transaction but
    * before applying changes to an object.
+   *
+   * The reload happens in place.
    *
    * @return $this
    *
@@ -564,6 +566,7 @@ abstract class LiskDAO extends Phobject
         pht("Unable to reload object that hasn't been loaded!"));
     }
 
+    // Positive side-effect: attributes are re-loaded.
     $result = $this->loadOneWhere(
       '%C = %d',
       $this->getIDKey(),
