@@ -100,7 +100,7 @@ final class FeedQueryConduitAPIMethod extends FeedConduitAPIMethod {
 
         try {
           $view = $story->renderView();
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
           // When stories fail to render, just fail that story.
           phlog($ex);
           continue;
