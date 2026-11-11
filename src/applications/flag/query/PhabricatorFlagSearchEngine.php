@@ -151,6 +151,9 @@ final class PhabricatorFlagSearchEngine
         'div',
         array(
           'class' => 'phabricator-flag-icon '.$class,
+          'aria-label' => pht(
+            'Flagged as %s',
+            PhabricatorFlagColor::getColorName($flag->getColor())),
         ),
         '');
 

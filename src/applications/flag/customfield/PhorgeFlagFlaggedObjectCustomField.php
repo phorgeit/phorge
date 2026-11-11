@@ -23,7 +23,15 @@ trait PhorgeFlagFlaggedObjectCustomField {
     }
 
     $flag_class = PhabricatorFlagColor::getCSSClass($this->flag->getColor());
-    $icon = phutil_tag_div('phabricator-flag-icon '.$flag_class);
+    $icon = phutil_tag(
+      'div',
+      array(
+        'class' => 'phabricator-flag-icon '.$flag_class,
+        'aria-label' => pht(
+          'Flagged as %s',
+          PhabricatorFlagColor::getColorName($this->flag->getColor())),
+        ),
+      null);
     $view->addHeadIcon($icon);
   }
 
