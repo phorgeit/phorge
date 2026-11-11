@@ -79,6 +79,13 @@ final class PhabricatorFileComposeController
     foreach ($color_map as $color => $info) {
       $quip = idx($info, 'quip');
 
+      $aural = javelin_tag(
+        'span',
+        array(
+          'aural' => true,
+        ),
+        pht('Use "%s"', $quip));
+
       $buttons[] = javelin_tag(
         'button',
         array(
@@ -89,14 +96,24 @@ final class PhabricatorFileComposeController
             'tip' => $quip,
           ),
         ),
-        id(new PHUIIconView())
-          ->addClass('compose-background-'.$color));
+        array(
+          $aural,
+          id(new PHUIIconView())
+            ->addClass('compose-background-'.$color),
+        ));
     }
 
 
     $icons = array();
     foreach ($icon_map as $icon => $spec) {
       $quip = idx($spec, 'quip');
+
+      $aural = javelin_tag(
+        'span',
+        array(
+          'aural' => true,
+        ),
+        pht('Use "%s"', $quip));
 
       $icons[] = javelin_tag(
         'button',
@@ -108,9 +125,12 @@ final class PhabricatorFileComposeController
             'tip' => $quip,
           ),
         ),
-        id(new PHUIIconView())
-          ->setIcon($icon)
-          ->addClass('compose-icon-bg'));
+        array(
+          $aural,
+          id(new PHUIIconView())
+            ->setIcon($icon)
+            ->addClass('compose-icon-bg'),
+        ));
     }
 
     $dialog_id = celerity_generate_unique_node_id();
