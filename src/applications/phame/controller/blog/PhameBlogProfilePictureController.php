@@ -144,13 +144,22 @@ final class PhameBlogProfilePictureController
             'size' => 300,
           ),
         ),
-        phutil_tag(
-          'img',
-          array(
-            'height' => 50,
-            'width' => 50,
-            'src' => $spec['uri'],
-          )));
+        array(
+          javelin_tag(
+            'span',
+            array(
+              'aural' => true,
+            ),
+            pht('Use "%s"', $spec['tip'])),
+          phutil_tag(
+            'img',
+            array(
+              'height' => 50,
+              'width' => 50,
+              'src' => $spec['uri'],
+              'aria-hidden' => 'true',
+          )),
+        ));
 
       $button = array(
         phutil_tag(

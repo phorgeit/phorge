@@ -161,6 +161,13 @@ final class PhabricatorProjectEditPictureController
 
     $buttons = array();
     foreach ($images as $phid => $spec) {
+      $aural = javelin_tag(
+        'span',
+        array(
+          'aural' => true,
+        ),
+        pht('Use "%s"', $spec['tip']));
+
       $button = javelin_tag(
         'button',
         array(
@@ -171,13 +178,17 @@ final class PhabricatorProjectEditPictureController
             'size' => 300,
           ),
         ),
-        phutil_tag(
-          'img',
-          array(
-            'height' => 50,
-            'width' => 50,
-            'src' => $spec['uri'],
-          )));
+        array(
+          $aural,
+          phutil_tag(
+            'img',
+            array(
+              'height' => 50,
+              'width' => 50,
+              'src' => $spec['uri'],
+              'aria-hidden' => 'true',
+          )),
+        ));
 
       $button = array(
         phutil_tag(
@@ -323,13 +334,22 @@ final class PhabricatorProjectEditPictureController
           'size' => 300,
         ),
       ),
-      phutil_tag(
-        'img',
-        array(
-          'height' => 50,
-          'width' => 50,
-          'src' => $file_builtin->getBestURI(),
-        )));
+      array(
+        javelin_tag(
+          'span',
+          array(
+            'aural' => true,
+          ),
+          pht('Use Icon and Color')),
+        phutil_tag(
+          'img',
+          array(
+            'height' => 50,
+            'width' => 50,
+            'src' => $file_builtin->getBestURI(),
+            'aria-hidden' => 'true',
+        )),
+      ));
 
     $inputs = array(
       'projectPHID' => $project->getPHID(),
