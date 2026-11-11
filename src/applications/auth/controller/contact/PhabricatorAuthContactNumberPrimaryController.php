@@ -23,7 +23,6 @@ final class PhabricatorAuthContactNumberPrimaryController
       return new Aphront404Response();
     }
 
-    $id = $number->getID();
     $cancel_uri = $number->getURI();
 
     if ($number->isDisabled()) {

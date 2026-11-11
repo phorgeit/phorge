@@ -23,7 +23,6 @@ final class PhabricatorAuthContactNumberTestController
       return new Aphront404Response();
     }
 
-    $id = $number->getID();
     $cancel_uri = $number->getURI();
 
     // NOTE: This is a global limit shared by all users.

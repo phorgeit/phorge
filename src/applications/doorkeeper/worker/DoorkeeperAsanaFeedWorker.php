@@ -29,7 +29,6 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
     $data = $story->getStoryData();
 
     $viewer = $this->getViewer();
-    $provider = $this->getProvider();
     $workspace_id = $this->getWorkspaceID();
 
     $object = $this->getStoryObject();

@@ -226,7 +226,6 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
   }
 
   public function loadExpectedSchemaForServer(PhabricatorDatabaseRef $ref) {
-    $databases = $this->getDatabaseNames($ref);
     $info = $this->getAPI($ref)->getCharsetInfo();
 
     $specs = id(new PhutilClassMapQuery())

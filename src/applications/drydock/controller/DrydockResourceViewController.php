@@ -43,7 +43,6 @@ final class DrydockResourceViewController extends DrydockResourceController {
     $properties = $this->buildPropertyListView($resource);
 
     $id = $resource->getID();
-    $resource_uri = $this->getApplicationURI("resource/{$id}/");
 
     $log_query = id(new DrydockLogQuery())
       ->withResourcePHIDs(array($resource->getPHID()));

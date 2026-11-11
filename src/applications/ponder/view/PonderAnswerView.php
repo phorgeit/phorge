@@ -38,7 +38,6 @@ final class PonderAnswerView extends AphrontTagView {
     $answer = $this->answer;
     $viewer = $this->getUser();
     $status = $answer->getStatus();
-    $author_phid = $answer->getAuthorPHID();
     $actions = $this->buildAnswerActions();
     $handle = $this->handle;
     $id = $answer->getID();

@@ -103,7 +103,7 @@ final class DifferentialFileTreeEngine
           ->setHref('#'));
     $flank_view->setTail($tail_view);
 
-    $main_column = $formation_view->newContentColumn()
+    $formation_view->newContentColumn()
       ->appendChild($content);
 
     return $formation_view;

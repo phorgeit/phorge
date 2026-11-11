@@ -24,7 +24,6 @@ final class PhabricatorAuthContactNumberDisableController
     }
 
     $is_disable = ($request->getURIData('action') == 'disable');
-    $id = $number->getID();
     $cancel_uri = $number->getURI();
 
     if ($request->isFormOrHisecPost()) {

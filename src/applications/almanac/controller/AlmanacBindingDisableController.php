@@ -20,7 +20,6 @@ final class AlmanacBindingDisableController
       return new Aphront404Response();
     }
 
-    $id = $binding->getID();
     $is_disable = !$binding->getIsDisabled();
     $done_uri = $binding->getURI();
 

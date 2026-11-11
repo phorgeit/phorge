@@ -77,9 +77,6 @@ final class DrydockRepositoryOperationViewController
   }
 
   private function buildCurtain(DrydockRepositoryOperation $operation) {
-    $viewer = $this->getViewer();
-    $id = $operation->getID();
-
     $curtain = $this->newCurtainView($operation);
 
     return $curtain;

@@ -28,9 +28,6 @@ final class PhrictionHistoryController
       ->withDocumentPHIDs(array($document->getPHID()))
       ->executeWithCursorPager($pager);
 
-    $author_phids = mpull($history, 'getAuthorPHID');
-    $handles = $viewer->loadHandles($author_phids);
-
     $max_version = (int)$document->getMaxVersion();
     $current_version = $document->getContent()->getVersion();
 

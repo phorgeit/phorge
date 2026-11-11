@@ -21,7 +21,6 @@ final class PonderAnswerCommentController extends PonderController {
     $is_preview = $request->isPreviewRequest();
 
     $qid = $answer->getQuestion()->getID();
-    $aid = $answer->getID();
 
     // TODO, this behaves badly when redirecting to the answer
     $view_uri = "/Q{$qid}";

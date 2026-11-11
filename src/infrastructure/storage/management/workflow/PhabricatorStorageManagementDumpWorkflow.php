@@ -115,7 +115,6 @@ final class PhabricatorStorageManagementDumpWorkflow
     }
 
     $api = $this->getSingleAPI();
-    $patches = $this->getPatches();
 
     $applied = $api->getAppliedPatches();
     if ($applied === null) {

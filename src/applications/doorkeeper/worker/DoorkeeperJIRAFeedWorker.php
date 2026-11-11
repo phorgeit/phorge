@@ -24,11 +24,9 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
    * Publishes stories into JIRA using the JIRA API.
    */
   protected function publishFeedStory() {
-    $story = $this->getFeedStory();
     $viewer = $this->getViewer();
     $provider = $this->getProvider();
     $object = $this->getStoryObject();
-    $publisher = $this->getPublisher();
 
     $jira_issue_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),

@@ -8,7 +8,6 @@ final class PhabricatorApplicationUninstallTransaction
   public function generateOldValue($object) {
     $key = 'phabricator.uninstalled-applications';
     $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
-    $list = $config_entry->getValue();
     $uninstalled = PhabricatorEnv::getEnvConfig($key);
 
     if (isset($uninstalled[get_class($object)])) {

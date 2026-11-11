@@ -124,8 +124,6 @@ final class PhabricatorSlowvoteSearchEngine
     $list = id(new PHUIObjectItemListView())
       ->setUser($viewer);
 
-    $phids = mpull($polls, 'getAuthorPHID');
-
     foreach ($polls as $poll) {
       $date_created = phabricator_datetime($poll->getDateCreated(), $viewer);
       if ($poll->getAuthorPHID()) {

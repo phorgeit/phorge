@@ -145,12 +145,6 @@ EOTEXT
           $credential_phid));
     }
 
-    // When we pass "revision", the branch is ignored (and does not even need
-    // to exist), and only shows up in the UI. Use a cute string which will
-    // certainly never break anything or cause any kind of problem.
-    $ship = "\xF0\x9F\x9A\xA2";
-    $branch = "{$ship}Harbormaster";
-
     $token = $api_token->getSecret()->openEnvelope();
     $parts = array(
       'https://circleci.com/api/v1/project',
