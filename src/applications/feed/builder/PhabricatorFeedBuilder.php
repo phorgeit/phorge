@@ -55,7 +55,7 @@ final class PhabricatorFeedBuilder extends Phobject {
         $view = $story->renderView();
         $view->setViewer($user);
         $view = $view->render();
-      } catch (Exception $ex) {
+      } catch (Throwable $ex) {
         // If rendering failed for any reason, don't fail the entire feed,
         // just this one story.
         $view = id(new PHUIFeedStoryView())
