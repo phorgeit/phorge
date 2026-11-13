@@ -71,9 +71,8 @@ Beyond an operating system, you will need **a webserver**.
     works fine.
   - **Other**: Other webservers which can run PHP are also likely to work fine,
     although these installation instructions will not cover how to set them up.
-  - **PHP Builtin Server**: Phorge will not work with the builtin
-    webserver because Phorge depends on making requests to itself on some
-    workflows, and the builtin webserver is single-threaded.
+  - **PHP Builtin Server**: Phorge will work with the builtin webserver for
+    development, but it's a really poor choice for production.
 
 You will also need:
 
@@ -125,8 +124,6 @@ Here's a general description of what you need to install:
   - Optional PHP extensions: gd, zip, opcache, apcu
 
 If you already have LAMP setup, you've probably already got everything you need.
-It may also be helpful to refer to the install scripts above, even if they don't
-work for your system.
 
 Now that you have all that stuff installed, grab Phorge and its
 dependencies:
