@@ -118,7 +118,11 @@ abstract class PhabricatorConduitController extends PhabricatorController {
 
     $parts = array();
 
-    $parts[] = '$ echo ';
+    $parts[] = phutil_tag(
+      'span',
+      array('class' => 'conduit-api-command-prefix'),
+      '$ ');
+    $parts[] = 'echo ';
     if ($params === null) {
       $parts[] = phutil_tag('strong', array(), '<json-parameters>');
     } else {
@@ -216,7 +220,11 @@ abstract class PhabricatorConduitController extends PhabricatorController {
 
     $linebreak = array('\\', phutil_tag('br'), '    ');
 
-    $parts[] = '$ curl ';
+    $parts[] = phutil_tag(
+      'span',
+      array('class' => 'conduit-api-command-prefix'),
+      '$ ');
+    $parts[] = 'curl ';
     $parts[] = phutil_tag(
       'strong',
       array('class' => 'real'),
