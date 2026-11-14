@@ -49,9 +49,11 @@ final class PhorgeTransactionManagementListWorkflow
 
     $output_format = $args->getArg('output');
 
-    if ($args->getArg('user')) {
+    $by_user = $args->getArg('user');
+    if ($by_user) {
       $query = $this->transactionQueryForUser($args);
     } else {
+
       $object_name = $args->getArg('object');
 
       if (!$object_name) {
@@ -87,7 +89,13 @@ final class PhorgeTransactionManagementListWorkflow
       'phid' => array('title' => pht('Transaction PHID')),
       'date' => array('title' => pht('Date')),
       'groupId' => array('title' => pht('Group ID')),
-      'author' => array('title' => pht('Actor')),
+    );
+    if ($by_user) {
+      $table_columns['object'] = array('title' => pht('Object'));
+    } else {
+      $table_columns['author'] = array('title' => pht('Actor'));
+    }
+    $table_columns += array(
       'type' => array('title' => pht('Type')),
       'title' => array('title' => pht('Title')),
       'comment?' => array('title' => pht('Has Comment?')),
@@ -126,7 +134,7 @@ final class PhorgeTransactionManagementListWorkflow
       case 'json':
         $json = new PhutilJSON();
         PhutilConsole::getConsole()
-          ->writeOut($json->encodeAsList($rows));
+          ->writeOut('%s', $json->encodeAsList($rows));
         break;
 
       case 'table':
