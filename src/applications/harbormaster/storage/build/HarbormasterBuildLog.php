@@ -283,8 +283,11 @@ final class HarbormasterBuildLog
     return "/harbormaster/log/view/{$id}/";
   }
 
+  /**
+   * @param string|null $lines
+   */
   public function getRenderURI($lines) {
-    if (strlen($lines)) {
+    if (phutil_nonempty_string($lines)) {
       $lines = '$'.$lines;
     }
 
