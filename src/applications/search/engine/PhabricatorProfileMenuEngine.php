@@ -805,7 +805,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
           $view->setHref($this->getItemURI("edit/{$id}/"));
           $hide_uri = $this->getItemURI("hide/{$id}/");
         } else {
-          $view->setHref($this->getItemURI("builtin/{$builtin_key}/"));
+          // Avoid a 404 link as "Edit Favorites" is not editable itself
+          if ($builtin_key !== self::ITEM_MANAGE) {
+            $view->setHref($this->getItemURI("builtin/{$builtin_key}/"));
+          }
           $hide_uri = $this->getItemURI("hide/{$builtin_key}/");
         }
 
