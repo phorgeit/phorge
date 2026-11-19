@@ -213,7 +213,7 @@ final class PhabricatorAppSearchEngine
       }
 
       $list = id(new PHUIObjectItemListView())
-        ->setViewer($this->getRequest()->getViewer());
+        ->setViewer($this->requireViewer());
 
       foreach ($applications as $application) {
         $icon = $application->getIcon();
