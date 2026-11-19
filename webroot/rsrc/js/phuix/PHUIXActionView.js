@@ -130,11 +130,12 @@ JX.install('PHUIXActionView', {
           classes.push('action-has-icon');
         }
 
-        var content = [
-          this._buildIconNode(),
-          this._buildNameNode(),
-          this._buildKeyCommandNode(),
-        ];
+        var content = [];
+        if (this._icon) {
+          content.push(this._buildIconNode());
+        }
+        content.push(this._buildNameNode());
+        content.push(this._buildKeyCommandNode());
 
         var attr = {
           className: classes.join(' ')
