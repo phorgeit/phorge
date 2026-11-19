@@ -98,15 +98,15 @@ final class PhabricatorSetupIssueView extends AphrontView {
         "# Older Red Hat versions");
 
       $fallback_info = pht(
-        "If those commands don't work, try Google. The process of installing ".
-        "PHP extensions is not specific to this software, and any ".
+        "If those commands don't work, run an internet search. The process of ".
+        "installing PHP extensions is not specific to this software, and any ".
         "instructions you can find for installing them on your system should ".
         "work. On Mac OS X, you might want to try Homebrew.");
 
       $restart_info = pht(
-        'After installing new PHP extensions, <strong>restart everything '.
-        'for the changes to take effect</strong>. For help with restarting '.
-        'everything, see %s in the documentation.',
+        'After installing new PHP extensions, restart everything for the '.
+        'changes to take effect. For help with restarting everything, see '.
+        '%s in the documentation.',
         $this->renderRestartLink());
 
       $description[] = phutil_tag(
