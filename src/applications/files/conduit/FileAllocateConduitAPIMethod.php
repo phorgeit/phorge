@@ -26,7 +26,7 @@ final class FileAllocateConduitAPIMethod
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $viewer = $request->getUser();
+    $viewer = $request->getViewer();
 
     $hash = $request->getValue('contentHash');
     $name = $request->getValue('name');

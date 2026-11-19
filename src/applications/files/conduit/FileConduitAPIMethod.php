@@ -7,21 +7,10 @@ abstract class FileConduitAPIMethod extends ConduitAPIMethod {
       PhabricatorFilesApplication::class);
   }
 
-  protected function loadFileByPHID(PhabricatorUser $viewer, $file_phid) {
-    $file = id(new PhabricatorFileQuery())
-      ->setViewer($viewer)
-      ->withPHIDs(array($file_phid))
-      ->executeOne();
-    if (!$file) {
-      throw new Exception(pht('No such file "%s"!', $file_phid));
-    }
-
-    return $file;
-  }
-
   protected function loadFileChunks(
     PhabricatorUser $viewer,
     PhabricatorFile $file) {
+
     return $this->newChunkQuery($viewer, $file)
       ->execute();
   }

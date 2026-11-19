@@ -32,13 +32,22 @@ final class FileQueryChunksConduitAPIMethod
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $viewer = $request->getUser();
+    $viewer = $request->getViewer();
 
     $file_phid = $request->getValue('filePHID');
     if (!$file_phid) {
       throw new ConduitException('ERR-BAD-PHID');
     }
-    $file = $this->loadFileByPHID($viewer, $file_phid);
+
+    $file = id(new PhabricatorFileQuery())
+      ->setViewer($viewer)
+      ->withPHIDs(array($file_phid))
+      ->executeOne();
+    if (!$file) {
+      throw id(new ConduitException('ERR-BAD-PHID'))
+        ->setErrorDescription(pht('No such file "%s"!', $file_phid));
+    }
+
     $chunks = $this->loadFileChunks($viewer, $file);
 
     $results = array();

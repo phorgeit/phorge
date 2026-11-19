@@ -31,13 +31,25 @@ final class FileUploadChunkConduitAPIMethod
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $viewer = $request->getUser();
+    $viewer = $request->getViewer();
 
     $file_phid = $request->getValue('filePHID');
     if (!$file_phid) {
       throw new ConduitException('ERR-BAD-PHID');
     }
-    $file = $this->loadFileByPHID($viewer, $file_phid);
+
+    $file = id(new PhabricatorFileQuery())
+      ->setViewer($viewer)
+      ->requireCapabilities(
+        array(
+            PhabricatorPolicyCapability::CAN_VIEW,
+            PhabricatorPolicyCapability::CAN_EDIT,
+        ))
+      ->withPHIDs(array($file_phid))
+      ->executeOne();
+    if (!$file) {
+      throw new Exception(pht('No such file "%s"!', $file_phid));
+    }
 
     $start = $request->getValue('byteStart');
 
