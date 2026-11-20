@@ -445,6 +445,9 @@ final class PhabricatorUser
     return $this->getUserSetting(PhabricatorTranslationSetting::SETTINGKEY);
   }
 
+  /**
+   * @return string An identifier in a format like 'Continent/City' or 'UTC'.
+   */
   public function getTimezoneIdentifier() {
     return $this->getUserSetting(PhabricatorTimezoneSetting::SETTINGKEY);
   }
@@ -607,10 +610,16 @@ final class PhabricatorUser
     }
   }
 
+  /**
+   * @return DateTimeZone
+   */
   public function getTimeZone() {
     return new DateTimeZone($this->getTimezoneIdentifier());
   }
 
+  /**
+   * @return int Offset in minutes.
+   */
   public function getTimeZoneOffset() {
     $timezone = $this->getTimeZone();
     $now = new DateTime('@'.PhabricatorTime::getNow());
@@ -622,6 +631,10 @@ final class PhabricatorUser
     return $offset;
   }
 
+  /**
+   * @return int Offset in hours. Note that the value is rounded for timezones
+   * whose offset is not a full hour.
+   */
   public function getTimeZoneOffsetInHours() {
     $offset = $this->getTimeZoneOffset();
     $offset = (int)round($offset / 60);

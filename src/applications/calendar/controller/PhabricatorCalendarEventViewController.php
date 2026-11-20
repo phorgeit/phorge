@@ -606,8 +606,11 @@ final class PhabricatorCalendarEventViewController
     $image_href = $handle->getURI();
 
     $date = $event->renderEventDate($viewer, true);
-
-    $content = pht('Hosted by %s on %s.', $host, $date);
+    $content = pht(
+      'Hosted by %s on %s (time in %s).',
+      $host,
+      $date,
+      ($viewer->getTimezoneIdentifier()));
 
     return id(new PHUIHeadThingView())
       ->setImage($image_uri)

@@ -572,6 +572,10 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return ($this->instanceOfEventPHID !== null);
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @param bool $show_end
+   */
   public function renderEventDate(
     PhabricatorUser $viewer,
     $show_end) {
