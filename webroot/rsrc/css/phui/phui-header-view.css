@@ -70,7 +70,6 @@ details > summary.phui-header-shell::-webkit-details-marker {
 
 .phui-header-header {
   font-size: 16px;
-  line-height: 24px;
   color: {$darkbluetext};
 }
 
@@ -286,6 +285,10 @@ details > summary.phui-header-shell::-webkit-details-marker {
   border: none;
 }
 
+.phui-profile-header .phui-header-icon {
+  margin-right: 16px;
+}
+
 .phui-profile-header .phui-header-image {
   height: 80px;
   width: 80px;
@@ -300,7 +303,7 @@ details > summary.phui-header-shell::-webkit-details-marker {
 }
 
 .phui-profile-header.phui-header-shell .phui-header-header {
-  font-size: 24px;
+  font-size: 28px;
   color: {$blacktext};
 }
 

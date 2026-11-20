@@ -9,12 +9,10 @@ abstract class PhabricatorConfigController extends PhabricatorController {
   public function buildHeaderView($text, $action = null) {
     $viewer = $this->getViewer();
 
-    $file = PhabricatorFile::loadBuiltin($viewer, 'projects/v3/manage.png');
-    $image = $file->getBestURI();
     $header = id(new PHUIHeaderView())
       ->setHeader($text)
-      ->setProfileHeader(true)
-      ->setImage($image);
+      ->setHeaderIcon('fa-sliders')
+      ->setProfileHeader(true);
 
     if ($action) {
       $header->addActionLink($action);
