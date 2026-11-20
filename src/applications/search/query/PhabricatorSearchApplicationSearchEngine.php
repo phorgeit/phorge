@@ -282,13 +282,15 @@ final class PhabricatorSearchApplicationSearchEngine
       foreach ($fulltext_tokens as $token) {
         $fulltext_view[] = $token->newTag();
       }
+      $fulltext_tokens_length = count($fulltext_tokens);
       $fulltext_view = phutil_tag(
         'div',
         array(
           'class' => 'phui-fulltext-tokens',
         ),
         array(
-          pht('Searched For:'),
+          pht('Global Search Results For %s Term(s):',
+          new PhutilNumber($fulltext_tokens_length)),
           ' ',
           $fulltext_view,
         ));
