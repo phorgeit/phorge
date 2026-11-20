@@ -53,11 +53,10 @@ final class PHUIHeadThingView extends AphrontTagView {
   protected function getTagContent() {
 
     $image = javelin_tag(
-      'a',
+      'span',
       array(
         'class' => 'phui-head-thing-image',
         'style' => 'background-image: url('.$this->image.');',
-        'href' => $this->imageHref,
         'aural' => false,
       ));
 

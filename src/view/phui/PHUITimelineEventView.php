@@ -432,11 +432,10 @@ final class PHUITimelineEventView extends AphrontView {
     $badges = null;
     if ($image_uri) {
       $image = javelin_tag(
-        ($this->userHandle->getURI()) ? 'a' : 'div',
+        'div',
         array(
           'style' => 'background-image: url('.$image_uri.')',
           'class' => 'phui-timeline-image',
-          'href' => $this->userHandle->getURI(),
           'aural' => false,
         ),
         '');
