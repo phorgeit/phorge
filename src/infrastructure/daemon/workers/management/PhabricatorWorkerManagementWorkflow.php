@@ -66,6 +66,9 @@ abstract class PhabricatorWorkerManagementWorkflow
     );
   }
 
+  /**
+   * @return PhabricatorWorkerTask[]
+   */
   protected function loadTasks(PhutilArgumentParser $args) {
     $ids = $args->getArg('id');
     $class = $args->getArg('class');

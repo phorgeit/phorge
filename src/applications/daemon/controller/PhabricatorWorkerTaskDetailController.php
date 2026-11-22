@@ -167,6 +167,15 @@ final class PhabricatorWorkerTaskDetailController
 
     if ($data !== null) {
       $view->addProperty(pht('Data'), $data);
+    } else {
+      $view->addProperty(
+        pht('Mode Data'),
+        phutil_tag(
+          'pre',
+          array(),
+          PlatformSymbols::getPlatformServerPath().
+          ' $ ./bin/worker describe --id '.
+          $task->getID()));
     }
 
     return $view;
