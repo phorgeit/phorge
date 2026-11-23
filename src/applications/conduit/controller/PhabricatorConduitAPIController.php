@@ -657,15 +657,19 @@ final class PhabricatorConduitAPIController
     AphrontRequest $request,
     $method) {
 
-    $content_type = $request->getHTTPHeader('Content-Type');
+    // Compare only the media type, so "application/json; charset=utf-8"
+    // matches too.
+    $content_type = $request->getHTTPHeader('Content-Type', '');
+    list($media_type) = explode(';', $content_type, 2);
+    $media_type = phutil_utf8_strtolower(trim($media_type));
 
-    if ($content_type == 'application/json') {
+    if ($media_type === 'application/json') {
       $metadata = array();
 
       $authorization = $request->getHTTPHeader('Authorization', '');
 
       if (!strncmp('Bearer ', $authorization, 7)) {
-        $metadata['access_token'] = substr(7, $authorization);
+        $metadata['access_token'] = substr($authorization, 7);
       } else if ($authorization !== '') {
         $metadata['token'] = $authorization;
       }
