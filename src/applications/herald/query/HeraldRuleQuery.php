@@ -343,4 +343,16 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     return 'rule';
   }
 
+  protected function shouldGroupQueryResultRows() {
+    // A rule can affect several of the objects, and the edge join then
+    // returns it once for each of them.
+    if ($this->affectedObjectPHIDs !== null) {
+      if (count($this->affectedObjectPHIDs) > 1) {
+        return true;
+      }
+    }
+
+    return parent::shouldGroupQueryResultRows();
+  }
+
 }
