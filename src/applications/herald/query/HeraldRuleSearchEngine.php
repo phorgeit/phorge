@@ -12,6 +12,7 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
 
   public function newQuery() {
     return id(new HeraldRuleQuery())
+      ->needConditionsAndActions(true)
       ->needValidateAuthors(true);
   }
 
