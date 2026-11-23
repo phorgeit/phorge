@@ -358,7 +358,6 @@ return array(
     'rsrc/js/application/projects/WorkboardHeaderTemplate.js' => '02a2c910',
     'rsrc/js/application/projects/WorkboardOrderTemplate.js' => 'f9d95e77',
     'rsrc/js/application/projects/behavior-project-boards.js' => 'b852b68e',
-    'rsrc/js/application/projects/behavior-project-create.js' => '34c53422',
     'rsrc/js/application/projects/behavior-reorder-columns.js' => '8ac32fd9',
     'rsrc/js/application/remarkup/RemarkupAssistantAction.js' => 'b5667fbb',
     'rsrc/js/application/remarkup/RemarkupAssistantManager.js' => '93f8d839',
@@ -606,7 +605,6 @@ return array(
     'javelin-behavior-policy-control' => '7068a45f',
     'javelin-behavior-policy-rule-editor' => '9347f172',
     'javelin-behavior-project-boards' => 'b852b68e',
-    'javelin-behavior-project-create' => '34c53422',
     'javelin-behavior-quicksand-blacklist' => '5a6f6a06',
     'javelin-behavior-read-only-warning' => 'b9109f8f',
     'javelin-behavior-redirect' => '407ee861',
@@ -1120,12 +1118,6 @@ return array(
       'javelin-uri',
       'javelin-util',
       'phabricator-busy',
-    ),
-    '34c53422' => array(
-      'javelin-behavior',
-      'javelin-dom',
-      'javelin-stratcom',
-      'javelin-workflow',
     ),
     36576292 => array(
       'javelin-install',
