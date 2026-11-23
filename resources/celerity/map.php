@@ -426,7 +426,6 @@ return array(
     'rsrc/js/core/behavior-refresh-csrf.js' => '345119db',
     'rsrc/js/core/behavior-remarkup-load-image.js' => 'c51e6aa0',
     'rsrc/js/core/behavior-remarkup-preview.js' => '05a2b50b',
-    'rsrc/js/core/behavior-reorder-applications.js' => 'aa371860',
     'rsrc/js/core/behavior-reveal-content.js' => 'b105a3a6',
     'rsrc/js/core/behavior-scrollbar.js' => '19830cb0',
     'rsrc/js/core/behavior-search-typeahead.js' => '4f888644',
@@ -611,7 +610,6 @@ return array(
     'javelin-behavior-refresh-csrf' => '345119db',
     'javelin-behavior-remarkup-load-image' => 'c51e6aa0',
     'javelin-behavior-remarkup-preview' => '05a2b50b',
-    'javelin-behavior-reorder-applications' => 'aa371860',
     'javelin-behavior-reorder-columns' => '8ac32fd9',
     'javelin-behavior-reorder-profile-menu-items' => 'e5bdb730',
     'javelin-behavior-repository-crossreference' => 'f5bba944',
@@ -1831,13 +1829,6 @@ return array(
     ),
     'a9da7b2a' => array(
       'phui-button-css',
-    ),
-    'aa371860' => array(
-      'javelin-behavior',
-      'javelin-stratcom',
-      'javelin-workflow',
-      'javelin-dom',
-      'phabricator-draggable-list',
     ),
     'aa6d2308' => array(
       'javelin-behavior',
