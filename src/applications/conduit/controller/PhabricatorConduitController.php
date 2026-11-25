@@ -103,24 +103,33 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $kind,
     $params) {
 
-    switch ($kind) {
-      case 'arc':
-        $example = $this->buildArcanistExample($method, $params);
-        break;
-      case 'php':
-        $example = $this->buildPHPExample($method, $params);
-        break;
-      case 'curl':
-        $example = $this->buildCURLExample($method, $params);
-        break;
-      case 'json':
-        $example = $this->buildJSONExample($method, $params);
-        break;
-      default:
-        throw new Exception(pht('Conduit client "%s" is not known.', $kind));
-    }
+    try {
+      switch ($kind) {
+        case 'arc':
+          return $this->buildArcanistExample($method, $params);
 
-    return $example;
+        case 'php':
+          return $this->buildPHPExample($method, $params);
+
+        case 'curl':
+          return $this->buildCURLExample($method, $params);
+
+        case 'json':
+          return $this->buildJSONExample($method, $params);
+
+        default:
+          throw new Exception(pht('Conduit client "%s" is not known.', $kind));
+      }
+    } catch (Throwable $ex) {
+      phlog($ex);
+      $message = pht(
+        'Failed to render example `%s`: %s.',
+        $kind,
+        $ex->getMessage());
+      return id(new PHUIInfoView())
+        ->setErrors(array($message))
+        ->setSeverity(PHUIInfoView::SEVERITY_NOTICE);
+    }
   }
 
   private function buildArcanistExample(
@@ -284,7 +293,6 @@ abstract class PhabricatorConduitController extends PhabricatorController {
 
     $parts = array();
 
-    $break = array(phutil_tag('br'), '    ');
     $linebreak = array('\\', phutil_tag('br'), '    ');
 
     $parts[] = '$ curl ';
@@ -295,7 +303,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $parts[] = ' ';
     $parts[] = $linebreak;
 
-    $parts[] = '-H "Content-Type: application/json"';
+    $parts[] = '-H "Content-Type: application/json" ';
     $parts[] = $linebreak;
     $parts[] = '-H "Authorization: ';
     $parts[] = phutil_tag('strong', array(), 'api-token');
@@ -304,34 +312,16 @@ abstract class PhabricatorConduitController extends PhabricatorController {
 
     $parts[] = '-d';
     $parts[] = ' ';
-    $parts[] = $linebreak;
-    $parts[] = "'{";
-    $parts[] = $break;
 
-    if (!$params) {
-      $parts[] = '  "';
-      $parts[] = phutil_tag('strong', array(), 'param');
-      $parts[] = '": "';
-      $parts[] = phutil_tag('strong', array(), 'value');
-      $parts[] = '"';
+    if ($params === null) {
+      $parts[] = phutil_tag('strong', array(), '<json-parameters>');
     } else {
       $params = $this->simplifyParams($params);
-
-      foreach ($params as $key => $value) {
-        $piece = csprintf('  "%s": "%s"', $key, $value);
-        $parts[] = phutil_tag('strong', array('class' => 'real'), $piece);
-        $parts[] = ',';
-        $parts[] = $break;
-      }
-
-      if (count($parts) > 1) {
-        array_pop($parts);
-        array_pop($parts);
-      }
+      $params = id(new PhutilJSON())->encodeFormatted($params);
+      $params = trim($params);
+      $params = csprintf('%s', $params);
+      $parts[] = phutil_tag('strong', array('class' => 'real'), $params);
     }
-
-    $parts[] = $break;
-    $parts[] = "}'";
 
     return $this->renderExampleCode($parts);
   }
