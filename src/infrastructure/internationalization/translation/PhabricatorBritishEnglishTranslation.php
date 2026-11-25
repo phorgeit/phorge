@@ -20,7 +20,6 @@ final class PhabricatorBritishEnglishTranslation
       'Colors and Transforms' => 'Colours and Transforms',
       'Configure the UI, including colors.' =>
         'Configure the UI, including colours.',
-      'Flag Color' => 'Flag Colour',
       'Sets the default color scheme.' =>
         'Sets the default colour scheme.',
     );

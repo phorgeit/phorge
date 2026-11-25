@@ -63,8 +63,9 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
       $form
         ->appendChild(hsprintf(
           '<p>%s</p><br />',
-          pht('You can flag this %s if you want to remember to look '.
-            'at it later.',
+          pht(
+            'You can flag this %s with a color if you want to remember to '.
+            'look at it later.',
             $type_name)));
     }
 
@@ -78,7 +79,6 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
       ->appendChild(
         $radio
           ->setName('color')
-          ->setLabel(pht('Flag Color'))
           ->setValue($flag->getColor()))
       ->appendChild(
         id(new AphrontFormTextAreaControl())
