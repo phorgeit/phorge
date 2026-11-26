@@ -66,9 +66,9 @@
 }
 
 .aphront-form-input > input[type="file"] {
-  max-width: stretch;
   max-width: -moz-available;
   max-width: -webkit-fill-available;
+  max-width: stretch;
 }
 
 .aphront-form-error {
