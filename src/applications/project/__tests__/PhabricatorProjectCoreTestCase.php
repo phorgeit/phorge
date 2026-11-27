@@ -1280,6 +1280,76 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     }
   }
 
+  public function testProjectColorValidation() {
+    $user = $this->generateNewTestUser();
+    $project = $this->createProject($user);
+
+    // Each test is: array(value, expected validity).
+    $tests = array(
+      array('orange', true),
+      array('red', true),
+      array('ORANGE', false),
+      array('orange red', false),
+      array(array(), false),
+      array(array('orange'), false),
+      array(true, false),
+      array(false, false),
+      array(0, false),
+      array(1, false),
+      array(1.1, false),
+    );
+
+    foreach ($tests as $test) {
+      list($test_color, $expect_valid) = $test;
+
+      $last_color = $project->getColor();
+
+      $params = array(
+        'objectIdentifier' => $project->getID(),
+        'transactions' => array(
+          array(
+            'type' => 'color',
+            'value' => $test_color,
+          ),
+        ),
+      );
+
+      $caught = null;
+      try {
+        id(new ConduitCall('project.edit', $params))
+          ->setUser($user)
+          ->execute();
+      } catch (Throwable $ex) {
+        $caught = $ex;
+      }
+
+      $project = $this->refreshProject($project, $user);
+
+      $test_color_printable = phutil_json_encode($test_color);
+      if ($expect_valid) {
+        $this->assertEqual(
+          null,
+          $caught,
+          pht('Test no crash with valid color: %s.', $test_color_printable));
+
+        $this->assertEqual(
+          $test_color,
+          $project->getColor(),
+          pht('Test saved color: %s.', $test_color_printable));
+      } else {
+        $this->assertCaught(
+          Exception::class,
+          $caught,
+          pht('Test expect crash with bad color: %s.', $test_color_printable));
+
+        $this->assertEqual(
+          $last_color,
+          $project->getColor(),
+          pht('Test bad color not saved: %s.', $test_color_printable));
+      }
+    }
+  }
+
   /**
    * Test that you can successfully destroy a complex projects tree,
    * leaf by leaf, and the depths and the join policies remain consistent.
