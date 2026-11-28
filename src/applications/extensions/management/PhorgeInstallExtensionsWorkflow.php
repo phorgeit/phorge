@@ -119,7 +119,7 @@ final class PhorgeInstallExtensionsWorkflow
           "Warning: We don't check what you're downloading. ".
           'It can be anything. '.
           'It has read/write access to anything %s has access to. '.
-          'be sure you trust it.',
+          'Be sure you trust it.',
           PlatformSymbols::getPlatformServerName()))
       ->drawConsoleString();
 
@@ -132,7 +132,6 @@ final class PhorgeInstallExtensionsWorkflow
     $console->writeOut(pht('Aborting.'));
     return false;
   }
-
 
 
 }
